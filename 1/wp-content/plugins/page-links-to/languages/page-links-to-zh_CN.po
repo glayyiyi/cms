@@ -1,0 +1,64 @@
+# Translation of Page Links To in Japanese
+# This file is distributed under the same license as the Page Links To package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2013-08-01 14:36+0800\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 1.5.7\n"
+"Project-Id-Version: Page Links To\n"
+"POT-Creation-Date: \n"
+"Last-Translator: glay <glay.guo@gmail.com>\n"
+"Language-Team: \n"
+
+#: page-links-to.php:209
+msgctxt "Meta box title"
+msgid "Page Links To"
+msgstr "链接到"
+
+#: page-links-to.php:230
+msgid "A custom URL"
+msgstr "自定义的URL"
+
+#: page-links-to.php:233
+msgid "Open this link in a new tab"
+msgstr "在新的Tab打开这个链接"
+
+#: page-links-to.php:492
+msgid ""
+"<strong>Note</strong>: This content is pointing to a custom URL. Use the "
+"&#8220;Page Links To&#8221; box to change this behavior."
+msgstr ""
+"<strong>注意</strong>: 这篇内容链接到自定义的URL. 使用&#8220;链接到&#8221; 设"
+"置框进行修改。"
+
+#: page-links-to.php:228
+msgid "Point this content to:"
+msgstr "链接内容到:"
+
+#: page-links-to.php:229
+msgid "Its normal WordPress URL"
+msgstr "通常的内容页URL"
+
+msgid "Page Links To"
+msgstr "Page Links To"
+
+msgid "http://txfx.net/wordpress-plugins/page-links-to/"
+msgstr "http://txfx.net/wordpress-plugins/page-links-to/"
+
+msgid ""
+"Allows you to point WordPress pages or posts to a URL of your choosing.  "
+"Good for setting up navigational links to non-WP sections of your site or to "
+"off-site resources."
+msgstr ""
+"Allows you to point WordPress pages or posts to a URL of your choosing.  "
+"Good for setting up navigational links to non-WP sections of your site or to "
+"off-site resources."
+
+msgid "Mark Jaquith"
+msgstr "Mark Jaquith"
+
+msgid "http://coveredwebservices.com/"
+msgstr "http://coveredwebservices.com/"
