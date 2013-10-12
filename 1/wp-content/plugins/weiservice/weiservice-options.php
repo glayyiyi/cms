@@ -6,7 +6,7 @@ function weixin_user_page() {
 	
 	// 创建微信自定义菜单
 	
-/**$request = new WP_Http;
+$request = new WP_Http;
 	$tkn_url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx6b92ad6cb719bc58&secret=879100569de7c990773208e1177b0a15';
 	$result = $request->request ( $tkn_url );
 	
@@ -19,21 +19,55 @@ function weixin_user_page() {
 	echo '开始创建菜单... ';
 	 $body = '{
 	"button":[
+	{
+	  "name":"智能玩品",
+           "sub_button":[
 	 {
 	 "type":"view",
-	 "name":"微商城",
-	 "url":"http://www.appcn100.com/cms"
+	 "name":"全部",
+	 "url":"http://www.appcn100.com/cms/商品类别/智能玩品/"
 	 },
 	 {
-	 "name":"最新活动",
-	 "type":"click",
-	 "key":"最新活动"
-	 },
-	 {
-	 "type":"click",
-	"name":"精选专题",
-	 "key":"精选专辑"
+	 "type":"view",
+	 "name":"智能电源",
+	 "url":"http://www.appcn100.com/cms/product/belkinwemo-智能远程电源控制器/"
 	 }]
+	},
+	{
+	  "name":"精彩专题",
+            "sub_button":[
+	 {
+	 "type":"view",
+	 "name":"全部",
+	 "url":"http://www.appcn100.com/cms/商品类别/精彩专题/"
+	 },
+	 {
+	 "type":"view",
+	 "name":"惬意生活",
+	 "url":"http://www.appcn100.com/cms/product/惬意生活,可以投影的智能闹钟/"
+	 }]
+	},
+	{
+	  "name":"我",
+            "sub_button":[
+	 {
+	 "type":"view",
+	 "name":"客服",
+	 "url":"http://www.appcn100.com/cms/service/"
+	 },
+	 {
+	 "type":"view",
+	 "name":"我的订单",
+	 "url":"http://www.appcn100.com/cms/my-account/view-order/"
+	 },
+	{
+	 "type":"view",
+	 "name":"我的资料",
+	 "url":"http://www.appcn100.com/cms/my-account/"
+	 }
+	]
+	}
+	]
 	 }';
 	 $url = 'https://api.weixin.qq.com/cgi-bin/menu/create?access_token='.$access_token;
 	 $result = $request->request ( $url, array (
@@ -43,7 +77,7 @@ function weixin_user_page() {
 	 echo '创建菜单结束';
 	 print_r ( $result ['body'] );
 	
-	 }**/
+	 }
 	
 	$blogusers = get_users ();
 	
