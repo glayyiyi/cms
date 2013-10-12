@@ -30,7 +30,7 @@ if ( $customer_orders ) : ?>
 		<thead>
 			<tr>
 				<th class="order-number"><span class="nobr"><?php _e( 'Order', 'woocommerce' ); ?></span></th>
-				<th class="order-date"><span class="nobr"><?php _e( 'Date', 'woocommerce' ); ?></span></th>
+				<!--  <th class="order-date"><span class="nobr"><?php _e( 'Date', 'woocommerce' ); ?></span></th>-->
 				<th class="order-status"><span class="nobr"><?php _e( 'Status', 'woocommerce' ); ?></span></th>
 				<th class="order-total"><span class="nobr"><?php _e( 'Total', 'woocommerce' ); ?></span></th>
 				<th class="order-actions">&nbsp;</th>
@@ -52,9 +52,9 @@ if ( $customer_orders ) : ?>
 							<?php echo $order->get_order_number(); ?>
 						</a>
 					</td>
-					<td class="order-date">
+	<!-- <td class="order-date"> 
 						<time datetime="<?php echo date('Y-m-d', strtotime( $order->order_date ) ); ?>" title="<?php echo esc_attr( strtotime( $order->order_date ) ); ?>"><?php echo date_i18n( get_option( 'date_format' ), strtotime( $order->order_date ) ); ?></time>
-					</td>
+					</td> -->
 					<td class="order-status" style="text-align:left; white-space:nowrap;">
 						<?php echo ucfirst( __( $status->name, 'woocommerce' ) ); ?>
 					</td>
