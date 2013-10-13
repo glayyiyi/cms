@@ -25,12 +25,12 @@ $request = new WP_Http;
 	 {
 	 "type":"view",
 	 "name":"全部",
-	 "url":"http://www.appcn100.com/cms/商品类别/智能玩品/"
+	 "url":"http://www.appcn100.com/cms/%E5%95%86%E5%93%81%E7%B1%BB%E5%88%AB/%E6%99%BA%E8%83%BD%E7%8E%A9%E5%93%81/"
 	 },
 	 {
 	 "type":"view",
 	 "name":"智能电源",
-	 "url":"http://www.appcn100.com/cms/product/belkinwemo-智能远程电源控制器/"
+	 "url":"http://www.appcn100.com/cms/product/belkinwemo-%E6%99%BA%E8%83%BD%E8%BF%9C%E7%A8%8B%E7%94%B5%E6%BA%90%E6%8E%A7%E5%88%B6%E5%99%A8/"
 	 }]
 	},
 	{
@@ -39,12 +39,12 @@ $request = new WP_Http;
 	 {
 	 "type":"view",
 	 "name":"全部",
-	 "url":"http://www.appcn100.com/cms/商品类别/精彩专题/"
+	 "url":"http://www.appcn100.com/cms/%E5%95%86%E5%93%81%E7%B1%BB%E5%88%AB/%E7%B2%BE%E5%BD%A9%E4%B8%93%E9%A2%98/"
 	 },
 	 {
 	 "type":"view",
 	 "name":"惬意生活",
-	 "url":"http://www.appcn100.com/cms/product/惬意生活,可以投影的智能闹钟/"
+	 "url":"http://www.appcn100.com/cms/product/%E6%83%AC%E6%84%8F%E7%94%9F%E6%B4%BB,%E5%8F%AF%E4%BB%A5%E6%8A%95%E5%BD%B1%E7%9A%84%E6%99%BA%E8%83%BD%E9%97%B9%E9%92%9F/"
 	 }]
 	},
 	{

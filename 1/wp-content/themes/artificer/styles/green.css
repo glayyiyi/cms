@@ -593,7 +593,8 @@ ul.nav li a {
 }
 /* 2.3 Header */
 #header {
-  padding: 3.631em 0 1.618em;
+  /**glay padding: 3.631em 0 1.618em;*/
+  padding: 0.631em 0 0.218em;
   clear: both;
   position: relative;
   text-align: center;
