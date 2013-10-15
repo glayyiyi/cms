@@ -74,7 +74,7 @@ class WC_Gateway_Paypal extends WC_Payment_Gateway {
      * @return bool
      */
     function is_valid_for_use() {
-        if ( ! in_array( get_woocommerce_currency(), apply_filters( 'woocommerce_paypal_supported_currencies', array( 'AUD', 'BRL', 'CAD', 'MXN', 'NZD', 'HKD', 'SGD', 'USD', 'EUR', 'JPY', 'TRY', 'NOK', 'CZK', 'DKK', 'HUF', 'ILS', 'MYR', 'PHP', 'PLN', 'SEK', 'CHF', 'TWD', 'THB', 'GBP', 'RMB' ) ) ) ) return false;
+        if ( ! in_array( get_woocommerce_currency(), apply_filters( 'woocommerce_paypal_supported_currencies', array( 'AUD', 'BRL', 'CAD', 'MXN', 'NZD', 'HKD', 'SGD', 'USD', 'EUR', 'JPY', 'TRY', 'NOK', 'CZK', 'DKK', 'HUF', 'ILS', 'MYR', 'PHP', 'PLN', 'SEK', 'CHF', 'TWD', 'THB', 'GBP', 'RMB', 'RUB' ) ) ) ) return false;
 
         return true;
     }
@@ -250,15 +250,12 @@ class WC_Gateway_Paypal extends WC_Payment_Gateway {
 		}
 
 		// PayPal Args
-		//$currency_code=get_woocommerce_currency();
-		//if($currency_code=='RMB')
-			//$currency_code='CNY';
 		$paypal_args = array_merge(
 			array(
 				'cmd' 					=> '_cart',
 				'business' 				=> $this->email,
 				'no_note' 				=> 1,
-				'currency_code'				=>'RMB',
+				'currency_code' 		=> get_woocommerce_currency(),
 				'charset' 				=> 'UTF-8',
 				'rm' 					=> is_ssl() ? 2 : 1,
 				'upload' 				=> 1,
@@ -528,6 +525,7 @@ class WC_Gateway_Paypal extends WC_Payment_Gateway {
         	'sslverify' 	=> false,
         	'timeout' 		=> 60,
         	'httpversion'   => '1.1',
+        	'headers'       => array( 'host' => 'www.paypal.com' ),
         	'user-agent'	=> 'WooCommerce/' . $woocommerce->version
         );
 

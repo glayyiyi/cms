@@ -1,0 +1,1 @@
+return array('www.appcn100.com/cms/appo2o' => 'm3', 'www.appcn100.com/cms/czclub' => 'm2', 'www.appcn100.com/cms' => 'm1');
