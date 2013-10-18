@@ -724,6 +724,6 @@ return array(
 	),
 	'plugin.license_key' => '',
 	'plugin.type' => '',
-	'wordpress.home' => 'http://www.appcn100.com/cms',
+	'wordpress.home' => 'http://www.appcn100.com/cms/czclub',
 	'pgcache.bad_behavior_path' => '',
 );

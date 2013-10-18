@@ -11,12 +11,12 @@ require_once ('weiservice-wechat.php');
 require_once ('weiservice-account.php');
 // 定义微信 Token
 define ( "WEIXIN_TOKEN", "weixin" );
-
-define ( "WEIXIN_DEFAULT_WELCOME", "请回复 h或help 查看帮助。或点击<a href='" . get_option ( 'siteurl' ) . "/?weixin-api&weixin-openid=WEIXIN_OPENID'>关于</a>了解我们" );
+//请回复 h或help 查看帮助。或点击<a href='" . get_option ( 'siteurl' ) . "/?weixin-api&weixin-openid=WEIXIN_OPENID'>关于</a>了解我们。
+define ( "WEIXIN_DEFAULT_WELCOME", "爱普精选，必属精品！爱普精选全球最前沿、最新潮的实用科技产品，为粉丝们传递全球精品科技生活！爱普精选的科技消费品，无论是个人实用、时尚把玩，还是商务馈赠，都是好品。本期热销<a href='http://www.appcn100.com/cms/product/big-jambox%e6%9d%a5%e4%ba%86%ef%bc%8c%e7%89%9bx%e7%9a%84%e8%93%9d%e7%89%99%e8%bf%b7%e4%bd%a0%e5%86%b0%e7%ae%b1/?weixin-api&weixin-openid=WEIXIN_OPENID'>牛X的蓝牙迷你冰箱</a>" );
 add_filter('woocommerce_paypal_args', 'convert_rmb_to_usd');
 function convert_rmb_to_usd($paypal_args){
     if ( $paypal_args['currency_code'] == 'RMB'){
-        $convert_rate = 6.2116; //Set converting rate
+        $convert_rate = 6.1025; //Set converting rate
   $paypal_args['currency_code'] = 'USD';// Set currency code
         $paypal_args['amount_1'] = round( $paypal_args['amount_1'] / $convert_rate, 2); //Convert product price
         $paypal_args['amount_2'] = round( $paypal_args['amount_2'] / $convert_rate, 2); //Convert shipping costs
@@ -659,7 +659,7 @@ class wechatCallback extends Wechat {
 			// print_r($strItems);
 		} else {
 			
-			$weixin_not_found = "抱歉，没有找到与[" . $keyword . "]相关的内容，" . $welcomeInfo;
+			$weixin_not_found = "抱歉，没有找到与[" . $keyword . "]相关的内容！" . $welcomeInfo;
 			
 			// 如果接口里action不为空，表示仅为记录用，不用设为未审批的回复
 			if (! $action && $comment_id)
