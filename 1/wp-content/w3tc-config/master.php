@@ -9,8 +9,8 @@ return array(
 	'cluster.messagebus.sns.api_secret' => '',
 	'cluster.messagebus.sns.topic_arn' => '',
 	'dbcache.debug' => false,
-	'dbcache.enabled' => false,
-	'dbcache.engine' => 'file',
+	'dbcache.enabled' => true,
+	'dbcache.engine' => 'apc',
 	'dbcache.file.gc' => 3600,
 	'dbcache.file.locking' => false,
 	'dbcache.lifetime' => 180,
@@ -24,8 +24,10 @@ return array(
 	'dbcache.reject.sql' => array(
 		0 => 'gdsr_',
 		1 => 'wp_rg_',
+		2 => '_wc_session_',
 	),
 	'dbcache.reject.uri' => array(
+		0 => '',
 	),
 	'dbcache.reject.words' => array(
 		0 => '^\\s*insert\\b',
@@ -41,9 +43,9 @@ return array(
 		10 => '\\bfound_rows\\(\\)',
 		11 => '\\bw3tc_request_data\\b',
 	),
-	'objectcache.enabled' => false,
+	'objectcache.enabled' => true,
 	'objectcache.debug' => false,
-	'objectcache.engine' => 'file',
+	'objectcache.engine' => 'apc',
 	'objectcache.file.gc' => 3600,
 	'objectcache.file.locking' => false,
 	'objectcache.memcached.servers' => array(
@@ -82,10 +84,10 @@ return array(
 	'fragmentcache.lifetime' => 180,
 	'fragmentcache.groups' => array(
 	),
-	'pgcache.enabled' => false,
+	'pgcache.enabled' => true,
 	'pgcache.comment_cookie_ttl' => 1800,
 	'pgcache.debug' => false,
-	'pgcache.engine' => 'file_generic',
+	'pgcache.engine' => 'apc',
 	'pgcache.file.gc' => 3600,
 	'pgcache.file.nfs' => false,
 	'pgcache.file.locking' => false,
@@ -164,7 +166,7 @@ return array(
 	'minify.enabled' => false,
 	'minify.auto' => true,
 	'minify.debug' => false,
-	'minify.engine' => 'file',
+	'minify.engine' => 'apc',
 	'minify.file.gc' => 86400,
 	'minify.file.nfs' => false,
 	'minify.file.locking' => false,
@@ -172,7 +174,7 @@ return array(
 		0 => '127.0.0.1:11211',
 	),
 	'minify.memcached.persistant' => true,
-	'minify.rewrite' => true,
+	'minify.rewrite' => false,
 	'minify.options' => array(
 	),
 	'minify.symlinks' => array(
@@ -242,12 +244,16 @@ return array(
 	'minify.htmltidy.options.wrap' => 0,
 	'minify.reject.logged' => false,
 	'minify.reject.ua' => array(
+		0 => '',
 	),
 	'minify.reject.uri' => array(
+		0 => '',
 	),
 	'minify.reject.files.js' => array(
+		0 => '',
 	),
 	'minify.reject.files.css' => array(
+		0 => '',
 	),
 	'minify.cache.files' => array(
 		0 => 'https://ajax.googleapis.com',
@@ -275,7 +281,7 @@ return array(
 		9 => '{plugins_dir}/*.png',
 	),
 	'cdn.import.external' => false,
-	'cdn.import.files' => false,
+	'cdn.import.files' => '',
 	'cdn.queue.interval' => 900,
 	'cdn.queue.limit' => 25,
 	'cdn.force.rewrite' => false,
@@ -403,6 +409,7 @@ return array(
 	'varnish.enabled' => false,
 	'varnish.debug' => false,
 	'varnish.servers' => array(
+		0 => '',
 	),
 	'browsercache.enabled' => true,
 	'browsercache.no404wp' => false,
@@ -440,7 +447,7 @@ return array(
 	'browsercache.other.etag' => false,
 	'browsercache.other.w3tc' => false,
 	'browsercache.other.replace' => false,
-	'browsercache.timestamp' => '',
+	'browsercache.timestamp' => '1382242710',
 	'browsercache.replace.exceptions' => array(
 	),
 	'mobile.enabled' => false,
@@ -675,7 +682,7 @@ return array(
 	'minify.auto.filename_length' => 150,
 	'minify.auto.disable_filename_length_test' => false,
 	'common.instance_id' => 949694823,
-	'common.force_master' => true,
+	'common.force_master' => false,
 	'newrelic.enabled' => false,
 	'newrelic.api_key' => '',
 	'newrelic.account_id' => '',
