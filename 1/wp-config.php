@@ -21,13 +21,13 @@ define( 'WPCACHEHOME', '/opt/appstack/apps/cms/1/wp-content/plugins/wp-super-cac
 define('DB_NAME', 'cms');
 
 /** MySQL 数据库用户名 */
-define('DB_USER', 'root');
+define('DB_USER', 'cms');
 
 /** MySQL 数据库密码 */
-define('DB_PASSWORD', 'appdor.123');
+define('DB_PASSWORD', 'cmscms');
 
 /** MySQL 主机 */
-define('DB_HOST', '127.0.0.1:3306');
+define('DB_HOST', 'rdsqa6zqmbjvzze.mysql.rds.aliyuncs.com:3306');
 
 /** 创建数据表时默认的文字编码 */
 define('DB_CHARSET', 'utf8');

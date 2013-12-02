@@ -3,8 +3,8 @@ Contributors: Emark
 Donate link: http://www.trottyzone.com/donation/
 Tags: woocommerce, checkout settings, remove fields, shipping, order, fields, checkout page, checkout field, checkout manager, required remove, woocommerce checkout manager, checkout, checkout field editor, field editor, woocommerce custom checkout options , custom checkout, checkout option, field, payment, sell, buy, pay, tax, notice, re-order, order, new field, save field, manager, options, field editor
 Requires at least: 3.0
-Tested up to: 3.6
-Stable tag: 3.5.6
+Tested up to: 3.8
+Stable tag: 3.5.81
 License: GPLv2 or later
 
 Manages WooCommerce Checkout
@@ -31,7 +31,7 @@ This is a WooCommerce extension plugin that targets the checkout processes in wh
 
 * Enable/ Disable "Additional information" name on the Order Summary and Receipt.
 
-= PRO VERSION =[WooCommerce Checkout Manager Pro](http://www.trottyzone.com/product/woocommerce-checkout-manager/) offers these cool nifty extra features:* Ten ( 10 ) field types included:Text Input	+ Text Area + Password + Radio Button + Check Box + Select Options + Date Picker + Time Picker + Text/ Html Swapper	+ Color Picker* Added fields will appear onOrder Summary + Receipt + Order Details (back-end)* Change “Additional information” name* Re-position the added fields any of these places:Before Shipping Form + After Shipping Form + Before Billing Form + After Billing Form + After Order Notes* Disable Billing Address fields for chosen shipping goods. Which makes them visible only for virtual goods.* Make both Shipping and Billing Address fields Optional.* Display payment method used on checkout. Will show also on: Order Summary + Receipt + Order Details (back-end)* Insert Up to two (2) Notices on checkout page. Positions are: Before Customer Address Fields + Before Order Summary* Make added fields align to the right handed side.* Area to insert your own Custom CSS.
+= PRO VERSION =[WooCommerce Checkout Manager Pro](http://www.trottyzone.com/product/woocommerce-checkout-manager/) offers these cool nifty extra features:* Ten ( 10 ) field types included:Text Input	+ Text Area + Password + Radio Button + Check Box + Select Options + Date Picker + Time Picker + Text/ Html Swapper	+ Color Picker* Added fields will appear onOrder Summary + Receipt + Order Details (back-end)* Change “Additional information” name* Change the default datepicker format from dd-mm-yy to another format you like (example. mm-dd-yy). Set Minimum Date and Maximum Date for customer to choose from.* Re-position the added fields any of these places:Before Shipping Form + After Shipping Form + Before Billing Form + After Billing Form + After Order Notes* Retain fields information for customers when they navigate back and forth from checkout.* Disable Billing Address fields for chosen shipping goods. Which makes them visible only for virtual goods.* Make both Shipping and Billing Address fields Optional.* Display payment method and shipping method used on checkout. Will show also on: Order Summary + Receipt + Order Details (back-end)* Insert Up to two (2) Notices on checkout page. Positions are: Before Customer Address Fields + Before Order Summary* Make added fields align to the right handed side.* Area to insert your own Custom CSS.
 
 = REMOVING FIELDS =
 Removing fields became easier now, all you have to do is tick which box or which boxes that you do not want to show on the checkout page and it will be removed.
@@ -70,7 +70,7 @@ Two checkboxes are located above "Add New Field Section" one to remove the title
 * POLISH
 * VIETNAMSE
 * EUROPEAN PORTUGUESE
-* BRAZILIAN PORTUGUESE
+* BRAZILIAN PORTUGUESE* BULGARIAN by Ivo Minchev
 
 Would you like this plugin translated in your own language? or Perhaps help us translate?
 You can put in an request at <a href="http://www.trottyzone.com/contact-us/">Contact Form</a>.
@@ -201,7 +201,7 @@ Translations updated
 Included translations - Vietnamse, Italian, European Portuguese, Brazilian Portuguese
 Layout fixed on Order Summary Page
 
-
+= 3.5.7 =Bug fix.= 3.5.8 =Bug fix.= 3.5.85 =Bulgarian language by Ivo Minchev
 == Changelog ==
 
 = 1.0 =
@@ -290,4 +290,4 @@ Translations updated
 
 = 3.5.6 =
 Included translations - Vietnamse, Italian, European Portuguese, Brazilian Portuguese
-Layout fixed on Order Summary Page
+Layout fixed on Order Summary Page= 3.5.7 =Bug fix.= 3.5.8 =Bug fix.= 3.5.85 =Bulgarian language by Ivo Minchev

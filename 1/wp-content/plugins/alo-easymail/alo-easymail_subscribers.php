@@ -51,7 +51,7 @@ $alo_em_cf = alo_easymail_get_custom_fields();
 
 <div class="wrap">
     <div id="icon-users" class="icon32"><br /></div>
-    <h2> <?php _e("Subscribers", "alo-easymail") ?></h2>
+    <h2>Alo EasyMail Newsletter: <?php _e("Subscribers", "alo-easymail") ?></h2>
     <div id="dashboard-widgets-wrap" style="margin: 0 0.4em">
     
 <?php 

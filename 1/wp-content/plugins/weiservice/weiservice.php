@@ -12,11 +12,11 @@ require_once ('weiservice-account.php');
 // 定义微信 Token
 define ( "WEIXIN_TOKEN", "weixin" );
 //请回复 h或help 查看帮助。或点击<a href='" . get_option ( 'siteurl' ) . "/?weixin-api&weixin-openid=WEIXIN_OPENID'>关于</a>了解我们。
-define ( "WEIXIN_DEFAULT_WELCOME", "爱普精选，必属精品！爱普精选全球最前沿、最新潮的实用科技产品，为粉丝们传递全球精品科技生活！爱普精选的科技消费品，无论是个人实用、时尚把玩，还是商务馈赠，都是好品。本期热销<a href='http://www.appcn100.com/cms/product/big-jambox%e6%9d%a5%e4%ba%86%ef%bc%8c%e7%89%9bx%e7%9a%84%e8%93%9d%e7%89%99%e8%bf%b7%e4%bd%a0%e5%86%b0%e7%ae%b1/?weixin-api&weixin-openid=WEIXIN_OPENID'>牛X的蓝牙迷你冰箱</a>" );
+define ( "WEIXIN_DEFAULT_WELCOME", "爱普精选，必属精品！爱普精选全球最前沿、最新潮的实用科技产品，为粉丝们传递全球精品科技生活！爱普精选的科技消费品，无论是个人实用、时尚把玩，还是商务馈赠，都是好品。本期推荐<a href='http://www.appcn100.com/cms/product/soundlink_mini?weixin-api&weixin-openid=WEIXIN_OPENID'>BOSE出品浑厚一体超级震撼mini无线音箱soundlink mini</a>" );
 add_filter('woocommerce_paypal_args', 'convert_rmb_to_usd');
 function convert_rmb_to_usd($paypal_args){
     if ( $paypal_args['currency_code'] == 'RMB'){
-        $convert_rate = 6.1025; //Set converting rate
+        $convert_rate = 6.09028235; //Set converting rate
   $paypal_args['currency_code'] = 'USD';// Set currency code
         $paypal_args['amount_1'] = round( $paypal_args['amount_1'] / $convert_rate, 2); //Convert product price
         $paypal_args['amount_2'] = round( $paypal_args['amount_2'] / $convert_rate, 2); //Convert shipping costs
@@ -41,6 +41,28 @@ function remove_admin_bar_links() {
 	// $wp_admin_bar->remove_menu('comments');
 }
 add_action ( 'wp_before_admin_bar_render', 'remove_admin_bar_links' );
+
+function enable_duplicate_comments_preprocess_comment($comment_data)
+{
+    //add some random content to comment to keep dupe checker from finding it
+    $random = md5(time());
+    $comment_data['comment_content'] .= "disabledupes{" . $random . "}disabledupes";
+    return $comment_data;
+}
+add_filter('preprocess_comment', 'enable_duplicate_comments_preprocess_comment');
+function enable_duplicate_comments_comment_post($comment_id)
+{
+    global $wpdb;
+    //remove the random content
+    $comment_content = $wpdb->get_var("SELECT comment_content FROM $wpdb->comments WHERE comment_ID = '$comment_id' LIMIT 1");
+    $comment_content = preg_replace("/disabledupes\{.*\}disabledupes/", "", $comment_content);
+    $wpdb->query("UPDATE $wpdb->comments SET comment_content = '" . $wpdb->escape($comment_content) . "' WHERE comment_ID = '$comment_id' LIMIT 1");
+    /*
+        add your own dupe checker here if you want
+    */
+}
+add_action('comment_post', 'enable_duplicate_comments_comment_post');
+
 
 add_action ( 'pre_get_posts', 'wpjam_wechat_redirect', 4 );
 function wpjam_wechat_redirect($wp_query) {
@@ -596,10 +618,12 @@ class wechatCallback extends Wechat {
 				
 				//echo '====分类====' . $post_cat;
 				if (in_array('cat_wx_rpl_txt', $cats)) {
-					$this->responseText ( strip_tags ( do_shortcode ( $post->post_content ) ) );
+					$strItems=strip_tags ( do_shortcode ( $post->post_content ) ) ;
+					$this->responseText (strItems);
 				}else if (in_array('cat_wx_rpl_music', $cats)) {
 					// 如果有声音格式内容，则优先回复，并退出
 						$musicUrl = get_post_first_audio ( $post->post_content );
+						$strItems="《<a target='_blank' href='" . $musicUrl . "'>" . $title . "</a>》";
 						$this->responseMusic ( $title, $excerpt, $musicUrl, $musicUrl );
 				}else{
 						$thumbnail_id = get_post_thumbnail_id ( $post->ID );
@@ -625,7 +649,7 @@ class wechatCallback extends Wechat {
 						} else {
 							$thumb = apply_filters ( 'weixin_thumb', $thumb, $counter );
 						}
-						
+						//$thumb=rawurlencode($thumb);
 						$items [] = new NewsResponseItem ( $title, $excerpt, $thumb, $link );
 				}
 				
@@ -635,6 +659,7 @@ class wechatCallback extends Wechat {
 			
 			if (! empty ( $items )) {
 				$this->responseNews ( $items );
+				//exit ();
 			}
 			
 			if ($comment_id) {

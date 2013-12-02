@@ -7,7 +7,10 @@ function weixin_user_page() {
 	// 创建微信自定义菜单
 	
 $request = new WP_Http;
-	$tkn_url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx6b92ad6cb719bc58&secret=879100569de7c990773208e1177b0a15';
+//爱普精选
+//$tkn_url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx0d0003198914f93c&secret=4438d9f47849dc489da9a100a018757f';
+//iLife
+$tkn_url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx6b92ad6cb719bc58&secret=879100569de7c990773208e1177b0a15';
 	$result = $request->request ( $tkn_url );
 	
 	$json = $result ['body'];
@@ -18,38 +21,42 @@ $request = new WP_Http;
 	if ($access_token) {
 	echo '开始创建菜单... ';
 	 $body = '{
-	"button":[
-	{
-	  "name":"各种神器",
-           "sub_button":[
-	 {
+	"button":[{
+	  "name":"神器商场",
+     "sub_button":[{
 	 "type":"view",
 	 "name":"全部",
 	 "url":"http://www.appcn100.com/cms/%E5%95%86%E5%93%81%E7%B1%BB%E5%88%AB/cat-prd-cool/"
 	 },
 	 {
-	 "type":"view",
-	 "name":"BelkinWeMo智能电源",
-	 "url":"http://www.appcn100.com/cms/product/belkinwemo-%E6%99%BA%E8%83%BD%E8%BF%9C%E7%A8%8B%E7%94%B5%E6%BA%90%E6%8E%A7%E5%88%B6%E5%99%A8/"
-	 }]
-	},
-	{
-	  "name":"全球前沿",
-            "sub_button":[
-	 {
 	 "type":"click",
-         "name":"全部咨询",
-          "key":"全球前沿"
+	 "name":"bose超级mini音响",
+	 "key":"soundlink mini"
 	 },
 	 {
-	 "type":"view",
-	 "name":"三星Note3评测",
-	 "url":"http://www.appcn100.com/cms/blog/2013/10/14/%E6%B5%8B%E8%AF%95/"
+	 "type":"click",
+	 "name":"philips智能防丢器",
+	 "key":"inrange"
+	 },
+	 {
+	 "type":"click",
+	 "name":"irobot智能家居产品",
+	 "key":"irobot"
+	 },
+	 {
+	 "type":"click",
+	 "name":"misfit神奇运动手环",
+	 "key":"misfit shine"
 	 }]
+	 },
+	{
+	  "name":"全球前沿",
+	  "type":"click",
+      "key":"全球前沿"
 	},
 	{
 	  "name":"我",
-            "sub_button":[
+      "sub_button":[
 	 {
 	 "type":"view",
 	 "name":"客服",
@@ -65,7 +72,7 @@ $request = new WP_Http;
 	 "name":"我的资料",
 	 "url":"http://www.appcn100.com/cms/my-account/"
 	 }
-	]
+	 ]
 	}
 	]
 	 }';

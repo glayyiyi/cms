@@ -152,10 +152,10 @@ function edd_has_variable_prices( $download_id ) {
  * @since 1.0.9
  * @param int $download_id ID of the download
  * @param int $price_id ID of the price option
- * @param int @payment_id ID of the payment
+ * @param int $payment_id optional payment ID for use in filters
  * @return string $price_name Name of the price option
  */
-function edd_get_price_option_name( $download_id, $price_id, $payment_id = 0 ) {
+function edd_get_price_option_name( $download_id = 0, $price_id = 0, $payment_id = 0 ) {
 	$prices = edd_get_variable_prices( $download_id );
 	$price_name = '';
 
@@ -165,6 +165,27 @@ function edd_get_price_option_name( $download_id, $price_id, $payment_id = 0 ) {
 	}
 
 	return apply_filters( 'edd_get_price_option_name', $price_name, $download_id, $payment_id );
+}
+
+/**
+ * Retrieves the amount of a variable price option
+ *
+ * @since 1.8.2
+ * @param int $download_id ID of the download
+ * @param int $price_id ID of the price option
+ * @param int @payment_id ID of the payment
+ * @return float $amount Amount of the price option
+ */
+function edd_get_price_option_amount( $download_id, $price_id = 0 ) {
+	$prices = edd_get_variable_prices( $download_id );
+	$amount = 0.00;
+
+	if ( $prices && is_array( $prices ) ) {
+		if ( isset( $prices[ $price_id ] ) )
+			$amount = $prices[ $price_id ]['amount'];
+	}
+
+	return apply_filters( 'edd_get_price_option_amount', $amount, $download_id );
 }
 
 /**
@@ -370,9 +391,10 @@ function edd_get_download_sales_stats( $download_id ) {
  * @global $edd_logs
  * @param int $download_id Download ID
  * @param int $payment_id Payment ID
+ * @param int $price_id Price ID, if any
  * @return void
 */
-function edd_record_sale_in_log( $download_id, $payment_id ) {
+function edd_record_sale_in_log( $download_id, $payment_id, $price_id = false ) {
 	global $edd_logs;
 
 	$log_data = array(
@@ -381,7 +403,8 @@ function edd_record_sale_in_log( $download_id, $payment_id ) {
 	);
 
 	$log_meta = array(
-		'payment_id'    => $payment_id
+		'payment_id'    => $payment_id,
+		'price_id'      => (int) $price_id
 	);
 
 	$log_id = $edd_logs->insert_log( $log_data, $log_meta );
@@ -399,9 +422,10 @@ function edd_record_sale_in_log( $download_id, $payment_id ) {
  * @param array $user_info User information
  * @param string $ip IP Address
  * @param int $payment_id Payment ID
+ * @param int $price_id Price ID, if any
  * @return void
  */
-function edd_record_download_in_log( $download_id, $file_id, $user_info, $ip, $payment_id ) {
+function edd_record_download_in_log( $download_id, $file_id, $user_info, $ip, $payment_id, $price_id = false ) {
 	global $edd_logs;
 
 	$log_data = array(
@@ -414,7 +438,8 @@ function edd_record_download_in_log( $download_id, $file_id, $user_info, $ip, $p
 		'user_id'	=> (int) $user_info['id'],
 		'file_id'	=> (int) $file_id,
 		'ip'		=> $ip,
-		'payment_id'=> $payment_id
+		'payment_id'=> $payment_id,
+		'price_id'  => (int) $price_id
 	);
 
 	$log_id = $edd_logs->insert_log( $log_data, $log_meta );
@@ -567,7 +592,7 @@ function edd_get_average_monthly_download_sales( $download_id ) {
  * @param int $variable_price_id Variable pricing option ID
  * @return array $files Download files
  */
-function edd_get_download_files( $download_id, $variable_price_id = null ) {
+function edd_get_download_files( $download_id = 0, $variable_price_id = null ) {
 	$files = array();
 
 	// Bundled products are not allowed to have files
@@ -590,7 +615,7 @@ function edd_get_download_files( $download_id, $variable_price_id = null ) {
 		}
 	}
 
-	return $files;
+	return apply_filters( 'edd_download_files', $files, $download_id, $variable_price_id );
 }
 
 /**
@@ -717,9 +742,10 @@ function edd_set_file_download_limit_override( $download_id = 0, $payment_id = 0
  * @param int $download_id Download ID
  * @param int $payment_id Payment ID
  * @param int $file_id File ID
+ * @param int $price_id Price ID
  * @return bool True if at limit, false otherwise
  */
-function edd_is_file_at_download_limit( $download_id = 0, $payment_id = 0, $file_id = 0 ) {
+function edd_is_file_at_download_limit( $download_id = 0, $payment_id = 0, $file_id = 0, $price_id = false ) {
 
 	// Checks to see if at limit
 	$logs = new EDD_Logging();
@@ -733,11 +759,16 @@ function edd_is_file_at_download_limit( $download_id = 0, $payment_id = 0, $file
 		array(
 			'key' 	=> '_edd_log_payment_id',
 			'value' => (int) $payment_id
+		),
+		array(
+			'key' 	=> '_edd_log_price_id',
+			'value' => (int) $price_id
 		)
 	);
 
 	$ret                = false;
 	$download_count     = $logs->get_log_count( $download_id, 'file_download', $meta_query );
+
 	$download_limit     = edd_get_file_download_limit( $download_id );
 	$unlimited_purchase = get_post_meta( $payment_id, '_unlimited_file_downloads', true );
 
@@ -806,7 +837,7 @@ function edd_get_download_file_url( $key, $email, $filekey, $download_id, $price
 		'email' 		=> rawurlencode( $email ),
 		'file' 			=> $filekey,
 		'price_id'      => (int) $price_id,
-		'download' 		=> $download_id,
+		'download_id' 	=> $download_id,
 		'expire' 		=> rawurlencode( base64_encode( $date ) )
 	);
 
@@ -851,7 +882,9 @@ function edd_verify_download_link( $download_id = 0, $key = '', $email = '', $ex
 
 			$cart_details = edd_get_payment_meta_cart_details( $payment->ID, true );
 
-			if ( $payment->post_status != 'publish' && $payment->post_status != 'complete' )
+			$accepted_stati = apply_filters( 'edd_allowed_download_stati', array( 'publish', 'complete' ) );
+
+			if ( ! in_array( $payment->post_status, $accepted_stati ) )
 				return false;
 
 			if ( ! empty( $cart_details ) ) {
@@ -864,15 +897,15 @@ function edd_verify_download_link( $download_id = 0, $key = '', $email = '', $ex
 
 					$file_condition = edd_get_file_price_condition( $cart_item['id'], $file_key );
 
+					// Check to see if the file download limit has been reached
+					if ( edd_is_file_at_download_limit( $cart_item['id'], $payment->ID, $file_key, $price_options['price_id'] ) )
+						wp_die( apply_filters( 'edd_download_limit_reached_text', __( 'Sorry but you have hit your download limit for this file.', 'edd' ) ), __( 'Error', 'edd' ) );
+
 					// If this download has variable prices, we have to confirm that this file was included in their purchase
 					if ( ! empty( $price_options ) && $file_condition != 'all' && edd_has_variable_prices( $cart_item['id'] ) ) {
 						if ( $file_condition == $price_options['price_id'] )
 							return $payment->ID;
 					}
-
-					// Check to see if the file download limit has been reached
-					if ( edd_is_file_at_download_limit( $cart_item['id'], $payment->ID, $file_key ) )
-						wp_die( apply_filters( 'edd_download_limit_reached_text', __( 'Sorry but you have hit your download limit for this file.', 'edd' ) ), __( 'Error', 'edd' ) );
 
 					// Make sure the link hasn't expired
 					if ( current_time( 'timestamp' ) > $expire ) {

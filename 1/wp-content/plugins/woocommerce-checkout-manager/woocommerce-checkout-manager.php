@@ -4,7 +4,7 @@
 Plugin Name: WooCommerce Checkout Manager
 Plugin URI: http://www.trottyzone.com/product/woocommerce-checkout-manager-pro
 Description: Manages WooCommerce Checkout fields
-Version: 3.5.6
+Version: 3.5.81
 Author: Ephrain Marchan
 Author URI: http://www.trottyzone.com
 License: GPLv2 or later
@@ -831,8 +831,8 @@ add_filter( 'woocommerce_checkout_fields' , 'custom_replace_checkout_fields2' );
 
 function custom_replace_checkout_fieldsc( $fields ) {
 $options = get_option( 'wccs_settings' );
-if ( ! empty( $options['replace']['label2'] ) ) 
-     $fields['billing']['billing_company']['label'] = ''.$options['replace']['label2'].'';
+if ( ! empty( $options['replace']['label5'] ) ) 
+     $fields['billing']['billing_company']['label'] = ''.$options['replace']['label5'].'';
      return $fields;
 }
 add_filter( 'woocommerce_checkout_fields' , 'custom_replace_checkout_fieldsc' );
@@ -896,8 +896,8 @@ add_filter( 'woocommerce_billing_fields', 'wccs_override_required_fields8', 10, 
 
 function custom_replace_checkout_fieldsh( $fields ) {
 $options = get_option( 'wccs_settings' );
-if ( ! empty( $options['replace']['label7'] ) ) 
-     $fields['billing']['billing_country']['label'] = ''.$options['replace']['label7'].'';
+if ( ! empty( $options['replace']['label2'] ) ) 
+     $fields['billing']['billing_country']['label'] = ''.$options['replace']['label2'].'';
      return $fields;
 }
 add_filter( 'woocommerce_checkout_fields' , 'custom_replace_checkout_fieldsh' );

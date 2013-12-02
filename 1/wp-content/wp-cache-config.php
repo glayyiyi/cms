@@ -5,6 +5,12 @@ WP-Cache Config Sample File
 See wp-cache.php for author details.
 */
 
+$wp_cache_preload_on = 1; //Added by WP-Cache Manager
+$wp_cache_preload_taxonomies = 1; //Added by WP-Cache Manager
+$wp_cache_preload_email_volume = 'less'; //Added by WP-Cache Manager
+$wp_cache_preload_email_me = 1; //Added by WP-Cache Manager
+$wp_cache_preload_interval = 720; //Added by WP-Cache Manager
+$wp_cache_preload_posts = '52'; //Added by WP-Cache Manager
 $cache_schedule_interval = 'twicedaily'; //Added by WP-Cache Manager
 $cache_gc_email_me = 1; //Added by WP-Cache Manager
 $cache_scheduled_time = '00:00'; //Added by WP-Cache Manager
@@ -15,7 +21,7 @@ $wp_cache_make_known_anon = 0; //Added by WP-Cache Manager
 $wp_cache_mod_rewrite = 0; //Added by WP-Cache Manager
 $wp_cache_front_page_checks = 0; //Added by WP-Cache Manager
 $wp_cache_mfunc_enabled = 0; //Added by WP-Cache Manager
-$wp_supercache_304 = 0; //Added by WP-Cache Manager
+$wp_supercache_304 = 1; //Added by WP-Cache Manager
 $wp_cache_no_cache_for_get = 0; //Added by WP-Cache Manager
 $wp_cache_disable_utf8 = 0; //Added by WP-Cache Manager
 $cache_time_interval = '600'; //Added by WP-Cache Manager
@@ -29,7 +35,7 @@ if ( ! defined('WPCACHEHOME') )
 $cache_compression = 1; //Added by WP-Cache Manager
 $cache_enabled = true; //Added by WP-Cache Manager
 $super_cache_enabled = true; //Added by WP-Cache Manager
-$cache_max_time = 1800; //Added by WP-Cache Manager
+$cache_max_time = 3600; //Added by WP-Cache Manager
 //$use_flock = true; // Set it true or false if you know what to use
 $cache_path = WP_CONTENT_DIR . '/cache/';
 $file_prefix = 'wp-cache-';

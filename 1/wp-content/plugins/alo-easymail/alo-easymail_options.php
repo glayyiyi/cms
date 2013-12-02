@@ -268,7 +268,7 @@ if ( isset($_POST['submit']) ) {
 
 <div id="easymail_slider" class="wrap">
 <div class="icon32" id="icon-options-general"><br></div>
-<h2>Options</h2>
+<h2>Alo EasyMail Newsletter Options</h2>
 
 <ul id="easymail_options_tabs">
 	<?php if ( current_user_can('manage_options') ) echo '<li><a href="#general">' . __("General", "alo-easymail") .'</a></li>'; ?>

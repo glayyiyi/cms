@@ -527,7 +527,7 @@ class WeAccount {
 				}
 			}
 			
-			echo ',未分组好友';
+			//echo ',未分组好友';
 			//$msgFriendList = $this->getLatestMsgs ();
 			$msgFriendList =$this->account_weixin_userlist();
 			//var_dump($msgFriendList);
@@ -539,7 +539,7 @@ class WeAccount {
 				foreach ( $msgFriendList as $value ) {
 					//$fakeid = $value ['fakeid'];
 					$fakeid = $value;
-					print_r ( ',' . $fakeid );
+					//print_r ( ',' . $fakeid );
 					$recentMessages = $this->getRecentMessages ( $fakeid );
 					// print_r($recentMessages);
 					foreach ( $recentMessages as $messageValue ) {

@@ -34,8 +34,22 @@ function edd_get_discounts( $args = array() ) {
 
 	$discounts = get_posts( $args );
 
-	if ( $discounts )
+	if ( $discounts ) {
 		return $discounts;
+	}
+
+	if( ! $discounts && ! empty( $args['s'] ) ) {
+		// If no discounts are found and we are searching, re-query with a meta key to find discounts by code
+		$args['meta_key']     = '_edd_discount_code';
+		$args['meta_value']   = $args['s'];
+		$args['meta_compare'] = 'LIKE';
+		unset( $args['s'] );
+		$discounts = get_posts( $args );
+	}
+
+	if( $discounts ) {
+		return $discounts;
+	}
 
 	return false;
 }
@@ -159,7 +173,7 @@ function edd_store_discount( $details, $discount_id = null ) {
 		do_action( 'edd_post_update_discount', $details, $discount_id );
 
 		// Discount code updated
-		return true;
+		return $discount_id;
 	} else {
 		// Add the discount
 
@@ -180,7 +194,7 @@ function edd_store_discount( $details, $discount_id = null ) {
 		do_action( 'edd_post_insert_discount', $details, $discount_id );
 
 		// Discount code created
-		return true;
+		return $discount_id;
 	}
 }
 
@@ -748,6 +762,8 @@ function edd_increase_discount_usage( $code ) {
 	}
 
 	update_post_meta( $id, '_edd_discount_uses', $uses );
+
+	do_action( 'edd_discount_increase_use_count', $uses, $id, $code );
 
 	return $uses;
 
