@@ -12,7 +12,9 @@ require_once ('weiservice-account.php');
 // 定义微信 Token
 define ( "WEIXIN_TOKEN", "weixin" );
 //请回复 h或help 查看帮助。或点击<a href='" . get_option ( 'siteurl' ) . "/?weixin-api&weixin-openid=WEIXIN_OPENID'>关于</a>了解我们。
-define ( "WEIXIN_DEFAULT_WELCOME", "爱普精选，必属精品！爱普精选全球最前沿、最新潮的实用科技产品，为粉丝们传递全球精品科技生活！爱普精选的科技消费品，无论是个人实用、时尚把玩，还是商务馈赠，都是好品。本期推荐<a href='http://www.appcn100.com/cms/product/soundlink_mini?weixin-api&weixin-openid=WEIXIN_OPENID'>BOSE出品浑厚一体超级震撼mini无线音箱soundlink mini</a>" );
+//define ( "WEIXIN_DEFAULT_WELCOME", "爱普精选，必属精品！爱普精选全球最前沿、最新潮的实用科技产品，为粉丝们传递全球精品科技生活！爱普精选的科技消费品，无论是个人实用、时尚把玩，还是商务馈赠，都是好品。本期推荐<a href='http://www.appcn100.com/cms/product/soundlink_mini?weixin-api&weixin-openid=WEIXIN_OPENID'>BOSE出品浑厚一体超级震撼mini无线音箱soundlink mini</a>" );
+
+define ( "WEIXIN_DEFAULT_WELCOME", "©爱普世纪科技");
 add_filter('woocommerce_paypal_args', 'convert_rmb_to_usd');
 function convert_rmb_to_usd($paypal_args){
     if ( $paypal_args['currency_code'] == 'RMB'){
@@ -619,7 +621,7 @@ class wechatCallback extends Wechat {
 				//echo '====分类====' . $post_cat;
 				if (in_array('cat_wx_rpl_txt', $cats)) {
 					$strItems=strip_tags ( do_shortcode ( $post->post_content ) ) ;
-					$this->responseText (strItems);
+					$this->responseText ($strItems);
 				}else if (in_array('cat_wx_rpl_music', $cats)) {
 					// 如果有声音格式内容，则优先回复，并退出
 						$musicUrl = get_post_first_audio ( $post->post_content );
