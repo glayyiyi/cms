@@ -1,0 +1,232 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: YITH Woocommerce Compare\n"
+"POT-Creation-Date: 2013-06-19 18:25+0100\n"
+"PO-Revision-Date: 2013-08-26 15:18+0100\n"
+"Last-Translator: Frans Pronk <beheer@ifra.nl>\n"
+"Language-Team: Your Inspiration Themes <support@yithemes.com>\n"
+"Language: English\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.5\n"
+"X-Poedit-KeywordsList: __;_e;_x\n"
+"X-Poedit-Basepath: ./\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../class.yith-woocompare-admin.php:118
+msgid "Products Compare"
+msgstr "Product vergelijk"
+
+#: ../class.yith-woocompare-admin.php:132
+#: ../yith-woocompare-options.php:15
+msgid "General Settings"
+msgstr "Algemene instellingen"
+
+#: ../class.yith-woocompare-frontend.php:133
+msgid "Added"
+msgstr "Toegevoegd"
+
+#: ../class.yith-woocompare-frontend.php:134
+#: ../templates/compare.php:47
+msgid "Product Comparison"
+msgstr "Product vergelijk"
+
+#: ../class.yith-woocompare-frontend.php:238
+msgid "In stock"
+msgstr "Op voorraad"
+
+#: ../class.yith-woocompare-frontend.php:314
+#: ../widgets/class.yith-woocompare-widget.php:38
+msgid "Compare"
+msgstr "Vergelijk"
+
+#: ../class.yith-woocompare-frontend.php:467
+msgid "No products to compare"
+msgstr "Geen producten om te vergelijken"
+
+#: ../class.yith-woocompare-frontend.php:476
+#: ../templates/compare.php:102
+msgid "Remove"
+msgstr "Verwijder"
+
+#: ../class.yith-woocompare-helper.php:38
+#: ../widgets/class.yith-woocompare-widget.php:55
+msgid "Title"
+msgstr "Titel"
+
+#: ../class.yith-woocompare-helper.php:39
+msgid "Image"
+msgstr "Afbeelding"
+
+#: ../class.yith-woocompare-helper.php:40
+msgid "Description"
+msgstr "Omschrijving"
+
+#: ../class.yith-woocompare-helper.php:41
+msgid "Price"
+msgstr "Prijs"
+
+#: ../class.yith-woocompare-helper.php:42
+msgid "Add to cart"
+msgstr "Bestellen"
+
+#: ../class.yith-woocompare-helper.php:43
+msgid "Availability"
+msgstr "Beschikbaarheid"
+
+#: ../yith-woocompare-options.php:22
+msgid "Link or Button"
+msgstr "Link of Button"
+
+#: ../yith-woocompare-options.php:23
+msgid "Choose if you want to use a link or a button for the action button."
+msgstr "Kies uit button of link als actie button."
+
+#: ../yith-woocompare-options.php:29
+msgid "Link"
+msgstr "Link"
+
+#: ../yith-woocompare-options.php:30
+msgid "Button"
+msgstr "Button"
+
+#: ../yith-woocompare-options.php:35
+msgid "Show button in single product page"
+msgstr "Toon button op product pagina"
+
+#: ../yith-woocompare-options.php:36
+msgid "Say if you want to show the button in the single product page."
+msgstr "Selecteer wanneer je een button op de product pagina wilt tonen."
+
+#: ../yith-woocompare-options.php:44
+msgid "Show button in products list"
+msgstr "Toon button op producten overzicht"
+
+#: ../yith-woocompare-options.php:45
+msgid "Say if you want to show the button in the products list."
+msgstr "Selecteer wanneer een button op de productenoverzichts pagina wilt tonen."
+
+#: ../yith-woocompare-options.php:53
+msgid "Open automatically lightbox"
+msgstr "Open automatisch in lightbox"
+
+#: ../yith-woocompare-options.php:54
+msgid "Open link after click into \"Compare\" button\"."
+msgstr "Open de link direct na aanklikken van \"Vergelijk\" button\"."
+
+#: ../yith-woocompare-options.php:66
+msgid "Table Settings"
+msgstr "Tabel instellingen"
+
+#: ../yith-woocompare-options.php:73
+msgid "Fields to show"
+msgstr "Velden tonen"
+
+#: ../yith-woocompare-options.php:74
+#: ../yith-woocompare-options.php:83
+#: ../yith-woocompare-options.php:92
+msgid "Select the fields to show in the comparison table and order them by drag&drop (are included also the woocommerce attributes)"
+msgstr "Selecteer de velden die je in de vergelijkings tabel wilt tonen. Sleep ze met je muis in de gewenste volgorde."
+
+#: ../yith-woocompare-options.php:82
+msgid "Repeat \"Price\" field at the end of the table"
+msgstr "Toon \"Prijs\" veld aan het einde van de tabel"
+
+#: ../yith-woocompare-options.php:91
+msgid "Repeat \"Add to cart\" field at the end of the table"
+msgstr "Toon \"Bestel\" veld aan het einde van de tabel"
+
+#: ../yith-woocompare-options.php:100
+msgid "Image size"
+msgstr "Afbeelding formaat"
+
+#: ../yith-woocompare-options.php:101
+msgid "Set the size for the images"
+msgstr "Stel afbeeldings formaat in "
+
+#: ../templates/compare.php:68
+msgid "Compare products"
+msgstr "Vergelijk producten"
+
+#: ../templates/compare.php:69
+msgid "Close window [X]"
+msgstr "Sluit venster [X]"
+
+#: ../templates/compare.php:94
+msgid "No products added in the compare table."
+msgstr "Geen producten toegevoegd in de vergelijk tabel."
+
+#: ../widgets/class.yith-woocompare-widget.php:21
+msgid "The widget show the list of products added in the compare table."
+msgstr "Deze widget toont een lijst met producten in een vergelijkings tabel."
+
+#: ../widgets/class.yith-woocompare-widget.php:22
+msgid "YITH Woocommerce Compare Widget"
+msgstr "Een YITH Woocommerce Vergelijk Widget"
+
+#: ../widgets/class.yith-woocompare-widget.php:37
+msgid "Clear all"
+msgstr "Wis alles"
+
+#: ../yit-common/yith-panel.php:396
+msgid "Select a date"
+msgstr "Selecteer een datum"
+
+#: ../yit-common/yith-panel.php:397
+msgid "Hours"
+msgstr "Uren"
+
+#: ../yit-common/yith-panel.php:398
+#: ../yit-common/yith-panel.php:399
+msgid "Minutes"
+msgstr "Minuten"
+
+#: ../yit-common/yith-panel.php:407
+msgid "Upload"
+msgstr "Upload"
+
+#: ../yit-common/yith-panel.php:434
+msgid "px"
+msgstr "px"
+
+#: ../yit-common/yith-panel.php:435
+msgid "em"
+msgstr "em"
+
+#: ../yit-common/yith-panel.php:436
+msgid "pt"
+msgstr "pt"
+
+#: ../yit-common/yith-panel.php:437
+msgid "rem"
+msgstr "rem"
+
+#: ../yit-common/yith-panel.php:447
+msgid "Select a font family"
+msgstr "Kies een font type"
+
+#: ../yit-common/yith-panel.php:455
+msgid "Regular"
+msgstr "Normaal"
+
+#: ../yit-common/yith-panel.php:456
+msgid "Bold"
+msgstr "Vet"
+
+#: ../yit-common/yith-panel.php:457
+msgid "Extra bold"
+msgstr "Extra vet"
+
+#: ../yit-common/yith-panel.php:458
+msgid "Italic"
+msgstr "Cursief"
+
+#: ../yit-common/yith-panel.php:459
+msgid "Italic bold"
+msgstr "Cursief vet"
+
+#: ../yit-common/yith-panel.php:471
+msgid "Click to preview"
+msgstr "Klik voor voorvertoning"
+

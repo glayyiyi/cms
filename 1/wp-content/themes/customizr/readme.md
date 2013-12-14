@@ -123,6 +123,11 @@ The exceptions to this license are as follows:
 
 
 # Changelog
+= 3.0.15 =
+* added : (language) Catalan : thanks to <a href="https://twitter.com/jaume_albaiges" target="_blank">Jaume Albaig&egrave;s</a>
+* fixed : (js) Slider : ie7/ie8/ie9 hack (had to be re-implemented) : thanks to @barryvdh (https://github.com/twbs/bootstrap/pull/3052)
+
+
 = 3.0.14 =
 * added : (language) Arabic : thanks to Ramez Bdiwi
 * added : (language) RTL support : thanks to Ramez Bdiwi

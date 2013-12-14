@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Customizr 3.0.8\n"
-"POT-Creation-Date: 2013-11-05 11:18+0100\n"
-"PO-Revision-Date: 2013-11-05 11:18+0100\n"
-"Last-Translator: Nicolas G. <contact@themesandco.com>\n"
+"POT-Creation-Date: 2013-11-26 11:59+0100\n"
+"PO-Revision-Date: 2013-11-26 12:01+0100\n"
+"Last-Translator: Nico <contact@themesandco.com>\n"
 "Language-Team: ElectricFeet <contact@themesandco.com>\n"
 "Language: Italiano\n"
 "MIME-Version: 1.0\n"
@@ -17,6 +17,7 @@ msgstr ""
 "X-Poedit-SearchPath-0: ..\n"
 
 #: ../comments.php:40
+#, fuzzy
 msgid "Leave a Comment"
 msgstr "Commenti"
 
@@ -201,7 +202,7 @@ msgstr "Deselezionare questa opzione per rimuovere il bordo colorato in alto."
 
 #: ../inc/admin/class-admin-customize.php:307
 msgid "Logo Upload (supported formats : .jpg, .png, .gif)"
-msgstr "Caricare logo (formati supportati: .jpg, .png, .gif)"
+msgstr ""
 
 #: ../inc/admin/class-admin-customize.php:314
 msgid "Force logo dimensions to max-width:250px and max-height:100px"
@@ -210,7 +211,7 @@ msgstr ""
 
 #: ../inc/admin/class-admin-customize.php:329
 msgid "Favicon Upload (supported formats : .ico, .png, .gif)"
-msgstr "Caricare favicon (formati supportati: .ico, .png, .gif)"
+msgstr ""
 
 #: ../inc/admin/class-admin-customize.php:341
 msgid "Choose content and layout"
@@ -517,15 +518,17 @@ msgstr ""
 "incollare il tuo CSS in un style.css di un child theme."
 
 #: ../inc/admin/class-admin-customize.php:831
+#, fuzzy
 msgid "Developer Box"
-msgstr "Developer Box"
+msgstr "Abilita/disabilita il riquadro trascinabile"
 
 #: ../inc/admin/class-admin-customize.php:840
 #: ../inc/admin/class-admin-customize.php:858
 msgid "Only visible for logged in users with an admin profile."
-msgstr "Visibile solo all'amministratore che ha effettuato il login."
+msgstr ""
 
 #: ../inc/admin/class-admin-customize.php:843
+#, fuzzy
 msgid ""
 "If enabled, this option displays a draggable information box to help you "
 "develop or debug your Customizr based website."
@@ -536,9 +539,10 @@ msgstr ""
 
 #: ../inc/admin/class-admin-customize.php:849
 msgid "Developer tooltips"
-msgstr "Tooltips per gli sviluppatori"
+msgstr ""
 
 #: ../inc/admin/class-admin-customize.php:861
+#, fuzzy
 msgid ""
 "If enabled, this option displays clickable contextual tooltips right inside "
 "your website."
@@ -851,11 +855,15 @@ msgstr "Leggi la documentazione"
 msgid "Check the FAQ"
 msgstr "Controlla le domande frequenti"
 
-#: ../inc/admin/class-fire-admin_init.php:194
+#: ../inc/admin/class-fire-admin_init.php:195
+msgid "Code snippets"
+msgstr ""
+
+#: ../inc/admin/class-fire-admin_init.php:198
 msgid "Discuss in the user forum"
 msgstr "Dialoga nel forum degli utenti"
 
-#: ../inc/admin/class-fire-admin_init.php:202
+#: ../inc/admin/class-fire-admin_init.php:206
 #, php-format
 msgid ""
 "Thank you for using Customizr! Customizr %1$s has more features, is safer "
@@ -871,7 +879,7 @@ msgstr ""
 "ispirazione nella <a href=\"#showcase\">vetrina di Customizr</a>.<br/"
 ">Divertiti!"
 
-#: ../inc/admin/class-fire-admin_init.php:216
+#: ../inc/admin/class-fire-admin_init.php:220
 #, php-format
 msgid ""
 "You are using a child theme of Customizr %1$s : always check the %2$s after "
@@ -880,25 +888,22 @@ msgstr ""
 "Stai usando un child theme di Customizr %1$s : controlla sempre il %2$s dopo "
 "l'aggiornamento per vedere se un function o un template è stato deprecato."
 
-#: ../inc/admin/class-fire-admin_init.php:231
+#: ../inc/admin/class-fire-admin_init.php:235
 msgid "We need sponsors!"
-msgstr "Diventa sponsor!"
+msgstr ""
 
-#: ../inc/admin/class-fire-admin_init.php:232
+#: ../inc/admin/class-fire-admin_init.php:236
 msgid ""
 "<strong>We do our best do make Customizr the perfect free theme for you!</"
 "strong><br/> Please help support it's continued development with a donation "
 "of $20, $50, or even $100."
 msgstr ""
-"<strong>Noi abbiamo fatto di tutto per darti un tema perfetto, gratis.</"
-"strong><br/> Aiutaci a continuare lo sviluppo con una donazione di €20, €50, "
-"o €100."
 
-#: ../inc/admin/class-fire-admin_init.php:239
+#: ../inc/admin/class-fire-admin_init.php:243
 msgid "Happy user of Customizr?"
 msgstr "Utente soddisfatto di Customizr?"
 
-#: ../inc/admin/class-fire-admin_init.php:240
+#: ../inc/admin/class-fire-admin_init.php:244
 msgid ""
 "If you are happy with the theme, say it on wordpress.org and give Customizr "
 "a nice review! <br />(We are addicted to your feedbacks...)"
@@ -906,21 +911,19 @@ msgstr ""
 "Se sei soddisfatto di Customizr, dillo su wordpress.org scrivendo una "
 "recensione favorevole!"
 
-#: ../inc/admin/class-fire-admin_init.php:245
+#: ../inc/admin/class-fire-admin_init.php:249
 msgid "Follow us"
 msgstr "Seguici"
 
-#: ../inc/admin/class-fire-admin_init.php:253
-msgid "New! Customizr Developer Tools"
-msgstr "Nuovo! Strumenti di Customizr per gli sviluppatori"
-
 #: ../inc/admin/class-fire-admin_init.php:257
+msgid "New! Customizr Developer Tools"
+msgstr ""
+
+#: ../inc/admin/class-fire-admin_init.php:261
 msgid "Easily drill down into Customizr code with the dev tools!"
 msgstr ""
-"Approfondire nel codice di Customizr facilmente con gli strumenti per gli "
-"sviluppatori!"
 
-#: ../inc/admin/class-fire-admin_init.php:258
+#: ../inc/admin/class-fire-admin_init.php:262
 msgid ""
 "A new section called \"Dev Tools\" has been added to the customizer options."
 "<br/> There you will find two optional new features : <br/><strong>-The "
@@ -937,35 +940,23 @@ msgid ""
 "description and possible filter.<br/><br/><i>Those tools are only displayed "
 "to logged in users with an admin capability profile.</i>"
 msgstr ""
-"Una nuova sezione che si chiama \"Dev Tools\" è stata aggiunta alle opzioni "
-"di Customizr.<br/> Ci sono due nuove opzioni : <br/><strong>-Il riquadro "
-"dello sviluppatore</strong>: questo riquadro trascinabile è una bacheca per "
-"gli sviluppatori che ti darà una panoramica delle impostazioni del tema "
-"(plugins, custom post types, opzioni del tema,…). Ti darà anche informazioni "
-"utili per eliminare gli errori: una cronaca del caricamento della pagina, "
-"dati contestuali (come tag condizionali e query), la struttura del hook, e "
-"una sezione sulla logica del codice di Customizr.<br/><strong>-I tooltip "
-"contestuali</strong>: quest'opzione ti permetterà di vedere i tooltip "
-"contestuali che sono cliccabili (e trascinabili) dentro il tuo sito. Ti "
-"aiuteranno a capire quale parte del php gestisce un block o un elemento "
-"nella pagina. Le informazioni forniti sono: class -> method, hook, file, "
-"descrizione del function e filtro possibile.<br/><br/><i>Sono visibili solo "
-"all'amministratore che ha effettuato il login.</i>"
 
-#: ../inc/admin/class-fire-admin_init.php:265
+#: ../inc/admin/class-fire-admin_init.php:269
+#, fuzzy
 msgid "Customizr Showcase"
-msgstr "Vetrina di Customizr"
+msgstr "Nuovo: vetrina di Customizr"
 
-#: ../inc/admin/class-fire-admin_init.php:268
-#: ../inc/admin/class-fire-admin_init.php:275
+#: ../inc/admin/class-fire-admin_init.php:272
+#: ../inc/admin/class-fire-admin_init.php:279
 msgid "Visit the showcase"
 msgstr ""
 
-#: ../inc/admin/class-fire-admin_init.php:269
+#: ../inc/admin/class-fire-admin_init.php:273
 msgid "Find inspiration for your next Customizr based website!"
 msgstr "Trova ispirazione per il prossimo sito basato su Customizr!"
 
-#: ../inc/admin/class-fire-admin_init.php:270
+#: ../inc/admin/class-fire-admin_init.php:274
+#, fuzzy
 msgid ""
 "This showcase aims to show what can be done with Customizr and helping other "
 "users to find inspiration for their web design."
@@ -973,7 +964,7 @@ msgstr ""
 "Questa vetrina di Customizr mostra quello che puoi fare con Customizr e "
 "aiuta a trovare ispirazione per nuovi disegni."
 
-#: ../inc/admin/class-fire-admin_init.php:272
+#: ../inc/admin/class-fire-admin_init.php:276
 msgid ""
 "Do you think you made an awesome website that can inspire people? Submitting "
 "a site for review is quick and easy to do."
@@ -981,16 +972,16 @@ msgstr ""
 "Credi di aver realizzato un sito straordinario che può ispirare gli altri? "
 "Inoltrare il tuo sito per una recensione è facile e veloce."
 
-#: ../inc/admin/class-fire-admin_init.php:282
+#: ../inc/admin/class-fire-admin_init.php:286
 #, php-format
 msgid "Changelog in version %1$s"
 msgstr "Changelog della version %1$s"
 
-#: ../inc/admin/class-fire-admin_init.php:291
+#: ../inc/admin/class-fire-admin_init.php:295
 msgid "Go to Dashboard &rarr; Home"
 msgstr "Vai alla bacheca &rarr; Home"
 
-#: ../inc/admin/class-fire-admin_init.php:291
+#: ../inc/admin/class-fire-admin_init.php:295
 msgid "Go to Dashboard"
 msgstr "Vai alla bacheca"
 
@@ -1139,10 +1130,12 @@ msgid "Comment navigation"
 msgstr "Navigazione commenti"
 
 #: ../parts/class-content-comments.php:207
+#, fuzzy
 msgid "<span class=\"meta-nav\">&larr;</span> Older Comments"
 msgstr "<span class=\"meta-nav\">&larr;</span> Articoli più vecchi"
 
 #: ../parts/class-content-comments.php:215
+#, fuzzy
 msgid "Newer Comments <span class=\"meta-nav\">&rarr;</span>"
 msgstr "Articoli più recenti <span class=\"meta-nav\">&rarr;</span>"
 
@@ -1283,8 +1276,9 @@ msgid "Link to full-size image"
 msgstr ""
 
 #: ../parts/class-content-post_metas.php:52
+#, fuzzy
 msgid "in"
-msgstr ""
+msgstr "i"
 
 #: ../parts/class-content-post_metas.php:52
 msgid "Return to "
@@ -1399,6 +1393,15 @@ msgstr ""
 msgid "Discover the features"
 msgstr "Scopri le funzionalità"
 
+#~ msgid "Logo Upload"
+#~ msgstr "Caricamento logo"
+
+#~ msgid "Favicon Upload"
+#~ msgstr "Caricare favicon"
+
+#~ msgid "Enable embedded tooltips"
+#~ msgstr "Abilita/disabilita i tooltip contestuali"
+
 #~ msgid ""
 #~ "Thank you for updating to the latest version! Customizr %1$s has more "
 #~ "features, is safer and more stable than ever <a href=\"#customizr-"
@@ -1409,6 +1412,18 @@ msgstr "Scopri le funzionalità"
 #~ "Congratulazioni, hai installato l'ultima versione di Customizr! Customizr "
 #~ "%s ha più funzionalità ed è più stabile <a href=\"#customizr-changelog\">"
 #~ "(vedi changelog)</a> per aiutarti a creare un sito straordinario!"
+
+#~ msgid "We need coffee..."
+#~ msgstr "Diventa sponsor!"
+
+#~ msgid ""
+#~ "Either you are using Customizr for personal or business purposes, "
+#~ "<strong>we do our best do make it the perfect free theme for you</strong>."
+#~ "<br /> Any kind of sponsorship will be appreciated!"
+#~ msgstr ""
+#~ "Sia che utilizzi Customizr in modo commerciale, sia per un sito "
+#~ "personale, <strong>noi abbiamo fatto di tutto per darti un tema gratis</"
+#~ "strong>. </br> Apprezziamo qualsiasi contributo!"
 
 #~ msgid "Discover Customizr : quick video introduction"
 #~ msgstr "Scopri Customizr: video veloce di introduzione"
@@ -1433,27 +1448,6 @@ msgstr "Scopri le funzionalità"
 #~ "%2$s</time></span> a <a href=\"%3$s\" title=\"Link all'immagine a "
 #~ "dimensioni reali\">%4$s &times; %5$s</a> nel <a href=\"%6$s\" title="
 #~ "\"Retour %7$s\" rel=\"gallery\">%8$s</a>"
-
-#~ msgid "Logo Upload"
-#~ msgstr "Caricamento logo"
-
-#~ msgid "Favicon Upload"
-#~ msgstr "Caricare favicon"
-
-#~ msgid "Enable embedded tooltips"
-#~ msgstr "Abilita/disabilita i tooltip contestuali"
-
-#~ msgid "We need coffee..."
-#~ msgstr "Diventa sponsor!"
-
-#~ msgid ""
-#~ "Either you are using Customizr for personal or business purposes, "
-#~ "<strong>we do our best do make it the perfect free theme for you</strong>."
-#~ "<br /> Any kind of sponsorship will be appreciated!"
-#~ msgstr ""
-#~ "Sia che utilizzi Customizr in modo commerciale, sia per un sito "
-#~ "personale, <strong>noi abbiamo fatto di tutto per darti un tema gratis</"
-#~ "strong>. </br> Apprezziamo qualsiasi contributo!"
 
 #~ msgid "&larr; Older Comments"
 #~ msgstr "&larr; Commenti più vecchi"

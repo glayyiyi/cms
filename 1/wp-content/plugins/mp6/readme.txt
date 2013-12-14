@@ -2,7 +2,7 @@
 Contributors: matt, EmpireOfLight, melchoyce, isaackeyet, drw158, azaozz, helen, Joen, lessbloat, iammattthomas, saracannon, Viper007Bond, nickmomrik, apeatling, koopersmith, apeatling, tillkruess, mitchoyoshitaka
 Tags: iteration
 Requires at least: 3.7
-Tested up to: 6.0
+Tested up to: 3.7.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Stable tag: trunk
@@ -12,7 +12,7 @@ This is a plugin to break the wp-admin UI, and is not recommended for non-savvy 
 
 == Description ==
 
-This plugin is a secret; don't tell anybody about it.
+This plugin is a secret; don't tell anybody about it. Don't use it with WordPress 3.8 or higher.
 
 Simplifying the wp-admin UI is a challenging task, as flattening the icons showed us when you improve one thing it just makes all of the other out of date elements stand out more.
 

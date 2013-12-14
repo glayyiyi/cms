@@ -3,12 +3,23 @@
 Plugin Name: MP6
 Plugin URI: http://wordpress.org/extend/plugins/mp6/
 Description: This is a plugin to break the wp-admin UI, and is not recommended for non-savvy users.
-Version: 2.2.1
+Version: 2.3
 Author: MP6 Team
 Author URI: http://wordpress.org
+Text Domain: mp6
+Domain Path: /languages
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 */
+
+function mp6_not_active() {
+	echo '<div class="update-nag">' . __( 'MP6 is not meant to be used with your version of WordPress. Thanks for staying up to date!', 'mp6' ) . '</div>';
+}
+
+if ( version_compare( get_bloginfo( 'version' ), '3.8-beta', '>' ) ) {
+	add_action( 'admin_notices', 'mp6_not_active' );
+	return;
+}
 
 if ( ! defined( 'MP6' ) )
 	define( 'MP6', true );
