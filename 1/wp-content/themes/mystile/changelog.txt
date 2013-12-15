@@ -1,0 +1,15 @@
+*** Mystile Changelog ***
+	
+2012.08.13 - version 1.0.2
+ * Fixed checkbox on contact form
+ * Fixed styling of subscribe + connect widget
+ * Disable WooCommerce lightbox of theme lightbox is enabled
+
+2012.08.13 - version 1.0.1
+ * Added background colour to body tag
+ * Added options to display product categories and featured products on the homepage
+ * Fixed logo link bug
+ * Styled demo store notice banner
+
+2012.08.09 - version 1.0
+ * First release!
