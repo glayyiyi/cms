@@ -10,8 +10,11 @@ if ( ! empty( $_SERVER['SCRIPT_FILENAME'] ) && basename( __FILE__ ) == basename(
 /* Start WooThemes Functions - Please refrain from editing this section */
 /*-----------------------------------------------------------------------------------*/
 
+// Define the theme-specific key to be sent to PressTrends.
+define( 'WOO_PRESSTRENDS_THEMEKEY', 'zdmv5lp26tfbp7jcwiw51ix9sj389e712' );
+
 // WooFramework init
-require_once ( get_template_directory() . '/functions/admin-init.php' );	
+require_once ( get_template_directory() . '/functions/admin-init.php' );
 
 /*-----------------------------------------------------------------------------------*/
 /* Load the theme-specific files, with support for overriding via a child theme.
@@ -31,7 +34,7 @@ $includes = array(
 
 // Allow child themes/plugins to add widgets to be loaded.
 $includes = apply_filters( 'woo_includes', $includes );
-				
+
 foreach ( $includes as $i ) {
 	locate_template( $i, true );
 }

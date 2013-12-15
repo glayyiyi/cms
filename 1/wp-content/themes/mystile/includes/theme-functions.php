@@ -396,47 +396,47 @@ function woo_pagination_html5_markup ( $args ) {
 function woo_maps_contact_output($args){
 
 	$key = get_option('woo_maps_apikey');
-	
+
 	// No More API Key needed
-	
-	if ( !is_array($args) ) 
+
+	if ( !is_array($args) )
 		parse_str( $args, $args );
-		
-	extract($args);	
+
+	extract($args);
 	$mode = '';
-	$streetview = 'off';	
+	$streetview = 'off';
 	$map_height = get_option('woo_maps_single_height');
 	$featured_w = get_option('woo_home_featured_w');
 	$featured_h = get_option('woo_home_featured_h');
 	$zoom = get_option('woo_maps_default_mapzoom');
 	$type = get_option('woo_maps_default_maptype');
 	$marker_title = get_option('woo_contact_title');
-	if ( $zoom == '' ) { $zoom = 6; }   
+	if ( $zoom == '' ) { $zoom = 6; }
 	$lang = get_option('woo_maps_directions_locale');
 	$locale = '';
 	if(!empty($lang)){
 		$locale = ',locale :"'.$lang.'"';
 	}
 	$extra_params = ',{travelMode:G_TRAVEL_MODE_WALKING,avoidHighways:true '.$locale.'}';
-	
+
 	if(empty($map_height)) { $map_height = 250;}
-	
+
 	if(is_home() && !empty($featured_h) && !empty($featured_w)){
 	?>
     <div id="single_map_canvas" style="width:<?php echo $featured_w; ?>px; height: <?php echo $featured_h; ?>px"></div>
-    <?php } else { ?> 
+    <?php } else { ?>
     <div id="single_map_canvas" style="width:100%; height: <?php echo $map_height; ?>px"></div>
     <?php } ?>
     <script type="text/javascript">
 		jQuery(document).ready(function(){
 			function initialize() {
-				
-				
+
+
 			<?php if($streetview == 'on'){ ?>
 
-				
+
 			<?php } else { ?>
-				
+
 			  	<?php switch ($type) {
 			  			case 'G_NORMAL_MAP':
 			  				$type = 'ROADMAP';
@@ -454,25 +454,25 @@ function woo_maps_contact_output($args){
 			  				$type = 'ROADMAP';
 			  				break;
 			  	} ?>
-			  	
+
 			  	var myLatlng = new google.maps.LatLng(<?php echo $geocoords; ?>);
 				var myOptions = {
 				  zoom: <?php echo $zoom; ?>,
 				  center: myLatlng,
 				  mapTypeId: google.maps.MapTypeId.<?php echo $type; ?>
 				};
-			  	var map = new google.maps.Map(document.getElementById("single_map_canvas"),  myOptions);
 				<?php if(get_option('woo_maps_scroll') == 'true'){ ?>
-			  	map.scrollwheel = false;
+			  		myOptions.scrollwheel = false;
 			  	<?php } ?>
-			  	
+			  	var map = new google.maps.Map(document.getElementById("single_map_canvas"),  myOptions);
+
 				<?php if($mode == 'directions'){ ?>
 			  	directionsPanel = document.getElementById("featured-route");
  				directions = new GDirections(map, directionsPanel);
   				directions.load("from: <?php echo $from; ?> to: <?php echo $to; ?>" <?php if($walking == 'on'){ echo $extra_params;} ?>);
 			  	<?php
 			 	} else { ?>
-			 
+
 			  		var point = new google.maps.LatLng(<?php echo $geocoords; ?>);
 	  				var root = "<?php echo esc_url( get_template_directory_uri() ); ?>";
 	  				var callout = '<?php echo preg_replace("/[\n\r]/","<br/>",get_option('woo_maps_callout_text')); ?>';
@@ -481,10 +481,10 @@ function woo_maps_contact_output($args){
 	  				<?php $title = str_replace('&#8211;','-',$title); ?>
 	  				<?php $title = str_replace('&#8217;',"`",$title); ?>
 	  				<?php $title = str_replace('&#038;','&',$title); ?>
-	  				var the_title = '<?php echo html_entity_decode($title) ?>'; 
-	  				
-	  			<?php		 	
-			 	if(is_page()){ 
+	  				var the_title = '<?php echo html_entity_decode($title) ?>';
+
+	  			<?php
+			 	if(is_page()){
 			 		$custom = get_option('woo_cat_custom_marker_pages');
 					if(!empty($custom)){
 						$color = $custom;
@@ -494,27 +494,27 @@ function woo_maps_contact_output($args){
 						if (empty($color)) {
 							$color = 'red';
 						}
-					}			 	
+					}
 			 	?>
 			 		var color = '<?php echo $color; ?>';
 			 		createMarker(map,point,root,the_link,the_title,color,callout);
 			 	<?php } else { ?>
 			 		var color = '<?php echo get_option('woo_cat_colors_pages'); ?>';
 	  				createMarker(map,point,root,the_link,the_title,color,callout);
-				<?php 
+				<?php
 				}
 					if(isset($_POST['woo_maps_directions_search'])){ ?>
-					
+
 					directionsPanel = document.getElementById("featured-route");
  					directions = new GDirections(map, directionsPanel);
   					directions.load("from: <?php echo htmlspecialchars($_POST['woo_maps_directions_search']); ?> to: <?php echo $address; ?>" <?php if($walking == 'on'){ echo $extra_params;} ?>);
-  					
-  					
-  					
+
+
+
 					directionsDisplay = new google.maps.DirectionsRenderer();
 					directionsDisplay.setMap(map);
     				directionsDisplay.setPanel(document.getElementById("featured-route"));
-					
+
 					<?php if($walking == 'on'){ ?>
 					var travelmodesetting = google.maps.DirectionsTravelMode.WALKING;
 					<?php } else { ?>
@@ -523,7 +523,7 @@ function woo_maps_contact_output($args){
 					var start = '<?php echo htmlspecialchars($_POST['woo_maps_directions_search']); ?>';
 					var end = '<?php echo $address; ?>';
 					var request = {
-       					origin:start, 
+       					origin:start,
         				destination:end,
         				travelMode: travelmodesetting
     				};
@@ -531,12 +531,12 @@ function woo_maps_contact_output($args){
       					if (status == google.maps.DirectionsStatus.OK) {
         					directionsDisplay.setDirections(response);
       					}
-      				});	
-      				
-  					<?php } ?>			
+      				});
+
+  					<?php } ?>
 				<?php } ?>
 			<?php } ?>
-			
+
 
 			  }
 			  function handleNoFlash(errorCode) {
@@ -546,19 +546,19 @@ function woo_maps_contact_output($args){
 				  }
 				 }
 
-			
-		
+
+
 		initialize();
-			
+
 		});
 	jQuery(window).load(function(){
-			
+
 		var newHeight = jQuery('#featured-content').height();
 		newHeight = newHeight - 5;
 		if(newHeight > 300){
 			jQuery('#single_map_canvas').height(newHeight);
 		}
-		
+
 	});
 
 	</script>

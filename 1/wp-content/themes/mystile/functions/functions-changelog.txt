@@ -1,5 +1,81 @@
 *** WooThemes Framework Changelog **
 
+2013.03.05 - version 5.5.5
+ * admin-functions.php - Improved function to process all used Google fonts and output single link tag for all of them
+
+2013.02.06 - version 5.5.4
+ * admin-shortcodes.php - Added global variable for storing used Google fonts and removed preg_match for custom typography in each post
+ * admin-functions.php - Added function to process all used Google fonts and output single link tag for all of them
+
+2012.12.20 - version 5.5.3
+ * admin-interface.php - Added Thin and Thin/Italic to typography options.
+ * admin-style.css - Fixed styling of typography preview button.
+ * admin-init.php - Code clean-up and maintenance. woo_version() function now uses wooframework_get_theme_version_data() to retrieve theme data, and outputs a "generator" tag for the child theme as well, if one is in use. Load the shortcode generator and backup manager only in the WordPress admin.
+ * admin-framework-settings.php - Remove legacy logic that retrieved theme name and version data.
+ * admin-interface.php - Remove legacy logic that retrieved theme name and version data.
+ * admin-express-functions.php, 
+   admin-express-functions-deprecated.php - Replace deprecated calls to wp_get_single_post() with get_post().
+ * admin-functions.php - Use wp_get_image_editor() for image resizing if using vt_resize() with WordPress 3.5.
+ * thumb.php - TimThumb version 2.8.11
+
+2012.12.06 - version 5.5.2
+ * admin-setup.php - Updated docblocking to standard formatting. Overall code clean-up and optimisation. Fixed "undefined index 'id'" notice in PHP 5.4.x.
+ * admin-interface.php - Fixed "illegal offset 'version'" notice in PHP 5.4.x. Added time_masked field.
+ * admin-hooks.php - Fixed "Creating default object from empty value" notice in PHP 5.4.x. Code clean-up and optimisation. Updated docblocking to standard formatting.
+ * admin-custom.php - Updated docblocking to standard formatting. Added capability check when saving custom fields. Added time_masked field.
+ * admin-functions.php - Add notice banner to "Theme Options" screen if a static front page is in use. Add "alt-style-X" body CSS class for the current alt style in use.
+ * admin-style.css - Adds styling for the "static front page" notice banner.
+ * /js/woo-custom-fields.js - changed the selector from time to time_masked for the legacy time field
+
+2012.11.22 - version 5.5.1
+ * admin-functions.php - Adjust woo_image() to better calculate the height of an attached image, if no height is specified.
+ * admin-style.css - Updated styling of the "Upload" button for WordPress 3.5 compatibility.
+
+2012.11.05 - version 5.5.0
+ * /classes/class-wp-app-store-installer.php - Remove WP App Store installer bridge.
+ * admin-init.php - Remove call to WP App Store installer bridge.
+ * admin-functions.php - Fix woo_pagination() for search queries and for taxonomy archives, to ensure query is preserved correctly. Fix over-escaping in cleanSource(). Fix grammer error in WooDojo notice in theme options.
+ * admin-seo.php - Removed all logic for WooSEO admin screen.
+ * admin-sbm.php - Remove all logic for the Sidebar Manager admin screen. Make sure "woo_sidebar()" returns "dynamic_sidebar()".
+ * admin-interface.php - Remove "SEO" admin menu screen for WooSEO and "Sidebar Manager" admin menu screen for Sidebar Manager.
+ * admin-framework-settings.php - Remove "Disable SEO Menu Item" and "Disable Sidebar Manager Menu Item" settings.
+ * admin-style.css - Remove Sidebar Manager CSS styles.
+ * admin-backup.php - Code maintenance. Remove "Sidebar Manager" and "SEO" from backed up data. Add scope to each class property and method.
+
+2012.09.12 - version 5.4.2
+ * admin-init.php - Fix theme version display in meta tag hooked onto wp_head.
+ * admin-interface.php - Fix theme version display in admin interface header. Fix version number in theme update check when using a child theme.
+ * admin-sbm.php - Fix theme version display in admin interface header.
+ * admin-seo.php - Fix theme version display in admin interface header.
+ * admin-framework-settings.php - Fix theme version display in admin interface header.
+ * admin-setup.php - Escape stylesheet URLs in the woo_output_custom_css() and woo_output_alt_stylesheet() functions.
+ * admin-functions.php - Adjust escaping logic inside woo_image(). Fixes display of the "title" attribute. Add functions to retrieve and display the theme version data in the admin interface header. Clarify where in the theme the "thumb.php" file can be found and removed from. Set default login logo height to 67 if the height dimension isn't calculated correctly. Make sure vt_resize() doesn't try to sanitize the full image path as if it were a filename.
+ * admin-shortcodes.php - Fix custom background and border colour options in the [button] shortcode, and the icon="none" option in the [box] shortcode. Fix [twitter] shortcode to ensure attributes are applied correctly. Examine all shortcodes and remove over-escaping on attribute groups.
+
+2012.09.10 - version 5.4.1
+ * admin-functions.php - Fixed bug for Google Analytics output.
+
+2012.08.31 - version 5.4.0
+ * - SECURITY UPDATE - Sucuri Security Code Audit update
+ * - Various security checks and improvements were made including attribute escaping, direct file access prevention, code optimization and deprecation.
+ * *.php - Added direct file access security check for all php files.
+ * admin-custom.php - Security improvements.
+ * admin-custom-nav.php - Deprecated old functionality including WooNav and all related assets.
+ * admin-framework-settings.php - Deprecated old functionality.
+ * admin-functions.php - Added additional fonts, general cleanup of code, retired WooNav and all related assets, fixed all error notices, security improvements,.
+ * admin-hooks.php - Fixed error notice for undefined object for $query_context
+ * admin-init.php - Deprecated old functionality.
+ * admin-interface.php - Deprecated old functionality including WooNav and all related assets, security improvements.
+ * admin-sbm.php - Deprecated old functionality, security improvements.
+ * admin-seo.php - Deprecated old functionality, security improvements.
+ * admin-shortcodes.php - Security improvements. Fixed bug in Twitter Follow shortcode to resolve display of the Twitter button.
+ * admin-style.css - Deprecation notices styles.
+ * css/shortcodes.css - Made column shortcodes responsive.
+ * classes/class-wp-app-store-installer.php - added WP App Store installer class
+ * js/jquery.maskedinput.js - Security improvements.
+ * js/shortcode-generator/dialog.php - Security improvements.
+ * js/shortcode-generator/js/dialog.js.php - Security improvements.
+ 
 2012.04.29 - version 5.3.12 - critical
  * - SECURITY UPDATE - Make sure the shortcode preview file's code is removed correctly upon WooFramework upgrade.
  * admin-setup.php - Add extra sanitization to the alternate styles loader.

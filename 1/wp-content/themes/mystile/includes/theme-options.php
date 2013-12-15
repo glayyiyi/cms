@@ -160,7 +160,7 @@ $options[] = array( 'name' => __( 'Background', 'woothemes' ),
     				'type' => 'subheading' );
 
 $options[] = array( 'name' => __( 'Body Background Color', 'woothemes' ),
-    				'desc' => __( 'Pick a custom color for background color of the theme e.g. #697e09', 'woothemes' ),
+    				'desc' => __( 'Pick a custom color for background color of the theme e.g. #697e09. Only applied when using a boxed layout (see Layout Options).', 'woothemes' ),
     				'id' => $shortname . '_body_color',
     				'std' => '',
     				'type' => 'color' );
@@ -348,7 +348,7 @@ $options[] = array( 'name' => __( 'Category Exclude - Blog Page Template', 'woot
     					'std' => 'false',
     					'type' => 'checkbox' );
     if (class_exists('woocommerce')) {
-    $options[] = array( 'name' => __( 'Products', 'woothemes' ),
+    $options[] = array( 'name' => __( 'WooCommerce', 'woothemes' ),
     					'type' => 'subheading' );
     $options[] = array( 'name' => __( 'Display product categories', 'woothemes' ),
     					'desc' => __( 'Display product categories on the homepage?', 'woothemes' ),
@@ -641,7 +641,7 @@ $options[] = array( 'name' => __( 'Subscribe Settings', 'woothemes' ),
     				'type' => 'subheading' );
 
 $options[] = array( 'name' => __( 'Subscribe By E-mail ID (Feedburner)', 'woothemes' ),
-    				'desc' => sprintf( __( 'Enter your %1$s for the e-mail subscription form.', 'woothemes' ), '<a href="http://www.google.com/support/feedburner/bin/answer.py?hl=en&answer=78982">'.__( 'Feedburner ID', 'woothemes' ).'</a>' ),
+    				'desc' => sprintf( __( 'Enter your %1$s for the e-mail subscription form.', 'woothemes' ), '<a href="http://www.woothemes.com/tutorials/how-to-find-your-feedburner-id-for-email-subscription/">'.__( 'Feedburner ID', 'woothemes' ).'</a>' ),
     				'id' => $shortname . '_connect_newsletter_id',
     				'std' => '',
     				'type' => 'text' );
@@ -762,12 +762,6 @@ $options[] = array( 'name' => __( 'Fax', 'woothemes' ),
 $options[] = array( 'name' => __( 'Contact Form E-Mail', 'woothemes' ),
 					'desc' => __( "Enter your E-mail address to use on the 'Contact Form' page Template.", 'woothemes' ),
 					'id' => $shortname.'_contactform_email',
-					'std' => '',
-					'type' => 'text' );
-					
-$options[] = array( 'name' => __( 'Your Twitter username', 'woothemes' ),
-					'desc' => __( 'Enter your Twitter username. Example: woothemes', 'woothemes' ),
-					'id' => $shortname . '_contact_twitter',
 					'std' => '',
 					'type' => 'text' );
 

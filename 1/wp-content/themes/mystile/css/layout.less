@@ -48,7 +48,7 @@ INDEX
 	body {
 		padding: 0 3.631em;
 	}
-	
+
 	table {
 		font-size: 1em !important;
 	}
@@ -88,7 +88,7 @@ INDEX
 				}
 				&.parent { // Styles applied to parent items in level 2
 				}
-			}			
+			}
 		}
 		/* LEVEL 3 */
 		ul ul {
@@ -104,14 +104,14 @@ INDEX
 			display: block;
 		}
 	}
-			
+
 	/* 2. TOP NAVIGATION (Add top navigation presentational styles here) */
 	#top {
 		background: @bg_light;
 		margin: 0 -3.631em;
 		padding:0 3.631em;
-		#top-nav { 
-			display: block; 
+		#top-nav {
+			display: block;
 		}
 		ul.nav {
 			font-size:.857em;
@@ -132,12 +132,12 @@ INDEX
 			/* LEVEL 2 */
 			ul {
 				background: @bg_light;
-				
+
 				li {
 					a {
 						padding:.53em 1em;
 					}
-				}			
+				}
 			}
 			/* LEVEL 3 */
 			ul ul {
@@ -182,13 +182,20 @@ INDEX
 				a {
 					padding-top:1.387em;
 					padding-left:1em;
+					.contents {
+						padding:.2em .618em;
+						background: #fff;
+						.border_radius(1em);
+						margin-left:1em;
+						display: inline;
+					}
 				}
 			}
 		}
 	}
-	
+
 	/* 3. MAIN NAVIGATION DROPDOWN MENUS (Add main navigation presentational styles here) */
-	#header #navigation  {	
+	#header #navigation  {
 		display:block !important;
 		margin-top:.382em;
 		ul.nav {
@@ -311,7 +318,7 @@ INDEX
 						border:0;
 						background: #fff;
 					}
-				}			
+				}
 			}
 			/* LEVEL 3 */
 			ul ul {
@@ -326,14 +333,14 @@ INDEX
 	h3.nav-toggle {
 		display: none;
 	}
-	
+
 	/* 4. GENERAL LAYOUT */
-	// Breadcrumbs 
+	// Breadcrumbs
 	#breadcrumbs {
 		display: block;
 	}
 	// Homepage
-	
+
 	.homepage-banner {
 		position: relative;
 		max-width:95.949em;
@@ -345,7 +352,7 @@ INDEX
 			margin-bottom:0;
 			width:100%;
 			position: relative;
-			
+
 		}
 		h1, .description {
 			z-index: 55;
@@ -396,15 +403,15 @@ INDEX
 			background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAG0lEQVQIW2NkYGAwBuKzQAwGjDAGNgGwSgwVAFCGAgUGpiTrAAAAAElFTkSuQmCC);
 		}
 	}
-	
+
 	.home {
 		#content.with-banner {
 			border-top:4px double @border_main;
 			padding-top:3.631em;
 		}
 	}
-	
-	// Posts 
+
+	// Posts
 	.archive-header {
 		h1 {
 			float: left;
@@ -472,8 +479,8 @@ INDEX
 			width:82.7%;
 			float: right;
 		}
-	} 
-	
+	}
+
 	.single {
 		.type-post {
 			p:first-child {
@@ -481,17 +488,17 @@ INDEX
 			}
 		}
 	}
-	
+
 	#post-entries {
 		width:82.7%;
 		float: right;
 		.borderbox;
 	}
-	
+
 	#comments, #respond {
 		clear: both;
 	}
-	
+
 	#comments {
 		.commentlist {
 			li.comment {
@@ -504,7 +511,7 @@ INDEX
 			}
 		}
 	}
-	
+
 	.single-post {
 		#comments {
 			h2:first-child {
@@ -513,12 +520,12 @@ INDEX
 			}
 		}
 	}
-	
+
 	#respond {
 		width:82.7%;
 		float: right
 	}
-	
+
 	#fancybox-outer {
 		#respond {
 			width:100%;
@@ -528,80 +535,80 @@ INDEX
 			}
 		}
 	}
-	
+
 	// General layouts
 	.col2-set {
 		clear: both;
 		.clearfix();
-		
+
 		.col-1 {
 			width:48%;
 			float: left;
 		}
-		
+
 		.col-2 {
 			width:48%;
 			float: right;
 		}
 	}
-	
+
 	.form-row {
 		width:48%;
 		float: left;
 		margin-bottom:2.053em;
-		
+
 		label {
 			display: block;
 			padding:.206em 0;
 		}
-		
+
 		.input-text, select {
 			width:100%;
 			*width:90%;
 			.borderbox();
 		}
-		
+
 		input[type=checkbox] {
 			float: left;
 		}
-		
+
 		&.notes {
 			width:100%;
 			float: none;
-			
+
 			textarea {
 				width:100%;
 				*width:90%;
 			}
 		}
-		
+
 		&.notes + h3 {
 			clear: both;
 		}
 	}
-		
+
 	.form-row-first {
 		clear: left;
 	}
-	
+
 	.form-row-last {
 		float: right;
 	}
-	
+
 	.form-row-wide {
 		float: left;
 		width:100%;
 		clear: both;
 	}
-	
+
 	header.title {
 		overflow: hidden;
 		zoom:1;
-		
+
 		h1, h2, h3, h4, h5 {
 			float: left;
 		}
-		
+
 		a.edit {
 			float: right;
 			font-weight: bold;
@@ -617,89 +624,88 @@ INDEX
 		padding-top:3.631em;
 		.clearfix;
 		hgroup {
-			width:22.05%;
 			float: left;
 		}
 		#navigation {
-			width:74.05%;
 			float: right;
 			clear: none;
 			border:0;
 			background: 0;
 			-webkit-box-shadow:none;
 			box-shadow:none;
+			width:auto;
 		}
 	}
-	#main.fullwidth, .layout-full #main, .col-full, .no-sidebar #main { 
-		max-width:75.998em; 
-		margin:0 auto; 
-		width:100%; 
+	#main.fullwidth, .layout-full #main, .col-full, .no-sidebar #main {
+		max-width:75.998em;
+		margin:0 auto;
+		width:100%;
 	}
-	#main { 
-		width: 69.2%; 
-	} 
-	#sidebar { 
-		margin-top: 0; 
+	#main {
+		width: 69.2%;
+	}
+	#sidebar {
+		margin-top: 0;
 		width: 22.05%;
 		font-size: .857em;
 	}
 	.entry {
 		.clearfix;
 	}
-	.entry img { 
-		max-width: 100%; 
+	.entry img {
+		max-width: 100%;
 	}
-	.layout-full .entry img { 
-		max-width: 100%; 
+	.layout-full .entry img {
+		max-width: 100%;
 	}
 	.layout-right-content {
-		#main  { 
-			float: right; 
+		#main  {
+			float: right;
 		}
-		#sidebar  { 
-			float: left; 
+		#sidebar  {
+			float: left;
 		}
 	}
-	.layout-full #main  { 
+	.layout-full #main  {
 		width: 100%; // full-width template
 	}
-	.col-left { 
-		float: left; 
+	.col-left {
+		float: left;
 	}
-	.col-right { 
-		float: right; 
+	.col-right {
+		float: right;
 	}
 	.page-template-template-contact-php {
 		.location-twitter  {
-			.col-left  { 
-				float: left; 
+			.col-left  {
+				float: left;
 			}
-			#office-location { 
-			    width: 48%; 
+			#office-location {
+			    width: 48%;
 			    margin: 0;
 			}
 			.contact-social  {
-			    float: right; 
+			    float: right;
 			    width: 48%;
-			    #twitter  { 
-			    	margin: 0; 
-			    } 
+			    #twitter  {
+			    	margin: 0;
+			    }
 			}
 		}
 	}
-	
+
 	.footer-wrap {
 		background: @bg_light;
 		margin:0 -3.631em;
 		padding:0 3.631em;
 	}
-	
+
 	/*-------------------------------------------------------------------------------------------*/
 	/* 7. WOOCOMMERCE */
 	/*-------------------------------------------------------------------------------------------*/
-	
+
 	/* 7.1 Messages */
-	
+
 	/* 7.2 Products */
 	ul.products {
 		li.product {
@@ -709,7 +715,7 @@ INDEX
 				margin-right:3.8%;
 			}
 			&.first {
-				clear: both; 
+				clear: both;
 			}
 			&.last {
 				margin-right:0;
@@ -726,14 +732,21 @@ INDEX
 			width:48%;
 			float: right;
 		}
-		.woocommerce_tabs {
+		.woocommerce_tabs, .woocommerce-tabs {
 			clear: both;
 		}
 		.related {
 			clear: both;
 		}
+		.sale {
+			.summary {
+				h1 {
+					width:80%;
+				}
+			}
+		}
 	}
-	.woocommerce_tabs {
+	.woocommerce_tabs, .woocommerce-tabs {
 		ul.tabs {
 			margin-bottom:0;
 			margin-left:2.618em;
@@ -805,15 +818,15 @@ INDEX
 		.product-remove, .product-thumbnail, .product-price {
 			position: static;
 		}
-		
+
 		td.actions {
 			text-align: right;
-			
+
 			.coupon {
 				width:50%;
 				float: left;
 			}
-			
+
 			.input-text, .button, .checkout-button {
 				width:auto !important;
 				display: inline-block;
@@ -827,17 +840,17 @@ INDEX
 	}
 	.cart-collaterals {
 		.clearfix();
-		
+
 		.cross-sells, .cart_totals, .shipping_calculator {
 			width:48%;
 			font-size:.857em;
 			float: left;
 		}
-		
+
 		.cart_totals {
 			float: right;
 		}
-		
+
 		.shipping_calculator {
 			float: right;
 			clear: right;
@@ -850,7 +863,7 @@ INDEX
 			}
 		}
 	}
-	/* 7.4 Checkout */	
+	/* 7.4 Checkout */
 	.checkout {
 		#order_review {
 			padding:1.618em;
@@ -874,51 +887,51 @@ INDEX
 	/* 7.6 Account */
 	/* 7.7 Shortcodes */
 
-	
+
 	/* 6. FOOTER WIDGETS */
 	#footer-widgets {
 		border-top:0;
-		.block { 
-			margin-right:3.8%; 
-			float: left; 
+		.block {
+			margin-right:3.8%;
+			float: left;
 		}
 		&.col-1 {
-			.block { 
-				width: 100%; 
-				float: none; 
+			.block {
+				width: 100%;
+				float: none;
 			}
-			.footer-widget-1 { 
-				margin-right:0; 
+			.footer-widget-1 {
+				margin-right:0;
 			}
 		}
 		&.col-2 {
-			.block { 
-				width: 48%; 
+			.block {
+				width: 48%;
 			}
-			.footer-widget-2 { 
-				margin-right:0; 
+			.footer-widget-2 {
+				margin-right:0;
 			}
 		}
 		&.col-3 {
-			.block { 
-				width: 30.75%; 
+			.block {
+				width: 30.75%;
 			}
-			.footer-widget-3 { 
-				margin-right:0; 
+			.footer-widget-3 {
+				margin-right:0;
 			}
 		}
 		&.col-4 {
-			.block { 
-				width: 22.05% 
+			.block {
+				width: 22.05%
 			}
-			.footer-widget-4 { 
-				margin-right:0; 
+			.footer-widget-4 {
+				margin-right:0;
 			}
 		}
 	}
-	
+
 	/* 7. IE FIXES */
-	
+
 	.ie7 {
 		#top-nav {
 			position: relative;

@@ -13,9 +13,7 @@ if ( ! empty( $_SERVER['SCRIPT_FILENAME'] ) && basename( __FILE__ ) == basename(
  * @package WooFramework
  * @subpackage Template
  */
- 
- global $woo_options, $woocommerce;
- 
+global $woo_options, $woocommerce;
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?> class="<?php if ( $woo_options['woo_boxed_layout'] == 'true' ) echo 'boxed'; ?> <?php if (!class_exists('woocommerce')) echo 'woocommerce-deactivated'; ?>">
 <head>
@@ -38,7 +36,7 @@ if ( ! empty( $_SERVER['SCRIPT_FILENAME'] ) && basename( __FILE__ ) == basename(
 
 <div id="wrapper">
 
-	
+
 
 	<div id="top">
 		<nav class="col-full" role="navigation">
@@ -46,9 +44,9 @@ if ( ! empty( $_SERVER['SCRIPT_FILENAME'] ) && basename( __FILE__ ) == basename(
 			<?php wp_nav_menu( array( 'depth' => 6, 'sort_column' => 'menu_order', 'container' => 'ul', 'menu_id' => 'top-nav', 'menu_class' => 'nav fl', 'theme_location' => 'top-menu' ) ); ?>
 			<?php } ?>
 			<?php
-				if ( class_exists( 'woocommerce' ) ) { 
+				if ( class_exists( 'woocommerce' ) ) {
 					echo '<ul class="nav wc-nav">';
-					echo '<li class="cart">'.current(woocommerce_cart_link()).'</li>';
+					woocommerce_cart_link();
 					echo '<li class="checkout"><a href="'.esc_url($woocommerce->cart->get_checkout_url()).'">'.__('Checkout','woothemes').'</a></li>';
 					echo get_search_form();
 					echo '</ul>';
@@ -57,16 +55,16 @@ if ( ! empty( $_SERVER['SCRIPT_FILENAME'] ) && basename( __FILE__ ) == basename(
 		</nav>
 	</div><!-- /#top -->
 
-   
-    
+
+
     <?php woo_header_before(); ?>
 
 	<header id="header" class="col-full">
-			  
-	   
-	    
+
+
+
 	    <hgroup>
-	    	
+
 	    	 <?php
 			    $logo = esc_url( get_template_directory_uri() . '/images/logo.png' );
 				if ( isset( $woo_options['woo_logo'] ) && $woo_options['woo_logo'] != '' ) { $logo = $woo_options['woo_logo']; }
@@ -74,20 +72,20 @@ if ( ! empty( $_SERVER['SCRIPT_FILENAME'] ) && basename( __FILE__ ) == basename(
 			?>
 			<?php if ( ! isset( $woo_options['woo_texttitle'] ) || $woo_options['woo_texttitle'] != 'true' ) { ?>
 			    <a id="logo" href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php esc_attr( get_bloginfo( 'description' ) ); ?>">
-			    	<img src="<?php echo $logo; ?>" alt="<?php esc_attr( get_bloginfo( 'name' ) ); ?>" />
+			    	<img src="<?php echo $logo; ?>" alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>" />
 			    </a>
 		    <?php } ?>
-	        
+
 			<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php bloginfo( 'name' ); ?></a></h1>
 			<h2 class="site-description"><?php bloginfo( 'description' ); ?></h2>
 			<h3 class="nav-toggle"><a href="#navigation">&#9776; <span><?php _e('Navigation', 'woothemes'); ?></span></a></h3>
-		      	
+
 		</hgroup>
-        
+
         <?php woo_nav_before(); ?>
 
 		<nav id="navigation" class="col-full" role="navigation">
-			
+
 			<?php
 			if ( function_exists( 'has_nav_menu' ) && has_nav_menu( 'primary-menu' ) ) {
 				wp_nav_menu( array( 'depth' => 6, 'sort_column' => 'menu_order', 'container' => 'ul', 'menu_id' => 'main-nav', 'menu_class' => 'nav fr', 'theme_location' => 'primary-menu' ) );
@@ -99,11 +97,11 @@ if ( ! empty( $_SERVER['SCRIPT_FILENAME'] ) && basename( __FILE__ ) == basename(
 				<?php wp_list_pages( 'sort_column=menu_order&depth=6&title_li=&exclude=' ); ?>
 			</ul><!-- /#nav -->
 	        <?php } ?>
-	
+
 		</nav><!-- /#navigation -->
-		
+
 		<?php woo_nav_after(); ?>
-	
+
 	</header><!-- /#header -->
-		
+
 	<?php woo_content_before(); ?>

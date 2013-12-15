@@ -19,6 +19,7 @@ TABLE OF CONTENTS
 - woo_feedburner_link
 - Load responsive IE JS
 - Homepage hook
+- Customise the breadcrumb
 
 -----------------------------------------------------------------------------------*/
 
@@ -69,13 +70,6 @@ if ( ! function_exists( 'woothemes_setup' ) ) {
 		// Add default posts and comments RSS feed links to head
 		add_theme_support( 'automatic-feed-links' );
 
-		if ( is_child_theme() ) {
-			$theme_data = get_theme_data( get_stylesheet_directory() . '/style.css' );
-
-			define( 'CHILD_THEME_URL', $theme_data['URI'] );
-			define( 'CHILD_THEME_NAME', $theme_data['Name'] );
-		}
-
 	}
 }
 
@@ -98,7 +92,7 @@ if ( ! is_admin() ) { add_action( 'get_header', 'woo_load_frontend_css', 10 ); }
 if ( ! function_exists( 'woo_load_frontend_css' ) ) {
 	function woo_load_frontend_css () {
 		wp_register_style( 'woo-layout', get_template_directory_uri() . '/css/layout.css' );
-		
+
 		wp_enqueue_style( 'woo-layout' );
 	} // End woo_load_frontend_css()
 }
@@ -112,13 +106,13 @@ add_action( 'wp_head', 'woo_load_responsive_meta_tags', 10 );
 if ( ! function_exists( 'woo_load_responsive_meta_tags' ) ) {
 	function woo_load_responsive_meta_tags () {
 		$html = '';
-		
+
 		$html .= "\n" . '<!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame -->' . "\n";
 		$html .= '<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />' . "\n";
-		
+
 		/* Remove this if not responsive design */
 		$html .= "\n" . '<!--  Mobile viewport scale | Disable user zooming as the layout is optimised -->' . "\n";
-		$html .= '<meta content="initial-scale=1.0; maximum-scale=1.0; user-scalable=no" name="viewport"/>' . "\n";
+		$html .= '<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">' . "\n";
 
 		echo $html;
 	} // End woo_load_responsive_meta_tags()
@@ -132,29 +126,29 @@ add_action( 'woo_head', 'woo_custom_styling', 10 ); // Add custom styling to HEA
 
 if ( ! function_exists( 'woo_custom_styling' ) ) {
 	function woo_custom_styling() {
-	
+
 		$output = '';
 		// Get options
 		$settings = array(
-						'body_color' => '', 
-						'body_img' => '', 
-						'body_repeat' => '', 
-						'body_pos' => '', 
-						'body_attachment' => '', 
-						'link_color' => '', 
-						'link_hover_color' => '', 
+						'body_color' => '',
+						'body_img' => '',
+						'body_repeat' => '',
+						'body_pos' => '',
+						'body_attachment' => '',
+						'link_color' => '',
+						'link_hover_color' => '',
 						'button_color' => '',
 						'homepage_banner_text_color' => ''
 						);
 		$settings = woo_get_dynamic_values( $settings );
-		
-			
+
+
 		// Add CSS to output
-		
+
 		if ( $settings['body_color'] != '' ) {
 			$output .= 'html { background: ' . $settings['body_color'] . ' !important; }' . "\n";
 		}
-			
+
 		if ( $settings['body_img'] != '' ) {
 			$output .= 'html { background-image: url( ' . $settings['body_img'] . ' ) !important; }' . "\n";
 		}
@@ -162,39 +156,39 @@ if ( ! function_exists( 'woo_custom_styling' ) ) {
 		if ( ( $settings['body_img'] != '' ) && ( $settings['body_repeat'] != '' ) && ( $settings['body_pos'] != '' ) ) {
 			$output .= 'html { background-repeat: ' . $settings['body_repeat'] . ' !important; }' . "\n";
 		}
-		
+
 		if ( ( $settings['body_img'] != '' ) && ( $settings['body_pos'] != '' ) ) {
 			$output .= 'html { background-position: ' . $settings['body_pos'] . ' !important; }' . "\n";
 		}
-		
+
 		if ( ( $settings['body_img'] != '' ) && ( $settings['body_attachment'] != '' ) ) {
 			$output .= 'html { background-attachment: ' . $settings['body_attachment'] . ' !important; }' . "\n";
 		}
-		
+
 		if ( $settings['link_color'] != '' ) {
 			$output .= 'a { color: ' . $settings['link_color'] . ' !important; }' . "\n";
 		}
-		
+
 		if ( $settings['link_hover_color'] != '' ) {
 			$output .= 'a:hover, .post-more a:hover, .post-meta a:hover, .post p.tags a:hover { color: ' . $settings['link_hover_color'] . ' !important; }' . "\n";
 		}
-		
+
 		if ( $settings['button_color'] != '' ) {
 			$output .= 'a.button, a.comment-reply-link, #commentform #submit, #contact-page .submit { background: ' . $settings['button_color'] . ' !important; border-color: ' . $settings['button_color'] . ' !important; }' . "\n";
 			$output .= 'a.button:hover, a.button.hover, a.button.active, a.comment-reply-link:hover, #commentform #submit:hover, #contact-page .submit:hover { background: ' . $settings['button_color'] . ' !important; opacity: 0.9; }' . "\n";
 		}
-		
+
 		if ( $settings['homepage_banner_text_color'] != '' ) {
 			$output .= '.homepage-banner h1, .homepage-banner .description { color: ' . $settings['homepage_banner_text_color'] . ' !important; }' . "\n";
 		}
-		
+
 		// Output styles
 		if ( isset( $output ) && $output != '' ) {
 			$output = strip_tags( $output );
 			$output = "\n" . "<!-- Woo Custom Styling -->\n<style type=\"text/css\">\n" . $output . "</style>\n";
 			echo $output;
 		}
-			
+
 	} // End woo_custom_styling()
 }
 
@@ -206,79 +200,79 @@ add_action( 'woo_head','woo_custom_typography', 10 ); // Add custom typography t
 
 if ( ! function_exists( 'woo_custom_typography' ) ) {
 	function woo_custom_typography() {
-	
+
 		// Get options
 		global $woo_options;
-				
-		// Reset	
+
+		// Reset
 		$output = '';
 		$default_google_font = false;
 
 		if ( isset( $woo_options['woo_typography'] ) && $woo_options['woo_typography'] == 'true' ) {
-			
+
 			if ( isset( $woo_options['woo_font_body'] ) && $woo_options['woo_font_body'] )
-				$output .= 'body { '.woo_generate_font_css($woo_options['woo_font_body'], '1.5').' }' . "\n";	
+				$output .= 'body { '.woo_generate_font_css($woo_options['woo_font_body'], '1.5').' }' . "\n";
 
 			if ( isset( $woo_options['woo_font_nav'] ) && $woo_options['woo_font_nav'] )
-				$output .= '.nav a { '.woo_generate_font_css($woo_options['woo_font_nav'], '1.4').' }' . "\n";	
+				$output .= '.nav a { '.woo_generate_font_css($woo_options['woo_font_nav'], '1.4').' }' . "\n";
 
 			if ( isset( $woo_options['woo_font_page_title'] ) && $woo_options['woo_font_page_title'] )
 				$output .= '.page header h1 { '.woo_generate_font_css($woo_options[ 'woo_font_page_title' ]).' }' . "\n";
 
 			if ( isset( $woo_options['woo_font_post_title'] ) && $woo_options['woo_font_post_title'] )
-				$output .= '.post header h1, .post header h1 a:link, .post header h1 a:visited { '.woo_generate_font_css($woo_options[ 'woo_font_post_title' ]).' }' . "\n";	
-		
+				$output .= '.post header h1, .post header h1 a:link, .post header h1 a:visited { '.woo_generate_font_css($woo_options[ 'woo_font_post_title' ]).' }' . "\n";
+
 			if ( isset( $woo_options['woo_font_post_meta'] ) && $woo_options['woo_font_post_meta'] )
-				$output .= '.post-meta { '.woo_generate_font_css($woo_options[ 'woo_font_post_meta' ]).' }' . "\n";	
+				$output .= '.post-meta { '.woo_generate_font_css($woo_options[ 'woo_font_post_meta' ]).' }' . "\n";
 
 			if ( isset( $woo_options['woo_font_post_entry'] ) && $woo_options['woo_font_post_entry'] )
-				$output .= '.entry, .entry p { '.woo_generate_font_css($woo_options[ 'woo_font_post_entry' ], '1.5').' } h1, h2, h3, h4, h5, h6 { font-family: '.stripslashes($woo_options[ 'woo_font_post_entry' ]['face']).', arial, sans-serif; }'  . "\n";	
+				$output .= '.entry, .entry p { '.woo_generate_font_css($woo_options[ 'woo_font_post_entry' ], '1.5').' } h1, h2, h3, h4, h5, h6 { font-family: '.stripslashes($woo_options[ 'woo_font_post_entry' ]['face']).', arial, sans-serif; }'  . "\n";
 
 			if ( isset( $woo_options['woo_font_widget_titles'] ) && $woo_options['woo_font_widget_titles'] )
 				$output .= '.widget h3 { '.woo_generate_font_css($woo_options[ 'woo_font_widget_titles' ]).' }'  . "\n";
-				
+
 			if ( isset( $woo_options['woo_font_widget_titles'] ) && $woo_options['woo_font_widget_titles'] )
 				$output .= '.widget h3 { '.woo_generate_font_css($woo_options[ 'woo_font_widget_titles' ]).' }'  . "\n";
-				
+
 			// Component titles
 			if ( isset( $woo_options['woo_font_component_titles'] ) && $woo_options['woo_font_component_titles'] )
-				$output .= '.component h2.component-title { '.woo_generate_font_css($woo_options[ 'woo_font_component_titles' ]).' }'  . "\n";	
+				$output .= '.component h2.component-title { '.woo_generate_font_css($woo_options[ 'woo_font_component_titles' ]).' }'  . "\n";
 
 		// Add default typography Google Font
 		} else {
-		
+
 			// Load default Google Fonts
 			global $default_google_fonts;
 			if ( is_array( $default_google_fonts) and count( $default_google_fonts ) > 0 ) :
-			
+
 				$count = 0;
 				foreach ( $default_google_fonts as $font ) {
 					$count++;
 					$woo_options[ 'woo_default_google_font_'.$count ] = array( 'face' => $font );
 				}
 				$default_google_font = true;
-				
+
 			endif;
-		
-		} 
-		
+
+		}
+
 		// Output styles
 		if (isset($output) && $output != '') {
-		
+
 			// Load Google Fonts stylesheet in HEAD
 			if (function_exists( 'woo_google_webfonts')) woo_google_webfonts();
-			
+
 			$output = "\n" . "<!-- Woo Custom Typography -->\n<style type=\"text/css\">\n" . $output . "</style>\n";
 			echo $output;
-		
+
 		// Check if default google font is set and load Google Fonts stylesheet in HEAD
 		} elseif ( $default_google_font ) {
-		
+
 			// Enable Google Fonts stylesheet in HEAD
 			if (function_exists( 'woo_google_webfonts')) woo_google_webfonts();
 
 		}
-			
+
 	} // End woo_custom_typography()
 }
 
@@ -316,11 +310,11 @@ add_filter( 'body_class','woo_layout_body_class', 10 );		// Add layout to body_c
 
 if ( ! function_exists( 'woo_layout_body_class' ) ) {
 	function woo_layout_body_class( $classes ) {
-		
+
 		global $woo_options;
-		
+
 		$layout = 'two-col-left';
-		
+
 		if ( isset( $woo_options['woo_site_layout'] ) && ( $woo_options['woo_site_layout'] != '' ) ) {
 			$layout = $woo_options['woo_site_layout'];
 		}
@@ -329,17 +323,17 @@ if ( ! function_exists( 'woo_layout_body_class' ) ) {
 		if ( is_singular() ) {
 			global $post;
 			$single = get_post_meta($post->ID, '_layout', true);
-			if ( $single != "" AND $single != "layout-default" ) 
+			if ( $single != "" AND $single != "layout-default" )
 				$layout = $single;
 		}
-		
+
 		// Add layout to $woo_options array for use in theme
 		$woo_options['woo_layout'] = $layout;
-		
-		// Add classes to body_class() output 
+
+		// Add classes to body_class() output
 		$classes[] = $layout;
-		return $classes;						
-					
+		return $classes;
+
 	} // End woo_layout_body_class()
 }
 
@@ -396,6 +390,19 @@ if ( ! function_exists( 'woo_load_responsive_IE_footer' ) ) {
 
 function mystile_homepage_content() {
     do_action('mystile_homepage_content');
+}
+
+/*-----------------------------------------------------------------------------------*/
+/* Customise the breadcrumb */
+/*-----------------------------------------------------------------------------------*/
+add_filter( 'woo_breadcrumbs_args', 'woo_custom_breadcrumbs_args', 10 );
+
+if (!function_exists('woo_custom_breadcrumbs_args')) {
+	function woo_custom_breadcrumbs_args ( $args ) {
+		$textdomain = 'woothemes';
+		$args = array('separator' => '/', 'before' => '', 'show_home' => __( 'Home', $textdomain ),);
+		return $args;
+	} // End woo_custom_breadcrumbs_args()
 }
 
 /*-----------------------------------------------------------------------------------*/
