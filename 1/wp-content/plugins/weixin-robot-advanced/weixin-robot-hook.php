@@ -264,6 +264,14 @@ function wpjam_get_weixin_custom_keywords(){
 add_filter('weixin_custom_keyword','wpjam_weixin_custom_keyword',1,2);
 function wpjam_weixin_custom_keyword($false,$keyword){
 	if($false === false){
+		//By Glay
+		if (isset ( $_GET ['weixin-search'] )) {
+			$action = $_GET ['action'];
+			$keyword = $_GET ['weixin-search'];
+			$wechatObj->query($keyword);
+			exit();
+		}
+		
 		$weixin_custom_keywords = wpjam_get_weixin_custom_keywords();
 
 		if(isset($weixin_custom_keywords[$keyword]) ) {
