@@ -19,6 +19,15 @@ function wpjam_weixin_robot_redirect($wp){
 		if(!isset($wechatObj)){
 			$wechatObj = new wechatCallback();
 			$wechatObj->valid();
+			//By Glay
+			if (isset ( $_GET ['weixin-search'] )) {
+				$action = $_GET ['action'];
+				$keyword = $_GET ['weixin-search'];
+				echo("=====".$keyword);
+				$wechatObj->query($keyword);
+				exit();
+			}
+			
 			exit;
 		}
 	}
