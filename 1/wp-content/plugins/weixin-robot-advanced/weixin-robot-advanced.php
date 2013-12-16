@@ -157,7 +157,7 @@ class wechatCallback {
 				global $post;
 
 				$title	= apply_filters('weixin_title', get_the_title()); 
-				$excerpt= apply_filters('weixin_description', get_post_excerpt( $post,apply_filters( 'weixin_description_length', 150 ) ) );
+				$excerpt= apply_filters('weixin_description', get_post_excerpt( $post,apply_filters( 'weixin_description_length', 300 ) ) );
 				$url	= apply_filters('weixin_url', get_permalink());
 
 				if($counter == 0){
