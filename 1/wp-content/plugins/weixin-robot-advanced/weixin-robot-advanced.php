@@ -227,7 +227,6 @@ class wechatCallback {
 				<FromUserName><![CDATA[".$this->toUsername."]]></FromUserName>
 				<CreateTime>".time()."</CreateTime>
 				<MsgType><![CDATA[news]]></MsgType>
-				<Content><![CDATA[]]></Content>
 				<ArticleCount>%d</ArticleCount>
 				<Articles>
 				%s
