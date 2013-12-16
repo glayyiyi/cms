@@ -5,7 +5,7 @@ if (! function_exists ( 'initNewWeAccount' )) :
 	function initNewWeAccount() {
 		// global $weAccount;
 		// echo '======初始化新weAccount======';
-		$current = get_option ( 'weiservice-basic' );
+		$current = get_option ( 'wp-wechat-basic' );
 		$userName = $current ['weixin_account'];
 		$password = $current ['weixin_password'];
 		// $userName = 'ilovelife100';

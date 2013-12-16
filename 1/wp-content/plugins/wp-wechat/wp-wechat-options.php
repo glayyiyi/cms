@@ -113,7 +113,7 @@ $tkn_url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential
 function weixin_robot_about_page() {
 	?>
 <div class="wrap" style="width: 600px;">
-	<div id="icon-weiservice" class="icon32">
+	<div id="icon-wp-wechat" class="icon32">
 		<br>
 	</div>
 	<h2>帮助中心</h2>
@@ -137,12 +137,12 @@ function weixin_robot_about_page() {
 			<li>点击“<strong>高级功能</strong>”前往设置接入参数。打开页面后，点击下方的“<strong>成为开发者</strong>”填写接入参数，如图：
 				<p>
 					<img
-						src="<?php echo WP_CONTENT_URL?>/plugins/weiservice/images/help_wx_bind_1.jpg"
+						src="<?php echo WP_CONTENT_URL?>/plugins/wp-wechat/images/help_wx_bind_1.jpg"
 						width="500" />
 				</p>
 				<p>
 					<img
-						src="<?php echo WP_CONTENT_URL?>/plugins/weiservice/images/help_wx_bind_3.jpg"
+						src="<?php echo WP_CONTENT_URL?>/plugins/wp-wechat/images/help_wx_bind_3.jpg"
 						width="500" />
 				</p>
 			</li>
@@ -150,7 +150,7 @@ function weixin_robot_about_page() {
 			<li>提交后，“微信公众平台”会提示你已成为开发者！
 				<p>
 					<img
-						src="<?php echo WP_CONTENT_URL?>/plugins/weiservice/images/help_wx_bind_2.jpg"
+						src="<?php echo WP_CONTENT_URL?>/plugins/wp-wechat/images/help_wx_bind_2.jpg"
 						width="500" />
 				</p>
 			</li>
@@ -181,21 +181,21 @@ function weixin_robot_about_page() {
 			<li>如果您未重新设置过“微信公众平台”的微信号时，可以通过“设置”-> “帐号信息”中查看到该帐号。如图：
 				<p>
 					<img
-						src="<?php echo WP_CONTENT_URL?>/plugins/weiservice/images/help_wx_uid_1.jpg"
+						src="<?php echo WP_CONTENT_URL?>/plugins/wp-wechat/images/help_wx_uid_1.jpg"
 						width="500" />
 				</p>
 			</li>
 			<li>如果您已经设置过。可以通过以下方式查看，如图：
 				<p>
 					<img
-						src="<?php echo WP_CONTENT_URL?>/plugins/weiservice/images/help_wx_uid_2.jpg"
+						src="<?php echo WP_CONTENT_URL?>/plugins/wp-wechat/images/help_wx_uid_2.jpg"
 						width="500" />
 				</p>
 			</li>
 			<li>保存图片到电脑上后，查看文件名中的帐号信息，如图：
 				<p>
 					<img
-						src="<?php echo WP_CONTENT_URL?>/plugins/weiservice/images/help_wx_uid_3.jpg" />
+						src="<?php echo WP_CONTENT_URL?>/plugins/wp-wechat/images/help_wx_uid_3.jpg" />
 				</p>
 			</li>
 		</ul>
@@ -207,13 +207,13 @@ function weixin_robot_about_page() {
 function weixin_robot_basic_setting_page() {
 	?>
 <div class="wrap">
-	<div id="icon-weiservice" class="icon32">
+	<div id="icon-wp-wechat" class="icon32">
 		<br>
 	</div>
 	<h2>基本设置</h2>
 	<form action="options.php" method="POST">
-			<?php settings_fields( 'weiservice-basic-group' ); ?>
-			<?php do_settings_sections( 'weiservice-basic' ); ?>
+			<?php settings_fields( 'wp-wechat-basic-group' ); ?>
+			<?php do_settings_sections( 'wp-wechat-basic' ); ?>
 			<?php submit_button(); ?>
 		</form>
 </div>
@@ -222,13 +222,13 @@ function weixin_robot_basic_setting_page() {
 function weixin_robot_advanced_setting_page() {
 	?>
 <div class="wrap">
-	<div id="icon-weiservice" class="icon32">
+	<div id="icon-wp-wechat" class="icon32">
 		<br>
 	</div>
 	<h2>高级设置</h2>
 	<form action="options.php" method="POST">
-			<?php settings_fields( 'weiservice-advanced-group' ); ?>
-			<?php do_settings_sections( 'weiservice-advanced' ); ?>
+			<?php settings_fields( 'wp-wechat-advanced-group' ); ?>
+			<?php do_settings_sections( 'wp-wechat-advanced' ); ?>
 			<?php submit_button(); ?>
 		</form>
 </div>
@@ -249,7 +249,7 @@ function weixin_robot_get_default_basic_option() {
 		);
 }
 function weixin_robot_get_basic_option() {
-	$weixin_robot_basic = get_option ( 'weiservice-basic' );
+	$weixin_robot_basic = get_option ( 'wp-wechat-basic' );
 	
 	if (! $weixin_robot_basic) {
 		$defaults = weixin_robot_get_default_basic_option ();
@@ -263,8 +263,8 @@ add_action ( 'admin_init', 'weixin_robot_admin_init' );
 function weixin_robot_admin_init() {
 	
 	/* start 基本设置 */
-	register_setting ( 'weiservice-basic-group', 'weiservice-basic', 'weixin_robot_basic_validate' );
-	add_settings_section ( 'weiservice-basic-section', '', '', 'weiservice-basic' );
+	register_setting ( 'wp-wechat-basic-group', 'wp-wechat-basic', 'weixin_robot_basic_validate' );
+	add_settings_section ( 'wp-wechat-basic-section', '', '', 'wp-wechat-basic' );
 	
 	$weixin_robot_basic_settings_fields = array (
 			
@@ -347,23 +347,23 @@ function weixin_robot_admin_init() {
 		);
 	
 	foreach ( $weixin_robot_basic_settings_fields as $field ) {
-		add_settings_field ( $field ['name'], $field ['title'], 'weixin_robot_basic_settings_field_callback', 'weiservice-basic', 'weiservice-basic-section', $field );
+		add_settings_field ( $field ['name'], $field ['title'], 'weixin_robot_basic_settings_field_callback', 'wp-wechat-basic', 'wp-wechat-basic-section', $field );
 	}
 	/* end of 基本设置 */
 }
 function weixin_robot_basic_validate($weixin_robot_basic) {
-	$current = get_option ( 'weiservice-basic' );
+	$current = get_option ( 'wp-wechat-basic' );
 	
 	if (! is_numeric ( $weixin_robot_basic ['weixin_crm_shop_id'] )) {
 		$weixin_robot_basic ['weixin_crm_shop_id'] = $current ['weixin_crm_shop_id'];
-		add_settings_error ( 'weiservice-basic', 'invalid-int', '必须为数字。' );
+		add_settings_error ( 'wp-wechat-basic', 'invalid-int', '必须为数字。' );
 	}
 	if (! is_numeric ( $weixin_robot_basic ['weixin_count'] )) {
 		$weixin_robot_basic ['weixin_count'] = $current ['weixin_count'];
-		add_settings_error ( 'weiservice-basic', 'invalid-int', '返回结果最大条数必须为数字。' );
+		add_settings_error ( 'wp-wechat-basic', 'invalid-int', '返回结果最大条数必须为数字。' );
 	} elseif ($weixin_robot_basic ['weixin_count'] > 10) {
 		$weixin_robot_basic ['weixin_count'] = 10;
-		add_settings_error ( 'weiservice-basic', 'invalid-int', '返回结果最大条数不能超过10。' );
+		add_settings_error ( 'wp-wechat-basic', 'invalid-int', '返回结果最大条数不能超过10。' );
 	}
 	
 	return $weixin_robot_basic;
@@ -373,9 +373,9 @@ function weixin_robot_basic_settings_field_callback($args) {
 	$value = $weixin_robot_basic [$args ['name']];
 	
 	if ($args ['type'] == 'text') {
-		echo '<input type="text" name="weiservice-basic[' . $args ['name'] . ']" value="' . $value . '" class="regular-text" />';
+		echo '<input type="text" name="wp-wechat-basic[' . $args ['name'] . ']" value="' . $value . '" class="regular-text" />';
 	} elseif ($args ['type'] == 'textarea') {
-		echo '<textarea name="weiservice-basic[' . $args ['name'] . ']" rows="6" cols="50" class="regular-text code">' . $value . '</textarea>';
+		echo '<textarea name="wp-wechat-basic[' . $args ['name'] . ']" rows="6" cols="50" class="regular-text code">' . $value . '</textarea>';
 	}
 	if (isset ( $args ['description'] ))
 		echo '<p class="description">' . $args ['description'] . '</p>';

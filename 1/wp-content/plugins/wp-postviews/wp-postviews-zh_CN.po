@@ -1,0 +1,262 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Post Views\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-12-08 12:10+0800\n"
+"PO-Revision-Date: 2011-12-08 13:54+0800\n"
+"Last-Translator: jie <yinrenjieone@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _e\n"
+"X-Poedit-Basepath: D:\\jie\\Documents\\thejie-org\\thejie-org Files\\plugins\\wp-postviews\n"
+"X-Poedit-Language: Chinese\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: postviews-options.php:125
+msgid "%VIEW_COUNT% views"
+msgstr "%VIEW_COUNT% 阅读"
+
+#: postviews-options.php:128
+msgid "views"
+msgstr "阅读"
+
+#: postviews-options.php:139
+msgid "Post Views Options"
+msgstr "Post Views 选项"
+
+#: postviews-options.php:142
+msgid "Count Views From:"
+msgstr "被统计的用户群"
+
+#: postviews-options.php:145
+msgid "Everyone"
+msgstr "任何人"
+
+#: postviews-options.php:146
+msgid "Guests Only"
+msgstr "仅访客"
+
+#: postviews-options.php:147
+msgid "Registered Users Only"
+msgstr "仅注册用户"
+
+#: postviews-options.php:152
+msgid "Exclude Bot Views:"
+msgstr "排除机器人浏览"
+
+#: postviews-options.php:155
+msgid "No"
+msgstr "否"
+
+#: postviews-options.php:156
+#: postviews-options.php:302
+msgid "Yes"
+msgstr "是"
+
+#: postviews-options.php:162
+msgid "Views Template:"
+msgstr "显示格式"
+
+#: postviews-options.php:163
+#: postviews-options.php:174
+msgid "Allowed Variables:"
+msgstr "可使用的变量"
+
+#: postviews-options.php:165
+#: postviews-options.php:180
+msgid "Restore Default Template"
+msgstr "恢复默认设置"
+
+#: postviews-options.php:173
+msgid "Most Viewed Template:"
+msgstr "最受欢迎文章列表显示格式"
+
+#: postviews-options.php:187
+msgid "Display Options"
+msgstr "显示选项"
+
+#: postviews-options.php:188
+msgid "These options specify where the view counts should be displayed and to whom. \tBy default view counts will be displayed to all visitors. Note that the theme files must contain a call to <code>the_views()</code> in order for any view count to be displayed."
+msgstr "这些选项指定对哪些用户显示阅读数。默认情况下阅读数将显示给任何人。请注意，主题文件必须调用 <code>the_views()</code> 来显示数据。"
+
+#: postviews-options.php:191
+msgid "Home Page:"
+msgstr "主页"
+
+#: postviews-options.php:194
+#: postviews-options.php:204
+#: postviews-options.php:214
+#: postviews-options.php:224
+#: postviews-options.php:234
+#: postviews-options.php:244
+msgid "Display to everyone"
+msgstr "显示给任何人"
+
+#: postviews-options.php:195
+#: postviews-options.php:205
+#: postviews-options.php:215
+#: postviews-options.php:225
+#: postviews-options.php:235
+#: postviews-options.php:245
+msgid "Display to registered users only"
+msgstr "仅现实给注册用户"
+
+#: postviews-options.php:196
+msgid "Don't display on home page"
+msgstr "不在主页显示"
+
+#: postviews-options.php:201
+msgid "Singe Posts:"
+msgstr "文章页"
+
+#: postviews-options.php:206
+msgid "Don't display on single posts"
+msgstr "不在文章页显示"
+
+#: postviews-options.php:211
+msgid "Pages:"
+msgstr "页面"
+
+#: postviews-options.php:216
+msgid "Don't display on pages"
+msgstr "不在页面显示"
+
+#: postviews-options.php:221
+msgid "Archive Pages:"
+msgstr "分类归档页面"
+
+#: postviews-options.php:226
+msgid "Don't display on archive pages"
+msgstr "不在分类归档页面显示"
+
+#: postviews-options.php:231
+msgid "Search Pages:"
+msgstr "搜索页面"
+
+#: postviews-options.php:236
+msgid "Don't display on search pages"
+msgstr "不在搜索页面显示"
+
+#: postviews-options.php:241
+msgid "Other Pages:"
+msgstr "其他页面"
+
+#: postviews-options.php:246
+msgid "Don't display on other pages"
+msgstr "不在其他页面显示"
+
+#: postviews-options.php:252
+msgid "Save Changes"
+msgstr "保存"
+
+#: postviews-options.php:261
+msgid "Uninstall WP-PostViews"
+msgstr "卸载 WP-PostViews"
+
+#: postviews-options.php:263
+msgid "Deactivating WP-PostViews plugin does not remove any data that may have been created, such as the views data. To completely remove this plugin, you can uninstall it here."
+msgstr "停用WP-PostViews插件，不会删除已经创建的数据，如视图中的数据。要彻底删除这个插件，你可以在这里卸载它。"
+
+#: postviews-options.php:266
+msgid "WARNING:"
+msgstr "警告"
+
+#: postviews-options.php:267
+msgid "Once uninstalled, this cannot be undone. You should use a Database Backup plugin of WordPress to back up all the data first."
+msgstr "一旦卸载，将无法撤消。您应该使用WordPress数据库备份插件，先备份所有数据。"
+
+#: postviews-options.php:270
+msgid "The following WordPress Options/PostMetas will be DELETED:"
+msgstr "下面的WordPress选项/标签将被删除："
+
+#: postviews-options.php:275
+msgid "WordPress Options"
+msgstr "WordPress 选项"
+
+#: postviews-options.php:276
+msgid "WordPress PostMetas"
+msgstr "WordPress 标签"
+
+#: postviews-options.php:303
+msgid "UNINSTALL WP-PostViews"
+msgstr "卸载 WP-PostViews"
+
+#: postviews-options.php:303
+msgid ""
+"You Are About To Uninstall WP-PostViews From WordPress.\\n"
+"This Action Is Not Reversible.\\n"
+"\\n"
+" Choose [Cancel] To Stop, [OK] To Uninstall."
+msgstr ""
+"你正在卸载 WP-PostViews。\\n"
+"卸载后将无法撤销。\\n"
+"\\n"
+" 选择 [取消] 中止, [确定] 继续卸载。"
+
+#: wp-postviews.php:739
+msgid "Title:"
+msgstr "标题："
+
+#: wp-postviews.php:742
+msgid "Statistics Type:"
+msgstr "分类"
+
+#: wp-postviews.php:744
+msgid "Least Viewed"
+msgstr "最后阅读"
+
+#: wp-postviews.php:745
+msgid "Least Viewed By Category"
+msgstr "最后阅读分类"
+
+#: wp-postviews.php:747
+msgid "Most Viewed"
+msgstr "最多阅读"
+
+#: wp-postviews.php:748
+msgid "Most Viewed By Category"
+msgstr "最多阅读分类"
+
+#: wp-postviews.php:753
+msgid "Include Views From:"
+msgstr "包含"
+
+#: wp-postviews.php:755
+msgid "Posts &amp; Pages"
+msgstr "文章和页面"
+
+#: wp-postviews.php:756
+msgid "Posts Only"
+msgstr "仅文章"
+
+#: wp-postviews.php:757
+msgid "Pages Only"
+msgstr "仅页面"
+
+#: wp-postviews.php:762
+msgid "No. Of Records To Show:"
+msgstr "显示数量"
+
+#: wp-postviews.php:765
+msgid "Maximum Post Title Length (Characters):"
+msgstr "文章标题长度"
+
+#: wp-postviews.php:766
+msgid "<strong>0</strong> to disable."
+msgstr "<strong>0</strong> 禁能。"
+
+#: wp-postviews.php:769
+msgid "Category IDs:"
+msgstr "分类号："
+
+#: wp-postviews.php:770
+msgid "Seperate mutiple categories with commas."
+msgstr "多重分类。"
+
+#: wp-postviews.php:773
+msgid "* If you are not using any category statistics, you can ignore it."
+msgstr "* 如果你不使用分类，可以忽略这项。"
+

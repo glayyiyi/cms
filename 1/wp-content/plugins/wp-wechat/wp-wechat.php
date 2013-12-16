@@ -1,14 +1,14 @@
 <?php
 /*
  * Plugin Name: 微服务 
- * Plugin URI: http://commerce.duapp.com/project/weiservice/ 
+ * Plugin URI: http://commerce.duapp.com/project/wp-wechat/ 
  * Description: 微服务的主要功能就是能够将你的公众账号和你的业务系统联系起来，搜索和用户发送信息匹配的内容，并自动回复用户，让你使用微信进行营销事半功倍。 
  * Version: 2.0 
  * Author: Glay 
  * URI:http://commerce.duapp.com/
  */
-require_once ('weiservice-wechat.php');
-require_once ('weiservice-account.php');
+require_once ('wp-wechat-wechat.php');
+require_once ('wp-wechat-account.php');
 // 定义微信 Token
 define ( "WEIXIN_TOKEN", "weixin" );
 //请回复 h或help 查看帮助。或点击<a href='" . get_option ( 'siteurl' ) . "/?weixin-api&weixin-openid=WEIXIN_OPENID'>关于</a>了解我们。
@@ -206,7 +206,7 @@ function save_crm_event($post_ID, $post) {
 	$link = get_permalink ();
 	// echo '类别＝＝＝＝';
 	// print_r ( $post_cats [0]->slug );
-	$current = get_option ( 'weiservice-basic' );
+	$current = get_option ( 'wp-wechat-basic' );
 	$crm_url = $current ['weixin_default'];
 	$parentOpenId = $current ['weixin_original_account'];
 	
@@ -488,7 +488,7 @@ class wechatCallback extends Wechat {
 		}
 		
 		// if (strtolower ( $keyword ) == "my") {
-		// $current_weiservice_option = get_option ( 'weiservice-basic' );
+		// $current_weiservice_option = get_option ( 'wp-wechat-basic' );
 		// $crm_url = $current_weiservice_option ['weixin_default'];
 		// $branch_id = $current_weiservice_option ['weixin_crm_shop_id'];
 		
@@ -523,8 +523,8 @@ class wechatCallback extends Wechat {
 				$this->responseText ( $contentStr );
 				exit ();
 			}
-			$picurl1 = get_option ( 'siteurl' ) . "/wp-content/plugins/weiservice/images/mo_icon3.png";
-			$picurl2 = get_option ( 'siteurl' ) . "/wp-content/plugins/weiservice/images/mo_icon6.png";
+			$picurl1 = get_option ( 'siteurl' ) . "/wp-content/plugins/wp-wechat/images/mo_icon3.png";
+			$picurl2 = get_option ( 'siteurl' ) . "/wp-content/plugins/wp-wechat/images/mo_icon6.png";
 			$url = get_option ( 'siteurl' ) . "/?weixin-address=" . urlencode ( $entityName );
 			
 			$items = array (
@@ -565,7 +565,7 @@ class wechatCallback extends Wechat {
 		// print_r ( '======FakeId Info=====' . $fakeId );
 		// print_r ( '======User Name=====' . $userName );
 		
-		$current = get_option ( 'weiservice-basic' );
+		$current = get_option ( 'wp-wechat-basic' );
 		$weixin_default_image = $current ['weixin_default_image'];
 		$weixin_count = $current ['weixin_count'];
 		if (! $weixin_count)
@@ -718,8 +718,8 @@ class wechatCallback extends Wechat {
 		// $num = 1 / 0;
 		// 故意触发错误，用于演示调试功能
 		// $this->responseText ( '收到了位置消息：' . $this->getRequest ( 'location_x' ) . ',' . $this->getRequest ( 'location_y' ) );
-		$picurl1 = get_option ( 'siteurl' ) . "/wp-content/plugins/weiservice/images/mo_icon3.png";
-		$picurl2 = get_option ( 'siteurl' ) . "/wp-content/plugins/weiservice/images/mo_icon6.png";
+		$picurl1 = get_option ( 'siteurl' ) . "/wp-content/plugins/wp-wechat/images/mo_icon3.png";
+		$picurl2 = get_option ( 'siteurl' ) . "/wp-content/plugins/wp-wechat/images/mo_icon6.png";
 		$url = 'http://map.baidu.com/mobile';
 		// $url="http://api.map.baidu.com/geocoder?location=".$this->getRequest ( 'location_x' ).",".$this->getRequest ( 'location_y' )."&coord_type=gcj02&output=html&src=appo2o|appo2o";
 		// $url="http://api.map.baidu.com/marker?location=".$this->getRequest ( 'location_x' ).",".$this->getRequest ( 'location_y' )."&title=我的位置&content=我所在的位置&output=html&src=appo2o|appo2o";
@@ -833,19 +833,19 @@ if (! function_exists ( 'wpjam_search_orderby' )) {
 
 add_action ( 'admin_menu', 'weixin_robot_admin_menu' );
 function weixin_robot_admin_menu() {
-	add_menu_page ( '微服务', '微服务', 'manage_options', 'weiservice', 'weixin_robot_basic_setting_page', WP_CONTENT_URL . '/plugins/weiservice/weixin-16.ico' );
-	add_submenu_page ( 'weiservice', '基本设置 &lsaquo; 微服务', '基本设置', 'manage_options', 'weiservice', 'weixin_robot_basic_setting_page' );
-	add_submenu_page ( 'weiservice', '微信用户列表 &lsaquo; 微服务', '匹配验证', 'manage_options', 'weixin-users', 'weixin_user_page' );
-	add_submenu_page ( 'weiservice', '帮助中心 &lsaquo; 微服务', '帮助', 'manage_options', 'weiservice-about', 'weixin_robot_about_page' );
+	add_menu_page ( '微服务', '微服务', 'manage_options', 'wp-wechat', 'weixin_robot_basic_setting_page', WP_CONTENT_URL . '/plugins/wp-wechat/weixin-16.ico' );
+	add_submenu_page ( 'wp-wechat', '基本设置 &lsaquo; 微服务', '基本设置', 'manage_options', 'wp-wechat', 'weixin_robot_basic_setting_page' );
+	add_submenu_page ( 'wp-wechat', '微信用户列表 &lsaquo; 微服务', '匹配验证', 'manage_options', 'weixin-users', 'weixin_user_page' );
+	add_submenu_page ( 'wp-wechat', '帮助中心 &lsaquo; 微服务', '帮助', 'manage_options', 'wp-wechat-about', 'weixin_robot_about_page' );
 }
 
 add_action ( 'admin_head', 'weixin_robot_admin_head' );
 function weixin_robot_admin_head() {
 	?>
 <style>
-#icon-weiservice {
+#icon-wp-wechat {
 	background-image:
-		url("<?php echo WP_CONTENT_URL?>/plugins/weiservice/weixin-32.png");
+		url("<?php echo WP_CONTENT_URL?>/plugins/wp-wechat/weixin-32.png");
 	background-repeat: no-repeat;
 }
 </style>
@@ -855,7 +855,7 @@ function weixin_robot_get_plugin_file() {
 	return __FILE__;
 }
 
-// $weixin_account = WP_CONTENT_DIR . '/plugins/weiservice/account.php';
+// $weixin_account = WP_CONTENT_DIR . '/plugins/wp-wechat/account.php';
 // include ($weixin_account);
-$weixin_robot_options = WP_CONTENT_DIR . '/plugins/weiservice/weiservice-options.php';
+$weixin_robot_options = WP_CONTENT_DIR . '/plugins/wp-wechat/wp-wechat-options.php';
 include ($weixin_robot_options);
