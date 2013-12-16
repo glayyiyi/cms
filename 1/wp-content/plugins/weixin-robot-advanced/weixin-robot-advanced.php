@@ -19,15 +19,6 @@ function wpjam_weixin_robot_redirect($wp){
 		if(!isset($wechatObj)){
 			$wechatObj = new wechatCallback();
 			$wechatObj->valid();
-			//By Glay
-			if (isset ( $_GET ['weixin-search'] )) {
-				$action = $_GET ['action'];
-				$keyword = $_GET ['weixin-search'];
-				//echo("=====".$keyword);
-				$wechatObj->query($keyword);
-				exit();
-			}
-			
 			exit;
 		}
 	}
@@ -45,7 +36,7 @@ class wechatCallback {
 			$this->checkSignature();
 			$this->responseMsg();
 		}else{
-			if($this->checkSignature() || isset($_GET['yixin'])){
+			if($this->checkSignature() || isset($_GET['yixin']) ||isset ($_GET['weixin-search'] )){
 				if(isset($_GET["echostr"])){
 					$echoStr = $_GET["echostr"];
 					echo $echoStr;					
@@ -61,18 +52,24 @@ class wechatCallback {
 		$postStr = (isset($GLOBALS["HTTP_RAW_POST_DATA"]))?$GLOBALS["HTTP_RAW_POST_DATA"]:'';
 		//file_put_contents(WP_CONTENT_DIR.'/uploads/test.html',var_export($postStr,true));
 
-		if (isset($_GET['debug']) || !empty($postStr)){	
+		if (isset($_GET['debug']) || !empty($postStr) || isset ($_GET['weixin-search'] )){
+			
 			if(isset($_GET['debug'])){
 				$this->fromUsername = $this->toUsername = '';
 				$keyword = strtolower(trim($_GET['t']));
+			}elseif (isset ( $_GET['weixin-search'] )) { //By Glay
+				$action = $_GET ['action'];
+				$keyword = $_GET ['weixin-search'];
+				$this->fromUsername = $_GET['fromUsername'];
+				$this->toUsername = $_GET['toUsername'];
 			}else{
 				$postObj		= simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
 
 				$this->postObj		= $postObj;
-
+				
 				$this->fromUsername	= (string)$postObj->FromUserName;
 				$this->toUsername	= (string)$postObj->ToUserName;
-
+				
 				$msgType = strtolower(trim($postObj->MsgType));
 
 				if($msgType == 'text'){
@@ -130,6 +127,7 @@ class wechatCallback {
 			'post_status'		=> 'publish',
 			'post_type'			=> $post_types
 		);
+		//print_r($weixin_query_array);
 
 		$weixin_query_array = apply_filters('weixin_query',$weixin_query_array); 
 
@@ -144,6 +142,8 @@ class wechatCallback {
 		}
 
 		global $wp_the_query;
+		//echo "=========";
+		//print_r($weixin_query_array);
 		$wp_the_query->query($weixin_query_array);
 
 		$items = '';

@@ -4,16 +4,22 @@
 add_filter('weixin_query','wpjam_advanced_weixin_query_catgory_tag', 99);
 function wpjam_advanced_weixin_query_catgory_tag($weixin_query_array){
 	if(isset($weixin_query_array['s'])){
+		$keystr=$weixin_query_array['s'];
 		global $wpdb;
 		$term = $wpdb->get_row("SELECT term_id, taxonomy FROM {$wpdb->prefix}term_taxonomy INNER JOIN {$wpdb->prefix}terms USING ( term_id ) WHERE lower({$wpdb->prefix}terms.name) = '{$weixin_query_array['s']}' OR {$wpdb->prefix}terms.slug = '{$weixin_query_array['s']}' LIMIT 0 , 1");
 
 		if($term){
 			$weixin_query_array = wpjam_advanced_weixin_query_new($weixin_query_array);
 
+			//echo "======term======";
+			//print_r($term);
+			
 			if($term->taxonomy == 'category'){
 				$weixin_query_array['cat']		= $term->term_id;
 			}elseif ($term->taxonomy == 'post_tag') {
 				$weixin_query_array['tag_id']	= $term->term_id;
+			}elseif ($term->taxonomy == 'product_tag') {
+				$weixin_query_array['product_tag']	=$keystr;
 			}
 		}
 	}
