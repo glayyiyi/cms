@@ -14,7 +14,7 @@ define('WEIXIN_ROBOT_PLUGIN_FILE',  __FILE__);
 
 add_action('init', 'wpjam_weixin_robot_redirect', 11);
 function wpjam_weixin_robot_redirect($wp){
-	if(isset($_GET['weixin']) ){
+	if(isset($_GET['weixin-api']) ){
 		global $wechatObj;
 		if(!isset($wechatObj)){
 			$wechatObj = new wechatCallback();
