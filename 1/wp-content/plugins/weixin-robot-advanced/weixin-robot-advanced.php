@@ -23,7 +23,7 @@ function wpjam_weixin_robot_redirect($wp){
 			if (isset ( $_GET ['weixin-search'] )) {
 				$action = $_GET ['action'];
 				$keyword = $_GET ['weixin-search'];
-				echo("=====".$keyword);
+				//echo("=====".$keyword);
 				$wechatObj->query($keyword);
 				exit();
 			}
