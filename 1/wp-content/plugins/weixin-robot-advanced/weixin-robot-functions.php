@@ -57,7 +57,9 @@ function weixin_robot_check_domain($id=56){
 
 function get_post_weixin_thumb($post,$size){
 	$thumb = apply_filters('weixin_thumb',false,$size,$post);
-
+	echo "=====";
+	var_dump($thumb);
+	
 	if($thumb===false){
 		$thumbnail_id = get_post_thumbnail_id($post->ID);
 		if($thumbnail_id){
@@ -66,7 +68,8 @@ function get_post_weixin_thumb($post,$size){
 		}else{
 			$thumb = get_post_first_image($post->post_content);
 		}
-
+		echo "=====1111";
+		var_dump($thumb);
 		if(empty($thumb)){
 			$thumb = weixin_robot_get_setting('weixin_default');
 		}
