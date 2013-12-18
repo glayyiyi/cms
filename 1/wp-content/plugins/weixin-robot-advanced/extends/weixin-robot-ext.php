@@ -7,6 +7,19 @@ Version: 1.0
 Author: Glay
 Author URI: http://blog.wpjam.com/
 */
+
+
+//By Glay
+add_filter('weixin_thumb','cn_urlencode_weixin_thumb_filter',10,2);
+function cn_urlencode_weixin_thumb_filter($thumb,$counter){
+	if($thumb){
+		$pos = strrpos($thumb,'/');
+		return substr($thumb, 0,$pos+1).urlencode(substr($thumb, $pos+1));
+	}
+	return false;
+	
+}
+
 add_filter('woocommerce_paypal_args', 'convert_rmb_to_usd');
 function convert_rmb_to_usd($paypal_args){
 	if ( $paypal_args['currency_code'] == 'RMB'){

@@ -389,13 +389,6 @@ var
 	}
 }
 
-//By Glay
-add_filter('weixin_thumb','cn_urlencode_weixin_thumb_filter',10,2);
-function cn_urlencode_weixin_thumb_filter($thumb,$counter){
-	$pos = strrpos($thumb,'/');
-	return substr($thumb, 0,$pos+1).urlencode(substr($thumb, $pos+1));
-}
-
 add_filter('weixin_thumb','wpjam_weixin_thumb_filter',10,3);
 function wpjam_weixin_thumb_filter($thumb,$size,$post){
 	if(function_exists('wpjam_get_post_thumbnail_src')){
@@ -405,5 +398,3 @@ function wpjam_weixin_thumb_filter($thumb,$size,$post){
 	}
 	return $thumb;
 }
-
-
