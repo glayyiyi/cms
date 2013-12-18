@@ -58,15 +58,11 @@ function weixin_robot_check_domain($id=56){
 
 function get_post_weixin_thumb($post,$size){
 	$thumb = apply_filters('weixin_thumb',false,$size,$post);
-	echo "=====";
-	var_dump($thumb);
 	
 	if($thumb===false){
 		$thumbnail_id = get_post_thumbnail_id($post->ID);
 		if($thumbnail_id){
 			$thumb = wp_get_attachment_image_src($thumbnail_id, $size);
-			echo "=====1111";
-			var_dump($thumb);
 			$thumb = $thumb[0];
 		}//By Glay else{
 		if(!$thumb ||empty($thumb)){
