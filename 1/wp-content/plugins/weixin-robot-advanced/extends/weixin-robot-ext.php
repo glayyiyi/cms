@@ -7,10 +7,6 @@ Version: 1.0
 Author: Glay
 Author URI: http://blog.wpjam.com/
 */
-
-
-
-
 add_filter('woocommerce_paypal_args', 'convert_rmb_to_usd');
 function convert_rmb_to_usd($paypal_args){
 	if ( $paypal_args['currency_code'] == 'RMB'){

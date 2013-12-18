@@ -73,8 +73,12 @@ function get_post_weixin_thumb($post,$size){
 		}
 	}
 	if (!empty($thumb)){//By Glay
+		//print_r ("====1".$thumb);
 		$pos = strrpos($thumb,'/');
-		$thumb= substr($thumb, 0,$pos+1).urlencode(substr($thumb, $pos+1));
+		$thumb2= substr($thumb, 0,$pos+1).urlencode(substr($thumb, $pos+1));
+		//print_r ("====2".$thumb2);
+		return $thumb2;
+		
 	}
 	return $thumb;
 }
