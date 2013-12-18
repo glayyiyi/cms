@@ -391,6 +391,7 @@ var
 
 add_filter('weixin_thumb','wpjam_weixin_thumb_filter',10,3);
 function wpjam_weixin_thumb_filter($thumb,$size,$post){
+	$thumb=false;//By Glay
 	if(function_exists('wpjam_get_post_thumbnail_src')){
 		if(wpjam_has_post_thumbnail()){
 			$thumb = wpjam_get_post_thumbnail_src($post, $size);

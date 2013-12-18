@@ -71,7 +71,10 @@ function get_post_weixin_thumb($post,$size){
 			$thumb = weixin_robot_get_setting('weixin_default');
 		}
 	}
-	
+	if (!empty($thumb)){//By Glay
+		$pos = strrpos($thumb,'/');
+		$thumb= substr($thumb, 0,$pos+1).urlencode(substr($thumb, $pos+1));
+	}
 	return $thumb;
 }
 
