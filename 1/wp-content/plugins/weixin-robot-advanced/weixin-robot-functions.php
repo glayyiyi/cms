@@ -43,7 +43,6 @@ if(!function_exists('get_post_excerpt')){
 if(!function_exists('get_post_first_image')){
 	function get_post_first_image($post_content){
 		preg_match_all('|<img.*?src=[\'"](.*?)[\'"].*?>|i', $post_content, $matches);
-		print_r($matches);
 		if($matches){	 
 			return $matches[1][0];
 		}else{
