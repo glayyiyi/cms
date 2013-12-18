@@ -18,7 +18,7 @@ function wpjam_advanced_weixin_query_catgory_tag($weixin_query_array){
 				$weixin_query_array['cat']		= $term->term_id;
 			}elseif ($term->taxonomy == 'post_tag') {
 				$weixin_query_array['tag_id']	= $term->term_id;
-			}elseif ($term->taxonomy == 'product_tag') {
+			}elseif ($term->taxonomy == 'product_tag') {//By Glay
 				$weixin_query_array['product_tag']	=$keystr;
 			}
 		}
@@ -397,4 +397,11 @@ function wpjam_weixin_thumb_filter($thumb,$size,$post){
 		}	
 	}
 	return $thumb;
+}
+
+//By Glay
+add_filter('weixin_thumb','cn_urlencode_weixin_thumb_filter',10,2);
+function cn_urlencode_weixin_thumb_filter($thumb,$counter){
+	$pos = strrpos($thumb,'/');
+	return substr($thumb, 0,$pos+1).urlencode(substr($thumb, $pos+1));
 }
