@@ -65,12 +65,13 @@ function get_post_weixin_thumb($post,$size){
 		$thumbnail_id = get_post_thumbnail_id($post->ID);
 		if($thumbnail_id){
 			$thumb = wp_get_attachment_image_src($thumbnail_id, $size);
+			echo "=====1111";
+			var_dump($thumb);
 			$thumb = $thumb[0];
 		}else{
 			$thumb = get_post_first_image($post->post_content);
 		}
-		echo "=====1111";
-		var_dump($thumb);
+		
 		if(empty($thumb)){
 			$thumb = weixin_robot_get_setting('weixin_default');
 		}
