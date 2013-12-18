@@ -68,7 +68,8 @@ function get_post_weixin_thumb($post,$size){
 			echo "=====1111";
 			var_dump($thumb);
 			$thumb = $thumb[0];
-		}else{
+		}//By Glay else{
+		if(!$thumb ||empty($thumb)){
 			$thumb = get_post_first_image($post->post_content);
 		}
 		
