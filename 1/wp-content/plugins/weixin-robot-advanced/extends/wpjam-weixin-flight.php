@@ -158,7 +158,9 @@ function wpjam_flight_weixin_custom_keyword($false,$keyword){
             global $wechatObj;
             echo sprintf($wechatObj->get_textTpl(), '请在“航班”后面加上航班名称，例如“航班CA1111”');
             $wechatObj->set_response('flight_not_entity_reply');
-            return true;
+            //By Glay return true;
+            wpjam_do_weixin_custom_keyword();
+            
         }elseif(strpos($keyword, '航班') === 0){
             global $wechatObj;
             $keyword = str_replace(array('航班'), '', $keyword);
@@ -171,9 +173,13 @@ function wpjam_flight_weixin_custom_keyword($false,$keyword){
                 }
                 echo sprintf($wechatObj->get_picTpl(), count($results), $items);
                 $wechatObj->set_response('flight'); 
+                //By Glay
+                wpjam_do_weixin_custom_keyword();
             }else{
                 echo sprintf($wechatObj->get_textTpl(), '航班查询失败');   
                 $wechatObj->set_response('flight-fail'); 
+                //By Glay
+                wpjam_do_weixin_custom_keyword();
             }
             return true;
         }
