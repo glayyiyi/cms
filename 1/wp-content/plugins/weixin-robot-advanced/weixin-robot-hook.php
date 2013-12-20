@@ -19,6 +19,7 @@ function wpjam_advanced_weixin_query_catgory_tag($weixin_query_array){
 			}elseif ($term->taxonomy == 'post_tag') {
 				$weixin_query_array['tag_id']	= $term->term_id;
 			}elseif ($term->taxonomy == 'product_tag') {//By Glay
+				$weixin_query_array['post_type']	='product';
 				$weixin_query_array['product_tag']	=$keystr;
 			}
 		}

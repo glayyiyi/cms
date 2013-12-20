@@ -136,7 +136,7 @@ class wechatCallback {
 				$this->response = 'query';
 			}elseif(isset($weixin_query_array['cat'])){
 				$this->response = 'cat';
-			}elseif(isset($weixin_query_array['tag_id'])){
+			}elseif(isset($weixin_query_array['tag_id'])||isset($weixin_query_array['product_tag'])){
 				$this->response = 'tag';
 			}
 		}
