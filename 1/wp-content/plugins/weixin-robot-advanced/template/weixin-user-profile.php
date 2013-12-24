@@ -81,7 +81,7 @@ $weixin_user = weixin_robot_get_user($weixin_openid);
 		</p>
 
 		<p>
-			<input type="submit" name="update" value="编辑" >
+			<input type="submit" name="update" value="确认" >
 		</p>
 
 	</form>
@@ -89,9 +89,9 @@ $weixin_user = weixin_robot_get_user($weixin_openid);
 	<p><strong>积分规则：</strong></p>
 	<ul>
 		<li>签到：				<?php echo weixin_robot_get_setting('weixin_checkin_credit');?>分</li>
-		<?php /*<li>发送文章给好友：		<?php echo weixin_robot_get_setting('weixin_SendAppMessage_credit');?>分</li>
+		<li>发送文章给好友：		<?php echo weixin_robot_get_setting('weixin_SendAppMessage_credit');?>分</li>
 		<li>分享文章到朋友圈：		<?php echo weixin_robot_get_setting('weixin_ShareTimeline_credit');?>分</li>
-		<li>分享文章到腾讯微博：	<?php echo weixin_robot_get_setting('weixin_ShareWeibo_credit');?>分</li>*/?>
+		<li>分享文章到腾讯微博：	<?php echo weixin_robot_get_setting('weixin_ShareWeibo_credit');?>分</li>
 		<li>每天最多：			<?php echo weixin_robot_get_setting('weixin_day_credit_limit');?>分</li>
 	</ul>
 <?php } else {  ?>
