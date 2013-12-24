@@ -55,7 +55,7 @@ function wpjam_air_quality_weixin_custom_keyword($false,$keyword){
                 $city = str_replace(array('空气','kq'), '', $keyword);
             }
             if(!$city){
-                echo sprintf($wechatObj->get_textTpl(), '空气后面要跟上城市名');
+                echo sprintf($wechatObj->get_textTpl(), '请在“空气”后面要跟上城市名，例如“空气北京”');
                 $wechatObj->set_response('air_quality'); 
                 wpjam_do_weixin_custom_keyword();
             }
