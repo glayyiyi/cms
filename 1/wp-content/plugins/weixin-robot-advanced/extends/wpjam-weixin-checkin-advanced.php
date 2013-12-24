@@ -18,7 +18,8 @@ function wpjam_weixin_checkin_success($checkin,$weixin_openid){
 
 	$weixin_user = weixin_robot_get_user($weixin_openid);
 
-	if(!$weixin_user['nickname'] && !$weixin_user['name']){
+	//By Glay if(!$weixin_user['nickname'] && !$weixin_user['name']){
+	if( !$weixin_user['name']){
 		return wpjam_weixin_checkin_str_replace(weixin_robot_get_setting('weixin_checkin_success_2'),$weixin_openid,'update');
 	}else{
 		return wpjam_weixin_checkin_str_replace(weixin_robot_get_setting('weixin_checkin_success'),$weixin_openid,'update');
@@ -30,7 +31,8 @@ function wpjam_weixin_checkined($checkin,$weixin_openid){
 
 	$weixin_user = weixin_robot_get_user($weixin_openid);
 
-	if(!$weixin_user['nickname'] && !$weixin_user['name']){
+	//By Glay if(!$weixin_user['nickname'] && !$weixin_user['name']){
+	if( !$weixin_user['name']){
 		return wpjam_weixin_checkin_str_replace(weixin_robot_get_setting('weixin_checkined_2'),$weixin_openid);
 	}else{
 		return wpjam_weixin_checkin_str_replace(weixin_robot_get_setting('weixin_checkined'),$weixin_openid);
@@ -251,6 +253,8 @@ function wpjam_top_checkin_users_weixin_custom_keyword($false,$keyword){
 
 function wpjam_get_top_checkin_users(){
 	$checkin_top_users = wp_cache_get('top_users', 'checkin_rank');
+	echo "===";
+	var_dump($checkin_top_users);
 	if($checkin_top_users == false){
 		global $wpdb;
 		$weixin_checkin_table = weixin_robot_checkin_table();
@@ -258,6 +262,7 @@ function wpjam_get_top_checkin_users(){
 
 		$checkin_top_users = $wpdb->get_results("SELECT weixin_openid,total_number,nickname,name FROM {$weixin_checkin_table} wxc INNER JOIN {$weixin_users_table} wxu ON (wxc.weixin_openid=wxu.openid) WHERE (wxu.nickname !='' OR wxu.name !='') ORDER BY total_number DESC LIMIT 0,20",OBJECT_K);
 
+		
 		wp_cache_set('top_users',$checkin_top_users,'checkin_rank',60);
 	}
 
