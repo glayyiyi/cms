@@ -3,16 +3,78 @@
 Plugin Name: 微信股票行情
 Plugin URI: http://wpjam.net/item/wpjam-weixin-stock/
 Description: 股票行情实时查询。
-Version: 1.0
+Version: 1.1
 Author: Denis
 Author URI: http://blog.wpjam.com/
 */
-
 
 add_action('wpjam_net_item_ids','wpjam_weixin_stock_wpjam_net_item_id');
 function wpjam_weixin_stock_wpjam_net_item_id($item_ids){
     $item_ids['135'] = __FILE__;
     return $item_ids;
+}
+
+add_filter('weixin_builtin_reply', 'wpjam_weixin_stock_builtin_reply');
+function wpjam_weixin_stock_builtin_reply($weixin_builtin_replies){
+    $weixin_builtin_replies['gp'] = $weixin_builtin_replies['股票'] = array('type'=>'prefix',   'reply'=>'获取股票信息',  'function'=>'wpjam_weixin_stock_reply');
+    return $weixin_builtin_replies;
+}
+
+add_filter('weixin_response_types','wpjam_weixin_stock_response_types');
+function wpjam_weixin_stock_response_types($response_types){
+    $response_types['stock-no-code']    = '没有加上要查询的股票代码';
+    $response_types['stock-fail']       = '查询股票行情出错';
+    $response_types['stock']            = '股票行情结果回复';
+    return $response_types;
+}
+
+add_filter('weixin_setting','wpjam_weixin_stock_fileds',11);
+function wpjam_weixin_stock_fileds($sections){
+    $stock_fileds = array(
+        'stock_default_code'    => array('title'=>'默认股票代码', 'type'=>'text', 'description'=>'用户发送“股票”时默认查询的股票代码。上证指数请填写999999；企业如上市，可填写本公司股票代码'),
+    );
+    $sections['stock'] = array('title'=>'股票行情', 'callback'=>'', 'fileds'=>$stock_fileds);
+
+    return $sections;
+}
+
+add_filter('weixin_default_option','wpjan_weixin_stock_default_option',10,2);
+function wpjan_weixin_stock_default_option($defaults_options, $option_name){
+    if($option_name == 'weixin-robot-basic'){
+        $stock_default_options = array(
+            'stock_default_code'   => '',
+        );
+        return array_merge($defaults_options, $stock_default_options);
+    }
+    return $defaults_options;
+}
+
+function wpjam_weixin_stock_reply($keyword){
+    global $wechatObj;
+
+    if($keyword == '股票' || $keyword == 'gp'){
+        if(weixin_robot_get_setting('stock_default_code')){
+            $code = weixin_robot_get_setting('stock_default_code');
+        }else{
+            $code = '';
+        }
+    }else{
+        $code = str_replace(array('股票','gp'), '', $keyword);
+    }
+
+    if(!$code){
+        echo sprintf($wechatObj->get_textTpl(), '股票后面加上需要查询的股票代码，比如：股票000001。');
+        $wechatObj->set_response('stock-no-code');
+    }else{
+        $results = wpjam_weixin_get_stock_results($code);
+        if($results){
+            echo sprintf($wechatObj->get_textTpl(), $results);
+            $wechatObj->set_response('stock');
+        }else{
+            echo sprintf($wechatObj->get_textTpl(), '获取股票行情数据失败');
+            $wechatObj->set_response('stock-fail');
+        }
+    }   
 }
 
 function wpjam_weixin_get_stock_results($stock_code){
@@ -88,66 +150,5 @@ function wpjam_weixin_get_stock_results($stock_code){
     "更新：".$stock_array[30]." ".$stock_array[31];
 
     return trim($stock_title.$stock_info);
-}
-
-add_filter('weixin_custom_keyword','wpjam_stock_weixin_custom_keyword',10,2);
-function wpjam_stock_weixin_custom_keyword($false,$keyword){
-    if($false === false){
-        if(strpos($keyword, '股票') === 0 || strpos($keyword, 'gp') === 0){
-            global $wechatObj;
-
-            if($keyword == '股票' || $keyword == 'gp'){
-                if(weixin_robot_get_setting('stock_default_code')){
-                    $code = weixin_robot_get_setting('stock_default_code');
-                }else{
-                    echo sprintf($wechatObj->get_textTpl(), '股票后面加上需要查询的股票代码，比如：股票000001。');
-                    $wechatObj->set_response('stock-no-code');
-                    wpjam_do_weixin_custom_keyword();
-                }
-            }else{
-                $code = str_replace(array('股票','gp'), '', $keyword);
-            }
-
-            $results = wpjam_weixin_get_stock_results($code);
-            if($results){
-                echo sprintf($wechatObj->get_textTpl(), $results);
-                $wechatObj->set_response('stock');
-            }else{
-                echo sprintf($wechatObj->get_textTpl(), '获取股票行情数据失败');
-                $wechatObj->set_response('stock-fail');
-            }
-            wpjam_do_weixin_custom_keyword();
-        }
-    }
-    return $false;
-}
-
-add_filter('weixin_response_types','wpjam_weixin_stock_response_types');
-function wpjam_weixin_stock_response_types($response_types){
-    $response_types['stock-no-code']    = '没有加上要查询的股票代码';
-    $response_types['stock-fail']       = '查询股票行情出错';
-    $response_types['stock']            = '回复股票行情查询结果';
-    return $response_types;
-}
-
-add_filter('weixin_setting','wpjam_weixin_stock_fileds',11);
-function wpjam_weixin_stock_fileds($sections){
-    $stock_fileds = array(
-        'stock_default_code'    => array('title'=>'默认股票代码', 'type'=>'text', 'description'=>'用户发送“股票”时默认查询的股票代码。上证指数请填写999999；企业如上市，可填写本公司股票代码'),
-    );
-    $sections['stock'] = array('title'=>'股票行情', 'callback'=>'', 'fileds'=>$stock_fileds);
-
-    return $sections;
-}
-
-add_filter('weixin_default_option','wpjan_weixin_stock_default_option',10,2);
-function wpjan_weixin_stock_default_option($defaults_options, $option_name){
-    if($option_name == 'weixin-robot-basic'){
-        $stock_default_options = array(
-            'stock_default_code'   => '',
-        );
-        return array_merge($defaults_options, $stock_default_options);
-    }
-    return $defaults_options;
 }
 

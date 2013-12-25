@@ -3,7 +3,7 @@
 Plugin Name: 微信航班查询
 Plugin URI: http://wpjam.net/item/wpjam-weixin-flight/
 Description: 实时航班信息查询
-Version: 1.0
+Version: 1.1
 Author: Denis
 Author URI: http://blog.wpjam.com/
 */
@@ -14,26 +14,65 @@ function wpjam_weixin_flight_wpjam_net_item_id($item_ids){
     return $item_ids;
 }
 
+add_filter('weixin_builtin_reply', 'wpjam_weixin_flight_builtin_reply');
+function wpjam_weixin_flight_builtin_reply($weixin_builtin_replies){
+    $weixin_builtin_replies['航班'] = array('type'=>'prefix',   'reply'=>'获取航班信息',  'function'=>'wpjam_weixin_flight_reply');
+    return $weixin_builtin_replies;
+}
+
+add_filter('weixin_response_types','wpjam_weixin_flight_response_types');
+function wpjam_weixin_flight_response_types($response_types){
+    $response_types['flight-not-entity']         = '没有加上要查询的航班名称';
+    $response_types['flight-fail']               = '查询航班查询出错';
+    $response_types['flight']                    = '回复航班查询结果';
+    return $response_types;
+}
+
+function wpjam_weixin_flight_reply($keyword){
+    if($keyword == '航班'){
+        global $wechatObj;
+        echo sprintf($wechatObj->get_textTpl(), '请在“航班”后面加上航班名称，例如“航班CA1111”');
+        $wechatObj->set_response('flight_not_entity_reply');
+    }else{
+        global $wechatObj;
+        $keyword = str_replace(array('航班'), '', $keyword);
+        $results = wpjam_weixin_get_flight_results($keyword);
+        
+        if($results && is_array($results)){
+            $items = '';
+            foreach ($results as $result) {
+                $items .= $wechatObj->get_item($result['Title'], $result['Description'], $result['PicUrl'], $result['Url']);
+            }
+            echo sprintf($wechatObj->get_picTpl(), count($results), $items);
+            $wechatObj->set_response('flight'); 
+        }else{
+            if(!$results){ $results = '航班查询失败'; }
+            echo sprintf($wechatObj->get_textTpl(), $results);   
+            $wechatObj->set_response('flight-fail'); 
+        }
+    }
+}
+
 function wpjam_weixin_get_flight_results($keyword){
     include_once(WEIXIN_ROBOT_PLUGIN_DIR.'/include/simple_html_dom.php');
-	try {
+    try {
         $keyword = strtoupper($keyword);
         $url = "http://www.veryzhun.com/fnumber/num/$keyword.html";
 
         $flight_url = 'http://p.yiqifa.com/c?s=6bad921b&w=441572&c=17301&i=39119&l=0&e=&t=http://m.ctrip.com/html5/index.html';
 
-		$html_flight = file_get_html($url);
-		if (!isset($html_flight)){
-			$html_flight->clear();
-			return "检索出错！";
-		}
+        $html_flight = file_get_html($url);
+        if (!isset($html_flight)){
+            $html_flight->clear();
+            return "检索出错！";
+        }
 
-		$flightInfo = $html_flight->find('div[class="numdap"]');
+        $flightInfo = $html_flight->find('div[class="numdap"]');
         //无航班判断
-		if ((!isset($flightInfo)) || count($flightInfo) == 0){
-			$html_flight->clear();
-			return "抱歉，您所查询的航班未搜到！";
-		}
+        if ((!isset($flightInfo)) || count($flightInfo) == 0){
+            $html_flight->clear();
+            return "抱歉，您所查询的航班未搜到！";
+        }
 
         $companies = array (
             "CZ" => "南方航空",
@@ -144,54 +183,9 @@ function wpjam_weixin_get_flight_results($keyword){
             );
         }
 
-		$html_flight->clear();
-		return $flight_array;
-	}catch (Exception $e){
+        $html_flight->clear();
+        return $flight_array;
+    }catch (Exception $e){
 
-	}
-}
-
-add_filter('weixin_custom_keyword','wpjam_flight_weixin_custom_keyword',10,2);
-function wpjam_flight_weixin_custom_keyword($false,$keyword){
-    if($false === false){
-        if($keyword == '航班'){
-            global $wechatObj;
-            echo sprintf($wechatObj->get_textTpl(), '请在“航班”后面加上航班名称，例如“航班CA1111”');
-            $wechatObj->set_response('flight_not_entity_reply');
-            //By Glay return true;
-            wpjam_do_weixin_custom_keyword();
-            
-        }elseif(strpos($keyword, '航班') === 0){
-            global $wechatObj;
-            $keyword = str_replace(array('航班'), '', $keyword);
-            $results = wpjam_weixin_get_flight_results($keyword);
-            
-            if($results){
-                $items = '';
-                foreach ($results as $result) {
-                    $items .= $wechatObj->get_item($result['Title'], $result['Description'], $result['PicUrl'], $result['Url']);
-                }
-                echo sprintf($wechatObj->get_picTpl(), count($results), $items);
-                $wechatObj->set_response('flight'); 
-                //By Glay
-                wpjam_do_weixin_custom_keyword();
-            }else{
-                echo sprintf($wechatObj->get_textTpl(), '航班查询失败');   
-                $wechatObj->set_response('flight-fail'); 
-                //By Glay
-                wpjam_do_weixin_custom_keyword();
-            }
-            return true;
-        }
     }
-    return $false;
 }
-
-add_filter('weixin_response_types','wpjam_weixin_flight_response_types');
-function wpjam_weixin_flight_response_types($response_types){
-    $response_types['flight-not-entity']         = '没有加上要查询的航班名称';
-    $response_types['flight-fail']               = '查询航班查询出错';
-    $response_types['flight']                    = '回复航班查询结果';
-    return $response_types;
-}
-

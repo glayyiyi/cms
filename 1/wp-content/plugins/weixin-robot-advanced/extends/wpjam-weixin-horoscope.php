@@ -3,16 +3,43 @@
 Plugin Name: 微信 星座运势
 Plugin URI: http://wpjam.net/item/wpjam-weixin-horoscope/
 Description: 每日星座运势
-Version: 1.0
+Version: 1.1
 Author: Denis
 Author URI: http://blog.wpjam.com/
 */
-
 
 add_action('wpjam_net_item_ids','wpjam_weixin_horoscope_wpjam_net_item_id');
 function wpjam_weixin_horoscope_wpjam_net_item_id($item_ids){
     $item_ids['131'] = __FILE__;
     return $item_ids;
+}
+
+add_filter('weixin_builtin_reply', 'wpjam_weixin_horoscope_builtin_reply');
+function wpjam_weixin_horoscope_builtin_reply($weixin_builtin_replies){
+	foreach ( array_keys(wpjam_weixin_get_horoscopes()) as $horoscope) {
+		$weixin_builtin_replies[$horoscope] =  array('type'=>'full',   'reply'=>'获取'.$horoscope.'运势',  'function'=>'wpjam_weixin_horoscope_reply');
+	}
+
+    return $weixin_builtin_replies;
+}
+
+add_filter('weixin_response_types','wpjam_weixin_horoscope_response_types');
+function wpjam_weixin_horoscope_response_types($response_types){
+    $response_types['horoscope-fail']               = '查询星座运势出错';
+    $response_types['horoscope']                    = '回复星座运势查询结果';
+    return $response_types;
+}
+
+function wpjam_weixin_horoscope_reply($keyword){
+	global $wechatObj;
+    $results = wpjam_weixin_get_horoscope_results($keyword);
+    if($results){
+        echo sprintf($wechatObj->get_textTpl(), $results);
+        $wechatObj->set_response('horoscope'); 
+    }else{
+        echo sprintf($wechatObj->get_textTpl(), '查询失败');   
+        $wechatObj->set_response('horoscope-fail'); 
+    }
 }
 
 function wpjam_weixin_get_horoscopes(){
@@ -54,8 +81,7 @@ function wpjam_weixin_get_horoscope_results($keyword){
 			return "星座名只有以下这些0：\n白羊座 金牛座 双子座 巨蟹座 狮子座 处女座 天秤座 天蝎座 射手座 摩羯座 水瓶座 双鱼座";
 		}
 
-
-		$result = get_transient('horoscope_'.$keyword);
+		$result = get_transient('horoscope_'.$horoscopes[$keyword]);
 
 		if($result === false){
 			$url = "http://dp.sina.cn/dpool/astro/starent/starent.php?type=day&ast=".$horoscopes[$keyword]."&vt=4";
@@ -108,7 +134,7 @@ function wpjam_weixin_get_horoscope_results($keyword){
 
 			if($expire < 0 || $expire > 86400) $expire = 3600;
 
-			set_transient('horoscope_'.$keyword, $result, $expire);
+			set_transient('horoscope_'.$horoscopes[$keyword], $result, $expire);
 		}
 
 	}catch (Exception $e){
@@ -116,7 +142,7 @@ function wpjam_weixin_get_horoscope_results($keyword){
 	}
 }
 
-add_filter('weixin_custom_keyword','wpjam_horoscope_weixin_custom_keyword',10,2);
+//add_filter('weixin_custom_keyword','wpjam_horoscope_weixin_custom_keyword',10,2);
 function wpjam_horoscope_weixin_custom_keyword($false,$keyword){
     if($false === false){
     	$horoscopes = wpjam_weixin_get_horoscopes();
@@ -127,25 +153,11 @@ function wpjam_horoscope_weixin_custom_keyword($false,$keyword){
             $wechatObj->set_response('horoscope');
             wpjam_do_weixin_custom_keyword();
         }elseif(isset($horoscopes[$keyword])){
-            global $wechatObj;
-            $results = wpjam_weixin_get_horoscope_results($keyword);
-            if($results){
-                echo sprintf($wechatObj->get_textTpl(), $results);
-                $wechatObj->set_response('horoscope'); 
-            }else{
-                echo sprintf($wechatObj->get_textTpl(), '查询失败');   
-                $wechatObj->set_response('horoscope-fail'); 
-            }
-            wpjam_do_weixin_custom_keyword();
+            
         }
     }
     return $false;
 }
 
-add_filter('weixin_response_types','wpjam_weixin_horoscope_response_types');
-function wpjam_weixin_horoscope_response_types($response_types){
-    $response_types['horoscope-fail']               = '查询星座运势出错';
-    $response_types['horoscope']                    = '回复星座运势查询结果';
-    return $response_types;
-}
+
 
