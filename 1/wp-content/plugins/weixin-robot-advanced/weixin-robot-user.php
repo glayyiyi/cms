@@ -58,7 +58,7 @@ function weixin_robot_get_remote_user($weixin_openid){
 	return $weixin_user;
 }
 
-function weixin_robot_get_user($weixin_openid){
+function weixin_robot_get_user($weixin_openid,$force=0){
 
 	if(!$weixin_openid )  wp_die('weixin_openid 为空或非法。');
 	if(strlen($weixin_openid) < 28) wp_die('非法 weixin_openid');
@@ -81,20 +81,21 @@ function weixin_robot_get_user($weixin_openid){
 				wp_cache_set($weixin_openid, $weixin_user, 'weixin_user',3600);
 			}
 		}else{
-			if(weixin_robot_get_setting('weixin_advanced_api')){
-				$weixin_user = weixin_robot_get_remote_user($weixin_openid);
+			if($force){
+				return false;
 			}else{
-				$weixin_user = array('openid'=>trim($weixin_openid));
-			}
-			if(isset($weixin_user['openid'])){
-				$wpdb->insert($weixin_users_table,$weixin_user);
-				wp_cache_set($weixin_openid, $weixin_user, 'weixin_user',3600);
+				if(weixin_robot_get_setting('weixin_advanced_api')){
+					$weixin_user = weixin_robot_get_remote_user($weixin_openid);
+				}else{
+					$weixin_user = array('openid'=>trim($weixin_openid));
+				}
+				if(isset($weixin_user['openid'])){
+					$wpdb->insert($weixin_users_table,$weixin_user);
+					wp_cache_set($weixin_openid, $weixin_user, 'weixin_user',3600);
+				}
 			}
 		}
-		
-		
 	}
-		
 	return $weixin_user;
 }
 

@@ -22,11 +22,12 @@ function weixin_robot_admin_menu() {
 			weixin_robot_add_submenu_page('custom-menu', '自定义菜单');
 		}
 		if(empty($weixin_robot_basic['weixin_disable_stats'])){
-			weixin_robot_add_submenu_page('stats', '微信消息统计分析');
-			weixin_robot_add_submenu_page('summary', '微信回复统计分析');
+			weixin_robot_add_submenu_page('stats2', '微信统计分析');
+			//weixin_robot_add_submenu_page('summary', '微信回复统计分析');
 			weixin_robot_add_submenu_page('messages', '微信最新消息');
 		}
 		do_action('weixin_admin_menu');
+		weixin_robot_add_submenu_page('tables','数据表检测');
 	}
 
 	//weixin_robot_add_submenu_page('about', '关于和更新');
@@ -49,14 +50,8 @@ function weixin_robot_admin_head(){
 <style type="text/css">.icon16.icon-settings:before, #adminmenu .toplevel_page_weixin-robot div.wp-menu-image:before{content: "\f125";}</style>
 <?php
 	global $plugin_page;
-	if(in_array($plugin_page, array('weixin-robot', 'weixin-robot-advanced', 'weixin-robot-custom-reply', 'weixin-robot-custom-menu', 'weixin-robot-stats', 'weixin-robot-summary', 'weixin-robot-messages', 'weixin-robot-about'))){
+	if(in_array($plugin_page, array('weixin-robot', 'weixin-robot-advanced', 'weixin-robot-custom-reply', 'weixin-robot-custom-menu', 'weixin-robot-stats2', 'weixin-robot-messages'))){
 ?>
-	<style type="text/css">
-	#icon-weixin-robot{background-image: url("<?php echo WEIXIN_ROBOT_PLUGIN_URL; ?>/static/weixin-32.png");background-repeat: no-repeat;}
-	<?php if(in_array($plugin_page, array('weixin-robot-stats', 'weixin-robot-summary'))){?>
-	h3{margin:20px 0;font-size: 20px;line-height: 23px;}
-	<?php } ?>
-	</style>
 	<script type="text/javascript">
 	jQuery(function(){
 		jQuery('span.delete a').click(function(){
@@ -82,9 +77,7 @@ function weixin_robot_basic_page() {
 		?>
 		<div class="wrap">
 			<div id="icon-weixin-robot" class="icon32"><br></div><h2>微信机器人</h2>
-
 			<p>你还没有授权域名，点击这里：<a href="http://wpjam.net/wp-admin/admin.php?page=orders&domain_limit=1&product_id=56" class="button">授权域名</a></p>
-
 		</div>
 		<?php
 	}
@@ -220,7 +213,8 @@ function weixin_robot_get_advanced_option_labels(){
 		'hot'			=>array('title'=>'返回浏览最高日志关键字',		'type'=>'text',	'description'=>'博客必须首先安装 Postview 插件！'),
 		'comment'		=>array('title'=>'返回留言最高日志关键字',		'type'=>'text'),
 		'hot-7'			=>array('title'=>'返回7天内浏览最高日志关键字',	'type'=>'text',	'description'=>'博客必须首先安装 Postview 插件！'),
-		'comment-7'		=>array('title'=>'返回7天内留言最高日志关键字',	'type'=>'text')
+		'comment-7'		=>array('title'=>'返回7天内留言最高日志关键字',	'type'=>'text'),
+		
 	);
 
 	$advanced_section_fileds = apply_filters('weixin_advanced_fileds',$advanced_section_fileds);
@@ -248,4 +242,32 @@ function weixin_robot_get_default_advanced_option(){
 
 function weixin_robot_advanced_section_callback(){
 	echo '<p style="color:red; font-weight:bold;">修改下面的关键字，请主要修改下基本设置中欢迎语中对应的关键字。</p>';
+}
+
+function weixin_robot_tables_page() {
+	$weixin_tables = array(
+		'自定义回复'		=> 'weixin_robot_custom_replies_create_table',
+		'微信用户'		=> 'weixin_robot_users_create_table',
+		'微信用户积分'	=> 'weixin_robot_credits_create_table',
+	);
+
+	if(weixin_robot_get_setting('weixin_disable_stats')==false){
+		$weixin_tables['微信消息'] = 'weixin_robot_messages_create_table';
+	}
+
+	$weixin_tables = apply_filters('weixin_tables',$weixin_tables);
+	?>
+	<div class="wrap">
+		<div id="icon-weixin-robot" class="icon-users icon32"><br></div>
+		<h2>数据表检测</h2>
+		<p>点击该页面会自动创建或者检测微信机器人所需的数据库表，所以建议每次升级或者安装附加组件之后请点击该页面：</p>
+		<ol>
+		<?php foreach ($weixin_tables as $name => $function) {
+			call_user_func($function);
+			echo '<li><strong>'.$name.'</strong>表已经创建</li>';
+		}
+		?>
+		</ol>
+	</div>
+	<?php
 }

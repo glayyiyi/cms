@@ -1,8 +1,10 @@
 <?php 
-add_action('weixin_robot','wpjam_stats_weixin_robot',10,2);
-function wpjam_stats_weixin_robot($postObj,$response){
-	if($response){
-		weixin_robot_insert_message($postObj,$response);
+add_action('weixin_robot','wpjam_stats_weixin_robot');
+function wpjam_stats_weixin_robot($wechatObj){
+	$response	= $wechatObj->get_response();
+	$postObj	= $wechatObj->get_postObj();
+	if($response && $postObj){
+		weixin_robot_insert_message($postObj, $response);
 	}
 }
 
@@ -139,7 +141,7 @@ function weixin_robot_get_message($id){
 add_action('admin_head','weixin_robot_stats_admin_head',999);
 function weixin_robot_stats_admin_head(){
 	global $plugin_page;
-	if(in_array($plugin_page, array('weixin-robot-stats', 'weixin-robot-summary'))){
+	if(in_array($plugin_page, array('weixin-robot-stats2','yixin-robot-stats2'))){
 ?>
 <link rel="stylesheet" href="http://cdn.staticfile.org/morris.js/0.4.2/morris.min.css" />
 <script type='text/javascript' src="http://cdn.staticfile.org/raphael/2.1.0/raphael-min.js"></script>
@@ -229,299 +231,316 @@ function weixin_robot_get_response_types(){
 	return apply_filters('weixin_response_types',$response_types);
 }
 
-function weixin_robot_stats_page() {
+function weixin_robot_stats2_page(){
+	global $wpdb, $plugin_page;
+
+	$start_date	= weixin_robot_stats_get_start_date();
+	$end_date 	= weixin_robot_stats_get_end_date();
+
+	$current_tab = isset($_GET['tab'])?$_GET['tab']:'stats';
+
+	$tabs = array('stats'=>'消息统计分析','summary'=>'回复统计分析');
 	?>
 	<div class="wrap">
-		<div id="icon-weixin-robot" class="icon32"><br></div> 
-		<h2>消息统计分析</h2>
-		<?php
-		global $wpdb, $plugin_page;
+		<h2 class="nav-tab-wrapper">
+		<?php foreach ($tabs as $tab=>$tab_name) {?>
+			<a class="nav-tab <?php if($current_tab == $tab){ echo 'nav-tab-active'; } ?>" href="<?php echo 'admin.php?page='.$plugin_page.'&tab='.$tab.'&start_date='.$start_date.'&end_date='.$end_date;?>"><?php echo $tab_name; ?></a>
+	    <?php }?>    
+	    </h2>
+	    <?php call_user_func('weixin_robot_'.$current_tab.'_page'); ?>
+	 </div>
+	<?php
+}
 
-		$start_date	= weixin_robot_stats_get_start_date();
-		$end_date 	= weixin_robot_stats_get_end_date();
-		$end_time	= $end_date.' 23:59:59';
+function weixin_robot_stats_page() {
+	?>
+	<h3>消息统计分析</h3>
+	<?php
+	global $wpdb, $plugin_page;
 
-		$type = weixin_robot_stats_get_type();
-		if(!$type) $type = 'total';
+	$start_date	= weixin_robot_stats_get_start_date();
+	$end_date 	= weixin_robot_stats_get_end_date();
+	$end_time	= $end_date.' 23:59:59';
 
-		$types = weixin_robot_stats_get_types();
-		
-		$weixin_messages_table = weixin_robot_get_messages_table();
+	$type = weixin_robot_stats_get_type();
+	if(!$type) $type = 'total';
 
-		$where = 'CreateTime > '.strtotime($start_date).' AND CreateTime < '.strtotime($end_time);
-		$sum = "
-		SUM(case when MsgType='text' then 1 else 0 end) as text,
-		SUM(case when MsgType='event' AND Event!='subscribe' AND Event!='unsubscribe' then 1 else 0 end) as event, 
-		SUM(case when MsgType='event' AND Event='subscribe' then 1 else 0 end) as subscribe, 
-		SUM(case when MsgType='event' AND Event='unsubscribe' then 1 else 0 end) as unsubscribe,
-		SUM(case when MsgType='location' then 1 else 0 end) as location, 
-		SUM(case when MsgType='image' then 1 else 0 end) as image, 
-		SUM(case when MsgType='link' then 1 else 0 end) as link, 
-		SUM(case when MsgType='voice' then 1 else 0 end) as voice
-		";
+	$types = weixin_robot_stats_get_types();
+	
+	$weixin_messages_table = weixin_robot_get_messages_table();
 
-		weixin_robot_stats_header();
+	$where = 'CreateTime > '.strtotime($start_date).' AND CreateTime < '.strtotime($end_time);
+	$sum = "
+	SUM(case when MsgType='text' then 1 else 0 end) as text,
+	SUM(case when MsgType='event' AND Event!='subscribe' AND Event!='unsubscribe' then 1 else 0 end) as event, 
+	SUM(case when MsgType='event' AND Event='subscribe' then 1 else 0 end) as subscribe, 
+	SUM(case when MsgType='event' AND Event='unsubscribe' then 1 else 0 end) as unsubscribe,
+	SUM(case when MsgType='location' then 1 else 0 end) as location, 
+	SUM(case when MsgType='image' then 1 else 0 end) as image, 
+	SUM(case when MsgType='link' then 1 else 0 end) as link, 
+	SUM(case when MsgType='voice' then 1 else 0 end) as voice
+	";
 
-		$sql = "SELECT {$sum} FROM {$weixin_messages_table} WHERE {$where}";
+	weixin_robot_stats_header();
 
-		$count = $wpdb->get_row($sql);
+	$sql = "SELECT {$sum} FROM {$weixin_messages_table} WHERE {$where}";
 
-		?>
-		<div style="display:table;">
+	$count = $wpdb->get_row($sql);
 
-			<div style="display: table-row;">
+	?>
+	<div style="display:table;">
 
-				<div id="total-chart" style="display: table-cell; width:450px; float:left;"></div>
+		<div style="display: table-row;">
 
-				<div style="display: table-cell; float:left; width:200px;">
-					<table class="widefat" cellspacing="0">
-						<thead>
-							<tr>
-								<th>类型</th>
-								<th>数量</th>
-							</tr>
-						</thead>
-						<tbody>
-						<?php $data = array();?>
-						<?php $alternate = '';?>
-						<?php foreach ($types as $key=>$value) { $alternate = $alternate?'':'alternate';?>
-							<?php if($key != 'total' && $count->$key){?>
-							<?php $data []= '{"label": "'.$value.'", "value": '.$count->$key.' }'; ?>
-							<tr class="<?php echo $alternate; ?>">
-								<td><?php echo $value; ?></td>
-								<td><?php echo $count->$key; ?></td>
-							</tr>
-							<?php }?>
-						<?php } ?>
-						<?php $data = "\n".implode(",\n", $data)."\n";?>
-						</tbody>
-					</table>
-				</div>
+			<div id="total-chart" style="display: table-cell; width:450px; float:left;"></div>
 
+			<div style="display: table-cell; float:left; width:200px;">
+				<table class="widefat" cellspacing="0">
+					<thead>
+						<tr>
+							<th>类型</th>
+							<th>数量</th>
+						</tr>
+					</thead>
+					<tbody>
+					<?php $data = array();?>
+					<?php $alternate = '';?>
+					<?php foreach ($types as $key=>$value) { $alternate = $alternate?'':'alternate';?>
+						<?php if($key != 'total' && $count->$key){?>
+						<?php $data []= '{"label": "'.$value.'", "value": '.$count->$key.' }'; ?>
+						<tr class="<?php echo $alternate; ?>">
+							<td><?php echo $value; ?></td>
+							<td><?php echo $count->$key; ?></td>
+						</tr>
+						<?php }?>
+					<?php } ?>
+					<?php $data = "\n".implode(",\n", $data)."\n";?>
+					</tbody>
+				</table>
 			</div>
 
 		</div>
 
-		<script type="text/javascript">
-			Morris.Donut({
-			  element: 'total-chart',
-			  data: [<?php echo $data;?>]
-			});
-		</script>
+	</div>
 
-		<div style="clear:both;"></div>
+	<script type="text/javascript">
+		Morris.Donut({
+		  element: 'total-chart',
+		  data: [<?php echo $data;?>]
+		});
+	</script>
 
-		<h3>每日详细数据</h3>
+	<div style="clear:both;"></div>
 
-		<ul class="subsubsub">
-			<?php $current_page_base_url = 'admin.php?page='.$plugin_page.'&start_date='.$start_date.'&end_date='.$end_date; ?>
-			<?php foreach ($types as $key=>$value) { ?>
-			<li class="<?php echo $key?>"><a href="<?php echo admin_url($current_page_base_url.'&type='.$key)?>" <?php if($type == $key) {?> class="current"<?php } ?>><?php echo $value;?></a> |</li>
-			<?php }?>
-		</ul>
+	<h3>每日详细数据</h3>
 
-		<div style="clear:both;"></div>
+	<ul class="subsubsub">
+		<?php $current_page_base_url = 'admin.php?page='.$plugin_page.'&start_date='.$start_date.'&end_date='.$end_date; ?>
+		<?php foreach ($types as $key=>$value) { ?>
+		<li class="<?php echo $key?>"><a href="<?php echo admin_url($current_page_base_url.'&type='.$key)?>" <?php if($type == $key) {?> class="current"<?php } ?>><?php echo $value;?></a> |</li>
+		<?php }?>
+	</ul>
 
-		<?php
+	<div style="clear:both;"></div>
 
-		$sql = "SELECT FROM_UNIXTIME(CreateTime, '%Y-%m-%d') as day, count(id) as total, {$sum} FROM {$weixin_messages_table} WHERE {$where} GROUP BY day ORDER BY day;";
+	<?php
 
-		$counts = $wpdb->get_results($sql);
+	$sql = "SELECT FROM_UNIXTIME(CreateTime, '%Y-%m-%d') as day, count(id) as total, {$sum} FROM {$weixin_messages_table} WHERE {$where} GROUP BY day ORDER BY day;";
 
-		$data = array();
+	$counts = $wpdb->get_results($sql);
 
-		if($type == 'total'){	
-			$morris_ykeys = array('total','text','event','subscribe','unsubscribe');
+	$data = array();
 
-			$morris_labels = array();
-			foreach ($morris_ykeys as $morris_ykey) {
-				$morris_labels[] = $types[$morris_ykey];
-			}
+	if($type == 'total'){	
+		$morris_ykeys = array('total','text','event','subscribe','unsubscribe');
 
-			foreach ($counts as $count) {
-				$morris_data = '';
-				foreach ($morris_ykeys as $morris_ykey) {
-					$morris_data .= ', "'.$morris_ykey.'": '.$count->$morris_ykey;
-				}
-				$data []= '{"day": "'.$count->day.'"'.$morris_data.' }';
-			}
-
-			$morris_ykeys = "'".implode("','", $morris_ykeys)."'";
-			$morris_labels = "'".implode("','", $morris_labels)."'";
-
-		}else{
-			$morris_ykeys = "'".$type."'";
-			$morris_labels = "'".$types[$type]."'";
-
-			foreach ($counts as $count) {
-				$data []= '{"day": "'.$count->day.'"'.', "'.$type.'": '.$count->$type.' }';
-			}
+		$morris_labels = array();
+		foreach ($morris_ykeys as $morris_ykey) {
+			$morris_labels[] = $types[$morris_ykey];
 		}
 
-		$data = "\n".implode(",\n", $data)."\n";
+		foreach ($counts as $count) {
+			$morris_data = '';
+			foreach ($morris_ykeys as $morris_ykey) {
+				$morris_data .= ', "'.$morris_ykey.'": '.$count->$morris_ykey;
+			}
+			$data []= '{"day": "'.$count->day.'"'.$morris_data.' }';
+		}
 
-		?>
-		
-		<div id="daily-chart"></div>
+		$morris_ykeys = "'".implode("','", $morris_ykeys)."'";
+		$morris_labels = "'".implode("','", $morris_labels)."'";
 
-		<script type="text/javascript">
-			Morris.Line({
-				element: 'daily-chart',
-				data: [<?php echo $data;?>],
-				xkey: 'day',
-				ykeys: [<?php echo $morris_ykeys;?>],
-				labels: [<?php echo $morris_labels;?>]
-			});
-		</script>
-		
-		<table class="widefat" cellspacing="0">
-		<thead>
-			<tr>
-				<th>日期</th>
-				<?php foreach ($types as $key=>$value) {?>
-				<th><?php echo $value;?></th>
-				<?php }?>
-			</tr>
-		</thead>
-		<tbody>
-		<?php $alternate = ''; ?>
-		<?php foreach (array_reverse($counts) as $count) { $alternate = $alternate?'':'alternate';?>
-			<tr class="<?php echo $alternate; ?>">
-				<td><?php echo $count->day; ?></td>
-				<?php foreach ($types as $key=>$value) {?>
-				<td><?php echo $count->$key;?></td>
-				<?php }?>
-			</tr>
-		<?php } ?>
-		</tbody>
-		</table>
-		<?php
+	}else{
+		$morris_ykeys = "'".$type."'";
+		$morris_labels = "'".$types[$type]."'";
+
+		foreach ($counts as $count) {
+			$data []= '{"day": "'.$count->day.'"'.', "'.$type.'": '.$count->$type.' }';
+		}
+	}
+
+	$data = "\n".implode(",\n", $data)."\n";
+
+	?>
+	
+	<div id="daily-chart"></div>
+
+	<script type="text/javascript">
+		Morris.Line({
+			element: 'daily-chart',
+			data: [<?php echo $data;?>],
+			xkey: 'day',
+			ykeys: [<?php echo $morris_ykeys;?>],
+			labels: [<?php echo $morris_labels;?>]
+		});
+	</script>
+	
+	<table class="widefat" cellspacing="0">
+	<thead>
+		<tr>
+			<th>日期</th>
+			<?php foreach ($types as $key=>$value) {?>
+			<th><?php echo $value;?></th>
+			<?php }?>
+		</tr>
+	</thead>
+	<tbody>
+	<?php $alternate = ''; ?>
+	<?php foreach (array_reverse($counts) as $count) { $alternate = $alternate?'':'alternate';?>
+		<tr class="<?php echo $alternate; ?>">
+			<td><?php echo $count->day; ?></td>
+			<?php foreach ($types as $key=>$value) {?>
+			<td><?php echo $count->$key;?></td>
+			<?php }?>
+		</tr>
+	<?php } ?>
+	</tbody>
+	</table>
+	<?php
 }
 
 function weixin_robot_summary_page(){ 
 	?>
-	<div class="wrap">
-		<div id="icon-weixin-robot" class="icon32"><br></div>
-		<h2>回复统计分析</h2>
-		<?php 
-		global $wpdb, $plugin_page;
+	<h3>回复统计分析</h3>
+	<?php 
+	global $wpdb, $plugin_page;
 
-		$start_date	= weixin_robot_stats_get_start_date();
-		$end_date 	= weixin_robot_stats_get_end_date();
-		$end_time	= $end_date.' 23:59:59';
+	$start_date	= weixin_robot_stats_get_start_date();
+	$end_date 	= weixin_robot_stats_get_end_date();
+	$end_time	= $end_date.' 23:59:59';
 
-		$response_types = weixin_robot_get_response_types();
-		$response_type = isset($_GET['response_type'])?$_GET['response_type']:'total';
+	$response_types = weixin_robot_get_response_types();
+	$response_type = isset($_GET['response_type'])?$_GET['response_type']:'total';
 
-		$weixin_messages_table = weixin_robot_get_messages_table();
+	$weixin_messages_table = weixin_robot_get_messages_table();
 
-		$where = 'CreateTime > '.strtotime($start_date).' AND CreateTime < '.strtotime($end_time);
+	$where = 'CreateTime > '.strtotime($start_date).' AND CreateTime < '.strtotime($end_time);
 
-		weixin_robot_stats_header();
+	weixin_robot_stats_header();
 
-		$sql = "SELECT COUNT( * ) AS count, Response FROM {$weixin_messages_table} WHERE {$where} AND (MsgType ='text' OR MsgType = 'event') AND Event!='subscribe' AND Event!='unsubscribe' GROUP BY Response ORDER BY count DESC";
+	$sql = "SELECT COUNT( * ) AS count, Response FROM {$weixin_messages_table} WHERE {$where} AND (MsgType ='text' OR MsgType = 'event') AND Event!='subscribe' AND Event!='unsubscribe' GROUP BY Response ORDER BY count DESC";
 
-		$counts = $wpdb->get_results($sql);
-		?>
-		<div style="display:table;">
+	$counts = $wpdb->get_results($sql);
+	?>
+	<div style="display:table;">
 
-			<div style="display: table-row;">
+		<div style="display: table-row;">
 
-				<div id="total-chart" style="display: table-cell; width:450px; float:left;"></div>
+			<div id="total-chart" style="display: table-cell; width:450px; float:left;"></div>
 
-				<div style="display: table-cell; float:left; width:200px;">
-					<table class="widefat" cellspacing="0">
-						<thead>
-							<tr>
-								<th>回复类型</th>
-								<th>数量</th>
-							</tr>
-						</thead>
-						<tbody>
-						<?php $data = array(); $i=0;?>
-						<?php $alternate = '';?>
-						<?php foreach ($counts as $count) { $alternate = $alternate?'':'alternate';?>
-							<?php if($count->Response && isset($response_types[$count->Response])){?>
-							<?php $data []= '{"label": "'.$response_types[$count->Response].'", "value": '.$count->count.' }'; $i ++; ?>
-							<tr class="<?php echo $alternate;?>">
-								<td><?php echo $response_types[$count->Response]; ?></td>
-								<td><?php echo $count->count; ?></td>
-							</tr>
-							<?php }?>
-						<?php } ?>
-						<?php $data = "\n".implode(",\n", $data)."\n";?>
-						</tbody>
-					</table>
-				</div>
-
+			<div style="display: table-cell; float:left; width:200px;">
+				<table class="widefat" cellspacing="0">
+					<thead>
+						<tr>
+							<th>回复类型</th>
+							<th>数量</th>
+						</tr>
+					</thead>
+					<tbody>
+					<?php $data = array(); $i=0;?>
+					<?php $alternate = '';?>
+					<?php foreach ($counts as $count) { $alternate = $alternate?'':'alternate';?>
+						<?php if($count->Response && isset($response_types[$count->Response])){?>
+						<?php $data []= '{"label": "'.$response_types[$count->Response].'", "value": '.$count->count.' }'; $i ++; ?>
+						<tr class="<?php echo $alternate;?>">
+							<td><?php echo $response_types[$count->Response]; ?></td>
+							<td><?php echo $count->count; ?></td>
+						</tr>
+						<?php }?>
+					<?php } ?>
+					<?php $data = "\n".implode(",\n", $data)."\n";?>
+					</tbody>
+				</table>
 			</div>
 
 		</div>
 
-		<script type="text/javascript">
-			Morris.Donut({
-			  element: 'total-chart',
-			  data: [<?php echo $data;?>]
-			});
-		</script>
+	</div>
 
-		<div style="clear:both;"></div>
+	<script type="text/javascript">
+		Morris.Donut({
+		  element: 'total-chart',
+		  data: [<?php echo $data;?>]
+		});
+	</script>
 
-		<h3>详细回复统计分析</h3>
+	<div style="clear:both;"></div>
 
-		<ul class="subsubsub">
-			<?php $current_page_base_url = 'admin.php?page='.$plugin_page.'&start_date='.$start_date.'&end_date='.$end_date; ?>
-			<li class="<?php echo 'total'?>"><a href="<?php echo admin_url($current_page_base_url.'&response_type=total')?>" <?php if($response_type == 'total') {?> class="current"<?php } ?>>全部</a> |</li>
-			<?php foreach ($counts as $count) { ?>
-			<?php if($count->Response && isset($response_types[$count->Response])){?>
-			<li class="<?php echo $count->Response;?>"><a href="<?php echo admin_url($current_page_base_url.'&response_type='.$count->Response)?>" <?php if($response_type == $count->Response) {?> class="current"<?php } ?>><?php echo $response_types[$count->Response];?></a> |</li>
-			<?php } ?>
-			<?php }?>
-		</ul>
+	<h3>详细回复统计分析</h3>
 
-		<?php
-
-		if($response_type == 'total'){
-			$where .= " AND Response != ''";
-		}else{
-			$where .= " AND Response = '{$response_type}'";
-		}
-
-		$sql = "SELECT COUNT( * ) AS count, Response, MsgType, (case when Content='' then EventKey else Content end) as Content FROM {$weixin_messages_table} WHERE {$where} AND ( MsgType ='text' OR (MsgType = 'event'  AND Event!='subscribe' AND Event!='unsubscribe')) GROUP BY LOWER(Content) ORDER BY count DESC LIMIT 0 , 100";
-
-		$sql = "SELECT COUNT( * ) AS count, Response, MsgType, Content FROM ( SELECT Response, MsgType, LOWER(Content) as Content FROM {$weixin_messages_table} WHERE {$where} AND MsgType ='text' UNION ALL SELECT Response, MsgType,  LOWER(EventKey) as Content FROM {$weixin_messages_table} WHERE {$where} AND MsgType = 'event'  AND Event!='subscribe' AND Event!='unsubscribe') as T1 GROUP BY Content ORDER BY count DESC LIMIT 0 , 100";
-
-		
-		$weixin_hot_messages = $wpdb->get_results($sql);
-		?>
-		<table class="widefat" cellspacing="0">
-		<thead>
-			<tr>
-				<th style="width:60px">排名</th>
-				<th style="width:80px">数量</th>
-				<th>关键词</th>
-				<th style="width:150px">回复类型</th>
-			</tr>
-		</thead>
-		<tbody>
-		<?php
-		$i = 0;
-		$alternate = '';
-		foreach ($weixin_hot_messages as $weixin_message) {
-			if(isset($response_types[$weixin_message->Response])){
-			$alternate = $alternate?'':'alternate';
-			$i++;
-		?>
-			<tr class="<?php echo $alternate; ?>">
-				<td><?php echo $i; ?></td>
-				<td><?php echo $weixin_message->count; ?></td>
-				<td><?php echo $weixin_message->Content; ?></td>
-				<td><?php echo $response_types[$weixin_message->Response]; ?></td>
-			</tr>
-			<?php } ?>
+	<ul class="subsubsub">
+		<?php $current_page_base_url = 'admin.php?page='.$plugin_page.'&start_date='.$start_date.'&end_date='.$end_date; ?>
+		<li class="<?php echo 'total'?>"><a href="<?php echo admin_url($current_page_base_url.'&response_type=total')?>" <?php if($response_type == 'total') {?> class="current"<?php } ?>>全部</a> |</li>
+		<?php foreach ($counts as $count) { ?>
+		<?php if($count->Response && isset($response_types[$count->Response])){?>
+		<li class="<?php echo $count->Response;?>"><a href="<?php echo admin_url($current_page_base_url.'&response_type='.$count->Response)?>" <?php if($response_type == $count->Response) {?> class="current"<?php } ?>><?php echo $response_types[$count->Response];?></a> |</li>
 		<?php } ?>
-		</tbody>
-		</table>
+		<?php }?>
+	</ul>
+
+	<?php
+
+	if($response_type == 'total'){
+		$where .= " AND Response != ''";
+	}else{
+		$where .= " AND Response = '{$response_type}'";
+	}
+
+	$sql = "SELECT COUNT( * ) AS count, Response, MsgType, (case when Content='' then EventKey else Content end) as Content FROM {$weixin_messages_table} WHERE {$where} AND ( MsgType ='text' OR (MsgType = 'event'  AND Event!='subscribe' AND Event!='unsubscribe')) GROUP BY LOWER(Content) ORDER BY count DESC LIMIT 0 , 100";
+
+	$sql = "SELECT COUNT( * ) AS count, Response, MsgType, Content FROM ( SELECT Response, MsgType, LOWER(Content) as Content FROM {$weixin_messages_table} WHERE {$where} AND MsgType ='text' UNION ALL SELECT Response, MsgType,  LOWER(EventKey) as Content FROM {$weixin_messages_table} WHERE {$where} AND MsgType = 'event'  AND Event!='subscribe' AND Event!='unsubscribe') as T1 GROUP BY Content ORDER BY count DESC LIMIT 0 , 100";
+
+	
+	$weixin_hot_messages = $wpdb->get_results($sql);
+	?>
+	<table class="widefat" cellspacing="0">
+	<thead>
+		<tr>
+			<th style="width:60px">排名</th>
+			<th style="width:80px">数量</th>
+			<th>关键词</th>
+			<th style="width:150px">回复类型</th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php
+	$i = 0;
+	$alternate = '';
+	foreach ($weixin_hot_messages as $weixin_message) {
+		if(isset($response_types[$weixin_message->Response])){
+		$alternate = $alternate?'':'alternate';
+		$i++;
+	?>
+		<tr class="<?php echo $alternate; ?>">
+			<td><?php echo $i; ?></td>
+			<td><?php echo $weixin_message->count; ?></td>
+			<td><?php echo $weixin_message->Content; ?></td>
+			<td><?php echo $response_types[$weixin_message->Response]; ?></td>
+		</tr>
+		<?php } ?>
+	<?php } ?>
+	</tbody>
+	</table>
 	<?php
 }
 
@@ -604,10 +623,6 @@ function weixin_robot_messages_page() {
 
 		$total_count	= $wpdb->get_var("SELECT FOUND_ROWS();");
 
-		$weixin_messages_parts = array();
-		foreach($weixin_messages as $weixin_message){ 
-			$weixin_messages_parts[$weixin_message->FromUserName][] = $weixin_message;
-		}
 		?>
 
 		<?php if(!empty($succeed_msg)){?>
@@ -627,59 +642,50 @@ function weixin_robot_messages_page() {
 			<tr>
 				<?php if(weixin_robot_get_setting('weixin_advanced_api') && strpos($weixin_messages_table, 'weixin')){?>
 				<th>用户</th>
-				<th style="width:120px;">详细信息</th>
-				<?php } ?>
-				<th style="width:120px;">时间</th>
-				<th style="width:60px;">类型</th>
+				<th>详细信息</th>
+				<?php } else { ?>
+				<th>用户</th>
+				<?php }?>
 				<th style="min-width:300px;">内容</th>
-				<th style="width:100px;">回复类型</th>
-				<th style="width:40px;">操作</th>
+				<th>类型</th>
+				<th>回复类型</th>
+				<th>操作</th>
 			</tr>
 		</thead>
 		<tbody>
-		<?php 
-		//if(!function_exists('bfi_thumb')){
-		//	require_once( WEIXIN_ROBOT_PLUGIN_DIR.'/include/BFI_Thumb.php' );
-		//}
+		<?php
 		
 		$alternate = '';
-		foreach ($weixin_messages_parts as $weixin_openid => $weixin_messages_part) {
-			if(weixin_robot_get_setting('weixin_advanced_api') && strpos($weixin_messages_table, 'weixin')){
-
-				$weixin_user = weixin_robot_get_user($weixin_openid);
+		foreach($weixin_messages as $weixin_message){ 
+			$MsgType = $weixin_message->MsgType; $alternate = $alternate?'':'alternate';
+			$weixin_openid = $weixin_message->FromUserName;
+			
+			?>
+			<tr id="<?php echo $weixin_message->id;?>" class="<?php echo $alternate; ?>">
+			<?php if(weixin_robot_get_setting('weixin_advanced_api') && strpos($weixin_messages_table, 'weixin')){?>
+				<?php $weixin_user = weixin_robot_get_user($weixin_openid); ?>
+				<?php if($weixin_user['subscribe']){ ?>
+				<td>
+				<?php 
 				$weixin_user_avatar = '';
 				if(!empty($weixin_user['headimgurl'])){
 					$weixin_user_avatar = WEIXIN_ROBOT_PLUGIN_URL.'/include/timthumb.php?src='.$weixin_user['headimgurl'];
-				}
-			}
-
-			$counter = 0;
-			$total = count($weixin_messages_part)+1;
-
-			foreach ($weixin_messages_part as $weixin_message) { $counter++; $MsgType = $weixin_message->MsgType; $alternate = $alternate?'':'alternate';?>
-			<tr id="<?php echo $weixin_message->id;?>" class="<?php echo $alternate; ?>">
-				<?php if(weixin_robot_get_setting('weixin_advanced_api') && strpos($weixin_messages_table, 'weixin')){?>
-				<?php if($counter == 1){ ?>
-				<?php if($weixin_user['subscribe']){ ?>
-				<td <?php if($total > 1) echo 'rowspan="'.$total.'"';?>>
-				<?php if($weixin_user_avatar) {?>
+				?>
 					<a href="<?php echo admin_url('admin.php?page='.$plugin_page.'&openid='.$weixin_openid)?>"><img src="<?php echo $weixin_user_avatar; ?>" width="32" /></a>
 				<?php }?>
 				</td>
-				<td <?php if($total > 1) echo 'rowspan="'.$total.'"';?>>
-					<?php echo $weixin_user['nickname']; ?><br />
-					性别：<?php echo $weixin_user['sex']?'男':'女';?><br />
-					地址：<?php echo $weixin_user['country'].' '.$weixin_user['province'].' '.$weixin_user['city'];?><br />
+				<td>
+					<?php echo $weixin_user['nickname']; ?>（<?php if($weixin_user['sex']==1){ echo '男'; } elseif($weixin_user['sex']==2) { echo '女'; }else{ echo "未知"; }?>）<br />
+					<?php echo $weixin_user['country'].' '.$weixin_user['province'].' '.$weixin_user['city'];?><br />
 				</td>
 				<?php } else{ ?>
-				<td colspan="2" <?php if($total > 1) echo 'rowspan="'.$total.'"';?>>
+				<td colspan="2">
 					<span style="color:red;">*已经取消关注</span>
 				</td>
 				<?php } ?>
-				<?php } ?>
-				<?php } ?>
-				<td><?php echo date('Y-m-d H:i:s',$weixin_message->CreateTime+8*60*60); ?></td>
-				<td><?php echo $types[$MsgType]; ?></td>
+			<?php }else{ ?>
+				<td><?php echo $weixin_openid; ?></td>
+			<?php } ?>
 				<td>
 				<?php
 				if($MsgType == 'text'){
@@ -707,6 +713,7 @@ function weixin_robot_messages_page() {
 				}
 				?>
 				</td>
+				<td><?php echo $types[$MsgType]; ?><br /><?php echo date('Y-m-d H:i:s',$weixin_message->CreateTime+8*60*60); ?></td>
 				<td>
 					<?php 
 					if(is_numeric($weixin_message->Response) ){
@@ -730,42 +737,42 @@ function weixin_robot_messages_page() {
 				</td>
 			</tr>
 			<?php } ?>
+
 			<?php if(weixin_robot_get_setting('weixin_advanced_api') && strpos($weixin_messages_table, 'weixin')){?>
-			<tr id='tr_<?php echo $weixin_openid?>'>
-				<td colspan="5" id="td_<?php echo $weixin_openid?>">
+			<tr id="reply_form" style="display:none;" >
+				<td colspan="2">&nbsp;</td>
+				<td colspan="4">
+				<form action="<?php echo admin_url('admin.php?page='.$plugin_page); ?>" method="POST">
+					<p>
+						<textarea name="content" id="content" rows="5" class="large-text code"></textarea>
+					</p>
+					<?php /*<p>
+						<select name="reply_type" id="reply_type" >
+							<option value="img">图文回复</option>
+							<option value="text">文本回复</option>
+						</select>
+					</p>*/?>
+					<input type="hidden" name="weixin_openid" id="weixin_openid" value="" />
+					<input type="hidden" name="reply_id" id="reply_id" value="" />
+					<?php wp_nonce_field('weixin_robot','weixin_robot_send_user_nonce'); ?>
+					<p><input type="submit" name="submit" id="submit" class="button button-primary" value="回复用户" style="float:right; margin-right:20px;"></p>
+				</form>
 				</td>
 			</tr>
 			<?php } ?>
-		<?php } ?>
 		</tbody>
 		</table>
 		<?php wpjam_admin_pagenavi($total_count,$number_per_page); ?>
 		<?php if(weixin_robot_get_setting('weixin_advanced_api') && strpos($weixin_messages_table, 'weixin')){?>
-		<form id="reply_form" style="display:none;" action="<?php echo admin_url('admin.php?page='.$plugin_page); ?>" method="POST">
-			<p>
-				<textarea name="content" id="content" rows="5" class="large-text code"></textarea>
-			</p>
-			<?php /*<p>
-				<select name="reply_type" id="reply_type" >
-					<option value="img">图文回复</option>
-					<option value="text">文本回复</option>
-				</select>
-			</p>*/?>
-			<input type="hidden" name="weixin_openid" id="weixin_openid" value="" />
-			<input type="hidden" name="reply_id" id="reply_id" value="" />
-			<?php wp_nonce_field('weixin_robot','weixin_robot_send_user_nonce'); ?>
-			<p>
-				<input type="submit" name="submit" id="submit" class="button button-primary" value="回复用户">
-			</p>
-		</form>
 		<script type="text/javascript">
 			function reply_to_weixin(weixin_openid, id){
+				//reply_to_weixin('ogP3AjhYgp3wQFk7IZ6ZOkzyyTQA', '17886')
 				jQuery('input#weixin_openid')[0].value = weixin_openid;
 				jQuery('input#reply_id')[0].value = id;
-				jQuery('#td_'+weixin_openid).append(jQuery('#reply_form'));
+				jQuery('tr#'+id).after(jQuery('#reply_form'));
 				//jQuery('tr#'+id).append(jQuery('#reply_form'));
-				jQuery('tr#'+id).after(jQuery('#tr_'+weixin_openid));
-				jQuery('#reply_form').show();
+				//jQuery('tr#'+id).after(jQuery('#tr_'+weixin_openid));
+				jQuery('tr#reply_form').show();
 			}
 		</script>
 		<?php } ?>
