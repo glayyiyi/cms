@@ -3,7 +3,7 @@
 Plugin Name: 微信机器人高级版
 Plugin URI: http://wpjam.net/item/weixin-robot-advanced/
 Description: 微信机器人的主要功能就是能够将你的公众账号和你的 WordPress 博客联系起来，搜索和用户发送信息匹配的日志，并自动回复用户，让你使用微信进行营销事半功倍。
-Version: 3.5
+Version: 3.6
 Author: Denis
 Author URI: http://blog.wpjam.com/
 */
@@ -36,7 +36,7 @@ class wechatCallback {
 			$this->checkSignature();
 			$this->responseMsg();
 		}else{
-			if($this->checkSignature() || isset($_GET['yixin']) ||isset ($_GET['weixin-search'] )){
+			if($this->checkSignature() || isset($_GET['yixin'])||isset ($_GET['weixin-search'] )){
 				if(isset($_GET["echostr"])){
 					$echoStr = $_GET["echostr"];
 					echo $echoStr;					
@@ -48,12 +48,10 @@ class wechatCallback {
 	}
 
 	public function responseMsg(){
-		//get post data, May be due to the different environments
 		$postStr = (isset($GLOBALS["HTTP_RAW_POST_DATA"]))?$GLOBALS["HTTP_RAW_POST_DATA"]:'';
 		//file_put_contents(WP_CONTENT_DIR.'/uploads/test.html',var_export($postStr,true));
 
-		if (isset($_GET['debug']) || !empty($postStr) || isset ($_GET['weixin-search'] )){
-			
+		if (isset($_GET['debug']) || !empty($postStr)||||isset ($_GET['weixin-search'] )){	
 			if(isset($_GET['debug'])){
 				$this->fromUsername = $this->toUsername = '';
 				$keyword = strtolower(trim($_GET['t']));
@@ -66,46 +64,42 @@ class wechatCallback {
 				$postObj		= simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
 
 				$this->postObj		= $postObj;
-				
+
 				$this->fromUsername	= (string)$postObj->FromUserName;
 				$this->toUsername	= (string)$postObj->ToUserName;
-				
+
 				$msgType = strtolower(trim($postObj->MsgType));
 
-				if($msgType == 'text'){
+				if($msgType == 'text'){ 			// 文本消息
 					$keyword = strtolower(trim($postObj->Content));
-				}elseif($msgType == 'event'){
+				}elseif($msgType == 'event'){		// 事件消息
 					$event = strtolower(trim($postObj->Event));
 
-					if($event == 'subscribe' || $event == 'unsubscribe'){ // 订阅和取消订阅时间
+					if(in_array($event, array('subscribe', 'unsubscribe'))) { // 订阅和取消订阅事件
 						$keyword = $event;
-					}elseif($event == 'click'){	//点击事件
+					}elseif($event == 'click'){		//点击事件
 						$keyword = strtolower(trim($postObj->EventKey));
-					}elseif($event == 'view'){	//查看网页事件，估计也进不来。
+					}elseif($event == 'view'){		//查看网页事件，估计也进不来。
 						exit;
-					}elseif($event == 'location'){
+					}elseif($event == 'location'){	// 高级接口，用户自动提交地理位置事件。
 						$keyword = '[event-location]';
 					}
-				}else{
-					if(isset($postObj->Recognition) && trim($postObj->Recognition)){
+				}else{	
+					if(isset($postObj->Recognition) && trim($postObj->Recognition)){ // 如果已经识别了语言，识别之后的文字作为关键字
 						$keyword = strtolower(trim($postObj->Recognition));
-					}else{
+					}else{	// 其他消息，统一处理成关键字为 [{消息类}] ，后面再做处理。
 						$keyword = '['.$msgType.']';
 					}
 				}
 			}
 
-			if(empty( $keyword ) || strpos($keyword, '#') !== false ) {
-				echo "";
-				exit;
-			}
-
 			$pre = apply_filters('weixin_custom_keyword', false, $keyword);
 
-			if($pre == false){ // 如果不是自定义关键字，就直接搜索回复，其他各种情况都移到 hook.php 保持简洁和简单
+			if($pre == false){ // 如果不是自定义的关键字，就直接搜索回复。
 				$this->query($keyword);
-				do_action('weixin_robot',$postObj,$this->response);
 			}
+
+			do_action('weixin_robot',$this);	// 已经执行了一次完整的信息自动回复
 		}else {
 			echo "";
 		}
@@ -127,7 +121,6 @@ class wechatCallback {
 			'post_status'		=> 'publish',
 			'post_type'			=> $post_types
 		);
-		//print_r($weixin_query_array);
 
 		$weixin_query_array = apply_filters('weixin_query',$weixin_query_array); 
 
@@ -136,15 +129,13 @@ class wechatCallback {
 				$this->response = 'query';
 			}elseif(isset($weixin_query_array['cat'])){
 				$this->response = 'cat';
-			}elseif(isset($weixin_query_array['tag_id'])||isset($weixin_query_array['product_tag'])){
+			}elseif(isset($weixin_query_array['tag_id'])||isset($weixin_query_array['product_tag'])){//By Glay
 				$this->response = 'tag';
 			}else 
 				$this->response = '未知的返回';
 		}
 
 		global $wp_the_query;
-		//echo "=========";
-		//print_r($weixin_query_array);
 		$wp_the_query->query($weixin_query_array);
 
 		$items = '';
@@ -158,7 +149,7 @@ class wechatCallback {
 				global $post;
 
 				$title	= apply_filters('weixin_title', get_the_title()); 
-				$excerpt= apply_filters('weixin_description', get_post_excerpt( $post,apply_filters( 'weixin_description_length', 300 ) ) );
+				$excerpt= apply_filters('weixin_description', get_post_excerpt( $post,apply_filters( 'weixin_description_length', 300 ) ) );//By Glay
 				$url	= apply_filters('weixin_url', get_permalink());
 
 				if($counter == 0){
