@@ -43,13 +43,12 @@ function weixin_robot_get_credit($weixin_openid){
 
 	if($credit === false){
 		global $wpdb;
+
 		$weixin_credits_table = weixin_robot_credits_table();
 
 		$credit = $wpdb->get_var($wpdb->prepare("SELECT credit FROM {$weixin_credits_table} WHERE weixin_openid=%s ORDER BY id DESC LIMIT 0,1",$weixin_openid));
 
-		if(!$credit){
-			$credit = 0;
-		}
+		if(!$credit) $credit = 0;
 
 		wp_cache_set($weixin_openid,$credit,'weixin_user_credit');
 	}
@@ -66,9 +65,7 @@ function weixin_robot_get_exp($weixin_openid){
 
 		$exp = $wpdb->get_var($wpdb->prepare("SELECT exp FROM {$weixin_credits_table} WHERE weixin_openid=%s ORDER BY id DESC LIMIT 0,1",$weixin_openid));
 
-		if(!$exp){
-			$exp = 0;
-		}
+		if(!$exp) $exp = 0;
 
 		wp_cache_set($weixin_openid, $exp,'weixin_user_exp');
 	}
@@ -88,7 +85,7 @@ function weixin_robot_add_credit($arg){
 		'weixin_openid'	=> 0, 		// 微信 ID
 		'operator_id'	=> 0, 		// 默认为0
 		'credit_change'	=> 0, 		// 改动的积分
-		'exp_change'	=> 0, 		// 改动的经验值
+		'exp_change'	=> false, 	// 改动的经验值
 		'note'			=> '', 		// 注释
 		'multiple'		=> 1 		// 删除的倍数
 	);
@@ -105,13 +102,13 @@ function weixin_robot_add_credit($arg){
 	$old_exp 	= weixin_robot_get_exp($weixin_openid);;
 
 	$credit_change = intval($credit_change) * intval($multiple);
-	if(!$exp_change){
+	if($exp_change === false){ // 传递进来 0 就不加
 		$exp_change = $credit_change;
 	}
 
 	$limit = 0;
 
-	if($credit_change > 0 && $operator_id == 0 ){
+	if($credit_change > 0 && $operator_id == 0 ){ // 有 operator_id 就不检测每日上限
 		$today_credit_sum =  (int)$wpdb->get_var($wpdb->prepare("SELECT SUM(credit_change) FROM {$weixin_credits_table} WHERE weixin_openid=%s AND time<=%s AND time>=%s AND credit_change > 0 AND operator_id = 0",$weixin_openid,date('Y-m-d', current_time('timestamp')).' 23:59:59',date('Y-m-d', current_time('timestamp')).' 00:00:00'));
 
 		if($today_credit_sum >= weixin_robot_get_setting('weixin_day_credit_limit')){
@@ -146,37 +143,57 @@ function weixin_robot_add_credit($arg){
 
 	$wpdb->insert($weixin_credits_table, $data, $format);
 
+	do_action('weixin_credit',$arg);
+
 	return $credit_change;
+}
+
+// 回复用户现有的积分
+function weixin_robot_credit_reply(){
+	global $wechatObj;
+	$weixin_openid = $wechatObj->get_fromUsername();
+	$query_id = weixin_robot_user_get_query_id($weixin_openid);
+	$profile_link = home_url('/?weixin_user_profile&weixin_user_id='.$query_id);
+	
+	$credit = weixin_robot_get_credit($weixin_openid);
+	$credit_reply = apply_filters('weixin_credit_reply','你现在共有[credit]积分，点击这里查看<a href="[profile_link]">积分历史</a>。',$weixin_openid);
+
+	$credit_reply = str_replace(array('[credit]','[profile_link]'), array($credit,$profile_link), $credit_reply);
+	echo sprintf($wechatObj->get_textTpl(), $credit_reply);
+	$wechatObj->set_response('credit');
 }
 
 /*
 自定义hook 用于积分处理
 */
 // 签到回复
-add_filter('weixin_custom_keyword','wpjam_checkin_weixin_custom_keyword',10,2);
-function wpjam_checkin_weixin_custom_keyword($false,$keyword){
-	if($false === false){
-		if( in_array($keyword, array( '签到', 'checkin') ) ) {
-			global $wechatObj;
-			$weixin_openid = $wechatObj->get_fromUsername();
-
-			$credit_change = weixin_robot_daily_credit_checkin_2($weixin_openid);
-
-			$credit = weixin_robot_get_credit($weixin_openid);
-
-			if($credit_change){
-				$checkin = apply_filters('weixin_checkin_success','签到成功，添加 [credit_change]积分。你现在共有[credit]积分！',$weixin_openid);
-			}else{
-				$checkin = apply_filters('weixin_checkined','你在24小时内已经签到过了。你现在共有[credit]积分！',$weixin_openid);
-			}
-			
-			$checkin = str_replace(array('[credit_change]','[credit]'), array($credit_change, $credit), $checkin);
-			echo sprintf($wechatObj->get_textTpl(), $checkin);
-			$wechatObj->set_response('checkin');
-			wpjam_do_weixin_custom_keyword();
-		}
+function weixin_robot_checkin_reply(){
+	
+	if(isset($_GET['yixin']) ){
+		global $wechatObj;
+		echo sprintf($wechatObj->get_textTpl(), '易信不支持签到和积分系统。');
+		$wechatObj->set_response('checkin');
+		wpjam_do_weixin_custom_keyword();
 	}
-    return $false;
+
+	global $wechatObj;
+	$weixin_openid = $wechatObj->get_fromUsername();
+
+	$credit_change = weixin_robot_daily_credit_checkin_2($weixin_openid);
+
+	$credit = weixin_robot_get_credit($weixin_openid);
+
+	if($credit_change === false){
+		$checkin_reply = apply_filters('weixin_checkined','你在24小时内已经签到过了。你现在共有[credit]积分！',$weixin_openid);
+	}else{
+		$checkin_reply = apply_filters('weixin_checkin_success','签到成功，添加 [credit_change]积分。你现在共有[credit]积分！',$weixin_openid);
+	}
+	
+	$checkin_reply = str_replace(array('[credit_change]','[credit]'), array($credit_change, $credit), $checkin_reply);
+	echo sprintf($wechatObj->get_textTpl(), $checkin_reply);
+	$wechatObj->set_response('checkin');
+
+	do_action('weixin_checkin',$credit_change);
 }
 
 function weixin_robot_daily_credit_checkin($weixin_openid){ // 过了 24 小时才能签到
@@ -248,36 +265,50 @@ function weixin_robot_daily_credit_checkin_2($weixin_openid){ //过了 0 点就�
 
 add_filter('weixin_response_types','weixin_robot_credit_response_types');
 function weixin_robot_credit_response_types($response_types){
-    $response_types['checkin']	= '签到回复';
+    $response_types['checkin']		= '回复签到';
+    $response_types['credit']		= '回复积分';
     return $response_types;
 }
 
-add_filter('weixin_url','weixin_robot_url_add_query_id');
+// 给用户添加 query_id，用于访问页面时，获取当前用户
+add_filter('weixin_url','weixin_robot_url_add_query_id', 99);
 function weixin_robot_url_add_query_id($url){
-	global $wechatObj;
-	$weixin_openid = $wechatObj->get_fromUsername();
+	//if(is_weixin()){ // 没有 user-agent？
+		global $wechatObj;
+		$weixin_openid = $wechatObj->get_fromUsername();
 
-	$query_id = weixin_robot_user_get_query_id($weixin_openid);
+		$query_id = weixin_robot_user_get_query_id($weixin_openid);
 
-	return add_query_arg('weixin_user_id', $query_id, $url);
+		return add_query_arg('weixin_user_id', $query_id, $url);
+	//}else{
+	//	return $url;
+	//}	
 }
 
-add_action('weixin_share','weixin_robot_share_credit');
-function weixin_robot_share_credit($share_type){
-	if(isset($_GET['weixin_user_id'])){
-?>
-weixin_robot_credit_share('<?php echo $share_type;?>' );
-<?php
-	}
+// 需要加载 jQuery 用于 AJAX 获取积分。
+add_action( 'wp_enqueue_scripts', 'weixin_robot_enqueue_scripts' );
+function weixin_robot_enqueue_scripts() {
+	wp_enqueue_script('jquery');
 }
 
-add_action('wp_footer','weixin_robot_credit_footer',99);
-function weixin_robot_credit_footer(){
-	if(is_singular() && is_weixin() && isset($_GET['weixin_user_id'])){
-		global $post;
-		$nonce = wp_create_nonce( 'weixin_share' );
+// 用户微信分享的脚本
+add_action("wp_head","weixin_robot_share_head",99);
+function weixin_robot_share_head(){
+
+	if(is_singular() && is_weixin()){
+	global $post;
+	$nonce = wp_create_nonce( 'weixin_share' );
 ?>
 <script type="text/javascript">
+function htmlEncode(e) {
+    return e.replace(/&/g, "&amp;").replace(/ /g, "&nbsp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, "<br />").replace(/"/g, "&quot;")
+}
+
+function htmlDecode(e) {
+    return e.replace(/&#39;/g, "'").replace(/<br\s*(\/)?\s*>/g, "\n").replace(/&nbsp;/g, " ").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&amp;/g, "&")
+}
+
+<?php if(isset($_GET['weixin_user_id']) && $_GET['weixin_user_id']) { ?>
 function weixin_robot_credit_share(share_type){
 	jQuery.ajax({
 		type: "post",
@@ -294,14 +325,101 @@ function weixin_robot_credit_share(share_type){
 		}
 	});
 }
-</script>
-<?php
-	}
-}
+<?php }?>
 
-add_action( 'wp_enqueue_scripts', 'weixin_robot_enqueue_scripts' );
-function weixin_robot_enqueue_scripts() {
-	wp_enqueue_script('jquery');
+var 
+	appId	= "",
+	img		= "<?php echo get_post_weixin_thumb($post,array(120,120)); ?>",
+	link	= "<?php if(isset($_GET['weixin_user_id'])) { echo add_query_arg('weixin_user_id', $_GET['weixin_user_id'], get_permalink($post->ID)); } else {echo get_permalink($post->ID);} ;?>",
+	title	= htmlDecode("<?php echo $post->post_title; ?>"),
+	desc	= htmlDecode("<?php echo get_post_excerpt($post); ?>"),
+	fakeid	= "";
+
+	desc = desc || link;
+(function(){
+	var onBridgeReady=function(){
+
+		//WeixinJSBridge.call("hideOptionMenu");
+
+		//WeixinJSBridge.call('hideToolbar');
+
+	    /*jQuery("#weixin-user").on('click', function(){
+            WeixinJSBridge.invoke('profile',{
+                'username':'gh_d0e8fa0609a2',
+                'scene':'57'
+            });
+        });
+		*/
+
+		/*WeixinJSBridge.invoke('getNetworkType',{},
+		function(e){
+	    	alert(e.err_msg);
+	    });*/
+
+		// 发送给好友; 
+		WeixinJSBridge.on('menu:share:appmessage', function(argv){
+			WeixinJSBridge.invoke('sendAppMessage',{
+				"appid":		appId,
+				"img_url":		img,
+				"img_width":	"120",
+				"img_height":	"120",
+				"link":			link,
+				"desc":			desc,
+				"title":		title
+			}, function(res){
+				weixin_robot_credit_share('SendAppMessage');
+				<?php do_action('weixin_share','SendAppMessage');?>
+			});
+		});
+		// 分享到朋友圈;
+		WeixinJSBridge.on('menu:share:timeline', function(argv){
+			<?php //do_action('weixin_share','ShareTimeline');?>
+			WeixinJSBridge.invoke('shareTimeline',{
+				"img_url":		img,
+				"img_width":	"120",
+				"img_height": 	"120",
+				"link":			link,
+				"desc":			desc,
+				"title":		title
+			}, function(res){
+				weixin_robot_credit_share('ShareTimeline');
+				<?php do_action('weixin_share','ShareTimeline');?>
+			});
+		});
+		// 分享到微博;
+		WeixinJSBridge.on('menu:share:weibo', function(argv){
+			WeixinJSBridge.invoke('shareWeibo',{
+				"content":		title+' '+link,
+				"url":			link
+			}, function(res){
+				weixin_robot_credit_share('ShareWeibo');
+				<?php do_action('weixin_share','ShareWeibo');?>
+			});
+		});
+		// 分享到Facebook
+		WeixinJSBridge.on('menu:share:facebook', function(argv){
+			weixin_robot_credit_share('ShareFB');
+			<?php do_action('weixin_share','ShareFB');?>
+			WeixinJSBridge.invoke('shareFB',{
+				"img_url":		img,
+				"img_width":	"120",
+				"img_height":	"120",
+				"link":			link,
+				"desc":			desc,
+				"title":		title
+			}, function(res){});
+		});
+	};
+	if(document.addEventListener){
+		document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+	}else if(document.attachEvent){
+		document.attachEvent('WeixinJSBridgeReady',		onBridgeReady);
+		document.attachEvent('onWeixinJSBridgeReady',	onBridgeReady);
+	}
+})();
+</script>
+<?php 
+	}
 }
 
 add_action('wp_ajax_weixin_share', 'weixin_robot_credit_share_action_callback');
@@ -353,4 +471,13 @@ function weixin_robot_credit_share_action_callback(){
 		echo $share_message;
 	}
 	exit;
+}
+
+//定义微信个人中心模板
+add_action('init','weixin_robot_user_parse_request');
+function weixin_robot_user_parse_request($wp){
+	if(isset($_GET['weixin_user_profile']) && isset($_GET['weixin_user_id'])){
+		include(WEIXIN_ROBOT_PLUGIN_DIR.'/template/weixin-user-profile.php');
+        exit;
+	}
 }
