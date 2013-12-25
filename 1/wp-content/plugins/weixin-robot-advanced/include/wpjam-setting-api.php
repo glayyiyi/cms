@@ -12,7 +12,7 @@ function wpjam_option_page($labels, $title='', $type='default', $icon='options-g
 	<?php if($type == 'tab'){ ?>
 		<h2 class="nav-tab-wrapper">
 	        <?php foreach ( $sections as $section_name => $section) { ?>
-	            <a class="nav-tab" href='#' id="tab-title-<?php echo $section_name; ?>"><?php echo $section['title']; ?></a>
+	            <a class="nav-tab" href='javascript:void();' id="tab-title-<?php echo $section_name; ?>"><?php echo $section['title']; ?></a>
 	        <?php } ?>    
 	    </h2>
 		<form action="options.php" method="POST">
@@ -22,22 +22,10 @@ function wpjam_option_page($labels, $title='', $type='default', $icon='options-g
 	                <?php wpjam_do_settings_section($option_page, $section_name); ?>
 	            </div>                      
 	        <?php } ?>
+			<input type="hidden" name="<?php echo $option_name;?>[current_tab]" id="current_tab" value="" />
 			<?php submit_button(); ?>
 		</form>
-		<script type="text/javascript">
-			jQuery(document).ready(function(){
-				//设置第一个显示
-				jQuery('a.nav-tab').first().addClass('nav-tab-active');
-				jQuery('div.div-tab').first().show();
-
-				jQuery('a.nav-tab').on('click',function(){
-			        jQuery('a.nav-tab').removeClass('nav-tab-active');
-			        jQuery(this).addClass('nav-tab-active');
-			        jQuery('div.div-tab').hide();
-			        jQuery('#'+jQuery(this)[0].id.replace('title-','')).show();
-			    });
-			});
-		</script>
+		<?php wpjam_option_tab_script($option_name);?>
 	<?php }else{ ?>
 		<?php if($title){?>
 		<h2><?php echo $title; ?></h2>
@@ -50,6 +38,39 @@ function wpjam_option_page($labels, $title='', $type='default', $icon='options-g
 	<?php } ?>
 	</div>
 	<?php
+}
+
+function wpjam_option_tab_script($option_name=''){
+	$current_tab = '';
+
+	if($option_name){
+		$option = get_option( $option_name );
+		if(!empty($_GET['settings-updated'])){
+			$current_tab = $option['current_tab'];
+		}
+	}
+	?>
+	<script type="text/javascript">
+		jQuery(document).ready(function(){
+
+		<?php if($current_tab){ ?>
+			jQuery('#tab-title-<?php echo $current_tab; ?>').addClass('nav-tab-active');
+			jQuery('#tab-<?php echo $current_tab; ?>').show();
+		<?php } else{ ?>
+			//设置第一个显示
+			jQuery('a.nav-tab').first().addClass('nav-tab-active');
+			jQuery('div.div-tab').first().show();
+		<?php } ?>
+			jQuery('a.nav-tab').on('click',function(){
+		        jQuery('a.nav-tab').removeClass('nav-tab-active');
+		        jQuery(this).addClass('nav-tab-active');
+		        jQuery('div.div-tab').hide();
+		        jQuery('#'+jQuery(this)[0].id.replace('title-','')).show();
+		        jQuery('#current_tab').val(jQuery(this)[0].id.replace('tab-title-',''));
+		    });
+		});
+	</script>
+<?php
 }
 
 function wpjam_add_settings($labels,$defaults){
@@ -85,15 +106,16 @@ function wpjam_field_callback($args) {
 	$value			= (isset($wpjam_option[$field_name]))?$wpjam_option[$field_name]:$args['default'];
 	$filed 			= $option_name.'['.$field_name.']';
 	$type			= $args['type'];
-	$description	= (isset($args['description']))?($type == 'checkbox')?' '.$args['description']:'<br />'.$args['description']:'';
+	$description	= (isset($args['description']))?($type == 'checkbox')?' <label for="'.$field_name.'">'.$args['description'].'</label>':'<br />'.$args['description']:'';
 
 	if($type == 'text'){
-		echo '<input type="text" name="'.$filed.'" value="'.$value.'" class="regular-text" />';
+		echo '<input type="text" id="'.$field_name.'" name="'.$filed.'" value="'.$value.'" class="regular-text" />';
 	}elseif($type == 'textarea'){
-		echo '<textarea name="'.$filed.'" rows="4" cols="50" class="regular-text code">'.$value.'</textarea>';
+		$rows = isset($args['rows'])?$args['rows']:10;
+		echo '<textarea id="'.$field_name.'" name="'.$filed.'" rows="'.$rows.'" cols="50" class="large-text  code">'.$value.'</textarea>';
 	}elseif($type == 'checkbox'){
 		$checked = $value?'checked':'';
-		echo '<input type="checkbox" name="'.$filed.'" value="1" '.$checked.' />';
+		echo '<input type="checkbox" id="'.$field_name.'" name="'.$filed.'" value="1" '.$checked.' />';
 	}
 	echo $description;
 }
@@ -144,8 +166,6 @@ function wpjam_admin_pagenavi($total_count, $number_per_page=50){
 
 	$base_url = add_query_arg($_GET,admin_url('admin.php'));
 
-	$_GET['paged'] = $current_page;
-
 	$total_pages	= ceil($total_count/$number_per_page);
 
 	$first_page_url	= $base_url.'&amp;paged=1';
@@ -186,5 +206,49 @@ function wpjam_admin_pagenavi($total_count, $number_per_page=50){
 		</div>
 		<br class="clear">
 	</div>
+	<?php
+}
+
+function wpjam_admin_display_form_table($form_fields){
+ 	?>
+	<table class="form-table" cellspacing="0">
+		<tbody>
+			<?php foreach($form_fields as $form_field){ ?>
+			<?php 
+				$type		= $form_field['type'];
+				$value		= $form_field['value'];
+
+				$name		= $form_field['name'];
+
+				$class		= isset($form_field['calss'])?$form_field['class']:'regular-text';
+			?>
+			<tr valign="top" id="tr_<?php echo $name; ?>">
+				<th scope="row"><label for="<?php echo $form_field['name']; ?>"><?php echo $form_field['label'];?></label></th>
+				<td>
+				<?php if($type == 'text'){ ?>
+					<input name="<?php echo $name;?>" id="<?php echo $name;?>" type="text"  value="<?php echo esc_attr($value); ?>" class="<?php echo $class; ?>" />
+				<?php }elseif($type == 'datetime'){ ?>
+					<input name="<?php echo $name;?>" id="<?php echo $name;?>" type="text"  value="<?php echo $value; ?>" class="<?php echo $class; ?>" />
+				<?php }elseif($type == 'textarea'){ ?>
+					<textarea name="<?php echo $name;?>" id="<?php echo $name;?>" rows="6" cols="50"  class="<?php echo $class; ?> code"><?php echo esc_textarea($value); ?></textarea>
+				<?php }elseif ($type == 'hidden'){ ?>
+					<input name="<?php echo $name;?>" id="<?php echo $name;?>" type="hidden"  value="<?php $value ;?>" />
+				<?php }elseif ($type == 'checkbox'){ ?>
+					<input name="<?php echo $name;?>" id="<?php echo $name;?>" type="checkbox"  value="<?php echo $value ?>" <?php echo $form_field['checked']; ?> /> 是否激活
+				<?php }elseif ($type == 'select'){ ?>
+					<select name="<?php echo $name;?>" id="<?php echo $name;?>"  >
+					<?php foreach ($form_field['options'] as $key => $option_value){ $selected = ($key == $value)?'selected':''; ?>
+						<option value="<?php echo $key; ?>" <?php echo $selected; ?>><?php echo $option_value; ?></option>
+					<?php }?>
+					</select>
+				<?php }elseif($type == 'file'){ ?>
+					<input name="<?php echo $name;?>" id="<?php echo $name;?>" type="text"  value="<?php echo $value; ?>" class="<?php echo $class; ?>" /><input onclick="wpjam_media_upload('<?php $form_field['name']; ?>')" class="button button-highlighted" type="button" value="上传' <?php echo $form_field['label']; ?>" />
+				<?php } ?>
+				<?php if(isset($form_field['description'])) { ?><p class="description"><?php echo $form_field['description'];?></p><?php } ?>
+				</td>
+			</tr>
+			<?php } ?>
+		</tbody>
+	</table>
 	<?php
 }
