@@ -41,10 +41,31 @@ $weixin_user = weixin_robot_get_user($weixin_openid);
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style type="text/css">
     ul{padding-left: 0;}
-    li{margin-left: 20px;}
+    li{margin-left: 0px;}
     input, textarea {font-size: large;}
     textarea {width: 95%;}
     th,td{border-top:1px solid #ccc;}
+ul.buttons , ul.buttons li {list-style-type:none;}
+ul.buttons li a{text-decoration:none;color:#000;}
+.button{
+	padding: 0px 15px; margin: 0px 0px 7px; 
+	border: 1px solid rgb(217, 217, 217); 
+	cursor: pointer; 
+	background-image: -webkit-linear-gradient(top, rgb(251, 251, 251) 0px, rgb(238, 238, 238) 100%);
+	 font-size: 15px; line-height: 40px; 
+	 font-family: Tahoma; 
+	 border-top-left-radius: 2px; 
+	 border-top-right-radius: 2px; 
+	 border-bottom-right-radius: 2px; 
+	 border-bottom-left-radius: 2px; 
+	 display: block; 
+	 width: auto; 
+	 height: 40px; 
+	 box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 2px, rgba(255, 255, 255, 0.498039) 0px 1px 0px inset; 
+	 text-shadow: white 0px 1px 0px; 
+	 transition: background 0.4s; 
+	 -webkit-transition: background 0.4s; 
+}
     </style>
 <?php //wp_head();?>
 </head>
@@ -53,7 +74,7 @@ $weixin_user = weixin_robot_get_user($weixin_openid);
 <div class="content">
 <?php if(isset($_GET['update'])){ ?>
 	<?php if(isset($success) && $success == 'ok') { ?><p>修改成功 </p><?php } ?>
-	<p>提交或者修改以下信息，当你获奖的是以便于兑换奖品。 </p>
+	<p>提交或者修改以下信息。 </p>
 	<form action="" method="post" id="details_form">
 
 		<?php wp_nonce_field('weixin_user','weixin_user_act'); ?>
@@ -96,9 +117,9 @@ $weixin_user = weixin_robot_get_user($weixin_openid);
 	</ul>
 <?php } else {  ?>
 	<p><strong>你现在共有 <?php echo weixin_robot_get_credit($weixin_openid); ?> 积分</strong>：</p>
-	<ul>
-		<li><a href="<?php echo home_url('?weixin_user_profile&weixin_user_id='.$query_id.'&credit_rule=1')?>">查看积分规则</a></li>
-		<li><a href="<?php echo home_url('?weixin_user_profile&weixin_user_id='.$query_id.'&update=1')?>">修改个人资料</a></li>
+	<ul class="buttons">
+		<li><a href="<?php echo home_url('?weixin_user_profile&weixin_user_id='.$query_id.'&credit_rule=1')?>" class=button>查看积分规则</a></li>
+		<li><a href="<?php echo home_url('?weixin_user_profile&weixin_user_id='.$query_id.'&update=1')?>" class=button>修改个人资料</a></li>
 	</ul>
 	
 	<p><strong>积分历史</strong>：</p>
