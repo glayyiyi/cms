@@ -13,9 +13,7 @@ function weixin_robot_custom_menu_page(){
 
 	if(isset($_GET['sync'])) {
 		$succeed_msg = apply_filters('weixin_robot_post_custom_menus','', $weixin_robot_custom_menus);
-	}
-
-	if(isset($_GET['edit']) && isset($_GET['id'])){
+	}elseif(isset($_GET['edit']) && isset($_GET['id'])){
 		$id = (int)$_GET['id'];	
 	}
 
@@ -56,10 +54,135 @@ function weixin_robot_custom_menu_page(){
 	}
 ?>
 	<div class="wrap">
-	<?php weixin_robot_custom_menu_list(); ?>
-	<?php weixin_robot_custom_menu_add(); ?>
+		<div id="icon-weixin-robot" class="icon32"><br></div>
+		<h2>自定义菜单</h2>
+		<?php if(!empty($succeed_msg)){?>
+		<div class="updated">
+			<p><?php echo $succeed_msg;?></p>
+		</div>
+		<?php }?>
+		<?php if(!empty($err_msg)){?>
+		<div class="error" style="color:red;">
+			<p>错误：<?php echo $err_msg;?></p>
+		</div>
+		<?php }?>
+		<?php weixin_robot_custom_menu_list(); ?>
+		<?php weixin_robot_custom_menu_add(); ?>
 	</div>
 <?php
+}
+
+function weixin_robot_custom_menu_list(){
+	global $plugin_page;
+
+	$weixin_robot_custom_menus = get_option('weixin-robot-custom-menus');
+	if(!$weixin_robot_custom_menus) $weixin_robot_custom_menus = array();
+	?>
+	
+	<h3>自定义菜单列表</h3>
+	<?php if($weixin_robot_custom_menus) { ?>
+	<?php $weixin_robot_ordered_custom_menus = weixin_robot_get_ordered_custom_menus($weixin_robot_custom_menus);?>
+	<form action="<?php echo admin_url('admin.php?page='.$plugin_page); ?>" method="POST">
+
+		<style>.widefat td { padding:4px 10px;vertical-align: middle;}</style>
+		<table class="widefat" cellspacing="0">
+		<thead>
+			<tr>
+				<th>按钮</th>
+				<th>按钮位置/子按钮位置</th>
+				<th>类型</th>
+				<th>Key/URL</th>
+				<th style="width:70px">操作</th>
+			</tr>
+		</thead>
+		<tbody>
+		<?php $alternate = '';?>
+		<?php foreach($weixin_robot_ordered_custom_menus as $weixin_robot_custom_menu){ $alternate = $alternate?'':'alternate'; ?>
+			<?php if(isset($weixin_robot_custom_menu['parent'])){?>
+			<tr class="<?php echo $alternate; ?>">
+				<td><?php echo $weixin_robot_custom_menu['parent']['name']; ?></td>
+				<td><?php echo $weixin_robot_custom_menu['parent']['position']; ?></td>
+				<td><?php echo $weixin_robot_custom_menu['parent']['type']; ?></td>
+				<td><?php echo $weixin_robot_custom_menu['parent']['key']; ?></td>
+				<?php $id = $weixin_robot_custom_menu['parent']['id'];?>
+				<td><span><a href="<?php echo admin_url('admin.php?page='.$plugin_page.'&edit&id='.$id.'#edit'); ?>">编辑</a></span> | <span class="delete"><a href="<?php echo admin_url('admin.php?page='.$plugin_page.'&delete&id='.$id); ?>">删除</a></span></td>
+			</tr>
+			<?php } ?>
+			<?php if(isset($weixin_robot_custom_menu['sub'])){  ?>
+			<?php foreach($weixin_robot_custom_menu['sub'] as $weixin_robot_custom_menu_sub){ $alternate = $alternate?'':'alternate';?>
+			<tr colspan="4" class="<?php echo $alternate; ?>">
+				<td> └── <?php echo $weixin_robot_custom_menu_sub['name']; ?></td>
+				<td> └── <?php echo $weixin_robot_custom_menu_sub['sub_position']; ?></td>
+				<td><?php echo $weixin_robot_custom_menu_sub['type']; ?></td>
+				<td><?php echo $weixin_robot_custom_menu_sub['key']; ?></td>
+				<?php $id = $weixin_robot_custom_menu_sub['id'];?>
+				<td><span><a href="<?php echo admin_url('admin.php?page='.$plugin_page.'&edit&id='.$id.'#edit'); ?>">编辑</a></span> | <span class="delete"><a href="<?php echo admin_url('admin.php?page='.$plugin_page.'&delete&id='.$id); ?>">删除</a></span></td>
+			<tr>
+			<?php }?>
+			<?php } ?>
+		<?php } ?>
+		</tbody>
+		</table>
+		<p class="submit"><a href="<?php echo admin_url('admin.php?page='.$plugin_page.'&sync'); ?>" class="button-primary">同步自定义菜单</a></p>
+	</form>
+	<?php } ?>
+<?php
+}
+
+function weixin_robot_custom_menu_add(){
+
+	global $id, $plugin_page;
+
+	$weixin_robot_custom_menus = get_option('weixin-robot-custom-menus');
+
+	if($id && $weixin_robot_custom_menus && isset($weixin_robot_custom_menus[$id])){
+		$weixin_robot_custom_menu = $weixin_robot_custom_menus[$id];
+	}
+
+	$parent_options 		= array('0'=>'','1'=>'1','2'=>'2','3'=>'3');
+	$position_options 		= array('1'=>'1','2'=>'2','3'=>'3');
+	$sub_position_options 	= array('0'=>'','1'=>'1','2'=>'2','3'=>'3','4'=>'4','5'=>'5');
+	$type_options			= array('click'=>'点击事件', 'view'=>'访问网页');
+
+	$form_fields = array(
+		array('name'=>'name',			'label'=>'按钮名称',		'type'=>'text',		'value'=>$id?$weixin_robot_custom_menu['name']:'',	'description'=>'按钮描述，既按钮名字，不超过16个字节，子菜单不超过40个字节'),
+		array('name'=>'type',			'label'=>'按钮类型',		'type'=>'select',	'value'=>$id?$weixin_robot_custom_menu['type']:'',	'description'=>'',	'options'=> $type_options),
+		array('name'=>'key',			'label'=>'按钮KEY值/URL','type'=>'text',		'value'=>$id?$weixin_robot_custom_menu['key']:'',	'description'=>'用于消息接口（event类型）推送，不超过128字节，如果按钮还有子按钮，可以不填，其他必填，否则报错。<br />如果类型为点击事件时候，则为按钮KEY值，如果类型为浏览网页，则为URL。<br />KEY值可以为搜索关键字，或者自定义回复定义的关键字。'),
+		array('name'=>'is_sub',			'label'=>'子按钮',		'type'=>'checkbox',	'value'=>'1',										'checked'=>$id?($weixin_robot_custom_menu['parent']?'checked':''):'' ),
+		array('name'=>'position',		'label'=>'位置',			'type'=>'select',	'value'=>$id?$weixin_robot_custom_menu['position']:'','description'=>'设置按钮的位置',	'options'=> $position_options ),
+		array('name'=>'parent',			'label'=>'所属父按钮位置','type'=>'select',	'value'=>$id?$weixin_robot_custom_menu['parent']:'','description'=>'如果是子按钮则需要设置所属父按钮的位置',	'options'=> $parent_options ),
+		array('name'=>'sub_position',	'label'=>'子按钮的位置',	'type'=>'select',	'value'=>$id?$weixin_robot_custom_menu['sub_position']:'','description'=>'设置子按钮的位置',	'options'=> $sub_position_options )
+	);
+
+	?>
+	<h3 id="edit"><?php echo $id?'修改':'新增';?>自定义菜单 <?php if($id) { ?> <a href="<?php echo admin_url('admin.php?page='.$plugin_page.'&add'); ?>" class="add-new-h2">新增另外一条自定义菜单</a> <?php } ?></h3>
+
+	 <form method="post" action="<?php echo admin_url('admin.php?page='.$plugin_page.'&edit&id='.$id.'#edit'); ?>" enctype="multipart/form-data" id="form">
+		<?php wpjam_admin_display_form_table($form_fields); ?>
+		<?php wp_nonce_field('weixin_robot','weixin_robot_custom_menu_nonce'); ?>
+		<input type="hidden" name="action" value="edit" />
+		<p class="submit"><input class="button-primary" type="submit" value="　　<?php echo $id?'修改':'新增';?>　　" /></p>
+	</form>
+	
+	<script type="text/javascript">
+	jQuery(function(){
+		<?php if( $id && $weixin_robot_custom_menu['parent'] ){?>
+		jQuery('#tr_position').hide();
+		<?php } else {?>
+		jQuery('#tr_parent').hide();
+		jQuery('#tr_sub_position').hide();
+		<?php }?>
+
+		jQuery('#is_sub').mousedown(function(){
+			jQuery('#tr_parent').toggle();
+			jQuery('#tr_sub_position').toggle();
+			jQuery('#tr_position').toggle();
+		});
+
+	});
+	</script> 
+<?php
+
 }
 
 add_filter('weixin_robot_post_custom_menus','weixin_robot_post_custom_menus',10,2);
@@ -200,163 +323,4 @@ function weixin_robot_get_ordered_custom_menus($weixin_robot_custom_menus){
 	}
 
 	return $weixin_robot_ordered_custom_menus;
-}
-
-function weixin_robot_custom_menu_list(){
-	global $weixin_robot_custom_menus, $succeed_msg, $plugin_page;
-	?>
-	
-	<div id="icon-weixin-robot" class="icon32"><br></div>
-	<h2>自定义菜单</h2>
-	<?php if(!empty($succeed_msg)){?>
-	<div class="updated">
-		<p><?php echo $succeed_msg;?></p>
-	</div>
-	<?php }?>
-	<?php if(!empty($err_msg)){?>
-	<div class="error" style="color:red;">
-		<p>错误：<?php echo $err_msg;?></p>
-	</div>
-	<?php }?>
-	<h3>自定义菜单列表</h3>
-	<?php if($weixin_robot_custom_menus) { ?>
-	<?php 
-		$weixin_robot_ordered_custom_menus = (weixin_robot_get_ordered_custom_menus($weixin_robot_custom_menus));
-	?>
-	<form action="<?php echo admin_url('admin.php?page='.$plugin_page); ?>" method="POST">
-
-		<style>.widefat td { padding:4px 10px;vertical-align: middle;}</style>
-		<table class="widefat" cellspacing="0">
-		<thead>
-			<tr>
-				<th>按钮</th>
-				<th>按钮位置/子按钮位置</th>
-				<th>类型</th>
-				<th>Key/URL</th>
-				<th style="width:70px">操作</th>
-			</tr>
-		</thead>
-		<tbody>
-		<?php $alternate = '';?>
-		<?php foreach($weixin_robot_ordered_custom_menus as $weixin_robot_custom_menu){ $alternate = $alternate?'':'alternate'; ?>
-			<?php if(isset($weixin_robot_custom_menu['parent'])){?>
-			<tr class="<?php echo $alternate; ?>">
-				<td><?php echo $weixin_robot_custom_menu['parent']['name']; ?></td>
-				<td><?php echo $weixin_robot_custom_menu['parent']['position']; ?></td>
-				<td><?php echo $weixin_robot_custom_menu['parent']['type']; ?></td>
-				<td><?php echo $weixin_robot_custom_menu['parent']['key']; ?></td>
-				<?php $id = $weixin_robot_custom_menu['parent']['id'];?>
-				<td><span><a href="<?php echo admin_url('admin.php?page='.$plugin_page.'&edit&id='.$id.'#edit'); ?>">编辑</a></span> | <span class="delete"><a href="<?php echo admin_url('admin.php?page='.$plugin_page.'&delete&id='.$id); ?>">删除</a></span></td>
-			</tr>
-			<?php } ?>
-			<?php if(isset($weixin_robot_custom_menu['sub'])){  ?>
-			<?php foreach($weixin_robot_custom_menu['sub'] as $weixin_robot_custom_menu_sub){ $alternate = $alternate?'':'alternate';?>
-			<tr colspan="4" class="<?php echo $alternate; ?>">
-				<td> └── <?php echo $weixin_robot_custom_menu_sub['name']; ?></td>
-				<td> └── <?php echo $weixin_robot_custom_menu_sub['sub_position']; ?></td>
-				<td><?php echo $weixin_robot_custom_menu_sub['type']; ?></td>
-				<td><?php echo $weixin_robot_custom_menu_sub['key']; ?></td>
-				<?php $id = $weixin_robot_custom_menu_sub['id'];?>
-				<td><span><a href="<?php echo admin_url('admin.php?page='.$plugin_page.'&edit&id='.$id.'#edit'); ?>">编辑</a></span> | <span class="delete"><a href="<?php echo admin_url('admin.php?page='.$plugin_page.'&delete&id='.$id); ?>">删除</a></span></td>
-			<tr>
-			<?php }?>
-			<?php } ?>
-		<?php } ?>
-		</tbody>
-		</table>
-		<p class="submit"><a href="<?php echo admin_url('admin.php?page='.$plugin_page.'&sync'); ?>" class="button-primary">同步自定义菜单</a></p>
-	</form>
-	<?php } ?>
-<?php
-}
-
-function weixin_robot_custom_menu_add(){
-
-	global $weixin_robot_custom_menus, $id, $plugin_page;
-
-	if($id && isset($weixin_robot_custom_menus[$id])){
-		$weixin_robot_custom_menu = $weixin_robot_custom_menus[$id];
-	}
-
-	$parent_options 		= array('0'=>'','1'=>'1','2'=>'2','3'=>'3');
-	$position_options 		= array('1'=>'1','2'=>'2','3'=>'3');
-	$sub_position_options 	= array('0'=>'','1'=>'1','2'=>'2','3'=>'3','4'=>'4','5'=>'5');
-	$type_options			= array('click'=>'点击事件', 'view'=>'访问网页');
-
-	$form_fields = array(
-		array('name'=>'name',			'label'=>'按钮名称',		'type'=>'text',		'value'=>$id?$weixin_robot_custom_menu['name']:'',	'description'=>'按钮描述，既按钮名字，不超过16个字节，子菜单不超过40个字节'),
-		array('name'=>'type',			'label'=>'按钮类型',		'type'=>'select',	'value'=>$id?$weixin_robot_custom_menu['type']:'',	'description'=>'',	'options'=> $type_options),
-		array('name'=>'key',			'label'=>'按钮KEY值/URL','type'=>'text',		'value'=>$id?$weixin_robot_custom_menu['key']:'',	'description'=>'用于消息接口（event类型）推送，不超过128字节，如果按钮还有子按钮，可以不填，其他必填，否则报错。<br />如果类型为点击事件时候，则为按钮KEY值，如果类型为浏览网页，则为URL。<br />KEY值可以为搜索关键字，或者自定义回复定义的关键字。'),
-		array('name'=>'is_sub',			'label'=>'子按钮',		'type'=>'checkbox',	'value'=>'1',										'checked'=>$id?($weixin_robot_custom_menu['parent']?'checked':''):'' ),
-		array('name'=>'position',		'label'=>'位置',			'type'=>'select',	'value'=>$id?$weixin_robot_custom_menu['position']:'','description'=>'设置按钮的位置',	'options'=> $position_options ),
-		array('name'=>'parent',			'label'=>'所属父按钮位置','type'=>'select',	'value'=>$id?$weixin_robot_custom_menu['parent']:'','description'=>'如果是子按钮则需要设置所属父按钮的位置',	'options'=> $parent_options ),
-		array('name'=>'sub_position',	'label'=>'子按钮的位置',	'type'=>'select',	'value'=>$id?$weixin_robot_custom_menu['sub_position']:'','description'=>'设置子按钮的位置',	'options'=> $sub_position_options )
-	);
-
-	?>
-	<h3 id="edit"><?php echo $id?'修改':'新增';?>自定义菜单 <?php if($id) { ?> <a href="<?php echo admin_url('admin.php?page='.$plugin_page.'&add'); ?>" class="add-new-h2">新增另外一条自定义菜单</a> <?php } ?></h3>
-
-	 <form method="post" action="<?php echo admin_url('admin.php?page='.$plugin_page.'&edit&id='.$id.'#edit'); ?>" enctype="multipart/form-data" id="form">
-		<table class="form-table" cellspacing="0">
-			<tbody>
-			<?php
-
-
-			foreach($form_fields as $form_field){
-				echo '<tr valign="top" id="tr_'.$form_field['name'].'">';
-				echo '<th scope="row"><label for="'.$form_field['name'].'">'.$form_field['label'].'</label></th>';
-
-				echo '<td>';
-				if($form_field['type'] == 'text'){
-					echo '<input name="'.$form_field['name'].'" type="text" id="'.$form_field['name'].'" value="'.esc_attr($form_field['value']).'" class="regular-text" />';
-				}elseif($form_field['type'] == 'file'){
-					echo '<input name="'.$form_field['name'].'" type="text" id="'.$form_field['name'].'" value="'.$form_field['value'].'" class="regular-text" /><input onclick="wpjam_media_upload(\''.$form_field['name'].'\')" class="button button-highlighted" type="button" value="上传'.$form_field['label'].'" />';			
-				}elseif($form_field['type'] == 'datetime'){
-					echo '<input name="'.$form_field['name'].'" type="text" id="'.$form_field['name'].'" value="'.$form_field['value'].'" class="regular-text" />';
-				}elseif($form_field['type'] == 'textarea'){
-					echo '<textarea name="'.$form_field['name'].'" rows="6" cols="50" id="'.$form_field['name'].'" class="regular-text code">'.esc_textarea($form_field['value']).'</textarea>';
-				}elseif ($form_field['type'] == 'hidden'){
-					echo '<input name="'.$form_field['name'].'" type="hidden" id="'.$form_field['name'].'" value="'.$form_field['value'] .'" />';
-				}elseif ($form_field['type'] == 'checkbox'){
-					echo '<input name="'.$form_field['name'].'" type="checkbox" id="'.$form_field['name'].'" value="'.$form_field['value'] .'" '.$form_field['checked'].' /> '.$form_field['label'];
-				}elseif ($form_field['type'] == 'select'){
-					echo '<select name="'.$form_field['name'].'" id="'.$form_field['name'].'" >';
-					foreach ($form_field['options'] as $key => $value){
-						$selected = ($key == $form_field['value'])?'selected':'';
-						echo '<option value="'.$key.'" '.$selected.'>'.$value.'</option>';
-					}
-					echo '</select>';
-				}
-				if(isset($form_field['description'])) { echo '<p class="description">'.$form_field['description'].'</p>';}
-				echo '</td>';
-				echo '</tr>';
-			}
-			?>
-			</tbody>
-		
-		</table>
-		<?php wp_nonce_field('weixin_robot','weixin_robot_custom_menu_nonce'); ?>
-		<input type="hidden" name="action" value="edit" />
-		<p class="submit"><input class="button-primary" type="submit" value="　　<?php echo $id?'修改':'新增';?>　　" /></p>
-	</form>
-	
-	<script type="text/javascript">
-	jQuery(function(){
-		<?php if( $id && $weixin_robot_custom_menu['parent'] ){?>
-		jQuery('#tr_position').hide();
-		<?php } else {?>
-		jQuery('#tr_parent').hide();
-		jQuery('#tr_sub_position').hide();
-		<?php }?>
-
-		jQuery('#is_sub').mousedown(function(){
-			jQuery('#tr_parent').toggle();
-			jQuery('#tr_sub_position').toggle();
-			jQuery('#tr_position').toggle();
-		});
-
-	});
-	</script> 
-<?php
-
 }

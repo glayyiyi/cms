@@ -66,35 +66,94 @@ function weixin_robot_custom_reply_page(){
 
 		delete_transient('weixin_custom_keywords');
 	}
-
-	$weixin_robot_custom_replies = $wpdb->get_results("SELECT * FROM $weixin_custom_replies_table;");
 ?>
 	<div class="wrap">
-	<?php weixin_robot_custom_replies_list(); ?>
-	<?php weixin_robot_custom_reply_add(); ?>
+		<div id="icon-weixin-robot" class="icon32"><br></div>
+		<h2 class="nav-tab-wrapper">
+            <a class="nav-tab nav-tab-active" href="javascript:void();" id="tab-title-custom">自定义回复</a>
+            <a class="nav-tab" href="javascript:void();" id="tab-title-builtin">内置回复</a>
+        </h2>
+
+        <p>
+        	*自定义回复优先级高于内置回复。<br />
+        	*可以在自定义回复中设置关键字取代内置回复关键字，然后类型选择函数，回复内容设置为对应的函数名即可。<br />
+        	*只能取代完全匹配类型的内置回复关键字。
+        </p>
+
+		<?php if(!empty($succeed_msg)){?>
+		<div class="updated">
+			<p><?php echo $succeed_msg;?></p>
+		</div>
+		<?php }?>
+		<?php if(!empty($err_msg)){?>
+		<div class="error" style="color:red;">
+			<p>错误：<?php echo $err_msg;?></p>
+		</div>
+		<?php }?>
+
+		<div id="tab-custom" class="div-tab hidden" >
+	    <?php weixin_robot_custom_reply_list(); ?>
+		<?php weixin_robot_custom_reply_add(); ?>
+	    </div>
+
+	    <div id="tab-builtin" class="div-tab hidden">
+		<?php weixin_robot_builtin_reply_list();?>
+		</div>
+
+		<?php wpjam_option_tab_script(); ?>
+
 	</div>
 <?php
 }
 
-function weixin_robot_custom_replies_list(){
-	global $weixin_robot_custom_replies,$succeed_msg,$plugin_page;
+function weixin_robot_builtin_reply_list(){
+	global $plugin_page,$wpdb;
 ?>
-	<div id="icon-weixin-robot" class="icon32"><br></div>
-	<h2>自定义回复</h2>
+	
+	<?php $weixin_builtin_replies = weixin_robot_get_builtin_replies(); ?>
 
-	<?php if(!empty($succeed_msg)){?>
-	<div class="updated">
-		<p><?php echo $succeed_msg;?></p>
-	</div>
-	<?php }?>
-	<?php if(!empty($err_msg)){?>
-	<div class="error" style="color:red;">
-		<p>错误：<?php echo $err_msg;?></p>
-	</div>
-	<?php }?>
+	<?php if($weixin_builtin_replies) { ?>
+	<h3>插件或者扩展内置回复列表</h3>
 
+
+	<style>.widefat td { padding:4px 10px;vertical-align: middle;}</style>
+	<table class="widefat" cellspacing="0">
+	<thead>
+		<tr>
+			<?php /*<th style="width:40px">ID</th>*/?>
+			<th>关键字</th>
+			<th>类型</th>
+			<th>描述</th>
+			<th>处理函数</th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php $alternate = '';?>
+	<?php foreach($weixin_builtin_replies as $keyword => $weixin_builtin_reply){ $alternate = $alternate?'':'alternate';?>
+		<tr class="<?php echo $alternate;?>">
+			<td><?php echo $keyword; ?></td>
+			<td><?php if($weixin_builtin_reply['type'] == 'full'){ echo '完全匹配'; }else{ echo '前缀匹配'; }; ?></td>
+			<td><?php echo $weixin_builtin_reply['reply']; ?></td>
+			<td><?php echo $weixin_builtin_reply['function']; ?></td>
+		</tr>
+	<?php } ?>
+	</tbody>
+	</table>
+	
+	
+	<?php } ?>
+<?php
+}
+
+function weixin_robot_custom_reply_list(){
+	global $plugin_page,$wpdb;
+?>
 	<h3>自定义回复列表</h3>
 
+	<?php 
+		$weixin_custom_replies_table = weixin_robot_get_custom_replies_table();
+		$weixin_robot_custom_replies = $wpdb->get_results("SELECT * FROM $weixin_custom_replies_table;");
+	?>
 	<?php if($weixin_robot_custom_replies) { ?>
 	<form action="<?php echo admin_url('admin.php?page='.$plugin_page); ?>" method="POST">
 
@@ -148,51 +207,18 @@ function weixin_robot_custom_reply_add(){
 	?>
 	<h3><?php echo $id?'修改':'新增';?>自定义回复 <?php if($id) { ?> <a href="<?php echo admin_url('admin.php?page='.$plugin_page.'&add'); ?>" class="add-new-h2">新增另外一条自定义回复</a> <?php } ?></h3>
 
+	<?php 
+	$form_fields = array(
+		array('name'=>'keyword',	'label'=>'关键字',	'type'=>'text',		'value'=>$id?$weixin_robot_custom_reply->keyword:'',	'description'=>'多个关键字请用英文逗号区分开，如：<code>七牛, qiniu, 七牛云存储, 七牛镜像存储</code>'),
+		array('name'=>'type',		'label'=>'回复类型',	'type'=>'select',	'value'=>$id?$weixin_robot_custom_reply->type:'',		'options'=> array('text'=>'文本','img'=>'图文','function'=>'函数')),
+		array('name'=>'reply',		'label'=>'回复内容',	'type'=>'textarea',	'value'=>$id?$weixin_robot_custom_reply->reply:'',		'description'=>'如果回复类型选择图文，请输入构成图文回复的单篇或者多篇日志的ID，并用英文逗号区分开，如：<code>123,234,345</code>，并且 ID 数量不要超过基本设置里面的返回结果最大条数。'),
+		array('name'=>'time',		'label'=>'添加时间', 'type'=>'datetime',	'value'=>$id?$weixin_robot_custom_reply->time:current_time('mysql')),
+		array('name'=>'status',		'label'=>'状态',		'type'=>'checkbox',	'value'=>'1',											'checked'=>$id?($weixin_robot_custom_reply->status?'checked':''):'checked')
+	);
+
+	?>
 	<form method="post" action="<?php echo admin_url('admin.php?page='.$plugin_page.'&edit&id='.$id); ?>" enctype="multipart/form-data" id="form">
-		<table class="form-table" cellspacing="0">
-			<tbody>
-			<?php
-			$form_fields = array(
-				array('name'=>'keyword',	'label'=>'关键字',	'type'=>'text',		'value'=>$id?$weixin_robot_custom_reply->keyword:'',	'description'=>'多个关键字请用英文逗号区分开，如：<code>七牛, qiniu, 七牛云存储, 七牛镜像存储</code>'),
-				array('name'=>'type',		'label'=>'回复类型',	'type'=>'select',	'value'=>$id?$weixin_robot_custom_reply->type:'',		'options'=> array('text'=>'文本','img'=>'图文')),
-				array('name'=>'reply',		'label'=>'回复内容',	'type'=>'textarea',	'value'=>$id?$weixin_robot_custom_reply->reply:'',		'description'=>'如果回复类型选择图文，请输入构成图文回复的单篇或者多篇日志的ID，并用英文逗号区分开，如：<code>123,234,345</code>，并且 ID 数量不要超过基本设置里面的返回结果最大条数。'),
-				array('name'=>'time',		'label'=>'添加时间', 'type'=>'datetime',	'value'=>$id?$weixin_robot_custom_reply->time:current_time('mysql')),
-				array('name'=>'status',		'label'=>'状态',		'type'=>'checkbox',	'value'=>'1',											'checked'=>$id?($weixin_robot_custom_reply->status?'checked':''):'checked')
-			);
-
-			foreach($form_fields as $form_field){
-				echo '<tr valign="top">';
-				echo '<th scope="row"><label for="'.$form_field['name'].'">'.$form_field['label'].'</label></th>';
-
-				echo '<td>';
-				if($form_field['type'] == 'text'){
-					echo '<input name="'.$form_field['name'].'" type="text" id="'.$form_field['name'].'" value="'.esc_attr($form_field['value']).'" class="regular-text" />';
-				}elseif($form_field['type'] == 'file'){
-					echo '<input name="'.$form_field['name'].'" type="text" id="'.$form_field['name'].'" value="'.$form_field['value'].'" class="regular-text" /><input onclick="wpjam_media_upload(\''.$form_field['name'].'\')" class="button button-highlighted" type="button" value="上传'.$form_field['label'].'" />';			
-				}elseif($form_field['type'] == 'datetime'){
-					echo '<input name="'.$form_field['name'].'" type="text" id="'.$form_field['name'].'" value="'.$form_field['value'].'" class="regular-text" />';
-				}elseif($form_field['type'] == 'textarea'){
-					echo '<textarea name="'.$form_field['name'].'" rows="6" cols="50" id="'.$form_field['name'].'" class="regular-text code">'.esc_textarea($form_field['value']).'</textarea>';
-				}elseif ($form_field['type'] == 'hidden'){
-					echo '<input name="'.$form_field['name'].'" type="hidden" id="'.$form_field['name'].'" value="'.$form_field['value'] .'" />';
-				}elseif ($form_field['type'] == 'checkbox'){
-					echo '<input name="'.$form_field['name'].'" type="checkbox" id="'.$form_field['name'].'" value="'.$form_field['value'] .'" '.$form_field['checked'].' /> 是否激活';
-				}elseif ($form_field['type'] == 'select'){
-					echo '<select name="'.$form_field['name'].'" id="'.$form_field['name'].'" >';
-					foreach ($form_field['options'] as $key => $value){
-						$selected = ($key == $form_field['value'])?'selected':'';
-						echo '<option value="'.$key.'" '.$selected.'>'.$value.'</option>';
-					}
-					echo '</select>';
-				}
-				if(isset($form_field['description'])) { echo '<p class="description">'.$form_field['description'].'</p>';}
-				echo '</td>';
-				echo '</tr>';
-			}
-			?>
-			</tbody>
-		
-		</table>
+		<?php wpjam_admin_display_form_table($form_fields); ?>
 		<?php wp_nonce_field('weixin_robot','weixin_robot_custom_reply_nonce'); ?>
 		<input type="hidden" name="action" value="edit" />
 		<p class="submit"><input class="button-primary" type="submit" value="　　<?php echo $id?'修改':'新增';?>　　" /></p>
