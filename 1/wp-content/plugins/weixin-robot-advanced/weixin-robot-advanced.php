@@ -51,7 +51,7 @@ class wechatCallback {
 		$postStr = (isset($GLOBALS["HTTP_RAW_POST_DATA"]))?$GLOBALS["HTTP_RAW_POST_DATA"]:'';
 		//file_put_contents(WP_CONTENT_DIR.'/uploads/test.html',var_export($postStr,true));
 
-		if (isset($_GET['debug']) || !empty($postStr)||||isset ($_GET['weixin-search'] )){	
+		if (isset($_GET['debug']) || !empty($postStr)||isset ($_GET['weixin-search'] )){	
 			if(isset($_GET['debug'])){
 				$this->fromUsername = $this->toUsername = '';
 				$keyword = strtolower(trim($_GET['t']));
