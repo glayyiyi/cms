@@ -4,7 +4,7 @@
  *
  * @package WordPress
  */
-
+echo '<meta name="baidu-tc-cerfication" content="c64bfc262bc6d5387404e047286e18cd" />';
 if ( !isset($wp_did_header) ) {
 
 	$wp_did_header = true;
