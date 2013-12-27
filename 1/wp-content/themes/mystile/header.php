@@ -19,6 +19,7 @@ global $woo_options, $woocommerce;
 <head>
 
 <meta charset="<?php bloginfo( 'charset' ); ?>" />
+<meta name="baidu-tc-cerfication" content="c64bfc262bc6d5387404e047286e18cd" />
 
 <title><?php woo_title(''); ?></title>
 <?php woo_meta(); ?>
