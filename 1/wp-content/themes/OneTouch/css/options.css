@@ -1,19 +1,43 @@
 h1 {
+    font-size:null!important;
+    font-family:null!important;
+    font-style:normal!important;
+    font-weight:normal!important;
 }
 
 h2 {
+    font-size:null!important;
+    font-family:null!important;
+    font-style:normal!important;
+    font-weight:normal!important;
 }
 
 h3 {
+    font-size:null!important;
+    font-family:null!important;
+    font-style:normal!important;
+    font-weight:normal!important;
 }
 
 h4 {
+    font-size:null!important;
+    font-family:null!important;
+    font-style:normal!important;
+    font-weight:normal!important;
 }
 
 h5 {
+    font-size:null!important;
+    font-family:null!important;
+    font-style:normal!important;
+    font-weight:normal!important;
 }
 
 h6 {
+    font-size:null!important;
+    font-family:null!important;
+    font-style:normal!important;
+    font-weight:normal!important;
 }
 
 
@@ -28,37 +52,37 @@ h6 {
 
 #top-social span.icon, .tweet-list .tweet .icon, .tile-category-list .odd, .recent-tabs-widget .tabs .active a {
 
-    background-color: #54b6e3  !important;
+    background-color: #57bae8  !important;
 
 }
 
 .scroll-box::-webkit-scrollbar-thumb, .recent-tabs-widget .tabs dd.active a, .widget_price_filter .ui-slider .ui-slider-range,
 .info-item.dark, .tiled-menu.drop li ul li, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-state-hover, .ui-widget-content .ui-state-hover
 {
-    background-color: #54b6e3 !important;
+    background-color: #57bae8 !important;
 }
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-accordion-header.ui-state-default, .ui-accordion-header.ui-state-hover, .ui-tabs-nav > .ui-state-default a,
 .ui-tabs-nav > .ui-state-hover a, .ui-tabs-nav > .ui-state-focus a, .ui-dialog-titlebar, .ui-slider .ui-slider-range, .ui-progressbar .ui-progressbar-value, .ui-autocomplete .ui-state-hover,
 .ui-datepicker .ui-datepicker-header, .ui-datepicker-calendar .ui-state-hover, .ui-datepicker-calendar .ui-state-active
 {
-    background-color: #54b6e3 !important;
+    background-color: #57bae8 !important;
 }
 .btn-primary, a.button.alt, button.button.alt, input.button.alt,#respond input#submit.alt, #content input.button.alt, .page-nav a, .navigation a, .page-numb a, .page-numb span,
 .post-nav a, #map, a.button, button.button, input.button, #respond input#submit, #content input.button, #wp-submit {
 
-    background-color: #54b6e3 !important;
+    background-color: #57bae8 !important;
 }
 
 
 .wpb_accordion .ui-accordion .ui-accordion-header {
-border-left: 6px solid #54b6e3 !important;
+border-left: 6px solid #57bae8 !important;
 }
 div.product .woocommerce_tabs ul.tabs li.active, #content div.product .woocommerce_tabs ul.tabs li.active, .tabs dd.active, .tabs li.active {
-   border-color:#54b6e3 !important;
+   border-color:#57bae8 !important;
 }
 
 .widget h3, .page-template-page-contacts-php h3 {
-color:#54b6e3;
+color:#57bae8;
 }
 
 
@@ -108,6 +132,18 @@ body {
 .scroll-box .item.odd .description time, .no-scroll .item.odd .description time, .item .description time{ }
 
 
+#director-page{
+	background-color:;
+	background-image:url();
+}
+#post-slider{
+	background-color:;
+	background-image:url();
+}
+#recent-projects{
+	background-color:;
+	background-image:url();
+}
 #topmenu .tiled-menu{float:right}
 
 
