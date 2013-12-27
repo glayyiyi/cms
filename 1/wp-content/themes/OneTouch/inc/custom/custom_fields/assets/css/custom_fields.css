@@ -1,0 +1,15 @@
+#custom-fields-colorpicker{
+    position:absolute;
+    top:100px;
+    left:100px;
+    z-index: 1000;
+    background-color: #FFF;
+    border: 1px solid #000000;
+    display: none;
+}
+
+.CF-uploaded-image{
+    max-width: 150px;
+    max-height: 150px;
+    margin: 10px;
+}

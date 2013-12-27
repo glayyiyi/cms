@@ -1,0 +1,67 @@
+/************************
+*  Tile size controll   *
+************************/
+.tile_size .size {
+    float: left;
+    cursor: pointer;
+    margin-right: 4px;
+}
+
+.tile_size .size>img {
+    margin-bottom: -4px;
+}
+
+.tile_size .size.active {
+    box-shadow: 0 0 2px red;
+}
+
+
+/************************
+* Tile pattern controll *
+************************/
+.tile-pattern-container{
+    width:700px;
+}
+
+.tile-pattern-container>.tile-pattern{
+    float:left;
+    width: 82px;
+    margin-right: 4px;
+    margin-bottom: 4px;
+    cursor: pointer;
+}
+
+.tile-pattern-container>.tile-pattern>img{
+    margin-bottom: -4px;
+}
+
+.tile-pattern-container>.tile-pattern.active{
+    border:2px solid #c9d0d3;
+    width:78px;
+    height:78px;
+}
+
+.tile-pattern-container>.tile-pattern.active img{
+    width:78px;
+    height:78px;
+}
+
+.metro-tile{
+    width:170px!important;
+    float: left!important;
+    height:170px!important;
+
+}
+.metro-tile .wpb_element_wrapper {
+    height: 170px!important;
+}
+
+.row-fluid div.wpb_first, .row-fluid div.wpb_last {
+    clear: none;
+}
+
+.wpb_tile {
+    margin-right: 4px;
+    margin-bottom: 4px;
+}
+

@@ -1,0 +1,393 @@
+/*
+Theme Name:         OneTouch
+Theme URI:          http://themes.crumina.net/onetouch/
+Description:        Adds support for languages written in a Right To Left (RTL) direction.
+Version:            1.8.7.1
+Author:             Crumina
+Author URI:         http://crumina.net/
+
+License:            GPL v2
+License URI:        http://www.gnu.org/licenses/gpl-2.0.html
+*/
+
+
+body, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, p, blockquote, th, td {
+	text-align: right;
+	direction: rtl;
+	unicode-bidi: embed;
+}
+div {
+	text-align: right;
+}
+.icon.info {
+	float: right;
+	margin-right: -66px;
+	margin-left: 0;
+}
+.promo {
+	padding-right: 66px;
+	padding-left: 10px;
+}
+#top-social span.icon {
+	left: 0;
+	right: auto;
+}
+#top-social a.open-soc {
+	float: left;
+	padding-left: 54px;
+	padding-right: 0;
+	text-align: left;
+}
+.alignright {
+	margin:0 0 20px 20px;
+}
+.alignleft {
+	margin:0 20px 20px 0;
+}
+.tiled-menu [class*="column"] + [class*="column"]:last-child,
+.tiled-menu li,
+.column, 
+.columns,
+.icon.recent, 
+.row [class*="vc_span"],
+article time,
+article.mini .thumb,
+.page-template-posts-2left-sidebar-php #content,
+#right-sidebar,
+#flickr .th,
+.tabs dd, 
+.tabs li,
+.tile.category,
+.ui-tabs .ui-tabs-nav li,
+.wpb_tour .ui-tabs .ui-tabs-nav,
+.tile.mini,
+.tile.double,
+#twitterbutton, 
+#likebutton, 
+#stumblebutton, 
+#sharebutton, 
+#linkedinshare, 
+#plusonebutton,
+.post .dopinfo span.tags {
+	float: right;
+}
+.soc-icons, 
+.soc-wrap,
+#topmenu .tiled-menu,
+[class*="column"] + [class*="column"]:last-child,
+.pad-r20 .tile,
+#content.seven,
+#content.eleven,
+#left-sidebar,
+.page-template-posts-2left-sidebar-php #right-sidebar  {
+	float: left;
+}
+.tiled-menu li ul {
+	margin-left: 0;
+	margin-right: 22px;
+}
+.soc-icons a {
+	float: left;
+	margin-right: 0;
+	margin-left: 25px;
+}
+#header .logo {
+	float: right;
+	padding-right: 10px;
+	padding-left: 0;
+}
+#topmenu {
+	float: left;
+	padding-left: 10px;
+	padding-right: 0;
+}
+.tiled-menu {
+	padding: 0 16px 0 0;
+}
+.wrap .item.even .description,
+.wrap .item .description {
+	background-position: 97% 10px;
+}
+.wrap .large.item.even .description,
+.wrap .large.item .description {
+	background-position: 98.5% 10px;
+}
+.scroll-box .item .description time, 
+.scroll-box .item .description h4 {
+	padding-left: 0;
+	padding-right: 52px;
+}
+.text-item {
+	padding-right: 50px;
+	padding-left: 0;
+}
+.text-item .icon_post {
+	left: auto;
+	right: 0;
+}
+.row [class*="vc_span"] {
+	margin-right: 2.12766%;
+	margin-left: 0;
+}
+.row [class*="vc_span"]:first-child {
+	margin-right: 0;
+}
+.pad-r20 {
+	float: left !important;
+	padding-right: 0;
+	padding-left: 15px;
+}
+.section-block .subtitle, 
+.section-block h2,
+#recent .sort-panel {
+	padding-left: 0;
+	padding-right: 45px;
+}
+.sort-panel li {
+	float: right;
+	padding-right: 0;
+	padding-left: 15px;
+}
+.item .description time, 
+.item .description h4 {
+	padding-left: 0;
+	padding-right: 60px;
+}
+.description .title {
+	background-position: 96% 9px;
+	padding-left: 10px;
+	padding-right: 0;
+	width: 100%;
+}
+.half .description .title {
+	background-position: 92% 9px;
+}
+.widget .subtitle, 
+.widget h3,
+.aq-block .slider-title .subtitle, 
+.aq-block .slider-title h2.block-title {
+	padding-left: 0;
+	padding-right: 50px;
+}
+.inline-icon {
+	float: right;
+	margin-right: 0;
+	margin-left: 20px;
+}
+.adress-icon p {
+	left: auto;
+	right: 70px;
+}
+#page-title {
+	padding-left: 0;
+	padding-right: 70px;
+}
+#page-title a.back {
+	left: auto;
+	right: 10px;
+}
+.col-2-folio .description .title{
+	background-position: 97% 4px;
+}
+.col-4-folio .description .title {
+	background-position: 94% 4px;
+}
+.masonry-items .description .title {
+	background-position: 95% 3px;
+}
+.s-submit {
+	right: auto;
+	left: 13px;
+}
+.twitter-widget .tweet, 
+.tweet_even, 
+.tweet_odd {
+	padding-left: 0;
+	padding-right: 80px;
+}
+.wpb_twitter_widget .twitter_follow_button {
+	padding-left: 0;
+	padding-right: 25px;
+	background-position: 100% 50%;
+}
+article header,
+article.mini .entry-content {
+	margin-left: 0;
+	margin-right: 80px;
+}
+.recent-tabs-widget .tabs dd img {
+	left: 11px;
+	right: auto;
+}
+.recent-tabs-widget .tabs dd span {
+	right: 10px;
+	left: auto;
+	background-position: 0 8px;
+	padding-right: 0;
+	padding-left: 14px;
+}
+#grid-posts article.mini .entry-content {
+	margin-right: 0;
+}
+ul.cart_list li img, ul.product_list_widget li img {
+	float: left;
+	margin-right: 4px;
+	margin-left: 0;
+}
+ul.products li.product .onsale {
+	left: 0;
+	right: auto;
+	margin: -4px 0 0 -4px;
+}
+.wpb_accordion .ui-accordion .ui-accordion-header a {
+	padding-left: 10px;
+	padding-right: 35px;
+}
+.wpb_accordion .ui-accordion .ui-accordion-header {
+	border-left:none !important;
+	border-right:6px solid #3FA3D0 !important;
+}
+.wpb_toggle_title_active, 
+#content h4.wpb_toggle_title_active,
+.wpb_toggle, 
+#content h4.wpb_toggle {
+	padding-right: 50px;
+	padding-left: 0;
+	background-position:100% 0;
+}
+.wpb_toggle_content {
+	padding-right: 25px;
+	padding-left: 0;
+}
+.wpb_teaser_grid .categories_filter li, .wpb_categories_filter li {
+	float: right;
+	margin-right: 0;
+	margin-left: 10px;
+}
+.wpb_tour .wpb_tab, 
+.wpb_tour .wpb_tab.ui-tabs-panel {
+	float: left;
+	padding-left: 0;
+	padding-right: 21.7391px;
+}
+.wpb_tour_next_prev_nav {
+	margin-left: 0;
+	margin-right: 31.9149%;
+	padding-left: 0;
+	padding-right: 21.7391px;
+}
+#darkf .widget,
+#darkf .widget.twitter-widget,
+#darkf .widget.contact-form-widget,
+#darkf .widget.recent-posts-widget,
+#darkf .widget.search-widget,
+#darkf .widget.tags-widget,
+#darkf .widget.text-widget,
+#darkf .widget.category-widget,
+#darkf .widget.widget_gallery_widget,
+#darkf .widget.widget_facebook_widget,
+#darkf .widget.widget_info,
+#darkf .widget.recent-tabs-widget {
+    background-position: 100% 6px;
+}
+.widget.twitter-widget,
+.widget.contact-form-widget,
+.widget.recent-posts-widget,
+.widget.search-widget,
+.widget.tags-widget,
+.widget.text-widget,
+.widget.category-widget,
+.widget.widget_gallery_widget,
+.widget.widget_facebook_widget,
+.widget.widget_info,
+.widget.recent-tabs-widget,
+.twitter-widget .tweet, 
+.tweet_odd, 
+.tweet_even {
+    background-position: 100% 6px;
+}
+.widget,
+.widget.widget_login,
+.widget.widget_shopping_cart,
+.widget.widget_recent_products,
+.wpb_play i.icon, 
+option.wpb_play {
+    background-position: 100% 0;
+}
+.info-item-alt .inner-text,
+.build-block-title{
+    background: 100% 3px;
+}
+.alert .messagebox_text {
+	padding-left: 0;
+	padding-right: 70px;
+}
+.alert-info, 
+div.alert-info,
+.alert-success, 
+div.alert-success,
+.alert-danger, 
+.alert-error, 
+div.alert-danger, 
+div.alert-error  {
+	background-position: 95% 25px;
+}
+.wpb_button.btn-large.wpb_play {
+	padding-right: 20px;
+	padding-left: 50px;
+}
+.tile.mini .text-mini-left, 
+.tile.double .text-mini-left {
+	left: auto;
+	right: 15px;
+}
+span.number {
+	right: auto;
+	left: 10px;
+}
+.contact-form .fields {
+	float: right;
+	margin-right: 0;
+	margin-left: 20px;
+}
+.contact-form textarea,
+.team-brick img {
+	float: right;
+}
+.team-brick .desc {
+	margin-left: 0;
+	margin-right: 160px;
+	padding-left: 10px;
+	padding-right: 0;
+}
+.contact-icon-3 {
+	left: 0;
+	right: auto;
+}
+.post .entry-content+.dopinfo {
+	margin-top: 30px;
+}
+.post .entry-content+.dopinfo .delim {
+	display:none;
+}
+
+@media (max-width: 767px){
+	[class*="column"] + [class*="column"]:last-child,
+	#content.seven,
+	#content.eleven,
+	#left-sidebar,
+	.page-template-posts-2left-sidebar-php #content,
+	.column, 
+	.columns,
+	#right-sidebar,
+	.page-template-posts-2left-sidebar-php #right-sidebar{
+		float: none;
+	}
+}
+@media (max-width: 610px){
+	#header .logo,
+	#topmenu, 
+	#topmenu .tiled-menu {
+		float: none;
+	}
+}
