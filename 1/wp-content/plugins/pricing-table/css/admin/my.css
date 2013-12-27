@@ -1,0 +1,39 @@
+.deletecol{
+    background: url("../../images/trash_blue.png")   no-repeat right top  ;
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+    float: right;
+    margin-top:5px;
+    margin-left:5px;
+    /*vertical-align: top;*/
+   
+}
+
+.deleterow{
+    background: url("../../images/trash_blue.png")   no-repeat right top  ;
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+    position: relative;
+    float: left;
+    margin-right: 10px;
+}
+.moverow{
+    background: url("../../images/move.gif")   no-repeat right top  ;
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+    position: relative;
+    float: left;
+    margin-right: 10px;
+}
+.lockedrow{
+    background: url("../../images/lock.gif")   no-repeat right top  ;
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+    position: relative;
+    float: left;
+    margin-right: 10px;
+}
