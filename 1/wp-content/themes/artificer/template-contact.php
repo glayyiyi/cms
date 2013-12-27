@@ -8,10 +8,10 @@
  * @package WooFramework
  * @subpackage Template
  */
- 
+
 global $woo_options;
 get_header();
- 
+
 $nameError = '';
 $emailError = '';
 $commentError = '';
@@ -113,12 +113,12 @@ jQuery(document).ready(function() {
 </script>
 
     <div id="content" class="col-full">
-    	
+
     	<?php woo_main_before(); ?>
-    
+
 		<section id="main" class="col-left">
 
-            <article id="contact-page" class="page">
+            <article id="contact-page" class="page type-page">
 
             <?php if( isset( $emailSent ) && $emailSent == true ) { ?>
 
@@ -129,14 +129,14 @@ jQuery(document).ready(function() {
                 <?php if ( have_posts() ) { ?>
 
                 <?php while ( have_posts() ) { the_post(); ?>
-                
+
                 		<header>
                 			<h1><?php the_title(); ?></h1>
                 		</header>
 
                         <section class="entry">
 	                        <?php the_content(); ?>
-                			
+
                 			<div class="location-twitter fix">
     							<?php if ( isset( $woo_options['woo_contact_panel'] ) && $woo_options['woo_contact_panel'] == 'true' ) { ?>
 						    	<section id="office-location"<?php if ( ( isset( $woo_options['woo_contact_twitter'] ) && $woo_options['woo_contact_twitter'] != '' ) || ( isset($woo_options['woo_contact_subscribe_and_connect']) && $woo_options['woo_contact_subscribe_and_connect'] == 'true' ) ) { ?> class="col-left"<?php } ?>>
@@ -150,7 +150,7 @@ jQuery(document).ready(function() {
 						    	</section>
 						    	<?php } ?>
 						    	<div class="contact-social<?php if ( ( isset( $woo_options['woo_contact_panel'] ) && $woo_options['woo_contact_panel'] == 'true' ) && ( ( isset( $woo_options['woo_contact_twitter'] ) && $woo_options['woo_contact_twitter'] != '' ) || ( isset($woo_options['woo_contact_subscribe_and_connect']) && $woo_options['woo_contact_subscribe_and_connect'] == 'true' ) ) ) { ?> col-right<?php } ?>">
-						    	
+
 						    		<?php if ( isset( $woo_options['woo_contact_twitter'] ) && $woo_options['woo_contact_twitter'] != '' ) { ?>
 						    		<section id="twitter">
 						    			<h3>Twitter</h3>
@@ -159,13 +159,13 @@ jQuery(document).ready(function() {
 						    		</section>
 						    		<?php } ?>
 						    		<?php if ( isset($woo_options['woo_contact_subscribe_and_connect']) && $woo_options['woo_contact_subscribe_and_connect'] == 'true' ) { woo_subscribe_connect(); } ?>
-						    	
+
 						    	</div>
-						    	
+
 						    	</div><!-- /.location-twitter -->
-	                        
+
                         </section>
-                        
+
                         <?php if ( isset($woo_options['woo_contactform_map_coords']) && $woo_options['woo_contactform_map_coords'] != '' ) { $geocoords = $woo_options['woo_contactform_map_coords']; }  else { $geocoords = ''; } ?>
                 		<?php if ($geocoords != '') { ?>
                 		<?php woo_maps_contact_output("geocoords=$geocoords"); ?>
@@ -218,7 +218,7 @@ jQuery(document).ready(function() {
 
             </article><!-- /#contact-page -->
 		</section><!-- /#main -->
-		
+
 		<?php woo_main_after(); ?>
 
         <?php get_sidebar(); ?>

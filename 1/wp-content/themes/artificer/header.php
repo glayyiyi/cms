@@ -77,7 +77,7 @@
 		</div><!-- /#topad -->
         <?php } ?>
         
-      <?php woo_nav_before(); ?>
+        <?php woo_nav_before(); ?>
         
         <h3 class="nav-toggle"><a href="#navigation"><?php _e('Main navigation', 'woothemes'); ?></a></h3>
 

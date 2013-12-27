@@ -1,5 +1,8 @@
 *** Artificer Changelog ***
 
+2013.11.08 - version 1.3.5
+ * style.css - Fixes an issue with the responsive layout on the contact template.
+
 2013.08.22 - version 1.3.4
  * includes/theme-woocommerce.php - Tweaked how WooCommerce css is dequeued for 2.1.
 

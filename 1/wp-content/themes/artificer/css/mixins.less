@@ -1,7 +1,7 @@
 // VARIABLES
 // Colors
 @color_theme: #967381; // Main theme color
-@color_links: spin(@color_theme,60); // Links 
+@color_links: spin(@color_theme,60); // Links
 @color_body: darken(desaturate(@bg_light,5%),50%); // Body Copy
 // Borders
 @border_main: darken(@bg_light,10%); // The 1px grey rules used throughout the WF
@@ -10,7 +10,7 @@
 @bg_dark: #d3d3d3;
 // Fonts
 @sans: sans-serif;
-@serif: Georgia, serif; 
+@serif: Georgia, serif;
 // Google fonts - These are also defined in Theme Setup (theme-actions.php)
 @sans_google: "Karla", sans-serif;
 @serif_google: "Cutive", sans-serif;
@@ -69,9 +69,9 @@
 // MIXINS
 .clearfix() {
 	&:after {
-		content: "\0020"; 
-		display: block; 
-		height: 0; 
+		content: "\0020";
+		display: block;
+		height: 0;
 		overflow: hidden;
 		clear: both;
 	}
@@ -130,13 +130,13 @@
     box-shadow:inset @shadow_x @shadow_y @shadow_rad @shadow_in @shadow_color;
     -webkit-box-shadow:inset @shadow_x @shadow_y @shadow_rad @shadow_in @shadow_color;
 }
- 
+
 .text_shadow(@shadow_x:3px, @shadow_y:3px, @shadow_rad:3px, @shadow_color:#fff)
 {
     text-shadow:@shadow_x @shadow_y @shadow_rad @shadow_color;
 }
 
-.vertical_gradient(@from: #000, @to: #FFF) {	
+.vertical_gradient(@from: #000, @to: #FFF) {
 	background-color: @from;
 	background-image: -webkit-gradient(linear, left top, left bottom, from(@from), to(@to)); /* Saf4+, Chrome */
 	background-image: -webkit-linear-gradient(top, @from, @to); /* Chrome 10+, Saf5.1+, iOS 5+ */
@@ -153,7 +153,7 @@
     -o-transition:@selector @animation @duration;
     transition:@selector @animation @duration;
 }
- 
+
 .opacity(@opacity:0.75) {
     opacity: @opacity;
     filter:~"alpha(opacity=@opacity * 100)";
@@ -163,7 +163,7 @@
 	-webkit-transform: rotate(@degree);  /* Saf3.1+, Chrome */
 	-moz-transform: rotate(@degree);  /* FF3.5+ */
 	-ms-transform: rotate(@degree);  /* IE9 */
-	-o-transform: rotate(@degree);  /* Opera 10.5 */ 
+	-o-transform: rotate(@degree);  /* Opera 10.5 */
 	transform: rotate(@degree);
 	zoom: 1;
 }
