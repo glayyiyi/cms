@@ -1,5 +1,7 @@
 <?php
-/** WPJAM OPTIONS */
+/* WPJAM OPTIONS 
+** Version: 1.0
+*/
 
 function wpjam_option_page($labels, $title='', $type='default', $icon='options-general'){
 	extract($labels);
@@ -79,19 +81,25 @@ function wpjam_add_settings($labels,$defaults){
 	$field_callback = 'wpjam_field_callback';
 	foreach ($sections as $section_name => $section) {
 		add_settings_section( $section_name, $section['title'], $section['callback'], $option_page );
-		foreach ($section['fileds'] as $field_name=>$field) {
-			$field['option']	= $option_name;
-			$field['field']		= $field_name;
 
-			$field['default'] 	= isset($defaults[$field_name])?$defaults[$field_name]:'';
-			add_settings_field( 
-				$field_name,
-				$field['title'],		
-				$field_callback,	
-				$option_page, 
-				$section_name,	
-				$field
-			);	
+		$fields = isset($section['fields'])?$section['fields']:(isset($section['fileds'])?$section['fileds']:''); // 尼玛写错英文单词的 fallback
+
+		if($fields){
+			foreach ($fields as $field_name=>$field) {
+				$field['option']	= $option_name;
+				$field['field']		= $field_name;
+
+				$field['default'] 	= isset($defaults[$field_name])?$defaults[$field_name]:'';
+				add_settings_field( 
+					$field_name,
+					$field['title'],		
+					$field_callback,	
+					$option_page, 
+					$section_name,	
+					$field
+				);	
+			}
+
 		}
 	}
 }
@@ -104,18 +112,18 @@ function wpjam_field_callback($args) {
 	$wpjam_option	= get_option( $option_name );
 
 	$value			= (isset($wpjam_option[$field_name]))?$wpjam_option[$field_name]:$args['default'];
-	$filed 			= $option_name.'['.$field_name.']';
+	$field 			= $option_name.'['.$field_name.']';
 	$type			= $args['type'];
 	$description	= (isset($args['description']))?($type == 'checkbox')?' <label for="'.$field_name.'">'.$args['description'].'</label>':'<br />'.$args['description']:'';
 
 	if($type == 'text'){
-		echo '<input type="text" id="'.$field_name.'" name="'.$filed.'" value="'.$value.'" class="regular-text" />';
+		echo '<input type="text" id="'.$field_name.'" name="'.$field.'" value="'.$value.'" class="regular-text" />';
 	}elseif($type == 'textarea'){
 		$rows = isset($args['rows'])?$args['rows']:10;
-		echo '<textarea id="'.$field_name.'" name="'.$filed.'" rows="'.$rows.'" cols="50" class="large-text  code">'.$value.'</textarea>';
+		echo '<textarea id="'.$field_name.'" name="'.$field.'" rows="'.$rows.'" cols="50" class="large-text  code">'.$value.'</textarea>';
 	}elseif($type == 'checkbox'){
 		$checked = $value?'checked':'';
-		echo '<input type="checkbox" id="'.$field_name.'" name="'.$filed.'" value="1" '.$checked.' />';
+		echo '<input type="checkbox" id="'.$field_name.'" name="'.$field.'" value="1" '.$checked.' />';
 	}
 	echo $description;
 }
@@ -135,11 +143,11 @@ function wpjam_do_settings_section($option_page, $section_name){
 	if ( $section['callback'] )
 		call_user_func( $section['callback'], $section );
 
-	if ( ! isset( $wp_settings_fields ) || !isset( $wp_settings_fields[$option_page] ) || !isset( $wp_settings_fields[$option_page][$section['id']] ) )
-		continue;
-	echo '<table class="form-table">';
-	do_settings_fields( $option_page, $section['id'] );
-	echo '</table>';
+	if ( isset( $wp_settings_fields ) && isset( $wp_settings_fields[$option_page] ) && !empty($wp_settings_fields[$option_page][$section['id']] ) ){
+		echo '<table class="form-table">';
+		do_settings_fields( $option_page, $section['id'] );
+		echo '</table>';
+	}
 }
 
 
@@ -250,5 +258,17 @@ function wpjam_admin_display_form_table($form_fields){
 			<?php } ?>
 		</tbody>
 	</table>
+	<?php
+}
+
+function wpjam_confim_delete_script(){
+	?>
+	<script type="text/javascript">
+	jQuery(function(){
+		jQuery('span.delete a').click(function(){
+			return confirm('确实要删除吗?'); 
+		}); 
+	});
+	</script> 
 	<?php
 }

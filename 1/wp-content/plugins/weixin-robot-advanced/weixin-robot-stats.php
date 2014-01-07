@@ -96,6 +96,7 @@ function weixin_robot_insert_message($postObj,$Response=''){
 	}elseif($msgType == 'image'){
 		$data['MsgId']		= $postObj->MsgId;
 		$data['PicUrl']		= $postObj->PicUrl;
+		$data['MediaId']	= $postObj->MediaId;
 	}elseif($msgType == 'location'){
 		$data['MsgId']		= $postObj->MsgId;
 		$data['Location_X']	= $postObj->Location_X;
@@ -224,6 +225,7 @@ function weixin_robot_get_response_types(){
 		'not-found'		=> '没有匹配内容',
 		'voice'			=> '语音自动回复',
 		'loction'		=> '位置自动回复',
+		'link'			=> '链接自动回复',
 		'image'			=> '图片自动回复',
 		'enter-reply'	=> '进入微信回复'
 	);
@@ -489,7 +491,7 @@ function weixin_robot_summary_page(){
 	<h3>详细回复统计分析</h3>
 
 	<ul class="subsubsub">
-		<?php $current_page_base_url = 'admin.php?page='.$plugin_page.'&start_date='.$start_date.'&end_date='.$end_date; ?>
+		<?php $current_page_base_url = 'admin.php?page='.$plugin_page.'&tab=summary&start_date='.$start_date.'&end_date='.$end_date; ?>
 		<li class="<?php echo 'total'?>"><a href="<?php echo admin_url($current_page_base_url.'&response_type=total')?>" <?php if($response_type == 'total') {?> class="current"<?php } ?>>全部</a> |</li>
 		<?php foreach ($counts as $count) { ?>
 		<?php if($count->Response && isset($response_types[$count->Response])){?>
@@ -567,7 +569,7 @@ function weixin_robot_messages_page() {
 			$data = array(
 				'MsgType'		=> 'manual',
 				'FromUserName'	=> $weixin_openid,
-				'CreateTime'	=> current_time('timestamp')-8*2400,
+				'CreateTime'	=> current_time('timestamp')-get_option('gmt_offset')*3600,
 				'Content'		=> $content,
 			);
 
@@ -641,8 +643,7 @@ function weixin_robot_messages_page() {
 		<thead>
 			<tr>
 				<?php if(weixin_robot_get_setting('weixin_advanced_api') && strpos($weixin_messages_table, 'weixin')){?>
-				<th>用户</th>
-				<th>详细信息</th>
+				<th colspan="2">用户</th>
 				<?php } else { ?>
 				<th>用户</th>
 				<?php }?>
@@ -659,7 +660,6 @@ function weixin_robot_messages_page() {
 		foreach($weixin_messages as $weixin_message){ 
 			$MsgType = $weixin_message->MsgType; $alternate = $alternate?'':'alternate';
 			$weixin_openid = $weixin_message->FromUserName;
-			
 			?>
 			<tr id="<?php echo $weixin_message->id;?>" class="<?php echo $alternate; ?>">
 			<?php if(weixin_robot_get_setting('weixin_advanced_api') && strpos($weixin_messages_table, 'weixin')){?>
@@ -690,6 +690,8 @@ function weixin_robot_messages_page() {
 				<?php
 				if($MsgType == 'text'){
 					echo $weixin_message->Content; 
+				}elseif($MsgType == 'link'){
+					echo '<a href="'.$weixin_message->Url.'" target="_blank">'.$weixin_message->Title.'</a>';
 				}elseif($MsgType == 'image'){
 					echo '<a href="'.$weixin_message->PicUrl.'" target="_blank"><img src="'.$weixin_message->PicUrl.'" width="100px;"></a>';
 				}elseif($MsgType == 'location'){
@@ -713,7 +715,7 @@ function weixin_robot_messages_page() {
 				}
 				?>
 				</td>
-				<td><?php echo $types[$MsgType]; ?><br /><?php echo date('Y-m-d H:i:s',$weixin_message->CreateTime+8*60*60); ?></td>
+				<td><?php echo $types[$MsgType]; ?><br /><?php echo date('Y-m-d H:i:s',$weixin_message->CreateTime+get_option('gmt_offset')*3600); ?></td>
 				<td>
 					<?php 
 					if(is_numeric($weixin_message->Response) ){
@@ -774,7 +776,8 @@ function weixin_robot_messages_page() {
 				//jQuery('tr#'+id).after(jQuery('#tr_'+weixin_openid));
 				jQuery('tr#reply_form').show();
 			}
-		</script>
+		</script>		
+		<?php wpjam_confim_delete_script(); ?>
 		<?php } ?>
 		
 <?php } ?>

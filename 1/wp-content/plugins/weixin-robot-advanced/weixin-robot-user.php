@@ -162,3 +162,99 @@ function weixin_robot_user_get_openid($query_id){
         return false;
     }
 }
+
+add_action('weixin_admin_menu', 'weixin_robot_user_admin_menu',1);
+function weixin_robot_user_admin_menu(){
+	weixin_robot_add_submenu_page('user', 	'微信用户列表');
+}
+function weixin_robot_user_page(){
+	global $wpdb, $plugin_page;
+	
+	global $wpdb;
+	$current_page 		= isset($_GET['paged']) ? $_GET['paged'] : 1;
+	$number_per_page	= 50;
+	$start_count		= ($current_page-1)*$number_per_page;
+	$limit				= 'LIMIT '.$start_count.','.$number_per_page;
+
+	
+	$weixin_users_table = weixin_robot_users_table();
+
+	if(weixin_robot_get_setting('weixin_credit')){
+		$weixin_credits_table = weixin_robot_credits_table();
+		$sql = "SELECT SQL_CALC_FOUND_ROWS wut.*, wct.credit FROM  $weixin_users_table wut LEFT JOIN $weixin_credits_table wct ON wut.openid = wct.weixin_openid WHERE  subscribe = '1' AND wct.id in (SELECT MAX( id ) FROM $weixin_credits_table GROUP BY weixin_openid) ORDER BY wct.credit desc $limit ";
+	}else{
+		$sql = "SELECT SQL_CALC_FOUND_ROWS wut.* FROM  $weixin_users_table wut WHERE subscribe = '1' $limit ";
+	}
+
+	$weixin_users = $wpdb->get_results($sql);
+	$total_count = $wpdb->get_var("SELECT FOUND_ROWS();");
+
+?>
+<div class="wrap">
+	<div id="icon-weixin-robot" class="icon-users icon32"><br></div>
+	<h2>微信用户记录</h2>
+	<?php if($weixin_users) { ?>
+	<style>.widefat td { padding:4px 10px;vertical-align: middle;}</style>
+	<table class="widefat" cellspacing="0">
+		<thead>
+			<tr>
+				<th>微信 OpenID</th>
+				<?php if(weixin_robot_get_setting('weixin_credit')){ ?>
+				<th>积分</th>
+				<?php } ?>
+				<?php if(weixin_robot_get_setting('weixin_advanced_api')) {?>
+				<th colspan="2">用户</th>
+				<th>性别</th>
+				<th>地址</th>
+				<th>订阅时间</th>
+				<?php }else{ ?>
+				<th>姓名</th>
+				<th>电话</th>
+				<th>地址</th>
+				<?php } ?>
+				<th>详细</th>
+			</tr>
+		</thead>
+
+		<tbody>
+		<?php $alternate = '';?>
+		<?php foreach($weixin_users as $weixin_user){ $alternate = $alternate?'':'alternate';?>
+			<tr class="<?php echo $alternate;?>">
+				<td><?php echo $weixin_user->openid; ?></td>
+				<?php if(weixin_robot_get_setting('weixin_credit')){ ?>
+				<td><?php echo $weixin_user->credit; ?></td>
+				<?php } ?>
+				<?php if(weixin_robot_get_setting('weixin_advanced_api')) {?>
+				<td>
+				<?php 
+				$weixin_user_avatar = '';
+				if(!empty($weixin_user->headimgurl)){
+					$weixin_user_avatar = WEIXIN_ROBOT_PLUGIN_URL.'/include/timthumb.php?src='.$weixin_user->headimgurl;
+				?>
+					<img src="<?php echo $weixin_user_avatar; ?>" width="32" />
+				<?php }?>
+				</td>
+				<td><?php echo $weixin_user->nickname; ?></td>
+				<td><?php if($weixin_user->sex == 1) { echo '男'; }else{ echo '女'; } ?></td>
+				<td><?php echo $weixin_user->country.' '.$weixin_user->province.' '.$weixin_user->city; ?></td>
+				<td><?php echo date( 'Y-m-d H:m:s', $weixin_user->subscribe_time+get_option('gmt_offset')*3600 ); ?></td>
+				<?php }else{ ?>
+				<td><?php echo $weixin_user->name; ?></td>
+				<td><?php echo $weixin_user->phone; ?></td>
+				<td><?php echo $weixin_user->address; ?></td>
+				<?php } ?>
+				
+				<td>
+					<?php if(weixin_robot_get_setting('weixin_credit')){ ?><a href="<?php echo admin_url('admin.php?page=weixin-robot-credit&openid='.$weixin_user->openid)?>">积分历史</a> | <?php } ?>
+					<a href="<?php echo admin_url('admin.php?page=weixin-robot-messages&openid='.$weixin_user->openid)?>">消息历史</a>
+				</td>
+			</tr>
+		<?php } ?>
+		</tbody>
+	</table>
+	<?php wpjam_admin_pagenavi($total_count,$number_per_page); ?>
+	<?php } ?>
+	
+</div>
+<?php 
+}

@@ -1,8 +1,4 @@
 <?php 
-// 加载 WPJAM 后台选项设置基本函数库
-if(!function_exists('wpjam_option_page')){
-	include(WEIXIN_ROBOT_PLUGIN_DIR.'/include/wpjam-setting-api.php');
-}
 
 //后台菜单
 add_action( 'admin_menu', 'weixin_robot_admin_menu' );
@@ -49,18 +45,6 @@ function weixin_robot_admin_head(){
 ?>
 <style type="text/css">.icon16.icon-settings:before, #adminmenu .toplevel_page_weixin-robot div.wp-menu-image:before{content: "\f125";}</style>
 <?php
-	global $plugin_page;
-	if(in_array($plugin_page, array('weixin-robot', 'weixin-robot-advanced', 'weixin-robot-custom-reply', 'weixin-robot-custom-menu', 'weixin-robot-stats2', 'weixin-robot-messages'))){
-?>
-	<script type="text/javascript">
-	jQuery(function(){
-		jQuery('span.delete a').click(function(){
-			return confirm('确实要删除吗?'); 
-		}); 
-	});
-	</script> 
-<?php
-	}
 }
 
 add_action( 'admin_init', 'weixin_robot_admin_init' );
@@ -95,7 +79,7 @@ function weixin_robot_get_basic_option_labels(){
     $option_name = $option_page =   'weixin-robot-basic';
     $field_validate				=	'weixin_robot_basic_validate';
 
-    $basic_section_fileds = array(
+    $basic_section_fields = array(
 		'weixin_token'					=> array('title'=>'微信 Token',		'type'=>'text'),
 		'weixin_default'				=> array('title'=>'默认缩略图',		'type'=>'text'),
 		'weixin_keyword_allow_length'	=> array('title'=>'搜索关键字最大长度','type'=>'text',		'description'=>'一个汉字算两个字节，一个英文单词算两个字节，空格不算，搜索多个关键字可以用空格分开！'),
@@ -103,23 +87,24 @@ function weixin_robot_get_basic_option_labels(){
 		'weixin_disable_stats'			=> array('title'=>'屏蔽统计',			'type'=>'checkbox',	'description'=>'屏蔽统计之后，就无法统计用户发的信息和系统的回复。'), 
     );
 
-    $default_reply_section_fileds = array(
+    $default_reply_section_fields = array(
     	'weixin_welcome'				=> array('title'=>'用户关注默认回复',	'type'=>'textarea', 'rows'=>7),
 		'weixin_keyword_too_long'		=> array('title'=>'超过最大长度回复',	'type'=>'textarea',	'rows'=>5,	'description'=>'设置超过最大长度提示语，留空则不回复！'),
 		'weixin_not_found'				=> array('title'=>'搜索结果为空回复',	'type'=>'textarea', 'rows'=>5,	'description'=>'可以使用 [keyword] 代替相关的搜索关键字，留空则不回复！'),
     	'weixin_default_voice'			=> array('title'=>'语音默认回复',		'type'=>'textarea', 'rows'=>5,	'description'=>'设置语言的默认回复文本，留空则不回复！'),
     	'weixin_default_location'		=> array('title'=>'位置默认回复',		'type'=>'textarea', 'rows'=>5,	'description'=>'设置位置的默认回复文本，留空则不回复！'),
     	'weixin_default_image'			=> array('title'=>'图片默认回复',		'type'=>'textarea', 'rows'=>5,	'description'=>'设置图片的默认回复文本，留空则不回复！'),
+    	'weixin_default_link'			=> array('title'=>'链接默认回复',		'type'=>'textarea', 'rows'=>5,	'description'=>'设置链接的默认回复文本，留空则不回复！'),
     );
 
-    $app_section_fileds = array(
+    $app_section_fields = array(
 		'weixin_app_id'					=> array('title'=>'微信AppID',		'type'=>'text',		'description'=>'设置自定义菜单的所需的 AppID，如果没申请，可不填！'),
 		'weixin_app_secret'				=> array('title'=>'微信APPSecret',	'type'=>'text',		'description'=>'设置自定义菜单的所需的 APPSecret，如果没申请，可不填！'),
 		'weixin_advanced_api'			=> array('title'=>'开启微信高级接口',	'type'=>'checkbox',	'description'=>'如果你申请了服务号的高级接口，才开启该功能，否则会出错'),
 		'weixin_enter'					=> array('title'=>'进入公众号默认回复','type'=>'textarea', 'rows'=>7,	'description'=>'用户进入微信公众号之后的默认回复，一天内只回复一次（你可以通过 <code>weixin_enter_time</code> 这个 filter 来更改时长）。<br />这个功能只有开通了高级接口的服务号才能使用，并且在用户确认允许公众号使用其地理位置才可使用。'),
     );
 
-    $credit_section_fileds = array(
+    $credit_section_fields = array(
 		'weixin_credit'					=> array('title'=>'开启微信积分系统',	'type'=>'checkbox',	'description'=>'开启积分系统，用户既可以签到和分享文章来获取积分'),
 		'weixin_day_credit_limit'		=> array('title'=>'每日积分上限',		'type'=>'text',		'description'=>'设置每日积分上限，防止用户刷分。'),
 		'weixin_checkin_credit'			=> array('title'=>'签到积分',			'type'=>'text',		'description'=>'用户点击签到菜单，或者发送签单之后获取的积分。'),
@@ -129,10 +114,10 @@ function weixin_robot_get_basic_option_labels(){
     );
 
     $sections = array(
-    	'basic'			=> array('title'=>'基本设置',		'fileds'=>$basic_section_fileds,			'callback'=>'weixin_robot_basic_section_callback' ),
-    	'default_reply'	=> array('title'=>'默认回复',		'fileds'=>$default_reply_section_fileds,	'callback'=>''),
-    	'app'			=> array('title'=>'接口设置',		'fileds'=>$app_section_fileds,				'callback'=>''),
-    	'credit'		=> array('title'=>'积分设置',		'fileds'=>$credit_section_fileds,			'callback'=>'')
+    	'basic'			=> array('title'=>'基本设置',		'fields'=>$basic_section_fields,			'callback'=>'weixin_robot_basic_section_callback' ),
+    	'default_reply'	=> array('title'=>'默认回复',		'fields'=>$default_reply_section_fields,	'callback'=>''),
+    	'app'			=> array('title'=>'接口设置',		'fields'=>$app_section_fields,				'callback'=>''),
+    	'credit'		=> array('title'=>'积分设置',		'fields'=>$credit_section_fields,			'callback'=>'')
 	);
 
 	$sections = apply_filters('weixin_setting',$sections);
@@ -153,6 +138,7 @@ function weixin_robot_get_default_basic_option(){
 		'weixin_default_voice'			=> "系统暂时还不支持语音回复，直接发送文本来搜索吧。\n获取更多帮助信息请输入：h。",
 		'weixin_default_location'		=> "系统暂时还不支持位置回复，直接发送文本来搜索吧。\n获取更多帮助信息请输入：h。",
 		'weixin_default_image'			=> "系统暂时还不支持图片回复，直接发送文本来搜索吧。\n获取更多帮助信息请输入：h。",
+		'weixin_default_link'			=> "已经收到你分享的信息，感谢分享。\n获取更多帮助信息请输入：h。",
 		'weixin_advanced_api'			=> '0',
 		'weixin_enter'					=> "输入 n 返回最新日志！\n输入 r 返回随机日志！\n输入 t 返回最热日志！\n输入 c 返回最多评论日志！\n输入 t7 返回一周内最热日志！\n输入 c7 返回一周内最多评论日志！\n输入 h 获取帮助信息！",
 		'weixin_credit'					=> 1,
@@ -207,7 +193,7 @@ function weixin_robot_get_advanced_option_labels(){
 	$option_name = $option_page =   'weixin-robot-advanced';
 	$field_validate				=	'';
 
-    $advanced_section_fileds = array(
+    $advanced_section_fields = array(
 		'new'			=>array('title'=>'返回最新日志关键字',			'type'=>'text'),
 		'rand'			=>array('title'=>'返回随机日志关键字',			'type'=>'text'),
 		'hot'			=>array('title'=>'返回浏览最高日志关键字',		'type'=>'text',	'description'=>'博客必须首先安装 Postview 插件！'),
@@ -217,10 +203,10 @@ function weixin_robot_get_advanced_option_labels(){
 		
 	);
 
-	$advanced_section_fileds = apply_filters('weixin_advanced_fileds',$advanced_section_fileds);
+	$advanced_section_fields = apply_filters('weixin_advanced_fields',$advanced_section_fields);
 
 	$sections = array( 
-    	'advanced'=>array('title'=>'',	'callback'=>'weixin_robot_advanced_section_callback',	'fileds'=>$advanced_section_fileds)
+    	'advanced'=>array('title'=>'',	'callback'=>'weixin_robot_advanced_section_callback',	'fields'=>$advanced_section_fields)
 	);
 
 	return compact('option_group','option_name','option_page','sections','field_validate');
@@ -248,8 +234,11 @@ function weixin_robot_tables_page() {
 	$weixin_tables = array(
 		'自定义回复'		=> 'weixin_robot_custom_replies_create_table',
 		'微信用户'		=> 'weixin_robot_users_create_table',
-		'微信用户积分'	=> 'weixin_robot_credits_create_table',
 	);
+
+	if(weixin_robot_get_setting('weixin_credit')){
+		$weixin_tables['微信用户积分'] = 'weixin_robot_credits_create_table';
+	}
 
 	if(weixin_robot_get_setting('weixin_disable_stats')==false){
 		$weixin_tables['微信消息'] = 'weixin_robot_messages_create_table';

@@ -170,6 +170,7 @@ function weixin_robot_get_builtin_replies($type = ''){
 		$weixin_builtin_replies['[voice]'] 			= array('type'=>'full',	'reply'=>'默认语音回复',		'function'=>'weixin_robot_default_reply');
 		$weixin_builtin_replies['[location]'] 		= array('type'=>'full',	'reply'=>'默认地理位置回复',	'function'=>'weixin_robot_default_reply');
 		$weixin_builtin_replies['[image]'] 			= array('type'=>'full',	'reply'=>'默认图片回复',		'function'=>'weixin_robot_default_reply');
+		$weixin_builtin_replies['[link]'] 			= array('type'=>'full',	'reply'=>'默认链接回复',		'function'=>'weixin_robot_default_reply');
 		$weixin_builtin_replies['[event-location]']	= array('type'=>'full',	'reply'=>'获取用户地理位置',	'function'=>'weixin_robot_location_event_reply');
 
 		foreach (weixin_robot_get_welcome_keywords() as $welcome_keyword) {

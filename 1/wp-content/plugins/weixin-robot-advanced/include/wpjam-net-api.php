@@ -39,7 +39,7 @@ function wpjam_net_check_domain($id = 56){
 			if($domain_check == 1){
 				set_transient('wpjam_net_domain_check_'.$id,1,864000); 	// 确认的用户 10天检测一次
 			}else{
-				set_transient('wpjam_net_domain_check_'.$id,0,10);	// 未确认的用户，每10秒检测一次
+				set_transient('wpjam_net_domain_check_'.$id,0,30);	// 未确认的用户，每10秒检测一次
 			}
 		}
 	}
@@ -108,7 +108,7 @@ function wpjam_net_admin_menu() {
 		add_menu_page(					'WPJAM应用商城', 						'WPJAM 商城'.$update_info,	'manage_options',	'wpjam-net',		'wpjam_net_page');
 		add_submenu_page( 'wpjam-net', 	'所有产品 &lsaquo; WPJAM应用商城', 	'所有产品', 					'manage_options',	'wpjam-net',		'wpjam_net_page');
 		add_submenu_page( 'wpjam-net', 	'我的产品 &lsaquo; WPJAM应用商城', 	'我的产品'.$update_info,		'manage_options',	'wpjam-net-my', 	'wpjam_net_my_page');
-		add_submenu_page( 'wpjam-net', 	'我要赚钱 &lsaquo; WPJAM应用商城', 	'我要赚钱', 					'manage_options',	'wpjam-net-about',	'wpjam_net_about_page');
+		//add_submenu_page( 'wpjam-net', 	'我要赚钱 &lsaquo; WPJAM应用商城', 	'我要赚钱', 					'manage_options',	'wpjam-net-about',	'wpjam_net_about_page');
 	}
 }
 

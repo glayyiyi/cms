@@ -3,7 +3,7 @@
 Plugin Name: 微信高级签到插件
 Plugin URI: http://wpjam.net/item/wpjam-weixin-checkin-advanced/
 Description: 微信高级签到 WordPress 插件，可以查看总共签到次数，连续签到次数，排名，击败多少用户。
-Version: 1.1
+Version: 1.2
 Author: Denis
 Author URI: http://blog.wpjam.com/
 */
@@ -21,18 +21,18 @@ function wpjam_weixin_checkin_builtin_reply($weixin_builtin_replies){
     return $weixin_builtin_replies;
 }
 
-add_filter('weixin_setting','wpjam_weixin_checkin_fileds',11);
-function wpjam_weixin_checkin_fileds($sections){
+add_filter('weixin_setting','wpjam_weixin_checkin_fields',11);
+function wpjam_weixin_checkin_fields($sections){
 
     if(wpjam_net_check_domain(150)){
     	if(weixin_robot_get_setting('weixin_advanced_api')){
-    		$sections['credit']['fileds']['weixin_checkin_success']		= array('title'=>'成功签到之后的回复',		'type'=>'textarea',	'rows'=>4,	'description'=>'');
-	        $sections['credit']['fileds']['weixin_checkined']			= array('title'=>'已签到之后的回复',		'type'=>'textarea',	'rows'=>4,	'description'=>'');    
+    		$sections['credit']['fields']['weixin_checkin_success']		= array('title'=>'成功签到之后的回复',		'type'=>'textarea',	'rows'=>4,	'description'=>'');
+	        $sections['credit']['fields']['weixin_checkined']			= array('title'=>'已签到之后的回复',		'type'=>'textarea',	'rows'=>4,	'description'=>'');    
     	}else{
-            $sections['credit']['fileds']['weixin_checkin_success_2']	= array('title'=>'成功签到之后完善信息之前的回复',		'type'=>'textarea',	'rows'=>4,	'description'=>'使用例子请参考：签到成功，添加 [credit_change]积分，你现在共有[credit]积分！你是今天第[order]位签到的用户，你已经连续签到了[continue_number]天，累积签到了[total_number]次，击败了[rank]%用户！发送tc还可以查看签到排行榜。点击&lt;a href="[profile_link]"&gt;点击完善资料&lt;/a&gt;注册后可以使用高级版签到功能。');
-	        $sections['credit']['fileds']['weixin_checkin_success']		= array('title'=>'成功签到之后完善信息之后的回复',		'type'=>'textarea',	'rows'=>4,	'description'=>'');
-	        $sections['credit']['fileds']['weixin_checkined_2']			= array('title'=>'已签到之后完善信息之前的回复',		'type'=>'textarea',	'rows'=>4,	'description'=>'');    
-	        $sections['credit']['fileds']['weixin_checkined']			= array('title'=>'已签到之后完善信息之后的回复',		'type'=>'textarea',	'rows'=>4,	'description'=>'');    
+            $sections['credit']['fields']['weixin_checkin_success_2']	= array('title'=>'成功签到之后完善信息之前的回复',		'type'=>'textarea',	'rows'=>4,	'description'=>'使用例子请参考：签到成功，添加 [credit_change]积分，你现在共有[credit]积分！你是今天第[order]位签到的用户，你已经连续签到了[continue_number]天，累积签到了[total_number]次，击败了[rank]%用户！发送tc还可以查看签到排行榜。点击&lt;a href="[profile_link]"&gt;点击完善资料&lt;/a&gt;注册后可以使用高级版签到功能。');
+	        $sections['credit']['fields']['weixin_checkin_success']		= array('title'=>'成功签到之后完善信息之后的回复',		'type'=>'textarea',	'rows'=>4,	'description'=>'');
+	        $sections['credit']['fields']['weixin_checkined_2']			= array('title'=>'已签到之后完善信息之前的回复',		'type'=>'textarea',	'rows'=>4,	'description'=>'');    
+	        $sections['credit']['fields']['weixin_checkined']			= array('title'=>'已签到之后完善信息之后的回复',		'type'=>'textarea',	'rows'=>4,	'description'=>'');    
     	}
     }
 
@@ -344,3 +344,86 @@ function wpjam_weixin_credit($args){
 	delete_transient('weixin_top_credit_users');
 }
 
+add_action('weixin_admin_menu', 'weixin_robot_checkin_admin_menu',3);
+function weixin_robot_checkin_admin_menu(){
+	weixin_robot_add_submenu_page('checkin',	'微信签到排行榜');
+}
+function weixin_robot_checkin_page(){
+	global $wpdb, $plugin_page;
+	
+	global $wpdb;
+	$current_page 		= isset($_GET['paged']) ? $_GET['paged'] : 1;
+	$number_per_page	= 50;
+	$start_count		= ($current_page-1)*$number_per_page;
+	$limit				= 'LIMIT '.$start_count.','.$number_per_page;
+
+	$weixin_checkin_table = weixin_robot_checkin_table();
+	$weixin_users_table = weixin_robot_users_table();
+
+	$sql = "SELECT wxu.*, wxc.continue_number, wxc.total_number FROM {$weixin_checkin_table} wxc INNER JOIN {$weixin_users_table} wxu ON (wxc.weixin_openid=wxu.openid) WHERE subscribe = '1' ORDER BY total_number DESC $limit";
+
+	$weixin_users = $wpdb->get_results($sql);
+
+	$total_count = $wpdb->get_var("SELECT FOUND_ROWS();");
+
+?>
+<div class="wrap">
+	<div id="icon-weixin-robot" class="icon-users icon32"><br></div>
+	<h2>微信签到排行榜</h2>
+	<?php if($weixin_users) { ?>
+	<style>.widefat td { padding:4px 10px;vertical-align: middle;}</style>
+	<table class="widefat" cellspacing="0">
+		<thead>
+			<tr>
+				<th>微信 OpenID</th>
+				<th>签到总数</th>
+				<th>连续签到次数</th>
+				<?php if(weixin_robot_get_setting('weixin_advanced_api')) {?>
+				<th colspan="2">用户</th>
+				<th>性别</th>
+				<th>地址</th>
+				<th>订阅时间</th>
+				<?php }else{ ?>
+				<th>姓名</th>
+				<th>电话</th>
+				<th>地址</th>
+				<?php } ?>
+			</tr>
+		</thead>
+
+		<tbody>
+		<?php $alternate = '';?>
+		<?php foreach($weixin_users as $weixin_user){ $alternate = $alternate?'':'alternate';?>
+			<tr class="<?php echo $alternate;?>">
+				<td><?php echo $weixin_user->openid; ?></td>
+				<td><?php echo $weixin_user->total_number; ?></td>
+				<td><?php echo $weixin_user->continue_number; ?></td>
+				<?php if(weixin_robot_get_setting('weixin_advanced_api')) {?>
+				<td>
+				<?php 
+				$weixin_user_avatar = '';
+				if(!empty($weixin_user->headimgurl)){
+					$weixin_user_avatar = WEIXIN_ROBOT_PLUGIN_URL.'/include/timthumb.php?src='.$weixin_user->headimgurl;
+				?>
+					<img src="<?php echo $weixin_user_avatar; ?>" width="32" />
+				<?php }?>
+				</td>
+				<td><?php echo $weixin_user->nickname; ?></td>
+				<td><?php if($weixin_user->sex == 1) { echo '男'; }else{ echo '女'; } ?></td>
+				<td><?php echo $weixin_user->country.' '.$weixin_user->province.' '.$weixin_user->city; ?></td>
+				<td><?php echo date( 'Y-m-d H:m:s', $weixin_user->subscribe_time+get_option('gmt_offset')*3600 ); ?></td>
+				<?php }else{ ?>
+				<td><?php echo $weixin_user->name; ?></td>
+				<td><?php echo $weixin_user->phone; ?></td>
+				<td><?php echo $weixin_user->address; ?></td>
+				<?php } ?>
+			</tr>
+		<?php } ?>
+		</tbody>
+	</table>
+	<?php wpjam_admin_pagenavi($total_count,$number_per_page); ?>
+	<?php } ?>
+	
+</div>
+<?php 
+}

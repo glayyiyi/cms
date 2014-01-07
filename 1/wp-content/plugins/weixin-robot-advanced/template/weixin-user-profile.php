@@ -30,6 +30,9 @@ if(isset($_GET['update'])){
 }
 
 $weixin_user = weixin_robot_get_user($weixin_openid);
+if(empty($weixin_user['name']) && !empty($weixin_user['nickname'])){
+	$weixin_user['name'] = $weixin_user['nickname'];
+}
 ?>
 <!doctype html>
 <html lang="en">
@@ -102,7 +105,7 @@ ul.buttons li a{text-decoration:none;color:#000;}
 		</p>
 
 		<p>
-			<input type="submit" name="update" value="确认" >
+			<input type="submit" name="update" value="编辑" >
 		</p>
 
 	</form>

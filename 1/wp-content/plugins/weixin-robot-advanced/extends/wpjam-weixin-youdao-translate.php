@@ -3,7 +3,7 @@
 Plugin Name: 微信中英翻译（基于有道翻译）
 Plugin URI: http://wpjam.net/item/wpjam-weixin-youdao-translate/
 Description: 基于有道翻译 API 在微信上进行中英翻译
-Version: 1.3
+Version: 1.4
 Author: Denis
 Author URI: http://blog.wpjam.com/
 */
@@ -28,16 +28,16 @@ function wpjam_weixin_translate_response_types($response_types){
     return $response_types;
 }
 
-add_filter('weixin_setting','wpjam_weixin_translate_fileds',11);
-function wpjam_weixin_translate_fileds($sections){
+add_filter('weixin_setting','wpjam_weixin_translate_fields',11);
+function wpjam_weixin_translate_fields($sections){
     if(wpjam_net_check_domain(121)){
-        $youdao_translate_fileds = array(
+        $youdao_translate_fields = array(
             'youdao_translate_api_key'          => array('title'=>'有道翻译API Key',    'type'=>'text',     'description'=>'点击<a href="http://fanyi.youdao.com/openapi?path=data-mode">这里</a>申请有道翻译API！'),
             'youdao_translate_key_from'         => array('title'=>'有道翻译KEY FROM',   'type'=>'text',     'description'=>'申请有道翻译API的时候同时填写并获得KEY FROM'),
             'youdao_translate_default_reply'    => array('title'=>'默认翻译回复',        'type'=>'textarea', 'description'=>'用户只发送翻译两个词时候的默认回复'    )
         );
-        $sections['youdao_translate'] = array('title'=>'有道翻译', 'callback'=>'', 'fileds'=>$youdao_translate_fileds);
-        unset($sections['default_reply']['fileds']['weixin_default_translate']);
+        $sections['youdao_translate'] = array('title'=>'有道翻译', 'callback'=>'', 'fields'=>$youdao_translate_fields);
+        unset($sections['default_reply']['fields']['weixin_default_translate']);
     }
     return $sections;
 }
@@ -62,7 +62,6 @@ function wpjam_weixin_youdao_translate_reply($keyword){
         global $wechatObj;
         echo sprintf($wechatObj->get_textTpl(), weixin_robot_get_setting('youdao_translate_default_reply'));
         $wechatObj->set_response('translate-not-words');
-        wpjam_do_weixin_custom_keyword();
     }else{
         global $wechatObj;
         $keyword = str_replace(array('翻译','fy'), '', $keyword);
@@ -74,7 +73,6 @@ function wpjam_weixin_youdao_translate_reply($keyword){
             echo sprintf($wechatObj->get_textTpl(), '翻译失败');   
             $wechatObj->set_response('translate-fail'); 
         }
-        wpjam_do_weixin_custom_keyword();
     }
 }
 

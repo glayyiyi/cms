@@ -101,6 +101,7 @@ function weixin_robot_custom_reply_page(){
 		</div>
 
 		<?php wpjam_option_tab_script(); ?>
+		<?php wpjam_confim_delete_script(); ?>
 
 	</div>
 <?php
@@ -177,7 +178,7 @@ function weixin_robot_custom_reply_list(){
 				<?php /*<td><?php echo $weixin_robot_custom_reply->id; ?></td>*/?>
 				<td><?php echo $weixin_robot_custom_reply->keyword; ?></td>
 				<td><?php echo $weixin_robot_custom_reply->reply; ?></td>
-				<td><?php $type = $weixin_robot_custom_reply->type; if($type == 'text'){echo '文本回复';}elseif($type == 'img'){ echo '图文回复'; } ?></td>
+				<td><?php $type = $weixin_robot_custom_reply->type; if($type == 'text'){echo '文本回复';}elseif($type == 'img'){ echo '图文回复'; }elseif ($type == 'function'){ echo '函数回复'; } ?></td>
 				<td><?php echo $weixin_robot_custom_reply->time; ?></td>
 				<td><?php echo $weixin_robot_custom_reply->status?'使用中':'未使用'; ?></td>
 				<td><span><a href="<?php echo admin_url('admin.php?page='.$plugin_page.'&edit&id='.$weixin_robot_custom_reply->id); ?>">编辑</a></span> | <span class="delete"><a href="<?php echo admin_url('admin.php?page='.$plugin_page.'&delete&id='.$weixin_robot_custom_reply->id); ?>">删除</a></span></td>

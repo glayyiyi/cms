@@ -477,7 +477,181 @@ function weixin_robot_credit_share_action_callback(){
 add_action('init','weixin_robot_user_parse_request');
 function weixin_robot_user_parse_request($wp){
 	if(isset($_GET['weixin_user_profile']) && isset($_GET['weixin_user_id'])){
-		include(WEIXIN_ROBOT_PLUGIN_DIR.'/template/weixin-user-profile.php');
+		if(file_exists(TEMPLATEPATH.'/weixin/weixin-user-profile.php')){
+			include(TEMPLATEPATH.'/weixin/weixin-user-profile.php');
+		}else{
+			include(WEIXIN_ROBOT_PLUGIN_DIR.'/template/weixin-user-profile.php');
+		}
         exit;
 	}
 }
+
+
+add_action('weixin_admin_menu', 'weixin_robot_credit_admin_menu',2);
+function weixin_robot_credit_admin_menu(){
+	weixin_robot_add_submenu_page('credit', '微信积分记录');
+}
+
+function weixin_robot_credit_page(){
+	global $plugin_page, $current_user;
+
+	if(isset($_POST['weixin_robot_credit_nonce']) && wp_verify_nonce($_POST['weixin_robot_credit_nonce'], 'weixin_robot' )){
+		$weixin_openid	= stripslashes( trim( $_POST['weixin_openid'] ) );
+		$credit_change	= stripslashes( trim( $_POST['credit_change'] ) );
+		$note			= stripslashes( trim( $_POST['note'] ) );
+		
+		if( empty($weixin_openid) || empty($credit_change)){
+			$err_msg = '微信 OpenID 和 积分不能为空';
+		}elseif(weixin_robot_get_user($weixin_openid,1) === false){
+			$err_msg = '微信OpenID不存在';
+		}elseif (!is_numeric($credit_change)) {
+			$err_msg = '积分必须为数字';
+		}
+
+		if(empty($err_msg)){
+			$args = array(
+				'type'			=> 'manual', 
+				'weixin_openid'	=> $weixin_openid,
+				'operator_id'	=> $current_user->ID,
+				'credit_change'	=> $credit_change,
+				'exp_change'	=> 0,
+				'note'			=> $note,
+			);
+			weixin_robot_add_credit($args);	
+			$succeed_msg = '修改成功';
+		}
+		
+	}
+
+?>
+	<div class="wrap">
+		<div id="icon-weixin-robot" class="icon32"><br></div>
+			<h2>微信积分记录  <a href="<?php echo admin_url('admin.php?page='.$plugin_page); ?>&amp;action=add" class="add-new-h2">手工修改</a></h2>
+
+			<?php if(!empty($succeed_msg)){?>
+			<div class="updated">
+				<p><?php echo $succeed_msg;?></p>
+			</div>
+			<?php }?>
+			<?php if(!empty($err_msg)){?>
+			<div class="error" style="color:red;">
+				<p>错误：<?php echo $err_msg;?></p>
+			</div>
+			<?php }?>
+		<?php 
+			if(isset($_GET['action']) && $_GET['action'] == 'add'){
+				weixin_robot_credit_add();
+			}else{
+				weixin_robot_credit_list();
+			}
+		 ?>
+	</div>
+<?php
+}
+
+function weixin_robot_credit_add(){
+	global $plugin_page;	
+?>
+<h3>手工修改积分</h3>
+<?php 
+$form_fields = array(
+	array('name'=>'weixin_openid',	'label'=>'微信 OpenID',	'value'=>'',	'type'=>'text'),
+	array('name'=>'credit_change',	'label'=>'积分',			'value'=>'',	'type'=>'text'),
+	array('name'=>'note',			'label'=>'备注',			'value'=>'',	'type'=>'textarea'),
+);
+
+?>
+<form method="post" action="<?php echo admin_url('admin.php?page='.$plugin_page); ?>" enctype="multipart/form-data" id="form">
+	<?php wpjam_admin_display_form_table($form_fields); ?>
+	<?php wp_nonce_field('weixin_robot','weixin_robot_credit_nonce'); ?>
+	<p class="submit"><input class="button-primary" type="submit" value="手工修改" /></p>
+</form>
+<?php 
+}
+
+function weixin_robot_credit_list(){
+	global $plugin_page, $succeed_msg,$plugin_page;
+
+	global $wpdb;
+	$current_page 		= isset($_GET['paged']) ? $_GET['paged'] : 1;
+	$number_per_page	= 50;
+	$start_count		= ($current_page-1)*$number_per_page;
+	$limit				= 'LIMIT '.$start_count.','.$number_per_page;
+
+	$weixin_credits_table = weixin_robot_credits_table();
+	$weixin_users_table = weixin_robot_users_table();
+
+	$where = '';
+	if(isset($_GET['openid'])){
+		$where = "AND wct.weixin_openid = '{$_GET['openid']}'";	
+	}
+
+    $sql = "SELECT SQL_CALC_FOUND_ROWS * FROM $weixin_credits_table as wct LEFT JOIN $weixin_users_table wut ON wct.weixin_openid = wut.openid WHERE wut.subscribe = '1'  $where ORDER BY wct.id DESC $limit";
+
+    $weixin_robot_credits = $wpdb->get_results($sql);
+    
+    $total_count = $wpdb->get_var("SELECT FOUND_ROWS();");
+?>
+	<?php if($weixin_robot_credits) { ?>
+	<form action="<?php echo admin_url('admin.php?page='.$plugin_page); ?>" method="POST">
+
+		<style>.widefat td { padding:4px 10px;vertical-align: middle;}</style>
+		<table class="widefat" cellspacing="0">
+		<thead>
+			<tr>
+				<th>微信 OpenID</th>
+				<th<?php if(weixin_robot_get_setting('weixin_advanced_api')) { echo ' colspan="2"'; }?>>用户</th>
+				<th>积分</th>
+				<th>变动</th>
+				<th>积分类型</th>
+				<th>时间</th>
+				<th>备注</th>
+			</tr>
+		</thead>
+
+		<tbody>
+		<?php $alternate = '';?>
+		<?php foreach($weixin_robot_credits as $weixin_robot_credit){ $alternate = $alternate?'':'alternate';?>
+			<tr class="<?php echo $alternate;?>">
+				<td><a href="<?php echo admin_url('admin.php?page='.$plugin_page.'&openid='.$weixin_robot_credit->weixin_openid)?>"><?php echo $weixin_robot_credit->weixin_openid; ?></a></td>
+			<?php if(weixin_robot_get_setting('weixin_advanced_api')) {?>
+				<?php if($weixin_robot_credit->subscribe){ ?>
+				<td>
+				<?php 
+				$weixin_user_avatar = '';
+				if(!empty($weixin_robot_credit->headimgurl)){
+					$weixin_user_avatar = WEIXIN_ROBOT_PLUGIN_URL.'/include/timthumb.php?src='.$weixin_robot_credit->headimgurl;
+				?>
+					<img src="<?php echo $weixin_user_avatar; ?>" width="32" />
+				<?php }?>
+				</td>
+				<td><?php echo $weixin_robot_credit->nickname;?></td>
+				<?php } else { ?>
+				<td colspan="2"><span style="color:red">*取消关注*</td>
+				<?php }?>
+			<?php }elseif($weixin_robot_credit->name){ ?>
+				<td><?php echo $weixin_robot_credit->name; ?></td>
+			<?php }else{ ?>
+				<td></td>
+			<?php } ?>	
+				<td><?php echo $weixin_robot_credit->credit; ?></td>
+				<td><?php echo $weixin_robot_credit->credit_change; ?></td>
+				<td><?php echo $weixin_robot_credit->type; ?>
+				<?php if($weixin_robot_credit->operator_id){
+					$operator_user = get_userdata($weixin_robot_credit->operator_id);
+					echo '<br />操作人：'.$operator_user->display_name;
+				}?></td>
+				<td><?php echo $weixin_robot_credit->time; ?></td>
+				<td><?php echo $weixin_robot_credit->note; ?></td>
+			</tr>
+		<?php } ?>
+		</tbody>
+		</table>
+	</form>
+	<?php wpjam_admin_pagenavi($total_count,$number_per_page); ?>
+	<?php } else{ ?>
+		<p>还没有积分历史记录</p>
+	<?php } ?>
+<?php
+}
+

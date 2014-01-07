@@ -24,7 +24,7 @@ function weixin_robot_custom_menu_page(){
 			wp_die('非法操作');
 		}
 
-		$is_sub = stripslashes( trim( $_POST['is_sub'] ));
+		$is_sub = isset($_POST['is_sub'])?1:0;
 		
 		$data = array(
 			'name'			=> stripslashes( trim( $_POST['name'] )),
@@ -68,6 +68,7 @@ function weixin_robot_custom_menu_page(){
 		<?php }?>
 		<?php weixin_robot_custom_menu_list(); ?>
 		<?php weixin_robot_custom_menu_add(); ?>
+		<?php wpjam_confim_delete_script(); ?>
 	</div>
 <?php
 }
