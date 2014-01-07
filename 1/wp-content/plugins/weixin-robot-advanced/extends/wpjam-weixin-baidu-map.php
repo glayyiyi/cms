@@ -132,7 +132,8 @@ function wpjam_baidu_map_nearby_reply($keyword){
 			if($baidu_map_default_keyword){
 				wpjam_baidu_map_nearby_reply('附近'.$baidu_map_default_keyword);
 			}else{
-				echo sprintf($wechatObj->get_textTpl(), '附近后面要加上搜索的关键词，比如【附近饭店】');
+				//By Glay echo sprintf($wechatObj->get_textTpl(), '附近后面要加上搜索的关键词，比如【附近饭店】');
+				echo sprintf($wechatObj->get_textTpl(), weixin_robot_get_setting('baidu_map_default_reply'));
 				$wechatObj->set_response('location-query');
 			}
 		}else{
