@@ -5,7 +5,7 @@
  * Description: Allow to Login or Share with social networks (specially in china) like QQ, Sina WeiBo, Baidu, Google, Live, DouBan, RenRen, KaiXin. NO 3rd-party!
  * Author: Afly
  * Author URI: http://www.xiaomac.com/
- * Version: 1.1.2
+ * Version: 1.1.3
  * License: GPL v2 - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * Text Domain: open-social
  * Domain Path: /lang
@@ -99,6 +99,7 @@ function open_init() {
 			exit();
 		}
 		if ($_GET['action'] == 'login') {
+			if($_GET['back']) $_SESSION['back'] = $_GET['back'];
 			$os -> open_login();
 		} else if ($_GET['action'] == 'callback') {
 			if(!isset($_GET['code'])){
@@ -185,8 +186,8 @@ class QQ_CLASS {
 		$str = open_connect_http('https://graph.qq.com/user/get_info?access_token='.$_SESSION['access_token'].'&oauth_consumer_key='.QQ_AKEY.'&openid='.$_SESSION['open_id']);
 		$name = $str['data']['name'];//t.qq.com/***
 		return array(
-			'nickname' => $nickname,
-			'display_name' => $nickname,
+			'nickname' => $nickname?$nickname:'QQ'.time(),
+			'display_name' => $nickname?$nickname:'QQ'.time(),
 			'user_url' => $name?'http://t.qq.com/'.$name:'',
 			'user_email' => ($name?$name:strtolower($_SESSION['open_id'])).'@t.qq.com'//fake
 		);
@@ -548,15 +549,15 @@ function open_action($os){
 	unset($_SESSION["access_token"]);
 	if(isset($_SESSION['open_img'])) unset($_SESSION['open_img']); 
 	if(isset($_SESSION['state'])) unset($_SESSION['state']); 
+	if(!isset($_SESSION['back'])) $_SESSION['back'] = home_url(); 
 	echo '<script>
-			opener.window.focus();
-			if(opener.window.location.href.indexOf("'.wp_login_url().'")==0){
-				var r = opener.window.document.loginform.redirect_to.value;
-				opener.window.location.href=r?r:"'.home_url().'";
+			if(/iPhone/.test(navigator.userAgent)){
+				location.href="'.$_SESSION['back'].'";
 			}else{
-				opener.window.location.reload();
+				opener.window.focus();
+				opener.window.location.href="'.$_SESSION['back'].'";
+				window.close();
 			}
-			window.close();
 		</script>';
 	exit;
 }
