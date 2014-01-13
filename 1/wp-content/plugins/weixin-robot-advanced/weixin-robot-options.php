@@ -4,7 +4,7 @@
 add_action( 'admin_menu', 'weixin_robot_admin_menu' );
 function weixin_robot_admin_menu() {
 	//add_menu_page('微信机器人', '微信机器人',	'manage_options',	'weixin-robot',	'weixin_robot_basic_page',	WEIXIN_ROBOT_PLUGIN_URL.'/static/weixin-16.ico');
-	add_menu_page('微信机器人', '微信机器人',	'manage_options',	'weixin-robot',	'weixin_robot_basic_page');
+	add_menu_page('微信机器人', '微信机器人',	'edit_product',	'weixin-robot',	'weixin_robot_basic_page');
 
 	weixin_robot_add_submenu_page('basic', '设置', 'weixin-robot');
 
@@ -29,7 +29,7 @@ function weixin_robot_admin_menu() {
 	//weixin_robot_add_submenu_page('about', '关于和更新');
 }
 
-function weixin_robot_add_submenu_page($key, $title, $slug='', $cap='manage_options'){
+function weixin_robot_add_submenu_page($key, $title, $slug='', $cap='edit_product'){
 	if(!$slug) $slug = 'weixin-robot-'.$key;
 	add_submenu_page( 'weixin-robot', $title.' &lsaquo; 微信机器人', $title, $cap, $slug, 'weixin_robot_'.str_replace('-', '_', $key).'_page');
 }
