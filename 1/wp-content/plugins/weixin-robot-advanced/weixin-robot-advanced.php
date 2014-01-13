@@ -277,7 +277,7 @@ function weixin_robot_get_wpjam_include_dir(){
 $wpjam_include_dir = weixin_robot_get_wpjam_include_dir();
 
 if(!function_exists('wpjam_net_check_domain')){
-	include($wpjam_include_dir.'/wpjam-net-api.php');	// WPJAM 应用商城接口
+	//include($wpjam_include_dir.'/wpjam-net-api.php');	// WPJAM 应用商城接口
 }
 
 if(!function_exists('wpjam_option_page')){
