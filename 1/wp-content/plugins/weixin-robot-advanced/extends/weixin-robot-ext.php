@@ -29,6 +29,7 @@ function convert_rmb_to_usd($paypal_args){
 function remove_admin_bar_links() {
 	global $wp_admin_bar;
 	$wp_admin_bar->remove_menu ( 'wp-logo' );
+	$wp_admin_bar->remove_menu('wpjam-net');
 	// $wp_admin_bar->remove_menu('wp-logo-external');
 	// $wp_admin_bar->remove_menu('view-site');
 	// $wp_admin_bar->remove_menu('new-content');
