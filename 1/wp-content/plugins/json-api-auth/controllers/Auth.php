@@ -53,8 +53,8 @@ class JSON_API_Auth_Controller {
     	if ( '' === $secure )
     		$secure = is_ssl();
     	
-    	$secure = apply_filters('secure_auth_cookie', $secure, $user_id);
-    	$secure_logged_in_cookie = apply_filters('secure_logged_in_cookie', false, $user_id, $secure);
+    	$secure = apply_filters('secure_auth_cookie', $secure, $user->ID);
+    	$secure_logged_in_cookie = apply_filters('secure_logged_in_cookie', false, $user->ID, $secure);
     	
     	if ( $secure ) {
     		$auth_cookie_name = SECURE_AUTH_COOKIE;
@@ -69,8 +69,8 @@ class JSON_API_Auth_Controller {
     	
     	//$logged_in_cookie = wp_generate_auth_cookie($user_id, $expiration, 'logged_in');
     	
-    	do_action('set_auth_cookie', $auth_cookie, $expire, $expiration, $user_id, $scheme);
-    	do_action('set_logged_in_cookie', $logged_in_cookie, $expire, $expiration, $user_id, 'logged_in');
+    	do_action('set_auth_cookie', $auth_cookie, $expire, $expiration, $user->ID, $scheme);
+    	do_action('set_logged_in_cookie', $logged_in_cookie, $expire, $expiration, $user->ID, 'logged_in');
     	
     	setcookie($auth_cookie_name, $auth_cookie, $expire, PLUGINS_COOKIE_PATH, COOKIE_DOMAIN, $secure, true);
     	setcookie($auth_cookie_name, $auth_cookie, $expire, ADMIN_COOKIE_PATH, COOKIE_DOMAIN, $secure, true);
