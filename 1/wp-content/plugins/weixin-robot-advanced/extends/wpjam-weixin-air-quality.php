@@ -62,7 +62,7 @@ function wpjam_weixin_air_quality_reply($keyword){
     }
 
     if(!$city){
-        echo sprintf($wechatObj->get_textTpl(), '空气后面要跟上城市名');
+        echo sprintf($wechatObj->get_textTpl(), '空气后面要跟上城市名，比如发送【空气北京】');
         $wechatObj->set_response('air_quality'); 
     }else{
         $results = wpjam_weixin_get_air_quality_results($city);
@@ -101,7 +101,8 @@ function wpjam_weixin_get_air_quality_results($keyword){
                   "二氧化氮(NO2)：".$city_air->no2."\n".
                   "二氧化硫(SO2)：".$city_air->so2."\n".
                   "臭氧(O3)：".$city_air->o3."\n".
-                  "更新时间：".preg_replace("/([a-zA-Z])/i", " ", $city_air->time_point);
+                  "更新时间：".preg_replace("/([a-zA-Z])/i", " ", $city_air->time_point)."\n".
+        		  "发送【空气XXX】查看其他城市空气质量，比如发送：空气北京";
         return $result;
     }
 }
