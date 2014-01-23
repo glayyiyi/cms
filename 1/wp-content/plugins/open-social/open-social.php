@@ -5,7 +5,7 @@
  * Description: Allow to Login or Share with social networks (specially in china) like QQ, Sina WeiBo, Baidu, Google, Live, DouBan, RenRen, KaiXin. NO 3rd-party!
  * Author: Afly
  * Author URI: http://www.xiaomac.com/
- * Version: 1.1.3
+ * Version: 1.1.4
  * License: GPL v2 - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * Text Domain: open-social
  * Domain Path: /lang
@@ -851,7 +851,7 @@ function open_get_avatar($avatar, $id_or_email='',$size='80') {
 	if(isset($open_type)){
 		$open_id = get_user_meta($id_or_email, 'open_id', true);
 		if($open_type=='qq'){
-			$out = 'http://q.qlogo.cn/qqapp/100599436/'.$open_id.'/100';//40
+			$out = 'http://q.qlogo.cn/qqapp/'.QQ_AKEY.'/'.$open_id.'/100';//40
 		}elseif($open_type=='sina'){
 			$out = 'http://tp3.sinaimg.cn/'.$open_id.'/180/1.jpg';//50
 		}elseif($open_type=='baidu'){
@@ -976,7 +976,7 @@ add_shortcode('os_hide', 'open_social_hide');
 function open_social_hide($atts, $content=""){
 	$output = '';
 	if(is_user_logged_in()){
-		$output .= '<span class=os_show>'.trim($content).'</span>';
+		$output .= '<span class=os_show><p>'.trim($content).'</p></span>';
 	}else{
 		$output .= '<p class=os_hide>'.$GLOBALS['open_str']['open_social_hide_text'].'</p>';
 	}
