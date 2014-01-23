@@ -270,21 +270,6 @@ function weixin_robot_credit_response_types($response_types){
     return $response_types;
 }
 
-// 给用户添加 query_id，用于访问页面时，获取当前用户
-add_filter('weixin_url','weixin_robot_url_add_query_id', 99);
-function weixin_robot_url_add_query_id($url){
-	//if(is_weixin()){ // 没有 user-agent？
-		global $wechatObj;
-		$weixin_openid = $wechatObj->get_fromUsername();
-
-		$query_id = weixin_robot_user_get_query_id($weixin_openid);
-
-		return add_query_arg('weixin_user_id', $query_id, $url);
-	//}else{
-	//	return $url;
-	//}	
-}
-
 // 需要加载 jQuery 用于 AJAX 获取积分。
 add_action( 'wp_enqueue_scripts', 'weixin_robot_enqueue_scripts' );
 function weixin_robot_enqueue_scripts() {
@@ -526,7 +511,15 @@ function weixin_robot_credit_page(){
 ?>
 	<div class="wrap">
 		<div id="icon-weixin-robot" class="icon32"><br></div>
-			<h2>微信积分记录  <a href="<?php echo admin_url('admin.php?page='.$plugin_page); ?>&amp;action=add" class="add-new-h2">手工修改</a></h2>
+			<h2>
+				<?php if(isset($_GET['action']) && $_GET['action'] == 'add'){ ?>
+					手工修改积分
+					<a href="<?php echo admin_url('admin.php?page='.$plugin_page); ?>" class="add-new-h2">返回列表</a>
+				<?php } else { ?>
+					微信积分记录 
+					<a href="<?php echo admin_url('admin.php?page='.$plugin_page); ?>&amp;action=add" class="add-new-h2">手工修改</a>
+				<?php } ?>
+			</h2>
 
 			<?php if(!empty($succeed_msg)){?>
 			<div class="updated">
@@ -552,17 +545,16 @@ function weixin_robot_credit_page(){
 function weixin_robot_credit_add(){
 	global $plugin_page;	
 ?>
-<h3>手工修改积分</h3>
 <?php 
 $form_fields = array(
-	array('name'=>'weixin_openid',	'label'=>'微信 OpenID',	'value'=>'',	'type'=>'text'),
-	array('name'=>'credit_change',	'label'=>'积分',			'value'=>'',	'type'=>'text'),
-	array('name'=>'note',			'label'=>'备注',			'value'=>'',	'type'=>'textarea'),
+	'weixin_openid'	=> array( 'title'=>'微信 OpenID',	'value'=>'',	'type'=>'text',		'description'=>''),
+	'credit_change'	=> array( 'title'=>'积分',			'value'=>'',	'type'=>'text',		'description'=>''),
+	'note'			=> array( 'title'=>'备注',			'value'=>'',	'type'=>'textarea',	'description'=>''),
 );
 
 ?>
 <form method="post" action="<?php echo admin_url('admin.php?page='.$plugin_page); ?>" enctype="multipart/form-data" id="form">
-	<?php wpjam_admin_display_form_table($form_fields); ?>
+	<?php wpjam_admin_display_fields($form_fields); ?>
 	<?php wp_nonce_field('weixin_robot','weixin_robot_credit_nonce'); ?>
 	<p class="submit"><input class="button-primary" type="submit" value="手工修改" /></p>
 </form>
@@ -594,8 +586,6 @@ function weixin_robot_credit_list(){
 ?>
 	<?php if($weixin_robot_credits) { ?>
 	<form action="<?php echo admin_url('admin.php?page='.$plugin_page); ?>" method="POST">
-
-		<style>.widefat td { padding:4px 10px;vertical-align: middle;}</style>
 		<table class="widefat" cellspacing="0">
 		<thead>
 			<tr>
@@ -611,7 +601,7 @@ function weixin_robot_credit_list(){
 
 		<tbody>
 		<?php $alternate = '';?>
-		<?php foreach($weixin_robot_credits as $weixin_robot_credit){ $alternate = $alternate?'':'alternate';?>
+		<?php foreach($weixin_robot_credits as $weixin_robot_credit){ $alternate = $alternate?'':'alternate'; ?>
 			<tr class="<?php echo $alternate;?>">
 				<td><a href="<?php echo admin_url('admin.php?page='.$plugin_page.'&openid='.$weixin_robot_credit->weixin_openid)?>"><?php echo $weixin_robot_credit->weixin_openid; ?></a></td>
 			<?php if(weixin_robot_get_setting('weixin_advanced_api')) {?>

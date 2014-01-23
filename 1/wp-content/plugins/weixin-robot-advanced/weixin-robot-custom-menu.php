@@ -84,8 +84,6 @@ function weixin_robot_custom_menu_list(){
 	<?php if($weixin_robot_custom_menus) { ?>
 	<?php $weixin_robot_ordered_custom_menus = weixin_robot_get_ordered_custom_menus($weixin_robot_custom_menus);?>
 	<form action="<?php echo admin_url('admin.php?page='.$plugin_page); ?>" method="POST">
-
-		<style>.widefat td { padding:4px 10px;vertical-align: middle;}</style>
 		<table class="widefat" cellspacing="0">
 		<thead>
 			<tr>
@@ -93,7 +91,7 @@ function weixin_robot_custom_menu_list(){
 				<th>按钮位置/子按钮位置</th>
 				<th>类型</th>
 				<th>Key/URL</th>
-				<th style="width:70px">操作</th>
+				<th>操作</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -146,20 +144,20 @@ function weixin_robot_custom_menu_add(){
 	$type_options			= array('click'=>'点击事件', 'view'=>'访问网页');
 
 	$form_fields = array(
-		array('name'=>'name',			'label'=>'按钮名称',		'type'=>'text',		'value'=>$id?$weixin_robot_custom_menu['name']:'',	'description'=>'按钮描述，既按钮名字，不超过16个字节，子菜单不超过40个字节'),
-		array('name'=>'type',			'label'=>'按钮类型',		'type'=>'select',	'value'=>$id?$weixin_robot_custom_menu['type']:'',	'description'=>'',	'options'=> $type_options),
-		array('name'=>'key',			'label'=>'按钮KEY值/URL','type'=>'text',		'value'=>$id?$weixin_robot_custom_menu['key']:'',	'description'=>'用于消息接口（event类型）推送，不超过128字节，如果按钮还有子按钮，可以不填，其他必填，否则报错。<br />如果类型为点击事件时候，则为按钮KEY值，如果类型为浏览网页，则为URL。<br />KEY值可以为搜索关键字，或者自定义回复定义的关键字。'),
-		array('name'=>'is_sub',			'label'=>'子按钮',		'type'=>'checkbox',	'value'=>'1',										'checked'=>$id?($weixin_robot_custom_menu['parent']?'checked':''):'' ),
-		array('name'=>'position',		'label'=>'位置',			'type'=>'select',	'value'=>$id?$weixin_robot_custom_menu['position']:'','description'=>'设置按钮的位置',	'options'=> $position_options ),
-		array('name'=>'parent',			'label'=>'所属父按钮位置','type'=>'select',	'value'=>$id?$weixin_robot_custom_menu['parent']:'','description'=>'如果是子按钮则需要设置所属父按钮的位置',	'options'=> $parent_options ),
-		array('name'=>'sub_position',	'label'=>'子按钮的位置',	'type'=>'select',	'value'=>$id?$weixin_robot_custom_menu['sub_position']:'','description'=>'设置子按钮的位置',	'options'=> $sub_position_options )
+		'name'			=> array('title'=>'按钮名称',			'type'=>'text',		'value'=>$id?$weixin_robot_custom_menu['name']:'',	'description'=>'按钮描述，既按钮名字，不超过16个字节，子菜单不超过40个字节'),
+		'type'			=> array('title'=>'按钮类型',			'type'=>'select',	'value'=>$id?$weixin_robot_custom_menu['type']:'',	'description'=>'',	'options'=> $type_options),
+		'key'			=> array('title'=>'按钮KEY值/URL',	'type'=>'text',		'value'=>$id?$weixin_robot_custom_menu['key']:'',	'description'=>'用于消息接口（event类型）推送，不超过128字节，如果按钮还有子按钮，可以不填，其他必填，否则报错。<br />如果类型为点击事件时候，则为按钮KEY值，如果类型为浏览网页，则为URL。<br />KEY值可以为搜索关键字，或者自定义回复定义的关键字。'),
+		'is_sub'		=> array('title'=>'子按钮',			'type'=>'checkbox',	'value'=>'1',										'description'=>'是否激活', 'checked'=>$id?($weixin_robot_custom_menu['parent']?'checked':''):'', ),
+		'position'		=> array('title'=>'位置',			'type'=>'select',	'value'=>$id?$weixin_robot_custom_menu['position']:'','description'=>'设置按钮的位置',	'options'=> $position_options ),
+		'parent'		=> array('title'=>'所属父按钮位置',	'type'=>'select',	'value'=>$id?$weixin_robot_custom_menu['parent']:'','description'=>'如果是子按钮则需要设置所属父按钮的位置',	'options'=> $parent_options ),
+		'sub_position'	=> array('title'=>'子按钮的位置',		'type'=>'select',	'value'=>$id?$weixin_robot_custom_menu['sub_position']:'','description'=>'设置子按钮的位置',	'options'=> $sub_position_options )
 	);
 
 	?>
 	<h3 id="edit"><?php echo $id?'修改':'新增';?>自定义菜单 <?php if($id) { ?> <a href="<?php echo admin_url('admin.php?page='.$plugin_page.'&add'); ?>" class="add-new-h2">新增另外一条自定义菜单</a> <?php } ?></h3>
 
 	 <form method="post" action="<?php echo admin_url('admin.php?page='.$plugin_page.'&edit&id='.$id.'#edit'); ?>" enctype="multipart/form-data" id="form">
-		<?php wpjam_admin_display_form_table($form_fields); ?>
+		<?php wpjam_admin_display_fields($form_fields); ?>
 		<?php wp_nonce_field('weixin_robot','weixin_robot_custom_menu_nonce'); ?>
 		<input type="hidden" name="action" value="edit" />
 		<p class="submit"><input class="button-primary" type="submit" value="　　<?php echo $id?'修改':'新增';?>　　" /></p>

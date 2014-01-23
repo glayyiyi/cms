@@ -91,6 +91,8 @@ function weixin_robot_get_user($weixin_openid,$force=0){
 				}
 				if(isset($weixin_user['openid'])){
 					$wpdb->insert($weixin_users_table,$weixin_user);
+					
+					$weixin_user = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$weixin_users_table} WHERE openid=%s",$weixin_openid),ARRAY_A);
 					wp_cache_set($weixin_openid, $weixin_user, 'weixin_user',3600);
 				}
 			}
@@ -163,10 +165,13 @@ function weixin_robot_user_get_openid($query_id){
     }
 }
 
-add_action('weixin_admin_menu', 'weixin_robot_user_admin_menu',1);
-function weixin_robot_user_admin_menu(){
-	weixin_robot_add_submenu_page('user', 	'微信用户列表');
+if(weixin_robot_get_setting('weixin_advanced_api') || weixin_robot_get_setting('weixin_credit')){
+	add_action('weixin_admin_menu', 'weixin_robot_user_admin_menu',1);
+	function weixin_robot_user_admin_menu(){
+		weixin_robot_add_submenu_page('user', 	'微信用户列表');
+	}
 }
+
 function weixin_robot_user_page(){
 	global $wpdb, $plugin_page;
 	
@@ -192,9 +197,8 @@ function weixin_robot_user_page(){
 ?>
 <div class="wrap">
 	<div id="icon-weixin-robot" class="icon-users icon32"><br></div>
-	<h2>微信用户记录</h2>
+	<h2>微信用户列表</h2>
 	<?php if($weixin_users) { ?>
-	<style>.widefat td { padding:4px 10px;vertical-align: middle;}</style>
 	<table class="widefat" cellspacing="0">
 		<thead>
 			<tr>

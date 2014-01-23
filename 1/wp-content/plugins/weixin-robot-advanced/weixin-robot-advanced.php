@@ -3,7 +3,7 @@
 Plugin Name: 微信机器人高级版
 Plugin URI: http://wpjam.net/item/weixin-robot-advanced/
 Description: 微信机器人的主要功能就是能够将你的公众账号和你的 WordPress 博客联系起来，搜索和用户发送信息匹配的日志，并自动回复用户，让你使用微信进行营销事半功倍。
-Version: 3.7
+Version: 3.8
 Author: Denis
 Author URI: http://blog.wpjam.com/
 */
@@ -32,6 +32,7 @@ class wechatCallback {
 
 	public function valid(){
 
+		//file_put_contents(WP_CONTENT_DIR.'/uploads/test.html',var_export($_GET,true));
 		if(isset($_GET['debug'])){
 			$this->checkSignature();
 			$this->responseMsg();
@@ -149,7 +150,7 @@ class wechatCallback {
 				global $post;
 
 				$title	= apply_filters('weixin_title', get_the_title()); 
-				$excerpt= apply_filters('weixin_description', get_post_excerpt( $post,apply_filters( 'weixin_description_length', 300 ) ) );
+				$excerpt= apply_filters('weixin_description', get_post_excerpt( $post,apply_filters( 'weixin_description_length', 150 ) ) );
 				$url	= apply_filters('weixin_url', get_permalink());
 
 				if($counter == 0){
@@ -169,12 +170,17 @@ class wechatCallback {
 		if($articleCount){
 			echo sprintf($this->get_picTpl(),$articleCount,$items);
 		}else{
-			$weixin_not_found = weixin_robot_get_setting('weixin_not_found');
-			$weixin_not_found = str_replace('[keyword]', '【'.$keyword.'】', $weixin_not_found);
-			if($weixin_not_found){
-				echo sprintf($this->get_textTpl(), $weixin_not_found);
+			if(weixin_robot_get_setting('weixin_3rd_search')){
+				weixin_robot_3rd_reply();
+			}else{
+				$weixin_not_found = weixin_robot_get_setting('weixin_not_found');
+				$weixin_not_found = weixin_robot_str_replace(str_replace('[keyword]', '【'.$keyword.'】', $weixin_not_found),$this);
+				if($weixin_not_found){
+
+					echo sprintf($this->get_textTpl(), $weixin_not_found);
+				}
+				$this->response = 'not-found';
 			}
-			$this->response = 'not-found';
 		}
 	}
 
@@ -263,11 +269,11 @@ class wechatCallback {
 }
 
 // 开始加载其他文件。
-
 function weixin_robot_get_wpjam_include_dir(){
 	$wpjam_include_versions = get_transient('wpjam_include_versions');
-    if($wpjam_include_versions === false || empty($wpjam_include_versions['2.0'])){
-        $wpjam_include_versions['2.0'] = WEIXIN_ROBOT_PLUGIN_DIR.'/include';
+	$version = '20140121';
+    if($wpjam_include_versions === false || empty($wpjam_include_versions[$version])){
+        $wpjam_include_versions[$version] = WEIXIN_ROBOT_PLUGIN_DIR.'/include';
         set_transient('wpjam_include_versions', $wpjam_include_versions, 600);
     }
     krsort($wpjam_include_versions);
@@ -284,15 +290,11 @@ if(!function_exists('wpjam_option_page')){
 	include($wpjam_include_dir.'/wpjam-setting-api.php');
 }
 
-include(WEIXIN_ROBOT_PLUGIN_DIR.'/weixin-robot-hook.php');			// 自定义接口
-include(WEIXIN_ROBOT_PLUGIN_DIR.'/weixin-robot-functions.php');		// 常用函数
+include(WEIXIN_ROBOT_PLUGIN_DIR.'/weixin-robot-functions.php');		// 自定义接口和常用函数
 include(WEIXIN_ROBOT_PLUGIN_DIR.'/weixin-robot-options.php');		// 后台选项
 include(WEIXIN_ROBOT_PLUGIN_DIR.'/weixin-robot-custom-reply.php');	// 自定义回复
 include(WEIXIN_ROBOT_PLUGIN_DIR.'/weixin-robot-custom-menu.php');	// 自定义菜单
-
-if(weixin_robot_get_setting('weixin_advanced_api') || weixin_robot_get_setting('weixin_credit')){
-	include(WEIXIN_ROBOT_PLUGIN_DIR.'/weixin-robot-user.php');		// 微信用户系统
-}
+include(WEIXIN_ROBOT_PLUGIN_DIR.'/weixin-robot-user.php');			// 微信用户系统
 
 if(weixin_robot_get_setting('weixin_credit')){
 	include(WEIXIN_ROBOT_PLUGIN_DIR.'/weixin-robot-credit.php');	// 微信积分系统

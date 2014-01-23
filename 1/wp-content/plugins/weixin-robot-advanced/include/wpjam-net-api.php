@@ -78,17 +78,19 @@ function wpjam_net_admin_menu() {
 			$update_plugins_count = 0;
 			$update_domains_count = 0;
 
-			foreach ($item_ids as $id=>$plugin_file) {
-				$plugin_data = get_plugin_data( $plugin_file );
-				$current_version = $plugin_data['Version'];
+			if($item_ids){
+				foreach ($item_ids as $id=>$plugin_file) {
+					$plugin_data = get_plugin_data( $plugin_file );
+					$current_version = $plugin_data['Version'];
 
-				$item = $wpjam_net_plugin_datas->items[$id];
-				$new_version = $item->new_version;			
+					$item = $wpjam_net_plugin_datas->items[$id];
+					$new_version = $item->new_version;			
 
-				if(!wpjam_net_check_domain($item->id)){
-					$update_domains_count++;
-				}elseif($new_version > $current_version){
-					$update_plugins_count++;
+					if(!wpjam_net_check_domain($item->id)){
+						$update_domains_count++;
+					}elseif($new_version > $current_version){
+						$update_plugins_count++;
+					}
 				}
 			}
 			$wpjam_net_count = array('update_plugins_count'=>$update_plugins_count, 'update_domains_count'=>$update_domains_count);
@@ -108,7 +110,7 @@ function wpjam_net_admin_menu() {
 		add_menu_page(					'WPJAM应用商城', 						'WPJAM 商城'.$update_info,	'manage_options',	'wpjam-net',		'wpjam_net_page');
 		add_submenu_page( 'wpjam-net', 	'所有产品 &lsaquo; WPJAM应用商城', 	'所有产品', 					'manage_options',	'wpjam-net',		'wpjam_net_page');
 		add_submenu_page( 'wpjam-net', 	'我的产品 &lsaquo; WPJAM应用商城', 	'我的产品'.$update_info,		'manage_options',	'wpjam-net-my', 	'wpjam_net_my_page');
-		add_submenu_page( 'wpjam-net', 	'我要赚钱 &lsaquo; WPJAM应用商城', 	'我要赚钱', 					'manage_options',	'wpjam-net-about',	'wpjam_net_about_page');
+		//add_submenu_page( 'wpjam-net', 	'我要赚钱 &lsaquo; WPJAM应用商城', 	'我要赚钱', 					'manage_options',	'wpjam-net-about',	'wpjam_net_about_page');
 	}
 }
 

@@ -11,13 +11,11 @@ function weixin_robot_admin_menu() {
 	if(wpjam_net_check_domain()){
 		weixin_robot_add_submenu_page('advanced', '高级回复');
 		weixin_robot_add_submenu_page('custom-reply', '自定义回复');
-	
-		$weixin_robot_basic = weixin_robot_get_option('weixin-robot-basic');
 
-		if(($weixin_robot_basic['weixin_app_id'] && $weixin_robot_basic['weixin_app_secret'])||($weixin_robot_basic['yixin_app_id'] && $weixin_robot_basic['yixin_app_secret'])) {
+		if((weixin_robot_get_setting('weixin_app_id') && weixin_robot_get_setting('weixin_app_secret'))||(weixin_robot_get_setting('yixin_app_id') && weixin_robot_get_setting('yixin_app_secret'))) {
 			weixin_robot_add_submenu_page('custom-menu', '自定义菜单');
 		}
-		if(empty($weixin_robot_basic['weixin_disable_stats'])){
+		if(weixin_robot_get_setting('weixin_disable_stats')==false){
 			weixin_robot_add_submenu_page('stats2', '微信统计分析');
 			//weixin_robot_add_submenu_page('summary', '微信回复统计分析');
 			weixin_robot_add_submenu_page('messages', '微信最新消息');
@@ -43,8 +41,26 @@ function weixin_robot_wpjam_net_item_id($item_ids){
 add_action('admin_head','weixin_robot_admin_head');
 function weixin_robot_admin_head(){
 ?>
-<style type="text/css">.icon16.icon-settings:before, #adminmenu .toplevel_page_weixin-robot div.wp-menu-image:before{content: "\f125";}</style>
+<style type="text/css">
+.icon16.icon-settings:before, #adminmenu .toplevel_page_weixin-robot div.wp-menu-image:before{content: "\f125";}
+</style>
 <?php
+global $plugin_page;
+	if(in_array($plugin_page, array('weixin-robot-stats2','yixin-robot-stats2'))){
+?>
+<link rel="stylesheet" href="http://cdn.staticfile.org/morris.js/0.4.3/morris.css" />
+<script type='text/javascript' src="http://cdn.staticfile.org/raphael/2.1.2/raphael-min.js"></script>
+<script type='text/javascript' src="http://cdn.staticfile.org/morris.js/0.4.3/morris.min.js"></script>
+<style type="text/css">
+input[type="date"]{ background-color: #fff; border-color: #dfdfdf; border-radius: 3px; border-width: 1px; border-style: solid; color: #333; outline: 0; box-sizing: border-box; }
+</style>
+<?php
+	}
+	if(strpos($plugin_page, 'weixin-robot') !== false){
+?>
+<style type="text/css">.widefat td {  vertical-align: middle;}</style>
+<?php
+	}
 }
 
 add_action( 'admin_init', 'weixin_robot_admin_init' );
@@ -55,6 +71,7 @@ function weixin_robot_admin_init() {
 
 function weixin_robot_basic_page() {
 	if(wpjam_net_check_domain()){
+		settings_errors();
 		$labels = weixin_robot_get_basic_option_labels();
 		wpjam_option_page($labels, $title='设置', $type='tab', $icon='weixin-robot');
 	}else{
@@ -68,6 +85,7 @@ function weixin_robot_basic_page() {
 }
 
 function weixin_robot_advanced_page() {
+	settings_errors();
 	$labels = weixin_robot_get_advanced_option_labels();
 	wpjam_option_page($labels, $title='高级回复', $type='default', $icon='weixin-robot');
 }
@@ -104,6 +122,12 @@ function weixin_robot_get_basic_option_labels(){
 		'weixin_enter'					=> array('title'=>'进入公众号默认回复','type'=>'textarea', 'rows'=>7,	'description'=>'用户进入微信公众号之后的默认回复，一天内只回复一次（你可以通过 <code>weixin_enter_time</code> 这个 filter 来更改时长）。<br />这个功能只有开通了高级接口的服务号才能使用，并且在用户确认允许公众号使用其地理位置才可使用。'),
     );
 
+    $third_party_section_fields = array(
+		'weixin_3rd_url'				=> array('title'=>'第三方微信平台链接',	'type'=>'text',		'description'=>'推荐使用<a href="http://weixin.digirepub.com/">微信共和</a>！'),
+		'weixin_3rd_token'				=> array('title'=>'第三方微信平台 Token',	'type'=>'text',		'description'=>''),
+		'weixin_3rd_search'				=> array('title'=>'第三方微信平台搜索',	'type'=>'checkbox',	'description'=>'所有在WordPress找不到内容的关键词都提交到第三方微信平台处理。')
+	);
+
     $credit_section_fields = array(
 		'weixin_credit'					=> array('title'=>'开启微信积分系统',	'type'=>'checkbox',	'description'=>'开启积分系统，用户既可以签到和分享文章来获取积分'),
 		'weixin_day_credit_limit'		=> array('title'=>'每日积分上限',		'type'=>'text',		'description'=>'设置每日积分上限，防止用户刷分。'),
@@ -117,6 +141,7 @@ function weixin_robot_get_basic_option_labels(){
     	'basic'			=> array('title'=>'基本设置',		'fields'=>$basic_section_fields,			'callback'=>'weixin_robot_basic_section_callback' ),
     	'default_reply'	=> array('title'=>'默认回复',		'fields'=>$default_reply_section_fields,	'callback'=>''),
     	'app'			=> array('title'=>'接口设置',		'fields'=>$app_section_fields,				'callback'=>''),
+    	'3rd_party'		=> array('title'=>'第三方平台',	'fields'=>$third_party_section_fields,		'callback'=>''),
     	'credit'		=> array('title'=>'积分设置',		'fields'=>$credit_section_fields,			'callback'=>'')
 	);
 
@@ -142,18 +167,27 @@ function weixin_robot_get_default_basic_option(){
 		'weixin_advanced_api'			=> '0',
 		'weixin_enter'					=> "输入 n 返回最新日志！\n输入 r 返回随机日志！\n输入 t 返回最热日志！\n输入 c 返回最多评论日志！\n输入 t7 返回一周内最热日志！\n输入 c7 返回一周内最多评论日志！\n输入 h 获取帮助信息！",
 		'weixin_credit'					=> 1,
+		'weixin_3rd_url'				=> '',
+		'weixin_3rd_token'				=> '',
+		'weixin_3rd_search'				=> 0,
 		'weixin_day_credit_limit'		=> 100,
 		'weixin_checkin_credit'			=> 10,
 		'weixin_SendAppMessage_credit'	=> 5,
 		'weixin_ShareTimeline_credit'	=> 10,
 		'weixin_ShareWeibo_credit'		=> 5,
+
 		
 	);
 	return apply_filters('weixin_default_option',$default_options,'weixin-robot-basic');
 }
 
 function weixin_robot_basic_section_callback(){
-	echo '<p style="font-weight:bold;">友情提示：查看<a href="http://blog.wpjam.com/m/weixin-robot-advanced-faq/">微信机器人高级版常见问题汇总</a>可以解决你使用当中碰到的绝大多数问题。</p>';
+	echo '
+<ol style="font-weight:bold;">
+	<li><a href="http://blog.wpjam.com/m/weixin-robot-advanced-faq/">微信机器人高级版常见问题汇总</a>列出了你使用当中碰到的绝大多数问题。</li>
+	<li>点击这里下载<a href="http://wpjam.com/go/weixin">微信机器人 WordPress 插件高级版使用说明</a>。每个大版本更新，使用文档都会更新，请重新下载。</li>
+</ol>
+';
 }
 
 function weixin_robot_basic_validate( $weixin_robot_basic ) {
@@ -182,6 +216,10 @@ function weixin_robot_basic_validate( $weixin_robot_basic ) {
 
 	if(empty($weixin_robot_basic['weixin_advanced_api'])){ //checkbox 未选，Post 的时候 $_POST 中是没有的，
 		$weixin_robot_basic['weixin_advanced_api'] = 0;
+	}
+
+	if(empty($weixin_robot_basic['weixin_3rd_search'])){ //checkbox 未选，Post 的时候 $_POST 中是没有的，
+		$weixin_robot_basic['weixin_3rd_search'] = 0;
 	}
 
 	return $weixin_robot_basic;

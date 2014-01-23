@@ -139,22 +139,6 @@ function weixin_robot_get_message($id){
 	$wpdb->update($weixin_messages_table,$data,array('id'=>$id));
 }*/
 
-add_action('admin_head','weixin_robot_stats_admin_head',999);
-function weixin_robot_stats_admin_head(){
-	global $plugin_page;
-	if(in_array($plugin_page, array('weixin-robot-stats2','yixin-robot-stats2'))){
-?>
-<link rel="stylesheet" href="http://cdn.staticfile.org/morris.js/0.4.2/morris.min.css" />
-<script type='text/javascript' src="http://cdn.staticfile.org/raphael/2.1.0/raphael-min.js"></script>
-<script type='text/javascript' src="http://cdn.staticfile.org/morris.js/0.4.2/morris.min.js"></script>
-<style type="text/css">
-input[type="date"]{ background-color: #fff; border-color: #dfdfdf; border-radius: 3px; border-width: 1px; border-style: solid; color: #333; outline: 0; box-sizing: border-box; }
-.widefat td { padding:4px 10px; vertical-align: middle;}
-</style>
-<?php
-	}
-}
-
 function weixin_robot_stats_get_start_date(){
 	$start_date	= (isset($_REQUEST['start_date']) && preg_match('/^\d{4}-\d{2}-\d{2}$/', $_REQUEST['start_date']))?$_REQUEST['start_date']:'';
 	if(!$start_date) $start_date=gmdate('Y-m-d',current_time('timestamp')-(60*60*24*30));
@@ -173,13 +157,15 @@ function weixin_robot_stats_get_type(){
 
 function weixin_robot_stats_header(){
 	global $plugin_page;
-	$start_date	= weixin_robot_stats_get_start_date();
-	$end_date 	= weixin_robot_stats_get_end_date();
+	$start_date		= weixin_robot_stats_get_start_date();
+	$end_date		= weixin_robot_stats_get_end_date();
+	$current_tab	= isset($_GET['tab'])?$_GET['tab']:'stats';
 	?>
 	<div class="tablenav">
     <div class="alignleft actions">
         <form method="get" action="admin.php" target="_self" id="export-filter" style="float:left;">
         	<input type="hidden" name="page" value="<?php echo $plugin_page;?>" />
+        	<input type="hidden" name="tab" id="tab" value="<?php echo $current_tab;?>" />
             日期:
             <input type="date" name="start_date" id="start_date" value="<?php echo esc_attr($start_date);?>" size="11" />
             -
@@ -296,7 +282,7 @@ function weixin_robot_stats_page() {
 
 			<div id="total-chart" style="display: table-cell; width:450px; float:left;"></div>
 
-			<div style="display: table-cell; float:left; width:200px;">
+			<div style="display: table-cell; float:left; width:240px;">
 				<table class="widefat" cellspacing="0">
 					<thead>
 						<tr>
@@ -450,7 +436,7 @@ function weixin_robot_summary_page(){
 
 			<div id="total-chart" style="display: table-cell; width:450px; float:left;"></div>
 
-			<div style="display: table-cell; float:left; width:200px;">
+			<div style="display: table-cell; float:left; width:240px;">
 				<table class="widefat" cellspacing="0">
 					<thead>
 						<tr>
@@ -464,10 +450,12 @@ function weixin_robot_summary_page(){
 					<?php foreach ($counts as $count) { $alternate = $alternate?'':'alternate';?>
 						<?php if($count->Response && isset($response_types[$count->Response])){?>
 						<?php $data []= '{"label": "'.$response_types[$count->Response].'", "value": '.$count->count.' }'; $i ++; ?>
+						<?php if ($i < 15 ) {?>
 						<tr class="<?php echo $alternate;?>">
 							<td><?php echo $response_types[$count->Response]; ?></td>
 							<td><?php echo $count->count; ?></td>
 						</tr>
+						<?php } ?>
 						<?php }?>
 					<?php } ?>
 					<?php $data = "\n".implode(",\n", $data)."\n";?>
@@ -566,19 +554,21 @@ function weixin_robot_messages_page() {
 			$reply_id 		= stripslashes( trim( $_POST['reply_id'] ));
 			$content 		= stripslashes( trim( $_POST['content'] ));
 
-			$data = array(
-				'MsgType'		=> 'manual',
-				'FromUserName'	=> $weixin_openid,
-				'CreateTime'	=> current_time('timestamp')-get_option('gmt_offset')*3600,
-				'Content'		=> $content,
-			);
+			if($weixin_openid && $message_id && $content){
+				$data = array(
+					'MsgType'		=> 'manual',
+					'FromUserName'	=> $weixin_openid,
+					'CreateTime'	=> current_time('timestamp')-get_option('gmt_offset')*3600,
+					'Content'		=> $content,
+				);
 
-			$weixin_messages_table = weixin_robot_get_messages_table();
-			$insert_id = $wpdb->insert($weixin_messages_table,$data); 
+				$weixin_messages_table = weixin_robot_get_messages_table();
+				$insert_id = $wpdb->insert($weixin_messages_table,$data); 
 
-			$wpdb->update($weixin_messages_table, array('Response'=>$wpdb->insert_id),array('id'=>$reply_id));
+				$wpdb->update($weixin_messages_table, array('Response'=>$wpdb->insert_id),array('id'=>$reply_id));
 
-			$succeed_msg = weixin_rebot_sent_user($weixin_openid, $content);
+				$succeed_msg = weixin_rebot_sent_user($weixin_openid, $content);
+			}
 		}
 
 		$response_types = weixin_robot_get_response_types();
@@ -647,7 +637,7 @@ function weixin_robot_messages_page() {
 				<?php } else { ?>
 				<th>用户</th>
 				<?php }?>
-				<th style="min-width:300px;">内容</th>
+				<th style="min-width:200px;width:40%;">内容</th>
 				<th>类型</th>
 				<th>回复类型</th>
 				<th>操作</th>
@@ -686,7 +676,7 @@ function weixin_robot_messages_page() {
 			<?php }else{ ?>
 				<td><?php echo $weixin_openid; ?></td>
 			<?php } ?>
-				<td>
+				<td class="content">
 				<?php
 				if($MsgType == 'text'){
 					echo $weixin_message->Content; 
@@ -725,8 +715,8 @@ function weixin_robot_messages_page() {
 					}
 					?>
 				</td>
-				<td>
-				<?php if(weixin_robot_get_setting('weixin_advanced_api') && strpos($weixin_messages_table, 'weixin') && (current_time('timestamp')-$weixin_message->CreateTime < (24+8)*3600) ){?>
+				<td class="action">
+				<?php if(weixin_robot_get_setting('weixin_advanced_api') && strpos($weixin_messages_table, 'weixin') && (current_time('timestamp')-$weixin_message->CreateTime < (48+get_option('gmt_offset'))*3600) ){?>
 					<?php if(is_numeric($weixin_message->Response)){ ?>
 					<span>已经回复</span>
 					<?php } elseif($weixin_user['subscribe']){ ?>
@@ -768,16 +758,82 @@ function weixin_robot_messages_page() {
 		<?php if(weixin_robot_get_setting('weixin_advanced_api') && strpos($weixin_messages_table, 'weixin')){?>
 		<script type="text/javascript">
 			function reply_to_weixin(weixin_openid, id){
-				//reply_to_weixin('ogP3AjhYgp3wQFk7IZ6ZOkzyyTQA', '17886')
 				jQuery('input#weixin_openid')[0].value = weixin_openid;
 				jQuery('input#reply_id')[0].value = id;
 				jQuery('tr#'+id).after(jQuery('#reply_form'));
-				//jQuery('tr#'+id).append(jQuery('#reply_form'));
-				//jQuery('tr#'+id).after(jQuery('#tr_'+weixin_openid));
 				jQuery('tr#reply_form').show();
 			}
+
+			jQuery(function(){
+
+				jQuery('form').submit(function( event ) {
+					var reply_id		= jQuery('input#reply_id')[0].value;
+					var weixin_openid	= jQuery('input#weixin_openid')[0].value;
+					var reply_content	= jQuery('textarea#content')[0].value;
+
+					if(jQuery('textarea#content')[0].value != ''){
+						jQuery.ajax({
+							type: 'post',
+							url: '<?php echo admin_url('admin-ajax.php');?>',
+							data: { 
+								action: 'weixin_reply', 
+								weixin_openid: weixin_openid,
+								reply_id: reply_id, 
+								content: reply_content,
+								_ajax_nonce: '<?php echo wp_create_nonce('weixin_robot_ajax_nonce');?>'
+							},
+							success: function(html){
+								reply_content = jQuery('tr#'+reply_id+' td.content').html()+'<br /><span style="background-color:yellow; padding:2px; ">人工回复：'+reply_content+'</span>';
+								jQuery('tr#'+reply_id+' td.content').html(reply_content);
+								jQuery('tr#'+reply_id+' td.action').html('已经回复');
+								jQuery('textarea#content')[0].value = '';
+								jQuery('tr#reply_form').hide();
+							}
+						});
+					}else{
+						alert('回复的内容不能为空');
+						jQuery('textarea#content').focus();
+					}
+					
+					event.preventDefault();
+				});
+			});
 		</script>		
 		<?php wpjam_confim_delete_script(); ?>
 		<?php } ?>
-		
-<?php } ?>
+<?php }
+
+add_action('wp_ajax_weixin_reply', 'weixin_robot_reply_message_action_callback');
+add_action('wp_ajax_nopriv_weixin_reply', 'weixin_robot_reply_message_action_callback');
+function weixin_robot_reply_message_action_callback(){
+	check_ajax_referer( "weixin_robot_ajax_nonce" );
+
+	$weixin_openid	= $_POST['weixin_openid'];
+	$reply_id		= $_POST['reply_id'];
+	$content		= $_POST['content'];
+
+	if(empty($weixin_openid) || empty($reply_id) || empty($content)) return;
+
+	$data = array(
+		'MsgType'		=> 'manual',
+		'FromUserName'	=> $weixin_openid,
+		'CreateTime'	=> current_time('timestamp')-get_option('gmt_offset')*3600,
+		'Content'		=> $content,
+	);
+
+	global $wpdb;
+
+
+	$weixin_messages_table = weixin_robot_get_messages_table();
+
+	$insert_id = $wpdb->insert($weixin_messages_table,$data); 
+
+	$wpdb->update($weixin_messages_table, array('Response'=>$wpdb->insert_id),array('id'=>$reply_id));
+
+	$succeed_msg = weixin_rebot_sent_user($weixin_openid, $content);
+
+	echo $succeed_msg;
+}
+
+
+

@@ -3,7 +3,7 @@
 Plugin Name: 易信机器人高级版
 Plugin URI: http://blog.wpjam.com/project/yixin-robot-advanced/
 Description: 易信机器人的主要功能就是能够将你的公众账号和你的 WordPress 博客联系起来，搜索和用户发送信息匹配的日志，并自动回复用户，让你使用易信进行营销事半功倍。
-Version: 3.3
+Version: 3.8
 Author: Denis
 Author URI: http://blog.wpjam.com/
 */
@@ -21,6 +21,7 @@ function wpjam_yixin_robot_redirect($wp){
 	}
 }
 
+/*
 add_action('admin_head','yixin_robot_admin_head');
 function yixin_robot_admin_head(){
 	global $plugin_page;
@@ -31,7 +32,7 @@ function yixin_robot_admin_head(){
 	</style>
 <?php
 	}
-}
+}*/
 
 add_action('wpjam_net_item_ids','yixin_robot_wpjam_net_item_id');
 function yixin_robot_wpjam_net_item_id($item_ids){
@@ -44,17 +45,17 @@ add_action( 'weixin_admin_menu', 'yixin_robot_admin_menu' );
 function yixin_robot_admin_menu() {
 	if(wpjam_net_check_domain(104)){
 		if(weixin_robot_get_setting('weixin_disable_stats')==false) {
-			weixin_robot_add_submenu_page( 'stats', 		'易信消息统计分析',	'yixin-robot-stats');
-			weixin_robot_add_submenu_page( 'summary',		'易信回复统计分析',	'yixin-robot-summary');
+			weixin_robot_add_submenu_page( 'stats2', 		'易信统计分析',	'yixin-robot-stats2');
+			//weixin_robot_add_submenu_page( 'summary',		'易信回复统计分析',	'yixin-robot-summary');
 			weixin_robot_add_submenu_page( 'messages',		'易信最新消息', 		'yixin-robot-messages');
 		}
 	}
 }
 
-add_filter('weixin_setting','wpjam_yixin_add_fileds');
-function wpjam_yixin_add_fileds($sections){
-	$sections['app']['fileds']['yixin_app_id']		= array('title'=>'易信AppID',		'type'=>'text',	'description'=>'设置易信自定义菜单的所需的 AppID，如果没申请，可不填！');
- 	$sections['app']['fileds']['yixin_app_secret']	= array('title'=>'易信APPSecret',	'type'=>'text',	'description'=>'设置易信自定义菜单的所需的 APPSecret，如果没申请，可不填！');
+add_filter('weixin_setting','wpjam_yixin_add_fields');
+function wpjam_yixin_add_fields($sections){
+	$sections['app']['fields']['yixin_app_id']		= array('title'=>'易信AppID',		'type'=>'text',	'description'=>'设置易信自定义菜单的所需的 AppID，如果没申请，可不填！');
+ 	$sections['app']['fields']['yixin_app_secret']	= array('title'=>'易信APPSecret',	'type'=>'text',	'description'=>'设置易信自定义菜单的所需的 APPSecret，如果没申请，可不填！');
  	return $sections;
 }
 
@@ -117,11 +118,17 @@ function wpjam_yixin_messages_table($messages_table){
 	}
 
 	global $plugin_page;
-	if(in_array($plugin_page, array('yixin-robot-stats', 'yixin-robot-summary', 'yixin-robot-messages'))){
+	if(in_array($plugin_page, array('yixin-robot-stats2','yixin-robot-stats', 'yixin-robot-summary', 'yixin-robot-messages'))){
 		return $wpdb->prefix.'yixin_messages';
 	}
 
-	return $wpdb->prefix.'weixin_messages';
+	return $messages_table;
+}
+
+add_filter('weixin_tables','yixin_robot_messages_weixin_tables');
+function yixin_robot_messages_weixin_tables($weixin_tables){
+	$weixin_tables['易信消息'] = 'yixin_robot_messages_crate_table';
+	return $weixin_tables;
 }
 
 register_activation_hook( WEIXIN_ROBOT_PLUGIN_FILE,'yixin_robot_messages_crate_table');
