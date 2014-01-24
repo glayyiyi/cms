@@ -5,74 +5,109 @@
  * @package    WooCommerce Admin Bar Addition
  * @subpackage Plugin/Extension Support
  * @author     David Decker - DECKERWEB
- * @copyright  Copyright 2011-2012, David Decker - DECKERWEB
- * @license    http://www.opensource.org/licenses/gpl-license.php GPL v2.0 (or later)
+ * @copyright  Copyright (c) 2011-2014, David Decker - DECKERWEB
+ * @license    http://www.opensource.org/licenses/gpl-license.php GPL-2.0+
  * @link       http://genesisthemes.de/en/wp-plugins/woocommerce-admin-bar-addition/
- * @link       http://twitter.com/#!/deckerweb
+ * @link       http://deckerweb.de/twitter
  *
- * @since 1.7
- * @version 1.1
+ * @since      1.7.0
  */
+
+/**
+ * Prevent direct access to this file.
+ *
+ * @since 2.6.0
+ */
+if ( ! defined( 'WPINC' ) ) {
+	exit( 'Sorry, you are not allowed to access this file directly.' );
+}
+
 
 /**
  * Pronamic iDEAL settings pages (free, by Pronamic)
  *
- * @since 1.7
+ * @since 1.7.0
  */
 
-	$menu_items['extpideal'] = array(
+	$menu_items[ 'extpideal' ] = array(
 		'parent' => $extensions,
-		'title'  => __( 'Pronamic iDEAL Payment Gateway', 'wcaba' ),
+		'title'  => __( 'Pronamic iDEAL Payment Gateway', 'woocommerce-admin-bar-addition' ),
 		'href'   => admin_url( 'admin.php?page=pronamic_ideal' ),
-		'meta'   => array( 'target' => '', 'title' => __( 'Pronamic iDEAL Payment Gateway', 'wcaba' ) )
+		'meta'   => array(
+			'target' => '',
+			'title'  => __( 'Pronamic iDEAL Payment Gateway', 'woocommerce-admin-bar-addition' )
+		)
 	);
 
 	/** Check for Payments */
 	if ( current_user_can( 'pronamic_ideal_payments' ) ) {
-		$menu_items['ext-pideal-payments'] = array(
+		$menu_items[ 'ext-pideal-payments' ] = array(
 			'parent' => $extpideal,
-			'title'  => __( 'Payments', 'wcaba' ),
+			'title'  => __( 'Payments', 'woocommerce-admin-bar-addition' ),
 			'href'   => admin_url( 'admin.php?page=pronamic_ideal_payments' ),
-			'meta'   => array( 'target' => '', 'title' => __( 'Payments', 'wcaba' ) )
+			'meta'   => array(
+				'target' => '',
+				'title'  => __( 'Payments', 'woocommerce-admin-bar-addition' )
+			)
 		);
 	}  // end-if cap check
 
 	/** Check for Settings */
 	if ( current_user_can( 'pronamic_ideal_settings' ) ) {
-		$menu_items['ext-pideal-settings'] = array(
+
+		$menu_items[ 'ext-pideal-settings' ] = array(
 			'parent' => $extpideal,
-			'title'  => __( 'Settings', 'wcaba' ),
+			'title'  => __( 'Settings', 'woocommerce-admin-bar-addition' ),
 			'href'   => admin_url( 'admin.php?page=pronamic_ideal_settings' ),
-			'meta'   => array( 'target' => '', 'title' => __( 'Settings', 'wcaba' ) )
+			'meta'   => array(
+				'target' => '',
+				'title'  => __( 'Settings', 'woocommerce-admin-bar-addition' )
+			)
 		);
+
 	}  // end-if cap check
 
 	/** Check for Pages Generator */
 	if ( current_user_can( 'pronamic_ideal_pages_generator' ) ) {
-		$menu_items['ext-pideal-pages-generator'] = array(
+
+		$menu_items[ 'ext-pideal-pages-generator' ] = array(
 			'parent' => $extpideal,
-			'title'  => __( 'Pages Generator', 'wcaba' ),
+			'title'  => __( 'Pages Generator', 'woocommerce-admin-bar-addition' ),
 			'href'   => admin_url( 'admin.php?page=pronamic_ideal_pages_generator' ),
-			'meta'   => array( 'target' => '', 'title' => __( 'Pages Generator', 'wcaba' ) )
+			'meta'   => array(
+				'target' => '',
+				'title'  => __( 'Pages Generator', 'woocommerce-admin-bar-addition' )
+			)
 		);
+
 	}  // end-if cap check
 
 	/** Check for Variants */
 	if ( current_user_can( 'pronamic_ideal_variants' ) ) {
-		$menu_items['ext-pideal-variants'] = array(
+
+		$menu_items[ 'ext-pideal-variants' ] = array(
 			'parent' => $extpideal,
-			'title'  => __( 'Variants', 'wcaba' ),
+			'title'  => __( 'Variants', 'woocommerce-admin-bar-addition' ),
 			'href'   => admin_url( 'admin.php?page=pronamic_ideal_variants' ),
-			'meta'   => array( 'target' => '', 'title' => __( 'Variants', 'wcaba' ) )
+			'meta'   => array(
+				'target' => '',
+				'title'  => __( 'Variants', 'woocommerce-admin-bar-addition' )
+			)
 		);
+
 	}  // end-if cap check
 
 	/** Check for Documentation */
 	if ( current_user_can( 'pronamic_ideal_documentation' ) ) {
-		$menu_items['ext-pideal-documentation'] = array(
+
+		$menu_items[ 'ext-pideal-documentation' ] = array(
 			'parent' => $extpideal,
-			'title'  => __( 'Documentation', 'wcaba' ),
+			'title'  => __( 'Documentation', 'woocommerce-admin-bar-addition' ),
 			'href'   => admin_url( 'admin.php?page=pronamic_ideal_documentation' ),
-			'meta'   => array( 'target' => '', 'title' => __( 'Documentation', 'wcaba' ) )
+			'meta'   => array(
+				'target' => '',
+				'title'  => __( 'Documentation', 'woocommerce-admin-bar-addition' )
+			)
 		);
+
 	}  // end-if cap check

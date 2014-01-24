@@ -6,26 +6,35 @@
  * @package    WooCommerce Admin Bar Addition
  * @subpackage Branding & Plugin/Extension Support
  * @author     David Decker - DECKERWEB
- * @copyright  Copyright 2012, David Decker - DECKERWEB
- * @license    http://www.opensource.org/licenses/gpl-license.php GPL v2.0 (or later)
+ * @copyright  Copyright (c) 2012-2014, David Decker - DECKERWEB
+ * @license    http://www.opensource.org/licenses/gpl-license.php GPL-2.0+
  * @link       http://genesisthemes.de/en/wp-plugins/woocommerce-admin-bar-addition/
- * @link       http://twitter.com/#!/deckerweb
+ * @link       http://deckerweb.de/twitter
  *
- * @since 2.2
- * @version 1.1
+ * @since      2.2.0
  */
+
+/**
+ * Prevent direct access to this file.
+ *
+ * @since 2.6.0
+ */
+if ( ! defined( 'WPINC' ) ) {
+	exit( 'Sorry, you are not allowed to access this file directly.' );
+}
+
 
 /**
  * Helper functions for returning a few popular roles/capabilities.
  *
- * @since 2.2
+ * @since  2.2.0
  *
  * @return role/capability
  */
 	/**
 	 * Helper function for returning 'administrator' role/capability.
 	 *
-	 * @since 2.2
+	 * @since  2.2.0
 	 *
 	 * @return 'administrator' role
 	 */
@@ -37,7 +46,7 @@
 	/**
 	 * Helper function for returning WooCommerce specific 'shop_manager' role/capability.
 	 *
-	 * @since 2.2
+	 * @since  2.2.0
 	 *
 	 * @return 'shop_manager' role
 	 */
@@ -49,7 +58,7 @@
 	/**
 	 * Helper function for returning 'editor' role/capability.
 	 *
-	 * @since 2.2
+	 * @since  2.2.0
 	 *
 	 * @return 'editor' role
 	 */
@@ -61,7 +70,7 @@
 	/**
 	 * Helper function for returning 'manage_options' capability.
 	 *
-	 * @since 2.2
+	 * @since  2.2.0
 	 *
 	 * @return 'manage_options' capability
 	 */
@@ -73,7 +82,7 @@
 	/**
 	 * Helper function for returning 'install_plugins' capability.
 	 *
-	 * @since 2.2
+	 * @since  2.2.0
 	 *
 	 * @return 'install_plugins' capability
 	 */
@@ -82,20 +91,18 @@
 		return 'install_plugins';
 	}
 
-/** End of role/capability helper functions */
-
 
 /**
  * Helper functions for returning colored icons.
  *
- * @since 2.2
+ * @since  2.2.0
  *
  * @return colored icon image
  */
 	/**
 	 * Helper function for returning the blue icon.
 	 *
-	 * @since 2.2
+	 * @since  2.2.0
 	 *
 	 * @return blue icon
 	 */
@@ -107,7 +114,7 @@
 	/**
 	 * Helper function for returning the green icon.
 	 *
-	 * @since 2.2
+	 * @since  2.2.0
 	 *
 	 * @return green icon
 	 */
@@ -119,7 +126,7 @@
 	/**
 	 * Helper function for returning the grey icon.
 	 *
-	 * @since 2.2
+	 * @since  2.2.0
 	 *
 	 * @return grey icon
 	 */
@@ -131,7 +138,7 @@
 	/**
 	 * Helper function for returning the orange icon.
 	 *
-	 * @since 2.2
+	 * @since  2.2.0
 	 *
 	 * @return orange icon
 	 */
@@ -143,7 +150,7 @@
 	/**
 	 * Helper function for returning the pink icon.
 	 *
-	 * @since 2.2
+	 * @since  2.2.0
 	 *
 	 * @return pink icon
 	 */
@@ -155,7 +162,7 @@
 	/**
 	 * Helper function for returning the red icon.
 	 *
-	 * @since 2.2
+	 * @since  2.2.0
 	 *
 	 * @return red icon
 	 */
@@ -167,7 +174,7 @@
 	/**
 	 * Helper function for returning the teal icon.
 	 *
-	 * @since 2.2
+	 * @since  2.2.0
 	 *
 	 * @return teal icon
 	 */
@@ -179,7 +186,7 @@
 	/**
 	 * Helper function for returning a custom icon (icon-wcaba.png) from stylesheet/child/theme "images" folder.
 	 *
-	 * @since 2.3
+	 * @since  2.3.0
 	 *
 	 * @return wcaba custom icon
 	 */
@@ -188,20 +195,18 @@
 		return get_stylesheet_directory_uri() . '/images/icon-wcaba.png';
 	}
 
-/** End of colored icon helper functions */
-
 
 /**
  * Helper functions for returning icon class.
  *
- * @since 2.2
+ * @since  2.2.0
  *
  * @return icon class
  */
 	/**
 	 * Helper function for returning no icon class.
 	 *
-	 * @since 2.2
+	 * @since  2.2.0
 	 *
 	 * @return no icon class
 	 */
@@ -210,15 +215,14 @@
 		return NULL;
 	}
 
-/** End of icon class helper functions */
-
 
 /**
- * Special "WooCommerce Branding" extension stuff/integration
+ * Special "WooCommerce Branding" extension stuff/ integration.
  *
- * @since 2.2
+ * @since 2.2.0
  */
-if ( in_array( 'woocommerce-branding/woocommerce-branding.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+if ( in_array( 'woocommerce-branding/woocommerce-branding.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) )
+) {
 
 	add_filter( 'wcaba_filter_main_icon', 'ddw_wcaba_wcbranding_icon' );
 	/**
@@ -227,7 +231,7 @@ if ( in_array( 'woocommerce-branding/woocommerce-branding.php', apply_filters( '
 	 * If no icon URL is set, apply pre-selected colored icon style
 	 * from "WooCommerce Branding" extension to our main item icon
 	 *
-	 * @since 2.2
+	 * @since  2.2.0
 	 *
 	 * @return icon image
 	 */
@@ -272,7 +276,7 @@ if ( in_array( 'woocommerce-branding/woocommerce-branding.php', apply_filters( '
 	 * Replace main item name & tooltip with custom name set in "WooCommerce Branding" extension setting
 	 * Also, replace certain occurences of "WooCommerce" within menu items with custom branding name
 	 *
-	 * @since 2.2
+	 * @since  2.2.0
 	 *
 	 * @return text string
 	 */
@@ -283,8 +287,10 @@ if ( in_array( 'woocommerce-branding/woocommerce-branding.php', apply_filters( '
 
 		/** Apply custom name setting */
 		if ( '' != $wcaba_wcbranding_name ) {
+
 			return $wcaba_wcbranding_name;
-		}
+
+		}  // end if
 
 	}  // end of function ddw_wcaba_wcbranding_main_item_name
 
