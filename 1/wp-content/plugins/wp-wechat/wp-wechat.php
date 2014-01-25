@@ -87,6 +87,7 @@ function wpjam_wechat_redirect($wp_query) {
 				'role' => 'subscriber' 
 		);
 		$user_id = wp_insert_user ( $userdata );
+		//wp_delete_user( $id, $reassign )；
 		
 		if (is_int ( $user_id ))
 			exit ( '1' );
