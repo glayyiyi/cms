@@ -22,8 +22,8 @@ function wpjam_weixin_auth_redirect($wp){
 		$json_arr = json_decode ( $json, true );
 		$refresh_token  = $json_arr ['refresh_token'];
 		$openid = $json_arr ['openid'];
-		if ($_GET['state']="1"){
-			echo "OPENID=".$openid;
+		if ($_GET['state']=="base"){
+			echo "<p>OPENID=".$openid."</p>";
 			exit;
 		}
 			
