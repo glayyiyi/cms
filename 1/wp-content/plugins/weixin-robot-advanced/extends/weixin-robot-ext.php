@@ -11,8 +11,10 @@ Author URI: http://blog.wpjam.com/
 add_action('init', 'wpjam_weixin_auth_redirect', 11);
 function wpjam_weixin_auth_redirect($wp){
 	if(isset($_GET['weixin-oauth2']) ){
-		$tkn_url="https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx29f139b356296675&secret=SECRET&code=".$_GET['code']."&grant_type=authorization_code"
+		$request = new WP_Http;
 		
+		$tkn_url="https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx29f139b356296675&secret=SECRET&code=".$_GET['code']."&grant_type=authorization_code"
+		echo "=====".$tkn_url;
 		$result = $request->request ( $tkn_url );
 		
 		$json = $result ['body'];
