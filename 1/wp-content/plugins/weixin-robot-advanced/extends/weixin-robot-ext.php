@@ -22,14 +22,18 @@ function wpjam_weixin_auth_redirect($wp){
 		$json_arr = json_decode ( $json, true );
 		$refresh_token  = $json_arr ['refresh_token'];
 		$openid = $json_arr ['openid'];
-		print_r($result);
+		if ($_GET['state']="1"){
+			echo "OPENID=".$openid;
+			exit;
+		}
+			
 		
 		$refresh_token_url="https://api.weixin.qq.com/sns/oauth2/refresh_token?appid=wx29f139b356296675&grant_type=refresh_token&refresh_token=".$refresh_token;
 		$result = $request->request ( $refresh_token_url );
 		$json = $result ['body'];
 		$json_arr = json_decode ( $json, true );
 		$access_token  = $json_arr ['access_token'];
-		print_r($result);
+		
 		
 		
 		$user_info_url="https://api.weixin.qq.com/sns/userinfo?access_token=".$access_token."&openid=".$openid."&lang=zh_CN";
@@ -37,7 +41,7 @@ function wpjam_weixin_auth_redirect($wp){
 		$result = $request->request ( $user_info_url );
 		$json = $result ['body'];
 		$json_arr = json_decode ( $json, true );
-		echo "OPENID=".$openid."========";
+		
 		print_r($json_arr);
 		exit;
 		
