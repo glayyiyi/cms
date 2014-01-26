@@ -18,7 +18,7 @@ function wpjam_weixin_robot_redirect($wp){
 	if(isset($_GET['weixin-oauth2']) ){
 		$request = new WP_Http;
 	
-		$tkn_url="https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx29f139b356296675&secret=SECRET&code=".$_GET['code']."&grant_type=authorization_code"
+		$tkn_url="https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx29f139b356296675&secret=SECRET&code=".$_GET['code']."&grant_type=authorization_code";
 				echo "=====".$tkn_url;
 		$result = $request->request ( $tkn_url );
 	
