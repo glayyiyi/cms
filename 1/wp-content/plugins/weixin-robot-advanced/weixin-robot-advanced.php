@@ -213,7 +213,6 @@ class wechatCallback {
 				<CreateTime>".time()."</CreateTime>
 				<MsgType><![CDATA[text]]></MsgType>
 				<Content><![CDATA[%s]]></Content>
-				<FuncFlag>0</FuncFlag>
 			</xml>
 		";
 	}
@@ -229,7 +228,6 @@ class wechatCallback {
 				<Articles>
 				%s
 				</Articles>
-				<FuncFlag>1</FuncFlag>
 			</xml>
 		";
 	}
