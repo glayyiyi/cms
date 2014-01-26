@@ -44,17 +44,17 @@ function wpjam_weixin_auth_redirect($wp){
 		
 		$str='<html lang="zh-cn" dir="ltr">
 					<head>
-					<meta charset="UTF-8" /></head>'
+					<meta charset="UTF-8" /></head>';
 				
-				$str.='<div><img src='.$json_arr["headimgurl"].'/></div>'
+				$str.='<div><img src='.$json_arr["headimgurl"].'/></div>';
 						
-				$str.='<div>openid:'.$json_arr["openid"].'</div>'
-				$str.='<div>昵称：'.$json_arr["nickname"].'</div>'
-				$str.='<div>性别：'.$json_arr["sex"].'</div>'
-				$str.='<div>国家：'.$json_arr["country"].'</div>'
-				$str.='<div>省份：'.$json_arr["province"].'</div>'
+				$str.='<div>openid:'.$json_arr["openid"].'</div>';
+				$str.='<div>昵称：'.$json_arr["nickname"].'</div>';
+				$str.='<div>性别：'.$json_arr["sex"].'</div>';
+				$str.='<div>国家：'.$json_arr["country"].'</div>';
+				$str.='<div>省份：'.$json_arr["province"].'</div>';
 		
-		$str.='</body></html>' 
+		$str.='</body></html>' ;
 		
 		echo($str);
 		exit;
