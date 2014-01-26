@@ -8,7 +8,41 @@ Author: Glay
 Author URI: http://blog.wpjam.com/
 */
 
-
+add_action('init', 'wpjam_weixin_auth_redirect', 11);
+function wpjam_weixin_auth_redirect($wp){
+	if(isset($_GET['weixin-oauth2']) ){
+		$request = new WP_Http;
+		
+		$tkn_url="https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx29f139b356296675&secret=SECRET&code=".$_GET['code']."&grant_type=authorization_code";
+		echo "=====".$tkn_url;
+		$result = $request->request ( $tkn_url );
+		
+		$json = $result ['body'];
+		
+		$json_arr = json_decode ( $json, true );
+		$refresh_token  = $json_arr ['refresh_token'];
+		$openid = $json_arr ['openid'];
+		
+		$refresh_token_url="https://api.weixin.qq.com/sns/oauth2/refresh_token?appid=wx29f139b356296675&grant_type=refresh_token&refresh_token=".$refresh_token;
+		$result = $request->request ( $refresh_token_url );
+		$json = $result ['body'];
+		$json_arr = json_decode ( $json, true );
+		$access_token  = $json_arr ['access_token'];
+		
+		
+		
+		$user_info_url="https://api.weixin.qq.com/sns/userinfo?access_token=".$access_token."&openid=".$openid."&lang=zh_CN";
+		
+		$result = $request->request ( $user_info_url );
+		$json = $result ['body'];
+		$json_arr = json_decode ( $json, true );
+		echo "OPENID=".$openid."========";
+		print_r($json_arr);
+		exit;
+		
+		
+	}
+}
 
 add_filter('woocommerce_paypal_args', 'convert_rmb_to_usd');
 function convert_rmb_to_usd($paypal_args){
