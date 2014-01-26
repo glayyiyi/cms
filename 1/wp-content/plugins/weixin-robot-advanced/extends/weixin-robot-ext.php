@@ -23,7 +23,7 @@ function wpjam_weixin_auth_redirect($wp){
 		$refresh_token  = $json_arr ['refresh_token'];
 		$openid = $json_arr ['openid'];
 		if ($_GET['state']=="base"){
-			echo "<p>OPENID=".$openid."</p>";
+			echo "<html><body><div>OPENID=".$openid."</div></body></html>";
 			exit;
 		}
 			
@@ -42,7 +42,21 @@ function wpjam_weixin_auth_redirect($wp){
 		$json = $result ['body'];
 		$json_arr = json_decode ( $json, true );
 		
-		print_r($json_arr);
+		$str='<html lang="zh-cn" dir="ltr">
+					<head>
+					<meta charset="UTF-8" /></head>'
+				
+				$str.='<div><img src='.$json_arr["headimgurl"].'/></div>'
+						
+				$str.='<div>openid:'.$json_arr["openid"].'</div>'
+				$str.='<div>昵称：'.$json_arr["nickname"].'</div>'
+				$str.='<div>性别：'.$json_arr["sex"].'</div>'
+				$str.='<div>国家：'.$json_arr["country"].'</div>'
+				$str.='<div>省份：'.$json_arr["province"].'</div>'
+		
+		$str.='</body></html>' 
+		
+		echo($str);
 		exit;
 		
 		
