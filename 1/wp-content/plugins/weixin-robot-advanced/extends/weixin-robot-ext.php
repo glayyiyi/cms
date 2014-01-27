@@ -12,7 +12,7 @@ add_action('init', 'wpjam_weixin_auth_redirect', 11);
 function wpjam_weixin_auth_redirect($wp){
 	if(isset($_GET['weixin-oauth2']) ){
 		$request = new WP_Http;
-		echo "====".$_GET['weixin_url'];
+		
 		
 		$tkn_url="https://api.weixin.qq.com/sns/oauth2/access_token?appid=wx29f139b356296675&secret=975657dc25d2498f812111d788bc7141&code=".$_GET['code']."&grant_type=authorization_code";
 		
@@ -25,7 +25,7 @@ function wpjam_weixin_auth_redirect($wp){
 		$openid = $json_arr ['openid'];
 		if ($_GET['state']=="base"){
 			echo "<html><body><div>OPENID=".$openid."</div></body></html>";
-			
+			echo "====".$_GET['weixin-url'];
 			exit;
 		}
 			
