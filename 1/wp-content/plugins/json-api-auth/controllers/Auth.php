@@ -43,41 +43,16 @@ class JSON_API_Auth_Controller {
     		$json_api->error("Invalid username and/or password.", 'error', '401');
     		remove_action('wp_login_failed', $json_api->query->username);
     	}
-    	
-    	
-    	$expire = 0;
-    	
+
     	$expiration = time() + apply_filters('auth_cookie_expiration', 1209600, $user->ID, true);
-    	
-    	$secure = ''
-    	if ( '' === $secure )
-    		$secure = is_ssl();
-    	
-    	$secure = apply_filters('secure_auth_cookie', $secure, $user->ID);
-    	$secure_logged_in_cookie = apply_filters('secure_logged_in_cookie', false, $user->ID, $secure);
-    	
-    	if ( $secure ) {
-    		$auth_cookie_name = SECURE_AUTH_COOKIE;
-    		$scheme = 'secure_auth';
-    	} else {
-    		$auth_cookie_name = AUTH_COOKIE;
-    		$scheme = 'auth';
-    	}
 
-    	$auth_cookie = wp_generate_auth_cookie($user->ID, $expiration, $scheme);
-    	$logged_in_cookie = wp_generate_auth_cookie($user->ID, $expiration, 'logged_in');
-    	
-    	//$logged_in_cookie = wp_generate_auth_cookie($user_id, $expiration, 'logged_in');
-    	
-    	do_action('set_auth_cookie', $auth_cookie, $expire, $expiration, $user->ID, $scheme);
-    	do_action('set_logged_in_cookie', $logged_in_cookie, $expire, $expiration, $user->ID, 'logged_in');
-    	
-    	setcookie($auth_cookie_name, $auth_cookie, $expire, PLUGINS_COOKIE_PATH, COOKIE_DOMAIN, $secure, true);
-    	setcookie($auth_cookie_name, $auth_cookie, $expire, ADMIN_COOKIE_PATH, COOKIE_DOMAIN, $secure, true);
-    	setcookie(LOGGED_IN_COOKIE, $logged_in_cookie, $expire, COOKIEPATH, COOKIE_DOMAIN, $secure_logged_in_cookie, true);
-    	if ( COOKIEPATH != SITECOOKIEPATH )
-    		setcookie(LOGGED_IN_COOKIE, $logged_in_cookie, $expire, SITECOOKIEPATH, COOKIE_DOMAIN, $secure_logged_in_cookie, true);
+    	$cookie = wp_generate_auth_cookie($user->ID, $expiration, 'logged_in');
 
+
+		preg_match('|src="(.+?)"|', get_avatar( $user->ID, 32 ), $avatar);		
+   
+		
+		
 		return array(
 			"cookie" => $cookie,
 			"user" => array(
@@ -93,6 +68,7 @@ class JSON_API_Auth_Controller {
 				"nickname" => $user->nickname,
 				"description" => $user->user_description,
 				"capabilities" => $user->wp_capabilities,
+				"avatar" => $avatar[1]
 			),
 		);
 	}
@@ -110,7 +86,8 @@ class JSON_API_Auth_Controller {
 		}
 
 		$user = get_userdata($user_id);
-
+        preg_match('|src="(.+?)"|', get_avatar( $user->ID, 32 ), $avatar);
+		
 		return array(
 			"user" => array(
 				"id" => $user->ID,
@@ -125,6 +102,7 @@ class JSON_API_Auth_Controller {
 				"nickname" => $user->nickname,
 				"description" => $user->user_description,
 				"capabilities" => $user->wp_capabilities,
+				"avatar" => $avatar[1]
 			)
 		);
 	}	
