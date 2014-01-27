@@ -11,6 +11,7 @@ Author URI: http://blog.wpjam.com/
 add_action('init', 'wpjam_weixin_auth_redirect', 11);
 function wpjam_weixin_auth_redirect($wp){
 	if(isset($_GET['weixin-oauth2']) ){
+		echo "====".$_GET['weixin-url'];
 		$request = new WP_Http;
 		
 		
@@ -25,7 +26,7 @@ function wpjam_weixin_auth_redirect($wp){
 		$openid = $json_arr ['openid'];
 		if ($_GET['state']=="base"){
 			echo "<html><body><div>OPENID=".$openid."</div></body></html>";
-			echo "====".$_GET['weixin-url'];
+			
 			exit;
 		}
 			
