@@ -316,7 +316,7 @@ var
 	appId	= "",
 	img		= "<?php echo get_post_weixin_thumb($post,array(120,120)); ?>",
 	link	= "<?php if(isset($_GET['weixin_user_id'])) { echo add_query_arg('weixin_user_id', $_GET['weixin_user_id'], get_permalink($post->ID)); } else {echo get_permalink($post->ID);} ;?>",
-	link	="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx29f139b356296675&redirect_uri=http://www.appcn100.com/cms/appcn100/?weixin-oauth2&weixin-url="+encodeURIComponent(link)+"&response_type=code&scope=snsapi_base&state=base#wechat_redirect";
+	link	="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx29f139b356296675&redirect_uri=http://www.appcn100.com/cms/appcn100/?weixin-oauth2="+encodeURIComponent(link)+"&response_type=code&scope=snsapi_base&state=base#wechat_redirect";
 	title	= htmlDecode("<?php echo $post->post_title; ?>"),
 	desc	= htmlDecode("<?php echo get_post_excerpt($post); ?>"),
 	fakeid	= "";
