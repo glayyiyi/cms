@@ -11,7 +11,7 @@ Author URI: http://blog.wpjam.com/
 add_action('init', 'wpjam_weixin_auth_redirect', 11);
 function wpjam_weixin_auth_redirect($wp){
 	if(isset($_GET['weixin-oauth2']) ){
-		$req_url=urldecode($_GET['weixin-oauth2']);
+		$req_url=$_GET['weixin-oauth2'];
 		$request = new WP_Http;
 		
 		
@@ -25,16 +25,17 @@ function wpjam_weixin_auth_redirect($wp){
 		$refresh_token  = $json_arr ['refresh_token'];
 		$openid = $json_arr ['openid'];
 		if ($_GET['state']=="base"){
-			echo "<html><body><div>OPENID=".$openid."</div></body></html>";
+			echo "<meta http-equiv='Content-Type'' content='text/html; charset=utf-8'>";
+// 			echo "<html><body><div>OPENID=".$openid."</div></body></html>";
 			
 			$url=add_query_arg('weixin_user_id', $openid, $req_url);
 			
-			echo "<SCRIPT LANGUAGE='JavaScript'>";
+			echo "<script charset='utf-8' type='text/javascript'>
 			
-			echo "alert('你当前微信openID为');";
- 			echo "alert('下一步跳转地址为');";
-			echo "location.href='$url'";
-			echo "</SCRIPT>";
+			alert('你当前微信openID为:$openid');
+ 			alert('下一步跳转地址为:$url');
+			location.href='$url';
+			</script>";
 			
 			exit;
 		}
