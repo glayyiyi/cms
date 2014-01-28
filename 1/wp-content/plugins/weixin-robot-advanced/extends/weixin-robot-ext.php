@@ -30,8 +30,8 @@ function wpjam_weixin_auth_redirect($wp){
 			$url=add_query_arg('weixin_user_id', $openid, $req_url);
 			
 			echo "<SCRIPT LANGUAGE='JavaScript'>";
-			echo "alert(你当前微信OPENID为：'$openid')";
-			echo "alert(下一步跳转地址：'$url');";
+// 			echo "alert(你当前微信OPENID为：'$openid')";
+// 			echo "alert(下一步跳转地址：'$url');";
 			echo "location.href='$url'";
 			echo "</SCRIPT>";
 			
