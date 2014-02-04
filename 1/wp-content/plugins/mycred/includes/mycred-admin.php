@@ -81,6 +81,8 @@ if ( !class_exists( 'myCRED_Admin' ) ) {
 			// Data
 			$data = apply_filters( 'mycred_manual_change', array( 'ref_type' => 'user' ), $this );
 
+			$current = $this->core->get_users_cred( $user_id );
+
 			// Execute
 			$this->core->add_creds(
 				'manual',
@@ -91,8 +93,11 @@ if ( !class_exists( 'myCRED_Admin' ) ) {
 				$data
 			);
 			
+			$new = $this->core->get_users_cred( $user_id );
+			if ( $current+$amount != $new )
+				$new = $this->core->number( $current+$amount );
 			
-			die( json_encode( array( 'status' => 'OK', 'current' => $this->core->get_users_cred( $user_id ) ) ) );
+			die( json_encode( array( 'status' => 'OK', 'current' => $new, 'blog_id' => $GLOBALS['blog_id'] ) ) );
 		}
 
 		/**

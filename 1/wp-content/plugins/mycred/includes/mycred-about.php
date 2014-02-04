@@ -145,8 +145,10 @@ function mycred_about_credit_page() {
 				<h4><?php _e( 'Bug Finders', 'mycred' ); ?></h4>
 				<p><?php _e( 'Users who have taken the time to report bugs helping me improve this plugin.', 'mycred' ); ?></p>
 				<ul>
-					<li><a href="http://mycred.me/members/douglas-dupuis-9_o8jr2b/">Douglas</a></li>
-					<li><a href="http://mycred.me/members/joebethepro-com/">joe</a></li>
+					<li><a href="http://mycred.me/members/kpd10435/" target="_blank">kpd10435</a></li>
+					<li><a href="http://fitbobcat.com" target="_blank">Johnathan Martin</a></li>
+					<li><a href="http://mycred.me/members/threadsgeneration/" target="_blank">Gabriel Galvão</a></li>
+					<li>Bryan</li>
 				</ul>
 			</div>
 			<div class="last-feature">
@@ -154,6 +156,8 @@ function mycred_about_credit_page() {
 				<p><?php _e( 'Users who have helped with translating this plugin.', 'mycred' ); ?></p>
 				<ul>
 					<li><a href="http://bp-fr.net/">Dan</a> <em>( French )</em></li>
+					<li>Biz.O <em>( Vietnamese )</em></li>
+					<li>Mani <em>( Persian )</em></li>
 				</ul>
 			</div>
 		</div>

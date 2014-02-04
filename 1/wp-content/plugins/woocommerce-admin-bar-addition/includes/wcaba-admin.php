@@ -39,7 +39,7 @@ function ddw_wcaba_settings_page_link( $wcaba_links ) {
 		'<a href="%s" title="%s">%s</a>',
 		admin_url( 'admin.php?page=woocommerce_settings' ),
 		esc_html__( 'Go to the WooCommerce settings page', 'woocommerce-admin-bar-addition' ),
-		__( 'WooCommerce Settings', 'woocommerce-admin-bar-addition' )
+		esc_attr__( 'WooCommerce Settings', 'woocommerce-admin-bar-addition' )
 	);
 
 	/** Set the order of the links */
@@ -92,6 +92,13 @@ function ddw_wcaba_plugin_links( $wcaba_links, $wcaba_file ) {
 }  // end of function ddw_wcaba_plugin_links
 
 
+// 2.1.0+:
+add_action( 'load-woocommerce_page_wc-settings', 'ddw_wcaba_woocommerce_help', 15 );
+add_action( 'load-toplevel_page_wc-settings', 'ddw_wcaba_woocommerce_help', 15 );
+add_action( 'load-woocommerce_page_wc-status', 'ddw_wcaba_woocommerce_help', 15 );
+add_action( 'load-woocommerce_page_wc-reports', 'ddw_wcaba_woocommerce_help', 15 );
+add_action( 'load-woocommerce_page_wc-addons', 'ddw_wcaba_woocommerce_help', 15 );
+// 2.0.x:
 add_action( 'load-woocommerce_page_woocommerce_settings', 'ddw_wcaba_woocommerce_help', 15 );
 add_action( 'load-toplevel_page_woocommerce', 'ddw_wcaba_woocommerce_help', 15 );
 add_action( 'load-woocommerce_page_woocommerce_status', 'ddw_wcaba_woocommerce_help', 15 );

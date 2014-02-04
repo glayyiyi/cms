@@ -14,7 +14,7 @@
  * Plugin Name: WooCommerce Admin Bar Addition
  * Plugin URI:  http://genesisthemes.de/en/wp-plugins/woocommerce-admin-bar-addition/
  * Description: This plugin adds useful admin links and resources for the WooCommerce Shop Plugin to the WordPress Toolbar / Admin Bar.
- * Version:     2.6.0
+ * Version:     2.7.0
  * Author:      David Decker - DECKERWEB
  * Author URI:  http://deckerweb.de/
  * License:     GPL-2.0+
@@ -170,11 +170,41 @@ function ddw_woocommerce_aba_init() {
 }  // end of function ddw_woocommerce_aba_init
 
 
+/**
+ * Check for current WooCommerce version (branch).
+ *
+ * @since  2.7.0
+ *
+ * @return bool Returns TRUE if current WooCommerce version is at least '2.1.0',
+ *              otherwise FALSE.
+ */
+function ddw_wcaba_woocommerce_current() {
+
+	/** Get WooCommerce version constants */
+	$wc_20x = ( defined( 'WOOCOMMERCE_VERSION' ) ) ? WOOCOMMERCE_VERSION : 'foo';
+	$wc_21x = ( defined( 'WC_VERSION' ) ) ? WC_VERSION : 'foo';
+
+	/** Check WooCommerce versions */
+	if ( version_compare( $wc_21x, '2.1.0', '>=' ) ) {
+
+		return TRUE;
+
+	} elseif ( version_compare( $wc_20x, '2.0.9999', '<=' ) ) {
+
+		return FALSE;
+
+	}  // end if
+
+}  // end of function ddw_wcaba_woocommerce_current
+
+
 add_action( 'admin_bar_menu', 'ddw_woocommerce_aba_admin_bar_menu', 98 );
 /**
  * Add new menu items to the WordPress Toolbar / Admin Bar.
  * 
  * @since  1.0.0
+ *
+ * @uses   ddw_wcaba_woocommerce_current() To detect current WooCommerce version branch.
  *
  * @global mixed $wp_admin_bar 
  */
@@ -213,6 +243,7 @@ function ddw_woocommerce_aba_admin_bar_menu() {
 		$woocommercesites = $prefix . 'woocommercesites';		// sub level: wc sites
 		$settings = $prefix . 'settings';				// sub level: settings
 			$sgeneralsettings = $prefix . 'sgeneralsettings';		// third level: general settings / wc status
+			$semails = $prefix . 'semails';		                    // third level: general settings / emails
 			$settingsintegration = $prefix . 'settingsintegration';		// third level: integration(s)
 			$s_dynpricing = $prefix . 's_dynpricing';			// third level settings: dynamic pricing
 			$s_commissionking = $prefix . 's_commissionking';		// third level settings: comission king
@@ -224,7 +255,11 @@ function ddw_woocommerce_aba_admin_bar_menu() {
 		$orders = $prefix . 'orders';					// sub level: orders
 		$reports = $prefix . 'reports';					// sub level: reports
 			$reportssales = $prefix . 'reportssales';			// third level: reports sales
+			$reportsproducts = $prefix . 'reportsproducts';		// third level: reports products
+			$reportscategories = $prefix . 'reportscategories';	// third level: reports categories
 			$reportscoupons = $prefix . 'reportscoupons';		// third level: reports coupons
+			$reportscustomers = $prefix . 'reportscustomers';	// third level: reports customers
+			$reportsstock = $prefix . 'reportsstock';			// third level: reports stock
 		$shoplink = $prefix . 'shoplink';				// sub level: shop link
 			$shoplinkcheckout = $prefix . 'shoplinkcheckout';		// third level: shop link checkout
 			$shoplinkmyaccount = $prefix . 'shoplinkmyaccount';		// third level: shop link my account
@@ -272,185 +307,69 @@ function ddw_woocommerce_aba_admin_bar_menu() {
 
 	/**
 	 * Show these items only if WooCommerce plugin is actually installed
-	 * Check for classes "woocommerce" (WC prior v1.4) or "Woocommerce" (WC v1.4+)
+	 * Check for classes "WooCommerce" (v2.1.0+) or "Woocommerce" (2.0.x)
 	 */
-	if ( class_exists( 'Woocommerce' ) ) {
+	if ( class_exists( 'WooCommerce' ) || class_exists( 'Woocommerce' ) ) {
 
-		/** Settings links */
-		if ( current_user_can( 'manage_woocommerce' ) ) {
+		/** Display "Orders" section only for users with the capability 'edit_shop_order' */
+		if ( current_user_can( 'edit_shop_orders' ) ) {
 
-			$menu_items[ 'settings' ] = array(
+			$menu_items[ 'orders' ] = array(
 				'parent' => $woocommercebar,
-				'title'  => __( 'Shop Settings', 'woocommerce-admin-bar-addition' ),
-				'href'   => admin_url( 'admin.php?page=woocommerce_settings' ),
+				'title'  => __( 'Orders', 'woocommerce-admin-bar-addition' ),
+				'href'   => admin_url( 'edit.php?post_type=shop_order' ),
 				'meta'   => array(
 					'target' => '',
-					'title'  => __( 'Shop Settings', 'woocommerce-admin-bar-addition' )
+					'title'  => __( 'Orders', 'woocommerce-admin-bar-addition' )
 				)
 			);
 
-				$menu_items[ 'sgeneralsettings' ] = array(
-					'parent' => $settings,
-					'title'  => __( 'General Settings', 'woocommerce-admin-bar-addition' ),
-					'href'   => admin_url( 'admin.php?page=woocommerce_settings&tab=general' ),
+				/** Display order status links if theme support is added */
+				if ( current_theme_supports( 'wcaba-order-status' ) ) {
+
+					require_once( WCABA_PLUGIN_DIR . 'includes/wcaba-orderstatus.php' );
+
+				}  // end if theme support check
+
+				$menu_items[ 'o-add-order' ] = array(
+					'parent' => $orders,
+					'title'  => __( 'Add new order', 'woocommerce-admin-bar-addition' ),
+					'href'   => admin_url( 'post-new.php?post_type=shop_order' ),
 					'meta'   => array(
 						'target' => '',
-						'title'  => __( 'General Settings', 'woocommerce-admin-bar-addition' )
+						'title'  => __( 'Add new order', 'woocommerce-admin-bar-addition' )
 					)
 				);
 
-					/** Allows for hiding the WC Debug link */
-					if ( defined( 'WCABA_DEBUG_DISPLAY' ) && WCABA_DEBUG_DISPLAY ) {
-
-						$menu_items[ 'sgeneralsettings-debug' ] = array(
-							'parent' => $sgeneralsettings,
-							'title'  => __( 'System Status', 'woocommerce-admin-bar-addition' ),
-							'href'   => admin_url( 'admin.php?page=woocommerce_status' ),
-							'meta'   => array(
-								'target' => '',
-								'title'  => _x( 'System Status (WooCommerce Debugging)', 'Translators: For the tooltip', 'woocommerce-admin-bar-addition' )
-							)
-						);
-
-					}  // end if
-
-				$menu_items[ 's-shop-pages' ] = array(
-					'parent' => $settings,
-					'title'  => __( 'Shop Pages', 'woocommerce-admin-bar-addition' ),
-					'href'   => admin_url( 'admin.php?page=woocommerce_settings&tab=pages' ),
+				$menu_items[ 'o-customers' ] = array(
+					'parent' => $orders,
+					'title'  => __( 'Current Customers', 'woocommerce-admin-bar-addition' ),
+					'href'   => admin_url( 'users.php?role=customer' ),
 					'meta'   => array(
 						'target' => '',
-						'title'  => __( 'Shop Pages', 'woocommerce-admin-bar-addition' )
+						'title'  => __( 'Current Customers', 'woocommerce-admin-bar-addition' )
 					)
 				);
 
-				$menu_items[ 's-shop-catalog' ] = array(
-					'parent' => $settings,
-					'title'  => __( 'Shop Catalog', 'woocommerce-admin-bar-addition' ),
-					'href'   => admin_url( 'admin.php?page=woocommerce_settings&tab=catalog' ),
-					'meta'   => array(
-						'target' => '',
-						'title'  => __( 'Shop Catalog', 'woocommerce-admin-bar-addition' )
-					)			
-				);
+		}  // end if orders cap check
 
-				$menu_items[ 's-inventory' ] = array(
-					'parent' => $settings,
-					'title'  => __( 'Inventory', 'woocommerce-admin-bar-addition' ),
-					'href'   => admin_url( 'admin.php?page=woocommerce_settings&tab=inventory' ),
-					'meta'   => array(
-						'target' => '',
-						'title'  => __( 'Inventory', 'woocommerce-admin-bar-addition' )
-					)
-				);
+		/** Display "Reports" section only for users with the capability 'view_woocommerce_reports' */
+		if ( ( defined( 'WCABA_REPORTS_DISPLAY' ) && WCABA_REPORTS_DISPLAY )
+			&& current_user_can( 'view_woocommerce_reports' )
+		) {
 
-				$menu_items[ 's-taxes' ] = array(
-					'parent' => $settings,
-					'title'  => __( 'Taxes', 'woocommerce-admin-bar-addition' ),
-					'href'   => admin_url( 'admin.php?page=woocommerce_settings&tab=tax' ),
-					'meta'   => array(
-						'target' => '',
-						'title'  => __( 'Taxes', 'woocommerce-admin-bar-addition' )
-					)
-				);
+			/** Include reports links per version branch */
+			if ( ddw_wcaba_woocommerce_current() ) {
 
-				$menu_items[ 's-shipping-costs' ] = array(
-					'parent' => $settings,
-					'title'  => __( 'Shipping Options &amp; Costs', 'woocommerce-admin-bar-addition' ),
-					'href'   => admin_url( 'admin.php?page=woocommerce_settings&tab=shipping' ),
-					'meta'   => array(
-						'target' => '',
-						'title'  => __( 'Shipping Options &amp; Costs', 'woocommerce-admin-bar-addition' )
-					)
-				);
+				require_once( WCABA_PLUGIN_DIR . 'includes/wcaba-reports-v21x.php' );
 
-				$menu_items[ 's-payment-gateways' ] = array(
-					'parent' => $settings,
-					'title'  => __( 'Paymet Gateways', 'woocommerce-admin-bar-addition' ),
-					'href'   => admin_url( 'admin.php?page=woocommerce_settings&tab=payment_gateways' ),
-					'meta'   => array(
-						'target' => '',
-						'title'  => __( 'Paymet Gateways', 'woocommerce-admin-bar-addition' )
-					)
-				);
+			} else {
 
-				$menu_items[ 's-emails' ] = array(
-					'parent' => $settings,
-					'title'  => __( 'Emails', 'woocommerce-admin-bar-addition' ),
-					'href'   => admin_url( 'admin.php?page=woocommerce_settings&tab=email' ),
-					'meta'   => array(
-						'target' => '',
-						'title'  => __( 'Emails', 'woocommerce-admin-bar-addition' )
-					)
-				);
+				require_once( WCABA_PLUGIN_DIR . 'includes/wcaba-reports-v20x.php' );
 
-				/** "Integration" settings links */
-				$menu_items[ 'settingsintegration' ] = array(
-					'parent' => $settings,
-					'title'  => __( 'Integration (Other Services)', 'woocommerce-admin-bar-addition' ),
-					'href'   => admin_url( 'admin.php?page=woocommerce_settings&tab=integration' ),
-					'meta'   => array(
-						'target' => '',
-						'title'  => _x( 'Integration (Other Services)', 'Translators: For the tooltip', 'woocommerce-admin-bar-addition' )
-					)
-				);
+			}  // end if
 
-					$menu_items[ 'settingsintegration-googleanalytics' ] = array(
-						'parent' => $settingsintegration,
-						'title'  => __( 'Google Analytics', 'woocommerce-admin-bar-addition' ),
-						'href'   => admin_url( 'admin.php?page=woocommerce_settings&tab=integration&section=google_analytics' ),
-						'meta'   => array(
-							'target' => '',
-							'title'  => __( 'Google Analytics', 'woocommerce-admin-bar-addition' )
-						)
-					);
-
-					$menu_items[ 'settingsintegration-sharethis' ] = array(
-						'parent' => $settingsintegration,
-						'title'  => __( 'ShareThis', 'woocommerce-admin-bar-addition' ),
-						'href'   => admin_url( 'admin.php?page=woocommerce_settings&tab=integration&section=sharethis' ),
-						'meta'   => array(
-							'target' => '',
-							'title'  => __( 'ShareThis', 'woocommerce-admin-bar-addition' )
-						)
-					);
-
-					$menu_items[ 'settingsintegration-shareyourcart' ] = array(
-						'parent' => $settingsintegration,
-						'title'  => __( 'ShareYourCart', 'woocommerce-admin-bar-addition' ),
-						'href'   => admin_url( 'admin.php?page=woocommerce_settings&tab=integration&section=shareyourcart' ),
-						'meta'   => array(
-							'target' => '',
-							'title'  => __( 'ShareYourCart', 'woocommerce-admin-bar-addition' )
-						)
-					);
-
-			/** Setting links continued once again... */
-			if ( current_user_can( 'edit_theme_options' ) ) {
-
-				$menu_items[ 's-widgets' ] = array(
-					'parent' => $settings,
-					'title'  => esc_attr__( $wcaba_woocommerce_name ) . ' ' . __( 'Widgets', 'woocommerce-admin-bar-addition' ),
-					'href'   => admin_url( 'widgets.php' ),
-					'meta'   => array(
-						'target' => '',
-						'title'  => esc_attr__( $wcaba_woocommerce_name_tooltip ) . ' ' . __( 'Widgets', 'woocommerce-admin-bar-addition' )
-					)
-				);
-
-				$menu_items[ 's-menus' ] = array(
-					'parent' => $settings,
-					'title'  => esc_attr__( $wcaba_woocommerce_name ) . ' ' . __( 'Menus', 'woocommerce-admin-bar-addition' ),
-					'href'   => admin_url( 'nav-menus.php' ),
-					'meta'   => array(
-						'target' => '',
-						'title'  => esc_attr__( $wcaba_woocommerce_name_tooltip ) . ' ' . __( 'Menus', 'woocommerce-admin-bar-addition' )
-					)
-				);
-
-			}  // end if cap check
-
-		}  // end if WC cap check
+		}  // end if reports cap check
 
 		/** Display "Products" section only for users with the capability 'edit_products' */
 		if ( current_user_can( 'edit_products' ) ) {
@@ -522,48 +441,6 @@ function ddw_woocommerce_aba_admin_bar_menu() {
 
 		}  // end if products cap check
 
-		/** Display "Orders" section only for users with the capability 'edit_shop_order' */
-		if ( current_user_can( 'edit_shop_orders' ) ) {
-
-			$menu_items[ 'orders' ] = array(
-				'parent' => $woocommercebar,
-				'title'  => __( 'Orders', 'woocommerce-admin-bar-addition' ),
-				'href'   => admin_url( 'edit.php?post_type=shop_order' ),
-				'meta'   => array(
-					'target' => '',
-					'title'  => __( 'Orders', 'woocommerce-admin-bar-addition' )
-				)
-			);
-
-				/** Display order status links if theme support is added */
-				if ( current_theme_supports( 'wcaba-order-status' ) ) {
-
-					require_once( WCABA_PLUGIN_DIR . 'includes/wcaba-orderstatus.php' );
-
-				}  // end if theme support check
-
-				$menu_items[ 'o-add-order' ] = array(
-					'parent' => $orders,
-					'title'  => __( 'Add new order', 'woocommerce-admin-bar-addition' ),
-					'href'   => admin_url( 'post-new.php?post_type=shop_order' ),
-					'meta'   => array(
-						'target' => '',
-						'title'  => __( 'Add new order', 'woocommerce-admin-bar-addition' )
-					)
-				);
-
-				$menu_items[ 'o-customers' ] = array(
-					'parent' => $orders,
-					'title'  => __( 'Current Customers', 'woocommerce-admin-bar-addition' ),
-					'href'   => admin_url( 'users.php?role=customer' ),
-					'meta'   => array(
-						'target' => '',
-						'title'  => __( 'Current Customers', 'woocommerce-admin-bar-addition' )
-					)
-				);
-
-		}  // end if
-
 		/** Display "Coupons" section only for users with the capability 'edit_shop_coupon' */
 		if ( current_user_can( 'edit_shop_coupons' ) ) {
 
@@ -589,157 +466,47 @@ function ddw_woocommerce_aba_admin_bar_menu() {
 
 		}  // end if
 
-		/** Display "Reports" section only for users with the capability 'view_woocommerce_reports' */
-		if ( ( defined( 'WCABA_REPORTS_DISPLAY' ) && WCABA_REPORTS_DISPLAY )
-			&& current_user_can( 'view_woocommerce_reports' )
-		) {
+		/** Settings links */
+		if ( current_user_can( 'manage_woocommerce' ) ) {
 
-			/** Reports/ Sales */
-			$menu_items[ 'reports' ] = array(
-				'parent' => $woocommercebar,
-				'title'  => __( 'Reports', 'woocommerce-admin-bar-addition' ),
-				'href'   => admin_url( 'admin.php?page=woocommerce_reports' ),
-				'meta'   => array(
-					'target' => '',
-					'title'  => __( 'Reports', 'woocommerce-admin-bar-addition' )
-				)
-			);
+			/** Include settings links per version branch */
+			if ( ddw_wcaba_woocommerce_current() ) {
 
-				/** Displaying sub-level reports tabs links */
-				$menu_items[ 'reportssales' ] = array(
-					'parent' => $reports,
-					'title'  => __( 'Sales Overview', 'woocommerce-admin-bar-addition' ),
-					'href'   => admin_url( 'admin.php?page=woocommerce_reports&tab=sales&chart=overview' ),
+				require_once( WCABA_PLUGIN_DIR . 'includes/wcaba-settings-v21x.php' );
+
+			} else {
+
+				require_once( WCABA_PLUGIN_DIR . 'includes/wcaba-settings-v20x.php' );
+
+			}  // end if
+
+
+			/** Setting links continued once again... */
+			if ( current_user_can( 'edit_theme_options' ) ) {
+
+				$menu_items[ 's-widgets' ] = array(
+					'parent' => $settings,
+					'title'  => esc_attr__( $wcaba_woocommerce_name ) . ' ' . __( 'Widgets', 'woocommerce-admin-bar-addition' ),
+					'href'   => admin_url( 'widgets.php' ),
 					'meta'   => array(
 						'target' => '',
-						'title'  => __( 'Sales Overview', 'woocommerce-admin-bar-addition' )
+						'title'  => esc_attr__( $wcaba_woocommerce_name_tooltip ) . ' ' . __( 'Widgets', 'woocommerce-admin-bar-addition' )
 					)
 				);
 
-				$menu_items[ 'reportssales-byday' ] = array(
-					'parent' => $reportssales,
-					'title'  => __( 'Sales by Day', 'woocommerce-admin-bar-addition' ),
-					'href'   => admin_url( 'admin.php?page=woocommerce_reports&tab=sales&chart=sales_by_day' ),
+				$menu_items[ 's-menus' ] = array(
+					'parent' => $settings,
+					'title'  => esc_attr__( $wcaba_woocommerce_name ) . ' ' . __( 'Menus', 'woocommerce-admin-bar-addition' ),
+					'href'   => admin_url( 'nav-menus.php' ),
 					'meta'   => array(
 						'target' => '',
-						'title'  => __( 'Sales by Day', 'woocommerce-admin-bar-addition' )
+						'title'  => esc_attr__( $wcaba_woocommerce_name_tooltip ) . ' ' . __( 'Menus', 'woocommerce-admin-bar-addition' )
 					)
 				);
 
-				$menu_items[ 'reportssales-bymonth' ] = array(
-					'parent' => $reportssales,
-					'title'  => __( 'Sales by Month', 'woocommerce-admin-bar-addition' ),
-					'href'   => admin_url( 'admin.php?page=woocommerce_reports&tab=sales&chart=sales_by_month' ),
-					'meta'   => array(
-						'target' => '',
-						'title'  => __( 'Sales by Month', 'woocommerce-admin-bar-addition' )
-					)
-				);
+			}  // end if cap check
 
-				$menu_items[ 'reportssales-products' ] = array(
-					'parent' => $reportssales,
-					'title'  => __( 'Product Sales', 'woocommerce-admin-bar-addition' ),
-					'href'   => admin_url( 'admin.php?page=woocommerce_reports&tab=sales&chart=product_sales' ),
-					'meta'   => array(
-						'target' => '',
-						'title'  => __( 'Product Sales', 'woocommerce-admin-bar-addition' )
-					)
-				);
-
-				$menu_items[ 'reportssales-topsellers' ] = array(
-					'parent' => $reportssales,
-					'title'  => __( 'Top Sellers', 'woocommerce-admin-bar-addition' ),
-					'href'   => admin_url( 'admin.php?page=woocommerce_reports&tab=sales&chart=top_sellers' ),
-					'meta'   => array(
-						'target' => '',
-						'title'  => __( 'Top Sellers', 'woocommerce-admin-bar-addition' )
-					)
-				);
-
-				$menu_items[ 'reportssales-topearners' ] = array(
-					'parent' => $reportssales,
-					'title'  => __( 'Top Earners', 'woocommerce-admin-bar-addition' ),
-					'href'   => admin_url( 'admin.php?page=woocommerce_reports&tab=sales&chart=top_earners' ),
-					'meta'   => array(
-						'target' => '',
-						'title'  => __( 'Top Earners', 'woocommerce-admin-bar-addition' )
-					)
-				);
-
-				$menu_items[ 'reportssales-bycategory' ] = array(
-					'parent' => $reportssales,
-					'title'  => __( 'Sales by Category', 'woocommerce-admin-bar-addition' ),
-					'href'   => admin_url( 'admin.php?page=woocommerce_reports&tab=sales&chart=sales_by_category' ),
-					'meta'   => array(
-						'target' => '',
-						'title'  => __( 'Sales by Category', 'woocommerce-admin-bar-addition' )
-					)
-				);
-
-				$menu_items[ 'reportssales-taxesbymonth' ] = array(
-					'parent' => $reportssales,
-					'title'  => __( 'Taxes by Month', 'woocommerce-admin-bar-addition' ),
-					'href'   => admin_url( 'admin.php?page=woocommerce_reports&tab=sales&chart=taxes_by_month' ),
-					'meta'   => array(
-						'target' => '',
-						'title'  => __( 'Taxes by Month', 'woocommerce-admin-bar-addition' )
-					)
-				);
-
-			/** Coupons */
-			$menu_items[ 'reportscoupons' ] = array(
-				'parent' => $reports,
-				'title'  => __( 'Coupons', 'woocommerce-admin-bar-addition' ),
-				'href'   => admin_url( 'admin.php?page=woocommerce_reports&tab=coupons' ),
-				'meta'   => array(
-					'target' => '',
-					'title'  => __( 'Coupons', 'woocommerce-admin-bar-addition' )
-				)
-			);
-
-				$menu_items[ 'reportscoupons-overview' ] = array(
-					'parent' => $reportscoupons,
-					'title'  => __( 'Overview', 'woocommerce-admin-bar-addition' ),
-					'href'   => admin_url( 'admin.php?page=woocommerce_reports&tab=coupons&chart=overview' ),
-					'meta'   => array(
-						'target' => '',
-						'title'  => __( 'Overview', 'woocommerce-admin-bar-addition' )
-					)
-				);
-
-				$menu_items[ 'reportscoupons-discountbycoupon' ] = array(
-					'parent' => $reportscoupons,
-					'title'  => __( 'Discounts by Coupon', 'woocommerce-admin-bar-addition' ),
-					'href'   => admin_url( 'admin.php?page=woocommerce_reports&tab=coupons&chart=discounts_by_coupon' ),
-					'meta'   => array(
-						'target' => '',
-						'title'  => __( 'Discounts by Coupon', 'woocommerce-admin-bar-addition' )
-					)
-				);
-
-			/** Customers */
-			$menu_items[ 'reports-customers' ] = array(
-				'parent' => $reports,
-				'title'  => __( 'Customers', 'woocommerce-admin-bar-addition' ),
-				'href'   => admin_url( 'admin.php?page=woocommerce_reports&tab=customers' ),
-				'meta'   => array(
-					'target' => '',
-					'title'  => __( 'Customers', 'woocommerce-admin-bar-addition' )
-				)
-			);
-
-			/** Stock */
-			$menu_items[ 'reports-stock' ] = array(
-				'parent' => $reports,
-				'title'  => __( 'Stock', 'woocommerce-admin-bar-addition' ),
-				'href'   => admin_url( 'admin.php?page=woocommerce_reports&tab=stock' ),
-				'meta'   => array(
-					'target' => '',
-					'title'  => __( 'Stock', 'woocommerce-admin-bar-addition' )
-				)
-			);
-
-		}  // end if reports cap check
+		}  // end if WC (main/ settings) cap check
 
 		/** Display shop links if theme support is added */
 		if ( current_theme_supports( 'wcaba-shop-links' ) && current_user_can( 'edit_pages' ) ) {
@@ -752,8 +519,7 @@ function ddw_woocommerce_aba_admin_bar_menu() {
 		 * Display last main item in the menu for active extensions/plugins
 		 * ATTENTION: This is where plugins/extensions hook in on the sub-level hierarchy
 		 *
-		 * @since 1.0
-		 * @version 1.2
+		 * @since 1.0.0
 		 */
 		if ( ( defined( 'WCABA_EXTENSIONS_DISPLAY' ) && WCABA_EXTENSIONS_DISPLAY )
 			&& current_user_can( 'activate_plugins' )
@@ -768,6 +534,22 @@ function ddw_woocommerce_aba_admin_bar_menu() {
 					'title'  => __( 'Active Extensions', 'woocommerce-admin-bar-addition' )
 				)
 			);
+
+			/** Add-Ons admin page link */
+			if ( ddw_wcaba_woocommerce_current() ) {
+
+				$menu_items[ 'extensions-browser' ] = array(
+					'parent' => $extensions,
+					'title'  => __( 'Add-On Browser', 'woocommerce-admin-bar-addition' ),
+					'href'   => admin_url( 'admin.php?page=wc-addons' ),
+					'meta'   => array(
+						'target' => '',
+						'title'  => __( 'Add-On Browser', 'woocommerce-admin-bar-addition' )
+					)
+				);
+
+			}  // end if
+
 
 			/**
 			 * Action Hook 'wcaba_custom_extension_items'
@@ -808,11 +590,11 @@ function ddw_woocommerce_aba_admin_bar_menu() {
 	$menu_items = (array) apply_filters(
 		'wcaba_filter_menu_items',
 		$menu_items, $woogroup_menu_items, $prefix, $woocommercebar, 
-						$support, $woocommercesites, $settings, $sgeneralsettings, $settingsintegration, 
+						$support, $woocommercesites, $settings, $sgeneralsettings, $semails, $settingsintegration, 
 							$s_dynpricing, $s_commissionking, 
 						$products, $p_compareproductslite, $p_compareproductspro, $p_csvimportsuite, $coupons, 
 							$orders, 
-						$reports, $reportssales, $reportscoupons, $shoplink, $shoplinkcheckout, $shoplinkmyaccount, $shoplinkde, 
+						$reports, $reportssales, $reportsproducts, $reportscategories, $reportscoupons, $reportscustomers, $reportsstock, $shoplink, $shoplinkcheckout, $shoplinkmyaccount, $shoplinkde, 
 						$extensions, $extpideal, $extwtdynpricing, $extwtcommissionking, 
 						$extwtclickatellsms, $extwtquickbooks, $extwccplite, $extwccppro, $extwtcsvimportsuite, 
 						$wcgroup
@@ -831,17 +613,23 @@ function ddw_woocommerce_aba_admin_bar_menu() {
 		/** Filter the main item name's tooltip */
 		$wcaba_main_item_title_tooltip = apply_filters(
 			'wcaba_filter_main_item_tooltip',
-			_x( 'WooCommerce Shop Plugin', 'Translators: Main item - for the tooltip', 'woocommerce-admin-bar-addition' )
+			_x(
+				'Current Orders - WooCommerce Shop',
+				'Translators: Main item - for the tooltip',
+				'woocommerce-admin-bar-addition'
+			)
 		);
 
 		/** Main item URL helpers */
+
 		$wcaba_main_url_orders   = ( current_user_can( 'edit_shop_orders' ) ) ? admin_url( 'edit.php?post_type=shop_order' ) : '#';
-		$wcaba_main_url_settings = ( current_user_can( 'manage_woocommerce' ) ) ? admin_url( 'admin.php?page=woocommerce_settings' ) : '#';
+		$wcaba_wc_settings_url   = ddw_wcaba_woocommerce_current() ? admin_url( 'admin.php?page=wc-settings' ) : admin_url( 'admin.php?page=woocommerce_settings' );
+		$wcaba_main_url_settings = ( current_user_can( 'manage_woocommerce' ) ) ? $wcaba_wc_settings_url : '#';
 
 		/** Filter the main item icon's url */
 		$wcaba_main_item_url = apply_filters(
 			'wcaba_filter_main_item_url',
-			( wp_is_mobile() ) ? $wcaba_main_url_orders : $wcaba_main_url_settings
+			( defined( 'WP_DEBUG') && WP_DEBUG ) ? $wcaba_main_url_settings : $wcaba_main_url_orders
 		);	
 
 		/** Filter the main item icon's class/display */
@@ -957,7 +745,9 @@ add_action( 'admin_head', 'ddw_woocommerce_aba_admin_style' );
 /**
  * Add the styles for new WordPress Toolbar / Admin Bar entry.
  * 
- * @since 1.0.0
+ * @since  1.0.0
+ *
+ * @global string $GLOBALS[ 'wp_version' ]
  */
 function ddw_woocommerce_aba_admin_style() {
 

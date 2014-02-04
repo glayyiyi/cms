@@ -5,20 +5,30 @@ if ( ! defined( 'myCRED_VERSION' ) ) exit;
  * myCRED_Settings class
  * @see http://codex.mycred.me/classes/mycred_settings/
  * @since 0.1
- * @version 1.3
+ * @version 1.3.1
  */
 if ( ! class_exists( 'myCRED_Settings' ) ) {
 	class myCRED_Settings {
 
 		public $core;
 		public $log_table;
+		
+		public $is_multisite = false;
+		public $use_master_template = false;
+		public $use_central_logging = false;
 
 		/**
 		 * Construct
 		 */
 		function __construct() {
-			if ( is_multisite() ) {
-				if ( mycred_override_settings() )
+			// Prep
+			$this->is_multisite = is_multisite();
+			$this->use_master_template = mycred_override_settings();
+			$this->use_central_logging = mycred_centralize_log();
+
+			// Load Settings
+			if ( $this->is_multisite ) {
+				if ( $this->use_master_template )
 					$this->core = get_blog_option( 1, 'mycred_pref_core', $this->defaults() );
 				else
 					$this->core = get_blog_option( $GLOBALS['blog_id'], 'mycred_pref_core', $this->defaults() );
@@ -38,7 +48,7 @@ if ( ! class_exists( 'myCRED_Settings' ) ) {
 			else {
 				global $wpdb;
 				
-				if ( mycred_centralize_log() )
+				if ( $this->is_multisite && $this->use_central_logging )
 					$this->log_table = $wpdb->base_prefix . 'myCRED_log';
 				else
 					$this->log_table = $wpdb->prefix . 'myCRED_log';
@@ -427,7 +437,7 @@ if ( ! class_exists( 'myCRED_Settings' ) ) {
 		 * @param $data (object) Log entry data object
 		 * @return (string) parsed string
 		 * @since 0.1
-		 * @version 1.2.1
+		 * @version 1.3
 		 */
 		public function template_tags_user( $content = '', $ref_id = NULL, $data = '' ) {
 			if ( $ref_id === NULL ) return $content;
@@ -466,6 +476,14 @@ if ( ! class_exists( 'myCRED_Settings' ) ) {
 			else {
 				global $wp_rewrite;
 				$url = get_bloginfo( 'url' ) . '/' . $wp_rewrite->author_base . '/' . urlencode( $user->user_login ) . '/';
+			}
+
+			// At this point if we do not have an ID, the user no longer
+			// exists and we did not save their details. Replace all user related
+			// template tags with blanks.
+			if ( ! isset( $user->ID ) ) {
+				$content = apply_filters( 'mycred_parse_tags_missing_user', $content );
+				return str_replace( array( '%display_name%', '%user_profile_url%', '%user_profile_link%', '%user_nicename%', '%user_email%', '%user_url%', '%balance%', '%balance_f%', '%rank%', '%ranking%', '%ranking%' ), '', $content );
 			}
 
 			$content = str_replace( '%display_name%',       $user->display_name, $content );
@@ -778,6 +796,11 @@ if ( ! class_exists( 'myCRED_Settings' ) ) {
 			if ( empty( $user_id ) ) return $this->zero();
 
 			if ( empty( $type ) ) $type = $this->get_cred_id();
+			
+			// Handle multisites without centralized log
+			if ( $this->is_multisite && $GLOBALS['blog_id'] > 1 && ! $this->use_central_logging )
+				$type .= '_' . $GLOBALS['blog_id'];
+			
 			$balance = get_user_meta( $user_id, $type, true );
 			if ( empty( $balance ) ) $balance = $this->zero();
 
@@ -804,6 +827,10 @@ if ( ! class_exists( 'myCRED_Settings' ) ) {
 			if ( $user_id === NULL || $amount === NULL ) return $amount;
 			if ( empty( $this->cred_id ) ) $this->cred_id = $this->get_cred_id();
 
+			// Let others override this function now
+			if ( has_filter( 'mycred_pre_update_users_balance' ) )
+				return apply_filters( 'mycred_pre_update_users_balance', 0, $user_id, $amount, $this );
+
 			// Enforce max
 			if ( $this->max() > $this->zero() && $amount > $this->max() ) {
 				$amount = $this->number( $this->max() );
@@ -815,7 +842,11 @@ if ( ! class_exists( 'myCRED_Settings' ) ) {
 			$current_balance = $this->get_users_cred( $user_id );
 			$new_balance = $current_balance+$amount;
 
-			// Update creds
+			// Handle multisites without centralized log
+			if ( $this->is_multisite && $GLOBALS['blog_id'] > 1 && ! $this->use_central_logging )
+				$this->cred_id .= '_' . $GLOBALS['blog_id'];
+
+			// Update balance
 			update_user_meta( $user_id, $this->cred_id, $new_balance );
 
 			// Rankings
@@ -1606,19 +1637,19 @@ function is_mycred_ready()
 
 	// By default we start with the main sites setup. If it is not a multisite installation
 	// get_blog_option() will default to get_option() for us.
-	if ( is_multisite() )
+	if ( $mycred->is_multisite )
 		$setup = get_blog_option( 1, 'mycred_setup_completed' );
 	else
 		$setup = get_option( 'mycred_setup_completed' );
 
 	// If it is a multisite and the master template is not used, check if this site has
 	// been installed
-	if ( is_multisite() && $GLOBALS['blog_id'] > 1 && ! mycred_override_settings() )
+	if ( $mycred->is_multisite && $GLOBALS['blog_id'] > 1 && ! $mycred->use_master_template )
 		$setup = get_blog_option( $GLOBALS['blog_id'], 'mycred_setup_completed' );
 
 	// Make sure that if we switch from central log to seperate logs, we install this
 	// log if it does not exists.
-	if ( is_multisite() && $GLOBALS['blog_id'] > 1 && ! mycred_centralize_log() ) {
+	if ( $mycred->is_multisite && $GLOBALS['blog_id'] > 1 && ! $mycred->use_central_logging ) {
 		mycred_install_log( $mycred->core['format']['decimals'], $mycred->log_table );
 	}
 

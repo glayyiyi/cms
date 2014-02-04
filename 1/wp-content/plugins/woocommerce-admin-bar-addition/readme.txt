@@ -4,7 +4,7 @@ Donate link: http://genesisthemes.de/en/donate/
 Tags: toolbar, tool bar, adminbar, admin bar, woocommerce, woo commerce, woothemes, administration, resources, links, shop, shop manager, deckerweb, ddwtoolbar
 Requires at least: 3.6 plus WooCommerce 2.x
 Tested up to: 3.8.1
-Stable tag: 2.6.0
+Stable tag: 2.7.0
 License: GPL-2.0+
 License URI: http://www.opensource.org/licenses/gpl-license.php
 
@@ -30,7 +30,8 @@ This plugin adds useful admin links and massive resources for the WooCommerce Sh
 * Fully WPML compatible!
 * Fully Multisite compatible, you can also network-enable it if ever needed (per site use is recommended).
 * Developed, tested and fully maintained since the WooCommerce 1.2.x branch up to now! Plugin also supported by WooCommerce main developer!
-* Tested with WordPress branch 3.8 also in debug mode (no stuff there, ok? :) (Note: Plugin should also run with WP 3.6+ but alway update to latest version, ok?!)
+* As of this plugin version 2.7.0 or higher: Only WooCommerce v2.1.0 or higher, and legacy branch 2.0.x are supported! So please update your installs!
+* Tested with WordPress branch 3.8 also in debug mode (no stuff there, ok? :) (Note: Plugin should also run with WP 3.6+ but please always update to latest version, ok?!)
 
 = Special Features =
 * Not only supporting official WooCommerce sites ALSO third-party and user links - so just the whole WooCommerce ecosystem :)
@@ -89,11 +90,11 @@ As the name suggests this plugin is **intended towards admins/ webmasters/ shop 
 = Translations: Internationalization (i18n) / Localization (L10n) =
 * English (default) - always included
 * German (de_DE) - always included
-* French (fr_FR) - user-submitted - 84% complete for v2.6.0
-* Italian (it_IT) - user-submitted - 84% complete for v2.6.0
-* Danish (da_DK) - user-submitted - 84% complete for v2.6.0
-* Spanish (es_ES) - user-submitted - 51% complete for v2.6.0
-* Polish (pl_PL) - user-submitted - 22% complete for v2.6.0
+* French (fr_FR) - user-submitted - 72% complete for v2.7.0
+* Italian (it_IT) - user-submitted - 72% complete for v2.7.0
+* Danish (da_DK) - user-submitted - 72% complete for v2.7.0
+* Spanish (es_ES) - user-submitted - 45% complete for v2.7.0
+* Polish (pl_PL) - user-submitted - 19% complete for v2.7.0
 * .pot file (`woocommerce-admin-bar-addition.pot`) for translators is also always included :)
 * Easy plugin translation platform with GlotPress tool: [Translate "WooCommerce Admin Bar Addition"...](http://translate.wpautobahn.com/projects/wordpress-plugins-deckerweb/woocommerce-admin-bar-addition)
 * *Your translation? - [Just send it in](http://genesisthemes.de/en/contact/)*
@@ -131,6 +132,7 @@ Credit where credit is due: This plugin here is inspired and based on the work o
 * Technically speaking this plugin runs also without WooCommerce 2.x being active
 * BUT: it really makes no sense to use it without WooCommerce 2.x!
 * WordPress 3.6 or higher, but latest version always recommended!
+* WooCommerce branch compat: As of this plugin version 2.7.0 or higher: Only WooCommerce v2.1.0 or higher, and legacy branch 2.0.x are supported! So please update your installs!
 
 **Note:** This plugin has NO settings page because I believe it's just not neccessarry. All customizing could be done via action hooks, filters, constants and regular WordPress user roles & capabilities (see ["Other Notes"](http://wordpress.org/plugins/woocommerce-admin-bar-addition/other_notes/) section here). As the plugin is indended for a shop manager/ admin/ webmaster use that's the way to go. This way we can save the overhaul of an options panel/settings page, additional database requests, uninstall routines and such. End result: a lightweight system that just works and saves clicks & time :-).
 
@@ -182,6 +184,13 @@ This plugin has NO settings page because I believe it's just not neccessarry. Al
 7. WooCommerce Toolbar / Admin Bar Addition in action - plugin help tab. ([Click here for larger version of screenshot](https://www.dropbox.com/s/aplkguj45ye1bfi/screenshot-7.png))
 
 == Changelog ==
+
+= 2.7.0 (2014-02-02) =
+* NEW: Added full WooCommerce 2.1.0 compatibility -- by keeping backwards compat for former 2.0.x branch (that will be for a certain time, not always!).
+* UPDATE: Changed main item link (top level directly in Toolbar) to point to *Orders* page -- this is more expected behavior and was requested by some users.
+* UPDATE: Changed Order of main items: now beginning with *Orders*, then *Reports*, *Products*, *Coupons*, *Settings* --- this way it's more handy for daily shop maintenance work :).
+* UDAPTE: Updated German translations and also the .pot file for all translators!
+* UPDATE: Updated all user-submitted translations.
 
 = 2.6.0 (2014-01-23) =
 * *New features:*
@@ -375,6 +384,9 @@ This plugin has NO settings page because I believe it's just not neccessarry. Al
 * Initial release
 
 == Upgrade Notice ==
+
+= 2.7.0 =
+Several additions & improvements: Fully WooCommerce 2.1.0 compat! Tweaked main level item order. Also, updated .pot file for translators plus all translations.
 
 = 2.6.0 =
 Several additions & improvements: Updated all links, lots of code and partly refactored. Further, updated .pot file for translators together with German translations.

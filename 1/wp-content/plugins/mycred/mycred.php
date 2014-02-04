@@ -3,13 +3,13 @@
  * Plugin Name: myCRED
  * Plugin URI: http://mycred.me
  * Description: <strong>my</strong>CRED is an adaptive points management system for WordPress powered websites, giving you full control on how points are gained, used, traded, managed, logged or presented.
- * Version: 1.3.3.1
+ * Version: 1.3.3.2
  * Tags: points, tokens, credit, management, reward, charge, buddypress, bbpress, jetpack, woocommerce
  * Author: Gabriel S Merovingi
  * Author URI: http://www.merovingi.com
  * Author Email: support@mycred.me
  * Requires at least: WP 3.1
- * Tested up to: WP 3.8
+ * Tested up to: WP 3.8.1
  * Text Domain: mycred
  * Domain Path: /lang
  * License: GPLv2 or later
@@ -20,7 +20,7 @@
  * BuddyPress Compatible: yes
  * Forum URI: http://mycred.me/support/forums/
  */
-define( 'myCRED_VERSION',      '1.3.3.1' );
+define( 'myCRED_VERSION',      '1.3.3.2' );
 define( 'myCRED_SLUG',         'mycred' );
 define( 'myCRED_NAME',         '<strong>my</strong>CRED' );
 
@@ -86,7 +86,7 @@ function mycred_load() {
 
 	do_action( 'mycred_ready' );
 
-	add_action( 'init',         'mycred_init' );
+	add_action( 'init',         'mycred_init', 5 );
 	add_action( 'widgets_init', 'mycred_widgets_init' );
 	add_action( 'admin_init',   'mycred_admin_init' );
 }
@@ -375,6 +375,10 @@ function mycred_admin_menu()
 	$mycred = mycred_get_settings();
 	$name = mycred_label( true );
 
+	$icon = 'dashicons-star-filled';
+	if ( isset( $GLOBALS['wp_version'] ) && version_compare( $GLOBALS['wp_version'], '3.8', '<' ) )
+		$icon = '';
+
 	$pages = array();
 	$pages[] = add_menu_page(
 		$name,
@@ -382,7 +386,7 @@ function mycred_admin_menu()
 		$mycred->edit_creds_cap(),
 		'myCRED',
 		'',
-		''
+		$icon
 	);
 
 	$about_label = sprintf( __( 'About %s', 'mycred' ), $name );

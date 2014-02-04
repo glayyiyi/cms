@@ -312,10 +312,9 @@ ORDER BY ID;", 'ARRAY_A' );
 			// Loop though each rank
 			foreach ( $ranks as $rank ) {
 				// If balance fits break with this ranks details
-				if ( $balance >= $mycred->number( $rank['min'] ) ) {
+				if ( $balance >= $mycred->number( $rank['min'] ) && $balance <= $mycred->number( $rank['max'] ) ) {
 					$rank_id = $rank['ID'];
 					$rank_title = $rank['title'];
-					break;
 				}
 			}
 			unset( $ranks );

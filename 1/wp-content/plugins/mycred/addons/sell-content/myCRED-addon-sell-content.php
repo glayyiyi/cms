@@ -2,7 +2,7 @@
 /**
  * Addon: Sell Content
  * Addon URI: http://mycred.me/add-ons/sell-content/
- * Version: 1.1
+ * Version: 1.2.1
  * Description: This add-on allows you to sell posts, pages or any public post types on your website. You can either sell the entire content or using our shortcode, sell parts of your content allowing you to offer "teasers".
  * Author: Gabriel S Merovingi
  * Author URI: http://www.merovingi.com
@@ -598,6 +598,70 @@ if ( !class_exists( 'myCRED_Sell_Content' ) ) {
 		}
 
 		/**
+		 * Get the Post ID
+		 * Added support for sale of bbPress items.
+		 * @since 1.2
+		 * @version 1.0
+		 */
+		public function get_post_ID() {
+			$post_id = $bbp_topic_id = $bbp_reply_id = 0;
+			if ( function_exists( 'bbpress' ) ) {
+				global $wp_query;
+
+				$bbp = bbpress();
+
+				// Currently inside a topic loop
+				if ( ! empty( $bbp->topic_query->in_the_loop ) && isset( $bbp->topic_query->post->ID ) )
+					$bbp_topic_id = $bbp->topic_query->post->ID;
+
+				// Currently inside a search loop
+				elseif ( ! empty( $bbp->search_query->in_the_loop ) && isset( $bbp->search_query->post->ID ) && bbp_is_topic( $bbp->search_query->post->ID ) )
+					$bbp_topic_id = $bbp->search_query->post->ID;
+
+				// Currently viewing/editing a topic, likely alone
+				elseif ( ( bbp_is_single_topic() || bbp_is_topic_edit() ) && ! empty( $bbp->current_topic_id ) )
+					$bbp_topic_id = $bbp->current_topic_id;
+
+				// Currently viewing/editing a topic, likely in a loop
+				elseif ( ( bbp_is_single_topic() || bbp_is_topic_edit() ) && isset( $wp_query->post->ID ) )
+					$bbp_topic_id = $wp_query->post->ID;
+				
+				// So far, no topic found, check if we are in a reply
+				if ( $bbp_topic_id == 0 ) {
+
+					// Currently inside a replies loop
+					if ( !empty( $bbp->reply_query->in_the_loop ) && isset( $bbp->reply_query->post->ID ) )
+						$bbp_reply_id = $bbp->reply_query->post->ID;
+
+					// Currently inside a search loop
+					elseif ( !empty( $bbp->search_query->in_the_loop ) && isset( $bbp->search_query->post->ID ) && bbp_is_reply( $bbp->search_query->post->ID ) )
+						$bbp_reply_id = $bbp->search_query->post->ID;
+
+					// Currently viewing a forum
+					elseif ( ( bbp_is_single_reply() || bbp_is_reply_edit() ) && !empty( $bbp->current_reply_id ) )
+						$bbp_reply_id = $bbp->current_reply_id;
+
+					// Currently viewing a reply
+					elseif ( ( bbp_is_single_reply() || bbp_is_reply_edit() ) && isset( $wp_query->post->ID ) )
+						$bbp_reply_id = $wp_query->post->ID;
+				
+					if ( $bbp_reply_id != 0 )
+						$post_id = $bbp_reply_id;
+
+				}
+				
+				// Else we are in a topic
+				else $post_id = $bbp_topic_id;
+
+			}
+
+			if ( $post_id == 0 )
+				$post_id = $GLOBALS['post']->ID;
+
+			return apply_filters( 'mycred_sell_this_get_post_ID', $post_id, $this );
+		}
+
+		/**
 		 * For Sale
 		 * Checks if a given post is for sale.
 		 * 
@@ -628,7 +692,8 @@ if ( !class_exists( 'myCRED_Sell_Content' ) ) {
 			// Admins can view
 			if ( $this->core->can_edit_plugin( $user_id ) || $this->core->can_edit_creds( $user_id ) ) return true;
 			// Authors can view
-			if ( isset( $GLOBALS['post'] ) && $GLOBALS['post']->post_author == $user_id ) return true;
+			$the_post = get_post( $post_id );
+			if ( ! isset( $the_post->post_author ) && $the_post->post_author == $user_id ) return true;
 
 			global $wpdb;
 			
@@ -735,15 +800,17 @@ if ( !class_exists( 'myCRED_Sell_Content' ) ) {
 		 *
 		 * @returns (string) content
 		 * @since 0.1
-		 * @version 1.0.2
+		 * @version 1.1
 		 */
 		public function the_content( $content ) {
 			global $mycred_content_purchase;
 
+			$post_id = $this->get_post_ID();
+			$the_post = get_post( $post_id );
+
 			// If content is for sale
-			if ( isset( $GLOBALS['post']->ID ) && $this->for_sale( $GLOBALS['post']->ID ) ) {
+			if ( $this->for_sale( $post_id ) ) {
 				// Prep
-				$post_id = $GLOBALS['post']->ID;
 				$user_id = get_current_user_id();
 				$sell_content = $this->sell_content;
 				$prefs = $this->get_sale_prefs( $post_id );
@@ -754,7 +821,7 @@ if ( !class_exists( 'myCRED_Sell_Content' ) ) {
 					
 					$template = str_replace( '%price%', $this->core->format_creds( $prefs['price'] ), $template );
 					$template = $this->core->template_tags_general( $template );
-					$template = $this->core->template_tags_post( $template, $GLOBALS['post'] );
+					$template = $this->core->template_tags_post( $template, $the_post );
 					return '<div class="mycred-content-forsale">' . $template . '</div>';
 				}
 
@@ -764,14 +831,14 @@ if ( !class_exists( 'myCRED_Sell_Content' ) ) {
 
 					$template = str_replace( '%price%', $this->core->format_creds( $prefs['price'] ), $template );
 					$template = $this->core->template_tags_general( $template );
-					$template = $this->core->template_tags_post( $template, $GLOBALS['post'] );
-					$template = $this->get_button( $template, $GLOBALS['post'] );
+					$template = $this->core->template_tags_post( $template, $the_post );
+					$template = $this->get_button( $template, $the_post );
 					return '
 <form action="" method="post">
 	<input type="hidden" name="mycred_purchase[post_id]"   value="' . $post_id . '" />
-	<input type="hidden" name="mycred_purchase[post_type]" value="' . $GLOBALS['post']->post_type . '" />
+	<input type="hidden" name="mycred_purchase[post_type]" value="' . $the_post->post_type . '" />
 	<input type="hidden" name="mycred_purchase[user_id]"   value="' . get_current_user_id() . '" />
-	<input type="hidden" name="mycred_purchase[author]"    value="' . $GLOBALS['post']->post_author . '" />
+	<input type="hidden" name="mycred_purchase[author]"    value="' . $the_post->post_author . '" />
 	<input type="hidden" name="mycred_purchase_token"      value="' . wp_create_nonce( 'buy-content' ) . '" />
 	<input type="hidden" name="mycred_purchase[action]"    value="buy" />
 	<div class="mycred-content-forsale">' . $template . '</div>
@@ -783,7 +850,7 @@ if ( !class_exists( 'myCRED_Sell_Content' ) ) {
 
 					$template = str_replace( '%price%', $this->core->format_creds( $prefs['price'] ), $template );
 					$template = $this->core->template_tags_general( $template );
-					$template = $this->core->template_tags_post( $template, $GLOBALS['post'] );
+					$template = $this->core->template_tags_post( $template, $the_post );
 					return '<div class="mycred-content-forsale">' . $template . '</div>';
 				}
 			}
@@ -805,10 +872,14 @@ if ( !class_exists( 'myCRED_Sell_Content' ) ) {
 		 *
 		 * @returns (string) content
 		 * @since 0.1
-		 * @version 1.2.1
+		 * @version 1.3
 		 */
 		public function render_shortcode( $atts, $content ) {
-			$post_id = $GLOBALS['post']->ID;
+			// The Post
+			$post_id = $this->get_post_ID();
+			$the_post = get_post( $post_id );
+
+			// The User
 			$user_id = get_current_user_id();
 			$sell_content = $this->sell_content;
 
@@ -835,7 +906,7 @@ if ( !class_exists( 'myCRED_Sell_Content' ) ) {
 
 				$template = str_replace( '%price%', $this->core->format_creds( $prefs['price'] ), $template );
 				$template = $this->core->template_tags_general( $template );
-				$template = $this->core->template_tags_post( $template, $GLOBALS['post'] );
+				$template = $this->core->template_tags_post( $template, $the_post );
 				unset( $content );
 				return '<div class="mycred-content-forsale">' . $template . '</div>';
 			}
@@ -846,15 +917,15 @@ if ( !class_exists( 'myCRED_Sell_Content' ) ) {
 
 				$template = str_replace( '%price%', $this->core->format_creds( $prefs['price'] ), $template );
 				$template = $this->core->template_tags_general( $template );
-				$template = $this->core->template_tags_post( $template, $GLOBALS['post'] );
-				$template = $this->get_button( $template, $GLOBALS['post'] );
+				$template = $this->core->template_tags_post( $template, $the_post );
+				$template = $this->get_button( $template, $the_post );
 				unset( $content );
 				return '
 <form action="" method="post">
 	<input type="hidden" name="mycred_purchase[post_id]"   value="' . $post_id . '" />
-	<input type="hidden" name="mycred_purchase[post_type]" value="' . $GLOBALS['post']->post_type . '" />
+	<input type="hidden" name="mycred_purchase[post_type]" value="' . $the_post->post_type . '" />
 	<input type="hidden" name="mycred_purchase[user_id]"   value="' . get_current_user_id() . '" />
-	<input type="hidden" name="mycred_purchase[author]"    value="' . $GLOBALS['post']->post_author . '" />
+	<input type="hidden" name="mycred_purchase[author]"    value="' . $the_post->post_author . '" />
 	<input type="hidden" name="mycred_purchase_token"      value="' . wp_create_nonce( 'buy-content' ) . '" />
 	<input type="hidden" name="mycred_purchase[action]" value="buy" />
 	<div class="mycred-content-forsale">' . $template . '</div>
@@ -867,13 +938,13 @@ if ( !class_exists( 'myCRED_Sell_Content' ) ) {
 					
 				$template = str_replace( '%price%', $this->core->format_creds( $prefs['price'] ), $template );
 				$template = $this->core->template_tags_general( $template );
-				$template = $this->core->template_tags_post( $template, $GLOBALS['post'] );
+				$template = $this->core->template_tags_post( $template, $the_post );
 				unset( $content );
 				return '<div class="mycred-content-forsale">' . $template . '</div>';
 			}
 
 			// Admin and Author Wrapper for highlight of content set for sale
-			if ( mycred_is_admin() || $GLOBALS['post']->post_author == $user_id )
+			if ( mycred_is_admin() || $the_post->post_author == $user_id )
 				$content = '<div class="mycred-mark-title">' . __( 'The following content is set for sale:', 'mycred' ) . '</div><div class="mycred-mark-content">' . $content . '</div>';
 
 			return do_shortcode( $content );
@@ -891,7 +962,10 @@ if ( !class_exists( 'myCRED_Sell_Content' ) ) {
 		public function render_ajax_shortcode( $atts, $content ) {
 			global $mycred_buy_content;
 
-			$post_id = $GLOBALS['post']->ID;
+			// The Post
+			$post_id = $this->get_post_ID();
+			$the_post = get_post( $post_id );
+
 			$user_id = get_current_user_id();
 			$sell_content = $this->sell_content;
 
@@ -918,7 +992,7 @@ if ( !class_exists( 'myCRED_Sell_Content' ) ) {
 
 				$template = str_replace( '%price%', $this->core->format_creds( $prefs['price'] ), $template );
 				$template = $this->core->template_tags_general( $template );
-				$template = $this->core->template_tags_post( $template, $GLOBALS['post'] );
+				$template = $this->core->template_tags_post( $template, $the_post );
 				unset( $content );
 				return '<div class="mycred-content-forsale">' . $template . '</div>';
 			}
@@ -929,14 +1003,14 @@ if ( !class_exists( 'myCRED_Sell_Content' ) ) {
 
 				$template = str_replace( '%price%', $this->core->format_creds( $prefs['price'] ), $template );
 				$template = $this->core->template_tags_general( $template );
-				$template = $this->core->template_tags_post( $template, $GLOBALS['post'] );
+				$template = $this->core->template_tags_post( $template, $the_post );
 
 				if ( isset( $prefs['button_label'] ) )
 					$button_text = $prefs['button_label'];
 				else
 					$button_text = $sell_content['defaults']['button_label'];
 
-				$button = '<input type="button" data-id="' . $GLOBALS['post']->ID . '" name="mycred-buy-button" value="' . $this->core->template_tags_post( $button_text, $GLOBALS['post'] ) . '" class="mycred-sell-this-button button large" />';
+				$button = '<input type="button" data-id="' . $the_post->ID . '" name="mycred-buy-button" value="' . $this->core->template_tags_post( $button_text, $the_post ) . '" class="mycred-sell-this-button button large" />';
 				$template = str_replace( '%buy_button%', $button, $template );
 				unset( $content );
 
@@ -950,13 +1024,13 @@ if ( !class_exists( 'myCRED_Sell_Content' ) ) {
 					
 				$template = str_replace( '%price%', $this->core->format_creds( $prefs['price'] ), $template );
 				$template = $this->core->template_tags_general( $template );
-				$template = $this->core->template_tags_post( $template, $GLOBALS['post'] );
+				$template = $this->core->template_tags_post( $template, $the_post );
 				unset( $content );
 				return '<div class="mycred-content-forsale">' . $template . '</div>';
 			}
 
 			// Admin and Author Wrapper for highlight of content set for sale
-			if ( mycred_is_admin() || $GLOBALS['post']->post_author == $user_id )
+			if ( mycred_is_admin() || $the_post->post_author == $user_id )
 				$content = '<div class="mycred-mark-title">' . __( 'The following content is set for sale:', 'mycred' ) . '</div><div class="mycred-mark-content">' . $content . '</div>';
 
 			return do_shortcode( $content );

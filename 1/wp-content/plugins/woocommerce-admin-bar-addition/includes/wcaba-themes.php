@@ -71,8 +71,7 @@ if ( function_exists ( 'woo_version_init' ) && current_user_can( 'manage_options
 /**
  * Display link to active Genesis Framework theme settings page (premium, by StudioPress)
  *
- * @since 2.1
- * @version 1.1
+ * @since 2.1.0
  */
 if ( ! function_exists( 'ddw_gtbe_admin_bar_menu' ) && defined( 'GENESIS_SETTINGS_FIELD' ) && current_user_can( 'edit_theme_options' ) ) {
 

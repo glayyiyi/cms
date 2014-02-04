@@ -5,7 +5,7 @@ if ( !defined( 'myCRED_VERSION' ) ) exit;
  * PayPal Payments Standard - Payment Gateway
  * 
  * @since 0.1
- * @version 1.0
+ * @version 1.0.1
  */
 if ( !class_exists( 'myCRED_PayPal_Standard' ) ) {
 	class myCRED_PayPal_Standard extends myCRED_Payment_Gateway {
@@ -74,7 +74,7 @@ if ( !class_exists( 'myCRED_PayPal_Standard' ) ) {
 				curl_setopt( $call, CURLOPT_POSTFIELDS, $request );
 				curl_setopt( $call, CURLOPT_SSL_VERIFYPEER, 1 );
 				curl_setopt( $call, CURLOPT_CAINFO, myCRED_PURCHASE_DIR . '/cacert.pem' );
-				curl_setopt( $call, CURLOPT_SSL_VERIFYHOST, 1 );
+				curl_setopt( $call, CURLOPT_SSL_VERIFYHOST, 2 );
 				curl_setopt( $call, CURLOPT_FRESH_CONNECT, 1 );
 				curl_setopt( $call, CURLOPT_FORBID_REUSE, 1 );
 				curl_setopt( $call, CURLOPT_HTTPHEADER, array( 'Connection: Close' ) );
@@ -145,11 +145,8 @@ if ( !class_exists( 'myCRED_PayPal_Standard' ) ) {
 				}
 
 				// Verify Cost
-				$amount = $this->core->number( $amount );
-				$_cost = $amount*$this->prefs['exchange'];
-				$_cost = number_format( $cost, 2, '.', '' );
-				if ( $cost != $_cost ) {
-					$log_entry[] = 'Amount mismatch: [' . $cost . '] [' . $_cost . ']';
+				if ( $cost != $data['mc_gross'] ) {
+					$log_entry[] = 'Amount mismatch: [' . $cost . '] [' . $data['mc_gross'] . ']';
 					$error = true;
 				}
 

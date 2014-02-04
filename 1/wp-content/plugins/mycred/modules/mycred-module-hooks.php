@@ -275,6 +275,9 @@ if ( !class_exists( 'myCRED_Hook_Registration' ) ) {
 			// Make sure user is not excluded
 			if ( $this->core->exclude_user( $user_id ) === true ) return;
 
+			// Make sure this is unique
+			if ( $this->core->has_entry( 'registration', $user_id, $user_id ) ) return;
+
 			// Execute
 			$this->core->add_creds(
 				'registration',

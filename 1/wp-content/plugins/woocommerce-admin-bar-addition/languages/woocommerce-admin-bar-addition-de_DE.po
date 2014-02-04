@@ -1,4 +1,4 @@
-# This German Language File: Copyright (C) 2011-2014 by David Decker of deckerweb.de & genesisthemes.de
+# This German Language File: Copyright (C) 2011-2013 by David Decker of deckerweb.de & genesisthemes.de
 # This file is distributed under the same license as the WooCommerce Admin Bar Addition Plugin package.
 #
 # Weitere deutsche Sprachdateien fuer WooCommerce und WordPress sind hier zu finden:
@@ -6,13 +6,165 @@
 #
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2014-01-23 19:49:40+0000\n"
+"PO-Revision-Date: 2014-02-02 21:25:17+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: GlotPress/0.1\n"
 "Project-Id-Version: WooCommerce Admin Bar Addition\n"
+
+#: includes/wcaba-reports-v21x.php:45 includes/wcaba-reports-v21x.php:49
+msgid "Orders &amp; Sales"
+msgstr "Bestellungen &amp; Umsätze"
+
+#: includes/wcaba-reports-v21x.php:55 includes/wcaba-reports-v21x.php:59
+#: includes/wcaba-reports-v21x.php:106 includes/wcaba-reports-v21x.php:110
+#: includes/wcaba-reports-v21x.php:157 includes/wcaba-reports-v21x.php:161
+#: includes/wcaba-reports-v21x.php:208 includes/wcaba-reports-v21x.php:212
+msgid "Last 7 Days"
+msgstr "Letzte 7 Tage"
+
+#: includes/wcaba-reports-v21x.php:65 includes/wcaba-reports-v21x.php:69
+#: includes/wcaba-reports-v21x.php:116 includes/wcaba-reports-v21x.php:120
+#: includes/wcaba-reports-v21x.php:167 includes/wcaba-reports-v21x.php:171
+#: includes/wcaba-reports-v21x.php:218 includes/wcaba-reports-v21x.php:222
+msgid "This Month"
+msgstr "Dieser Monat"
+
+#: includes/wcaba-reports-v21x.php:75 includes/wcaba-reports-v21x.php:79
+#: includes/wcaba-reports-v21x.php:126 includes/wcaba-reports-v21x.php:130
+#: includes/wcaba-reports-v21x.php:177 includes/wcaba-reports-v21x.php:181
+#: includes/wcaba-reports-v21x.php:228 includes/wcaba-reports-v21x.php:232
+msgid "Last Month"
+msgstr "Letzter Monat"
+
+#: includes/wcaba-reports-v21x.php:85 includes/wcaba-reports-v21x.php:89
+#: includes/wcaba-reports-v21x.php:136 includes/wcaba-reports-v21x.php:140
+#: includes/wcaba-reports-v21x.php:187 includes/wcaba-reports-v21x.php:191
+#: includes/wcaba-reports-v21x.php:238 includes/wcaba-reports-v21x.php:242
+msgid "Year"
+msgstr "Jahr"
+
+#: includes/wcaba-reports-v21x.php:147 includes/wcaba-reports-v21x.php:151
+msgid "Category Sales"
+msgstr "Umsatz pro Kategorie"
+
+#: includes/wcaba-reports-v21x.php:198 includes/wcaba-reports-v21x.php:202
+msgid "Coupon Usage"
+msgstr "Gutscheinverwendung"
+
+#: includes/wcaba-reports-v21x.php:259 includes/wcaba-reports-v21x.php:263
+msgid "Customers vs. Guests"
+msgstr "Kunden vs. Gastbestellungen"
+
+#: includes/wcaba-reports-v21x.php:269 includes/wcaba-reports-v21x.php:273
+msgid "Customer Listing"
+msgstr "Kundenliste"
+
+#: includes/wcaba-reports-v21x.php:290 includes/wcaba-reports-v21x.php:294
+msgid "Low in Stock"
+msgstr "Niedrige Lagermenge"
+
+#: includes/wcaba-reports-v21x.php:300 includes/wcaba-reports-v21x.php:304
+msgid "Out of Stock"
+msgstr "Vergriffen"
+
+#: includes/wcaba-reports-v21x.php:310 includes/wcaba-reports-v21x.php:314
+msgid "Most Stocked"
+msgstr "Größte Lagermenge"
+
+#: includes/wcaba-settings-v20x.php:66 includes/wcaba-settings-v21x.php:66
+msgid "System Tools"
+msgstr "Systemwerkzeuge"
+
+#: includes/wcaba-settings-v20x.php:70 includes/wcaba-settings-v21x.php:70
+msgctxt "Translators: For the tooltip"
+msgid "System Tools"
+msgstr "WooCommerce-spezifische Systemwerkzeuge"
+
+#: includes/wcaba-settings-v21x.php:78 includes/wcaba-settings-v21x.php:82
+msgid "Products: Options"
+msgstr "Produktoptionen"
+
+#: includes/wcaba-settings-v21x.php:88 includes/wcaba-settings-v21x.php:92
+msgid "Products: Inventory"
+msgstr "Produkte: Lagerbestand"
+
+#: includes/wcaba-settings-v21x.php:108
+msgid "Checkout &amp; Payment Gateways"
+msgstr "Kasse &amp; Zahlungsweisen"
+
+#: includes/wcaba-settings-v21x.php:112
+msgctxt "Translators: for the tooltip"
+msgid "Checkout Options &amp; Payment Gateways"
+msgstr "Optionen für Kasse &amp; Bezahlvorgang, plus Zahlungsweisen"
+
+#: includes/wcaba-settings-v21x.php:118 includes/wcaba-settings-v21x.php:122
+msgid "Shipping Options"
+msgstr "Versandoptionen"
+
+#: includes/wcaba-settings-v21x.php:128 includes/wcaba-settings-v21x.php:132
+msgid "User Accounts"
+msgstr "Benutzerkonten"
+
+#: includes/wcaba-settings-v21x.php:148
+msgctxt "Translators: for Email template options"
+msgid "General Options"
+msgstr "Allgemeine Optionen"
+
+#: includes/wcaba-settings-v21x.php:152
+msgctxt "Translators: for tooltip at Email Template options"
+msgid "General Options"
+msgstr "Allgemeine Optionen für WooCommerce-spezifische E-Mails"
+
+#: includes/wcaba-settings-v21x.php:158
+msgctxt "Translators: for Email Template options"
+msgid "New Order"
+msgstr "Neue Bestellung"
+
+#: includes/wcaba-settings-v21x.php:162
+msgctxt "Translators: for tooltip at Email Template options"
+msgid "New Ordner"
+msgstr "Neue Bestellung"
+
+#: includes/wcaba-settings-v21x.php:168 includes/wcaba-settings-v21x.php:172
+msgid "Order Processing"
+msgstr "Bestellung in Abwicklung"
+
+#: includes/wcaba-settings-v21x.php:178 includes/wcaba-settings-v21x.php:182
+msgid "Order Completed"
+msgstr "Abgeschlossene Bestellung"
+
+#: includes/wcaba-settings-v21x.php:188 includes/wcaba-settings-v21x.php:192
+msgid "Customer Invoice"
+msgstr "Kundenrechnung"
+
+#: includes/wcaba-settings-v21x.php:198 includes/wcaba-settings-v21x.php:202
+msgid "Customer Note"
+msgstr "Kundennotiz"
+
+#: includes/wcaba-settings-v21x.php:208 includes/wcaba-settings-v21x.php:212
+msgid "Password Reset"
+msgstr "Passwort zurücksetzen"
+
+#: includes/wcaba-settings-v21x.php:218 includes/wcaba-settings-v21x.php:222
+msgid "New User Account"
+msgstr "Neues Kundenkonto"
+
+#: woocommerce-admin-bar-addition.php:0
+msgid "2.7.0"
+msgstr "2.7.0"
+
+#: woocommerce-admin-bar-addition.php:543
+#: woocommerce-admin-bar-addition.php:547
+msgid "Add-On Browser"
+msgstr "Zusatzmodule-Übersicht"
+
+#: woocommerce-admin-bar-addition.php:617
+msgctxt "Translators: Main item - for the tooltip"
+msgid "Current Orders - WooCommerce Shop"
+msgstr "Aktuelle Bestellungen - WooCommerce Shop"
 
 #: includes/wcaba-admin.php:41
 msgid "Go to the WooCommerce settings page"
@@ -22,63 +174,63 @@ msgstr "Zur WooCommerce Einstellungen-Seite gehen &hellip;"
 msgid "WooCommerce Settings"
 msgstr "WooCommerce Einstellungen"
 
-#: includes/wcaba-admin.php:81 includes/wcaba-admin.php:207
+#: includes/wcaba-admin.php:81 includes/wcaba-admin.php:214
 msgid "Code Snippets for Customization"
 msgstr "Codeschnipsel für Anpassungen"
 
-#: includes/wcaba-admin.php:81 includes/wcaba-admin.php:207
+#: includes/wcaba-admin.php:81 includes/wcaba-admin.php:214
 msgid "Code Snippets"
 msgstr "Codeschnipsel"
 
-#: includes/wcaba-admin.php:83 includes/wcaba-admin.php:207
+#: includes/wcaba-admin.php:83 includes/wcaba-admin.php:214
 msgid "Translations"
 msgstr "Übersetzungen"
 
-#: includes/wcaba-admin.php:152
+#: includes/wcaba-admin.php:159
 msgid "Plugin"
 msgstr "Plugin"
 
-#: includes/wcaba-admin.php:155
+#: includes/wcaba-admin.php:162
 msgid "Suggest new resource items, themes or plugins for support"
 msgstr "Neue Ressourcen-Links bzw. neue Plugins/ Erweiterungen zur Unterstützung vorschlagen"
 
-#: includes/wcaba-admin.php:156
+#: includes/wcaba-admin.php:163
 msgid "Code snippets for customizing &amp; branding"
 msgstr "Codeschnipsel für Anpassungen &amp; Branding"
 
-#: includes/wcaba-admin.php:158
+#: includes/wcaba-admin.php:165
 msgid "Other, recommended WooCommerce plugins"
 msgstr "Weitere, empfohlene WooCommerce Plugins"
 
-#: includes/wcaba-admin.php:189
+#: includes/wcaba-admin.php:196
 msgid " print order invoices & delivery notes - you can add company/shop info as well as personal notes & policies to print pages"
 msgstr "einfache Rechnungen und Lieferscheine ausdrucken - Infos für Firma/ Shop sowie Hinweise und AGB etc. können hinzugefügt werden"
 
-#: includes/wcaba-admin.php:195
+#: includes/wcaba-admin.php:202
 msgid "ability to add custom order statuses"
 msgstr "Möglichkeit, benutzerdefinierte Bestellstati einzugeben"
 
-#: includes/wcaba-admin.php:206
+#: includes/wcaba-admin.php:213
 msgid "Important plugin links:"
 msgstr "Wichtige Plugin-Links:"
 
-#: includes/wcaba-admin.php:207
+#: includes/wcaba-admin.php:214
 msgid "Plugin Website"
 msgstr "Plugin-Webseite"
 
-#: includes/wcaba-admin.php:228
+#: includes/wcaba-admin.php:235
 msgid "More about the plugin author"
 msgstr "Mehr über den Plugin-Autor"
 
-#: includes/wcaba-admin.php:229
+#: includes/wcaba-admin.php:236
 msgid "Social:"
 msgstr "Vernetzen:"
 
-#: includes/wcaba-admin.php:250
+#: includes/wcaba-admin.php:257
 msgid "Actions"
 msgstr "Aktionen"
 
-#: includes/wcaba-admin.php:251
+#: includes/wcaba-admin.php:258
 msgid "Support Forum"
 msgstr "Support-Forum"
 
@@ -116,36 +268,28 @@ msgstr "Mein Konto/ Dashboard"
 msgid "My User Account/ Dashboard at WooThemes.com"
 msgstr "Mein Benutzerkonto/ Dashboard bei WooThemes.com"
 
-#: woocommerce-admin-bar-addition.php:0
-msgid "2.6.0"
-msgstr "2.6.0"
-
-#: woocommerce-admin-bar-addition.php:307
+#: includes/wcaba-settings-v20x.php:56 includes/wcaba-settings-v21x.php:56
 msgid "System Status"
 msgstr "Systemstatus"
 
-#: woocommerce-admin-bar-addition.php:311
+#: includes/wcaba-settings-v20x.php:60 includes/wcaba-settings-v21x.php:60
 msgctxt "Translators: For the tooltip"
 msgid "System Status (WooCommerce Debugging)"
 msgstr "Systemstatus (WooCommerce Debugging)"
 
-#: woocommerce-admin-bar-addition.php:671
-#: woocommerce-admin-bar-addition.php:675
+#: includes/wcaba-reports-v20x.php:105 includes/wcaba-reports-v20x.php:109
 msgid "Sales by Category"
 msgstr "Umsatz pro Kategorie"
 
-#: woocommerce-admin-bar-addition.php:681
-#: woocommerce-admin-bar-addition.php:685
+#: includes/wcaba-reports-v20x.php:115 includes/wcaba-reports-v20x.php:119
 msgid "Taxes by Month"
 msgstr "MwSt. pro Monat"
 
-#: woocommerce-admin-bar-addition.php:702
-#: woocommerce-admin-bar-addition.php:706
+#: includes/wcaba-reports-v20x.php:136 includes/wcaba-reports-v20x.php:140
 msgid "Overview"
 msgstr "Übersicht"
 
-#: woocommerce-admin-bar-addition.php:712
-#: woocommerce-admin-bar-addition.php:716
+#: includes/wcaba-reports-v20x.php:146 includes/wcaba-reports-v20x.php:150
 msgid "Discounts by Coupon"
 msgstr "Rabatte pro Gutschein"
 
@@ -188,23 +332,22 @@ msgstr "Software Umsatz"
 msgid "KISS Metrics Tracking"
 msgstr "KISS Metrics Tracking"
 
-#: woocommerce-admin-bar-addition.php:394
+#: includes/wcaba-settings-v20x.php:153 includes/wcaba-settings-v21x.php:237
 msgctxt "Translators: For the tooltip"
 msgid "Integration (Other Services)"
 msgstr "Integration - Drittanbieter-Dienste"
 
-#: woocommerce-admin-bar-addition.php:400
-#: woocommerce-admin-bar-addition.php:404
+#: includes/wcaba-settings-v20x.php:159 includes/wcaba-settings-v20x.php:163
+#: includes/wcaba-settings-v21x.php:245 includes/wcaba-settings-v21x.php:249
 msgid "Google Analytics"
 msgstr "Google Analytics"
 
-#: woocommerce-admin-bar-addition.php:410
-#: woocommerce-admin-bar-addition.php:414
+#: includes/wcaba-settings-v20x.php:169 includes/wcaba-settings-v20x.php:173
+#: includes/wcaba-settings-v21x.php:259 includes/wcaba-settings-v21x.php:263
 msgid "ShareThis"
 msgstr "ShareThis"
 
-#: woocommerce-admin-bar-addition.php:420
-#: woocommerce-admin-bar-addition.php:424
+#: includes/wcaba-settings-v20x.php:179 includes/wcaba-settings-v20x.php:183
 msgid "ShareYourCart"
 msgstr "ShareYourCart"
 
@@ -233,7 +376,7 @@ msgstr "Dokumentation"
 msgid "Sample CSV File"
 msgstr "CSV-Beispieldatei"
 
-#: includes/wcaba-admin.php:125 includes/wcaba-admin.php:152
+#: includes/wcaba-admin.php:132 includes/wcaba-admin.php:159
 #: woocommerce-admin-bar-addition.php:0
 msgid "WooCommerce Admin Bar Addition"
 msgstr "WooCommerce Adminbar-Zusatz"
@@ -250,16 +393,16 @@ msgstr "David Decker - DECKERWEB.de"
 msgid "http://deckerweb.de/"
 msgstr "http://deckerweb.de/"
 
-#: includes/wcaba-admin.php:77 includes/wcaba-admin.php:207
+#: includes/wcaba-admin.php:77 includes/wcaba-admin.php:214
 msgid "FAQ"
 msgstr "FAQ - Häufige Fragen"
 
-#: includes/wcaba-admin.php:79 includes/wcaba-admin.php:207
+#: includes/wcaba-admin.php:79 includes/wcaba-admin.php:214
 msgid "Support"
 msgstr "Hilfe und Unterstützung (Support)"
 
-#: includes/wcaba-admin.php:85 includes/wcaba-admin.php:207
-#: includes/wcaba-admin.php:252
+#: includes/wcaba-admin.php:85 includes/wcaba-admin.php:214
+#: includes/wcaba-admin.php:259
 msgid "Donate"
 msgstr "Spenden"
 
@@ -291,99 +434,94 @@ msgstr "GitHub Repository Entwickler-Plattform"
 msgid "Official WooCommerce Extensions"
 msgstr "Offizielle WooCommerce Erweiterungen"
 
-#: includes/wcaba-admin.php:200 includes/wcaba-resources.php:181
+#: includes/wcaba-admin.php:207 includes/wcaba-resources.php:181
 #: includes/wcaba-resources.php:183
 msgid "More free plugins/extensions at WP.org"
 msgstr "Mehr freie Plugins/ Erweiterungen bei WP.org"
 
-#: woocommerce-admin-bar-addition.php:284
-#: woocommerce-admin-bar-addition.php:288
+#: includes/wcaba-settings-v20x.php:33 includes/wcaba-settings-v20x.php:37
+#: includes/wcaba-settings-v21x.php:33 includes/wcaba-settings-v21x.php:37
 msgid "Shop Settings"
 msgstr "Shop-Einstellungen"
 
-#: woocommerce-admin-bar-addition.php:294
-#: woocommerce-admin-bar-addition.php:298
+#: includes/wcaba-settings-v20x.php:43 includes/wcaba-settings-v20x.php:47
+#: includes/wcaba-settings-v21x.php:43 includes/wcaba-settings-v21x.php:47
 msgid "General Settings"
 msgstr "Allgemeine Einstellungen"
 
-#: woocommerce-admin-bar-addition.php:319
-#: woocommerce-admin-bar-addition.php:323
+#: includes/wcaba-settings-v20x.php:78 includes/wcaba-settings-v20x.php:82
 msgid "Shop Pages"
 msgstr "Shop-Seiten"
 
-#: woocommerce-admin-bar-addition.php:329
-#: woocommerce-admin-bar-addition.php:333
+#: includes/wcaba-settings-v20x.php:88 includes/wcaba-settings-v20x.php:92
 msgid "Shop Catalog"
 msgstr "Produktkatalog"
 
-#: woocommerce-admin-bar-addition.php:339
-#: woocommerce-admin-bar-addition.php:343
+#: includes/wcaba-settings-v20x.php:98 includes/wcaba-settings-v20x.php:102
 msgid "Inventory"
 msgstr "Bestand"
 
-#: woocommerce-admin-bar-addition.php:349
-#: woocommerce-admin-bar-addition.php:353
+#: includes/wcaba-settings-v20x.php:108 includes/wcaba-settings-v20x.php:112
+#: includes/wcaba-settings-v21x.php:98 includes/wcaba-settings-v21x.php:102
 msgid "Taxes"
 msgstr "Mehrwertsteuer"
 
-#: woocommerce-admin-bar-addition.php:369
-#: woocommerce-admin-bar-addition.php:373
+#: includes/wcaba-settings-v20x.php:128 includes/wcaba-settings-v20x.php:132
 msgid "Paymet Gateways"
 msgstr "Zahlungsweisen"
 
-#: woocommerce-admin-bar-addition.php:379
-#: woocommerce-admin-bar-addition.php:383
+#: includes/wcaba-settings-v20x.php:138 includes/wcaba-settings-v20x.php:142
+#: includes/wcaba-settings-v21x.php:138 includes/wcaba-settings-v21x.php:142
 msgid "Emails"
 msgstr "E-Mails"
 
-#: woocommerce-admin-bar-addition.php:460
-#: woocommerce-admin-bar-addition.php:464
+#: woocommerce-admin-bar-addition.php:379
+#: woocommerce-admin-bar-addition.php:383
 msgid "Products"
 msgstr "Produkte"
 
-#: woocommerce-admin-bar-addition.php:470
-#: woocommerce-admin-bar-addition.php:474
+#: woocommerce-admin-bar-addition.php:389
+#: woocommerce-admin-bar-addition.php:393
 msgid "Add new product"
 msgstr "Neues Produkt hinzufügen"
 
-#: woocommerce-admin-bar-addition.php:483
-#: woocommerce-admin-bar-addition.php:487
+#: woocommerce-admin-bar-addition.php:402
+#: woocommerce-admin-bar-addition.php:406
 msgid "Product Categories"
 msgstr "Produktkategorien"
 
-#: woocommerce-admin-bar-addition.php:493
-#: woocommerce-admin-bar-addition.php:497
+#: woocommerce-admin-bar-addition.php:412
+#: woocommerce-admin-bar-addition.php:416
 msgid "Product Tags"
 msgstr "Produktschlagwörter"
 
-#: woocommerce-admin-bar-addition.php:513
-#: woocommerce-admin-bar-addition.php:517
+#: woocommerce-admin-bar-addition.php:432
+#: woocommerce-admin-bar-addition.php:436
 msgid "Product Variants (Attributes)"
 msgstr "Produktvarianten (Eigenschaften)"
 
-#: woocommerce-admin-bar-addition.php:530
-#: woocommerce-admin-bar-addition.php:534
+#: woocommerce-admin-bar-addition.php:319
+#: woocommerce-admin-bar-addition.php:323
 msgid "Orders"
 msgstr "Bestellungen"
 
-#: woocommerce-admin-bar-addition.php:572
-#: woocommerce-admin-bar-addition.php:576
-#: woocommerce-admin-bar-addition.php:692
-#: woocommerce-admin-bar-addition.php:696
+#: includes/wcaba-reports-v20x.php:126 includes/wcaba-reports-v20x.php:130
+#: woocommerce-admin-bar-addition.php:449
+#: woocommerce-admin-bar-addition.php:453
 msgid "Coupons"
 msgstr "Gutscheine (Coupons)"
 
-#: woocommerce-admin-bar-addition.php:582
-#: woocommerce-admin-bar-addition.php:586
+#: woocommerce-admin-bar-addition.php:459
+#: woocommerce-admin-bar-addition.php:463
 msgid "Add new coupon"
 msgstr "Neuen Gutschein hinzufügen"
 
-#: woocommerce-admin-bar-addition.php:600
-#: woocommerce-admin-bar-addition.php:604
+#: includes/wcaba-reports-v20x.php:34 includes/wcaba-reports-v20x.php:38
+#: includes/wcaba-reports-v21x.php:34 includes/wcaba-reports-v21x.php:38
 msgid "Reports"
 msgstr "Berichte/ Statistik"
 
-#: woocommerce-admin-bar-addition.php:248
+#: woocommerce-admin-bar-addition.php:283
 msgid "WooCommerce"
 msgstr "WooCommerce"
 
@@ -391,13 +529,13 @@ msgstr "WooCommerce"
 msgid "German language files"
 msgstr "Deutsche Sprachdateien"
 
-#: woocommerce-admin-bar-addition.php:547
-#: woocommerce-admin-bar-addition.php:551
+#: woocommerce-admin-bar-addition.php:336
+#: woocommerce-admin-bar-addition.php:340
 msgid "Add new order"
 msgstr "Neue Bestellung hinzufügen"
 
-#: woocommerce-admin-bar-addition.php:764
-#: woocommerce-admin-bar-addition.php:768
+#: woocommerce-admin-bar-addition.php:530
+#: woocommerce-admin-bar-addition.php:534
 msgid "Active Extensions"
 msgstr "Aktive Erweiterungen"
 
@@ -417,8 +555,8 @@ msgstr "Holländische Übersetzungen (Plugin)"
 msgid "WooThemes Settings"
 msgstr "WooThemes Einstellungen"
 
-#: woocommerce-admin-bar-addition.php:503
-#: woocommerce-admin-bar-addition.php:507
+#: woocommerce-admin-bar-addition.php:422
+#: woocommerce-admin-bar-addition.php:426
 msgid "Products - Shipping Classes"
 msgstr "Produkte - Versandgruppen"
 
@@ -430,12 +568,11 @@ msgstr "WP e-Commerce zu WooCommerce (Importer)"
 msgid "This plugin adds useful admin links and resources for the WooCommerce Shop Plugin to the WordPress Toolbar / Admin Bar."
 msgstr "Dieses Plugin fügt der WordPress Wergzeugleiste bzw. Adminbar nützliche Administratorenlinks und Ressourcen für das WooCommerce Shop-Plugin hinzu."
 
-#: woocommerce-admin-bar-addition.php:359
-#: woocommerce-admin-bar-addition.php:363
+#: includes/wcaba-settings-v20x.php:118 includes/wcaba-settings-v20x.php:122
 msgid "Shipping Options &amp; Costs"
 msgstr "Versandoptionen und -kosten"
 
-#: woocommerce-admin-bar-addition.php:390
+#: includes/wcaba-settings-v20x.php:149 includes/wcaba-settings-v21x.php:233
 msgid "Integration (Other Services)"
 msgstr "Integrationen"
 
@@ -587,7 +724,7 @@ msgstr "Gateway-Einstellungen"
 msgid "More premium extensions at CodeCanyon"
 msgstr "Mehr Premium-Erweiterungen bei CodeCanyon"
 
-#: includes/wcaba-admin.php:199 includes/wcaba-resources.php:176
+#: includes/wcaba-admin.php:206 includes/wcaba-resources.php:176
 msgid "More premium plugins/extensions at CodeCanyon Marketplace"
 msgstr "Mehr Plugins/ Premium-Erweiterungen beim CodeCanyon Marktplatz"
 
@@ -621,43 +758,38 @@ msgstr "Bestellungen/ Kunden als CSV-Datei exportieren"
 msgid "WooCommerce News Planet"
 msgstr "WooCommerce Nachrichten Planet"
 
-#: woocommerce-admin-bar-addition.php:611
-#: woocommerce-admin-bar-addition.php:615
+#: includes/wcaba-reports-v20x.php:45 includes/wcaba-reports-v20x.php:49
 msgid "Sales Overview"
 msgstr "Umsatz - Übersicht"
 
-#: woocommerce-admin-bar-addition.php:621
-#: woocommerce-admin-bar-addition.php:625
+#: includes/wcaba-reports-v20x.php:55 includes/wcaba-reports-v20x.php:59
 msgid "Sales by Day"
 msgstr "Umsatz pro Tag"
 
-#: woocommerce-admin-bar-addition.php:631
-#: woocommerce-admin-bar-addition.php:635
+#: includes/wcaba-reports-v20x.php:65 includes/wcaba-reports-v20x.php:69
 msgid "Sales by Month"
 msgstr "Umsatz pro Monat"
 
-#: woocommerce-admin-bar-addition.php:641
-#: woocommerce-admin-bar-addition.php:645
+#: includes/wcaba-reports-v20x.php:75 includes/wcaba-reports-v20x.php:79
+#: includes/wcaba-reports-v21x.php:96 includes/wcaba-reports-v21x.php:100
 msgid "Product Sales"
 msgstr "Produktverkäufe"
 
-#: woocommerce-admin-bar-addition.php:651
-#: woocommerce-admin-bar-addition.php:655
+#: includes/wcaba-reports-v20x.php:85 includes/wcaba-reports-v20x.php:89
 msgid "Top Sellers"
 msgstr "Verkaufsschlager"
 
-#: woocommerce-admin-bar-addition.php:661
-#: woocommerce-admin-bar-addition.php:665
+#: includes/wcaba-reports-v20x.php:95 includes/wcaba-reports-v20x.php:99
 msgid "Top Earners"
 msgstr "Bestverkaufende Produkte"
 
-#: woocommerce-admin-bar-addition.php:723
-#: woocommerce-admin-bar-addition.php:727
+#: includes/wcaba-reports-v20x.php:157 includes/wcaba-reports-v20x.php:161
+#: includes/wcaba-reports-v21x.php:249 includes/wcaba-reports-v21x.php:253
 msgid "Customers"
 msgstr "Kunden"
 
-#: woocommerce-admin-bar-addition.php:734
-#: woocommerce-admin-bar-addition.php:738
+#: includes/wcaba-reports-v20x.php:168 includes/wcaba-reports-v20x.php:172
+#: includes/wcaba-reports-v21x.php:280 includes/wcaba-reports-v21x.php:284
 msgid "Stock"
 msgstr "Lager"
 
@@ -690,7 +822,7 @@ msgctxt "Translators: For the tooltip"
 msgid "Dutch language plugin for WooCommerce - with complete translations!"
 msgstr "Holländisches Sprach-Plugin für WooCommerce - mit kompletter Übersetzung!"
 
-#: woocommerce-admin-bar-addition.php:254
+#: woocommerce-admin-bar-addition.php:289
 msgctxt "Translators: For the tooltip"
 msgid "WooCommerce"
 msgstr "WooCommerce Shop-Plugin"
@@ -737,13 +869,13 @@ msgstr "Webconnector"
 msgid "Custom Branding"
 msgstr "Erscheinungsbild anpassen"
 
-#: woocommerce-admin-bar-addition.php:433
-#: woocommerce-admin-bar-addition.php:437
+#: woocommerce-admin-bar-addition.php:489
+#: woocommerce-admin-bar-addition.php:493
 msgid "Widgets"
 msgstr "Widgets"
 
-#: woocommerce-admin-bar-addition.php:443
-#: woocommerce-admin-bar-addition.php:447
+#: woocommerce-admin-bar-addition.php:499
+#: woocommerce-admin-bar-addition.php:503
 msgid "Menus"
 msgstr "Menüs"
 
@@ -901,20 +1033,15 @@ msgstr "Smart Manager für"
 msgid "Theme Settings"
 msgstr "Theme-Einstellungen"
 
-#: woocommerce-admin-bar-addition.php:557
-#: woocommerce-admin-bar-addition.php:561
+#: woocommerce-admin-bar-addition.php:346
+#: woocommerce-admin-bar-addition.php:350
 msgid "Current Customers"
 msgstr "Derzeitige Kunden"
 
-#: woocommerce-admin-bar-addition.php:828
+#: woocommerce-admin-bar-addition.php:610
 msgctxt "Translators: Main item"
 msgid "WooCommerce"
 msgstr "WooCommerce"
-
-#: woocommerce-admin-bar-addition.php:834
-msgctxt "Translators: Main item - for the tooltip"
-msgid "WooCommerce Shop Plugin"
-msgstr "WooCommerce Shop-Plugin"
 
 #: includes/wcaba-plugins-compareproductspro.php:46
 #: includes/wcaba-plugins-compareproductspro.php:50

@@ -2,8 +2,8 @@
 /**
  * Addon: buyCRED
  * Addon URI: http://mycred.me/add-ons/buycred/
- * Version: 1.1
- * Description: The <strong>buy</strong>CRED Add-on allows your users to buy points using PayPal, Skrill (Moneybookers) or NETbilling. <strong>buy</strong>CRED can also let your users buy points for other members.
+ * Version: 1.1.1
+ * Description: The <strong>buy</strong>CRED Add-on allows your users to buy points using PayPal, Skrill (Moneybookers), Zombaio or NETbilling. <strong>buy</strong>CRED can also let your users buy points for other members.
  * Author: Gabriel S Merovingi
  * Author URI: http://www.merovingi.com
  */
@@ -29,6 +29,8 @@ require_once( myCRED_PURCHASE_DIR . 'gateways/paypal-standard.php' );
 require_once( myCRED_PURCHASE_DIR . 'gateways/netbilling.php' );
 require_once( myCRED_PURCHASE_DIR . 'gateways/skrill.php' );
 require_once( myCRED_PURCHASE_DIR . 'gateways/zombaio.php' );
+do_action( 'mycred_buycred_load_gateways' );
+
 /**
  * myCRED_Buy_CREDs class
  *
@@ -67,7 +69,7 @@ if ( ! class_exists( 'myCRED_Buy_CREDs' ) ) {
 		 * Process
 		 * Processes Gateway returns and IPN calls
 		 * @since 0.1
-		 * @version 1.1
+		 * @version 1.2
 		 */
 		public function module_init() {
 			// Add shortcodes first
@@ -114,7 +116,7 @@ if ( ! class_exists( 'myCRED_Buy_CREDs' ) ) {
 				$gateway = new $class( $this->gateway_prefs );
 
 				// Check payment processing
-				if ( isset( $_REQUEST['mycred_call'] ) ) {
+				if ( isset( $_REQUEST['mycred_call'] ) || $gateway_id == 'zombaio' ) {
 					$gateway->process();
 				
 					do_action( 'mycred_buy_cred_process', $gateway_id, $this->gateway_prefs, $this->core->buy_creds );
@@ -122,7 +124,7 @@ if ( ! class_exists( 'myCRED_Buy_CREDs' ) ) {
 				}
 
 				// Check purchase request
-				elseif ( isset( $_REQUEST['mycred_buy'] ) ) {
+				if ( isset( $_REQUEST['mycred_buy'] ) ) {
 					// Validate token
 					$token = false;
 					if ( isset( $_REQUEST['token'] ) && wp_verify_nonce( $_REQUEST['token'], 'mycred-buy-creds' ) )
@@ -541,6 +543,7 @@ h4.ui-accordion-header:before { content: "<?php _e( 'click to open', 'mycred' );
 			}
 
 			extract( shortcode_atts( array(
+				'button'  => '',
 				'gateway' => '',
 				'amount'  => '',
 				'gift_to' => false,
@@ -590,16 +593,21 @@ h4.ui-accordion-header:before { content: "<?php _e( 'click to open', 'mycred' );
 			}
 
 			// Button
-			if ( ! empty( $gateway ) ) {
-				$gateway_title = $installed[$gateway]['title'];
+			if ( ! empty( $gateway ) && isset( $installed[ $gateway ]['title'] ) && empty( $button ) )
+				$button_label = __( 'Buy with %gateway%', 'mycred' );
 
-				$button = explode( ' ', $gateway_title );
-				$button = $button[0];
-				$button = __( 'Buy with', 'mycred' ) . ' ' . $button;
-				$classes[] = $gateway;
-			}
-			else {
-				$button = __( 'Buy Now', 'mycred' );
+			elseif ( ! empty( $button ) )
+				$button_label = $button;
+
+			else
+				$button_label = __( 'Buy Now', 'mycred' );
+
+			$button_label = $this->core->template_tags_general( $button_label );
+
+			if ( ! empty( $gateway ) ) {
+				$gateway_name = explode( ' ', $installed[ $gateway ]['title'] );
+				$button_label = str_replace( '%gateway%', $gateway_name[0], $button_label );
+				$classes[] = $gateway_name[0];
 			}
 
 			// Start constructing form with title and submit button
@@ -710,7 +718,7 @@ h4.ui-accordion-header:before { content: "<?php _e( 'click to open', 'mycred' );
 
 			$form .= '
 	<input type="hidden" name="token" value="' . wp_create_nonce( 'mycred-buy-creds' ) . '" />
-	<input type="submit" name="submit" value="' . $button . '" class="mycred-buy button large" />
+	<input type="submit" name="submit" value="' . $button_label . '" class="mycred-buy button large" />
 </form>';
 
 			return $form;
