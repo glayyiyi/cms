@@ -36,6 +36,7 @@
                         <li>Different Home Page based on mobile devices</li>
                         <li>QR code images to allow mobile users for easy bookmarking and access</li>
                         <li>More powerfull mobile detection.</li>
+                        <li>Click to call for phone numbers</li>
                     </ul>
                     
                     <div style="color:#08aa00; font-style:italic; font-size:27px; line-height:30px; text-align:center;">7 days trial</div>

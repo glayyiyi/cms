@@ -3,7 +3,7 @@ add_action('admin_menu', 'any_mobile_create_menu');
 add_action('admin_notices', 'amts_pro_notification');
 
 
-if ($_GET['hidemsg'] == 1){
+if (isset($_GET['hidemsg']) == 1){
 	update_option('amts_hide_pro_notice','yes');
 }
 
@@ -33,6 +33,21 @@ function register_mysettings_theme() {
 	register_setting('am-settings-group', 'mobile_view_theme_link_text');
 	register_setting('am-settings-group', 'desktop_view_theme_link_text');
 	register_setting('am-settings-group', 'show_switch_link_for_desktop');
+}
+
+function custom_get_themelist(){
+	$themes = wp_get_themes();
+	$wp_themes = array();
+
+	foreach ( $themes as $theme ) {
+		$name = $theme->get('Name');
+		if ( isset( $wp_themes[ $name ] ) )
+			$wp_themes[ $name . '/' . $theme->get_stylesheet() ] = $theme;
+		else
+			$wp_themes[ $name ] = $theme;
+	}
+
+	return $wp_themes;
 }
 
 function am_settings_page() {	

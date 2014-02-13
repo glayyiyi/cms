@@ -4,11 +4,11 @@ Plugin Name: Any Mobile Theme Switcher
 Plugin URI: http://dineshkarki.com.np/any-mobile-theme-switcher
 Description: This plugin allow you to detect all mobile platform and switch the theme. Supports most of the mobile platform including iphone, ipad, ipod, windows mobile, parm os, blackberry, android, andriod tab.
 Author: Dinesh Karki
-Version: 1.4
+Version: 1.5
 Author URI: http://www.dineshkarki.com.np
 */
 
-/*  Copyright 2012  Dinesh Karki  (email : dnesskarki@gmail.com)*/
+/*  Copyright 2014  Dinesh Karki  (email : dnesskarki@gmail.com)*/
 
 $amts_mobile_browser 	= '';
 $amts_status 			= '';
@@ -66,7 +66,7 @@ function amts_start(){
 function loadMobileStyle(){
 	global $amts_mobile_browser;
 	$mobileTheme =  $amts_mobile_browser;
-	$themeList = get_themes();
+	$themeList = custom_get_themelist();
 	foreach ($themeList as $theme) {
 	  if ($theme['Name'] == $mobileTheme) {
 		  return $theme['Stylesheet'];
@@ -77,7 +77,7 @@ function loadMobileStyle(){
 function loadMobileTheme(){
 	global $amts_mobile_browser;
 	$mobileTheme =  $amts_mobile_browser;
-	$themeList = get_themes();
+	$themeList = custom_get_themelist();
 	foreach ($themeList as $theme) {
 	  if ($theme['Name'] == $mobileTheme) {
 		  return $theme['Template'];

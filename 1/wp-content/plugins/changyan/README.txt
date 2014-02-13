@@ -4,7 +4,7 @@ Donate link: http://changyan.sohu.com/
 Tags: comments, spam, social, share, qzone, weibo,  youyan, duoshuo, pinglunla, widget, disqus，sohu，changyan，评论, 社会化, 分享, 微博, QQ, 腾讯, 新浪微博, 垃圾评论 
 Requires at least: 3.0
 Tested up to: 3.7.1
-Stable tag: 1.1
+Stable tag: 1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -124,9 +124,13 @@ VIP账号，拥有分频道管理与统计分析、管理员体系设置、一�
 * [新增]全新的管理后台
 * [修改]修复同步时的可能出现的异常情况；
 
+= 1.2 =
+* [修改]修复更新管理员资料时出错的情况；
+* [修改]优化网络数据传输的部分逻辑；
+
 == Upgrade Notice ==
 
-= 1.1 =
+= 1.2 =
 畅言在与其他评论插件同时开启时可能会产生异常，请在使用前关闭其他评论插件。
 
 == DEMO ==
@@ -145,7 +149,6 @@ VIP账号，拥有分频道管理与统计分析、管理员体系设置、一�
 1. [半岛网](http://www.cnhan.com/ "半岛网")
 1. [3DMGAME](http://dl.3dmgame.com/ "3DMGAME")
 1. [安卓网](http://mobile.hiapk.com/ "安卓网")
-1. [爱吼网](http://www.ihou.com/ "爱吼网")
 1. [52PK游戏网](http://pc.52pk.com/ "52PK游戏网")
 1. [3WMM](http://www.3wmm.com/ "3WMM")
 1. [作文网](http://zuowen.chazidian.com/ "作文网")
