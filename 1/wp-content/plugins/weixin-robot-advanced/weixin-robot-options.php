@@ -182,12 +182,12 @@ function weixin_robot_get_default_basic_option(){
 }
 
 function weixin_robot_basic_section_callback(){
-	echo '
-<ol style="font-weight:bold;">
-	<li><a href="http://blog.wpjam.com/m/weixin-robot-advanced-faq/">微信机器人高级版常见问题汇总</a>列出了你使用当中碰到的绝大多数问题。</li>
-	<li>点击这里下载<a href="http://wpjam.com/go/weixin">微信机器人 WordPress 插件高级版使用说明</a>。每个大版本更新，使用文档都会更新，请重新下载。</li>
-</ol>
-';
+//Glay 	echo '
+// <ol style="font-weight:bold;">
+// 	<li><a href="http://blog.wpjam.com/m/weixin-robot-advanced-faq/">微信机器人高级版常见问题汇总</a>列出了你使用当中碰到的绝大多数问题。</li>
+// 	<li>点击这里下载<a href="http://wpjam.com/go/weixin">微信机器人 WordPress 插件高级版使用说明</a>。每个大版本更新，使用文档都会更新，请重新下载。</li>
+// </ol>
+// ';
 }
 
 function weixin_robot_basic_validate( $weixin_robot_basic ) {
