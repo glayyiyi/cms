@@ -4,7 +4,7 @@
  *
  * @author Your Inspiration Themes
  * @package YITH WooCommerce Magnifier
- * @version 1.0.5
+ * @version 1.1.0
  */
 
 if ( !defined( 'YITH_WOOCOMPARE' ) ) { exit; } // Exit if accessed directly
@@ -84,7 +84,7 @@ class YITH_Woocompare_Admin {
         add_action( 'woocommerce_update_option_attributes', array( $this, 'admin_update_option' ) );
 
         //Filters
-        add_filter( 'woocommerce_settings_tabs_array', array( $this, 'add_tab_woocommerce' ) );
+        add_filter( 'woocommerce_settings_tabs_array', array( $this, 'add_tab_woocommerce' ), 30 );
 
         // YITH WCWL Loaded
         do_action( 'yith_woocompare_loaded' );
@@ -318,6 +318,16 @@ class YITH_Woocompare_Admin {
      * @since 1.0.0
      */
     public function admin_update_option($value) {
+
+        global $woocommerce;
+
+        if ( version_compare( preg_replace( '/-beta-([0-9]+)/', '', $woocommerce->version ), '2.1', '<' ) ) {
+            $wc_clean = 'woocommerce_clean';
+        }
+        else {
+            $wc_clean = 'wc_clean';
+        }
+
         if ( $value['type'] == 'attributes' ) {
             //$fields = array_merge( $this->default_fields, YITH_Woocompare_Helper::attribute_taxonomies() );
             $val = array();
@@ -329,7 +339,7 @@ class YITH_Woocompare_Admin {
             //yith_debug($val);die;
             update_option( $value['id'], $val );
         } else {
-            update_option( $value['id'], woocommerce_clean($_POST[$value['id']]) );
+            update_option( $value['id'], $wc_clean($_POST[$value['id']]) );
         }
     }
 
@@ -395,7 +405,7 @@ if( $force && isset($_GET['page']) && isset($_GET['tab']) && $_GET['page'] == 'w
         wp_enqueue_script( 'jquery-ui-slider' );
         wp_enqueue_script( 'jquery-ui-sortable' );
 
-        if( isset( $_GET['page'] ) && $_GET['page'] == 'woocommerce_settings' && isset( $_GET['tab'] ) && $_GET['tab'] == 'yith_woocompare' ) {
+        if( isset( $_GET['page'] ) && ( $_GET['page'] == 'woocommerce_settings' || $_GET['page'] == 'wc-settings' ) && isset( $_GET['tab'] ) && $_GET['tab'] == 'yith_woocompare' ) {
             wp_enqueue_style( 'yith_woocompare_admin', YITH_WOOCOMPARE_URL . 'assets/css/admin.css' );
             wp_enqueue_script( 'woocompare', YITH_WOOCOMPARE_URL . 'assets/js/woocompare-admin.js', array( 'jquery', 'jquery-ui-sortable' ) );
         }

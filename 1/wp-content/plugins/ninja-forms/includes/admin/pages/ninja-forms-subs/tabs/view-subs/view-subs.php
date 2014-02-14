@@ -350,12 +350,16 @@ function ninja_forms_tab_view_subs(){
 						<td id="ninja_forms_sub_<?php echo $sub['id'];?>_field_<?php echo $field_id;?>">
 						<?php
 							if ( is_array( $data ) ) {
-								foreach($data as $d){
-									if($field_id == $d['field_id']){
-										$user_value = $d['user_value'];
-										$user_value = ninja_forms_stripslashes_deep( $user_value );
-										$user_value = ninja_forms_strip_tags_deep($user_value);
-										$user_value = apply_filters('ninja_forms_view_sub_td', $user_value, $d['field_id'], $sub['id'] );
+								foreach( $data as $d ) {
+									if ( $field_id == $d['field_id'] ) {
+										/**
+										 * ninja_forms_view_sub_td hook
+										 * hook in here to format the submission table data cells
+										 *
+										 * @hooked ninja_forms_strip_sub_td_slashes - 10
+										 * @hooked ninja_forms_strip_sub_td_tags - 20
+										 */
+										$user_value = apply_filters('ninja_forms_view_sub_td', $d['user_value'], $d['field_id'], $sub['id'] );
 
 										if(is_array($user_value) AND !empty($user_value)){
 											$y = 1;
@@ -767,5 +771,40 @@ function ninja_forms_sub_table_row_actions_export( $row_actions, $data, $sub_id,
 
 }
 add_filter( 'ninja_forms_sub_table_row_actions', 'ninja_forms_sub_table_row_actions_export', 30, 4 );
+
+
+/**
+ * Remove slashes from the submission form td
+ *
+ * @param  $field_value - the value of the field
+ * @param  $field_id    - the field id
+ * @param  $sub_id      - the submission id
+ * @return string       - the value of the user history field
+ */
+function ninja_forms_strip_sub_td_slashes( $field_value, $field_id, $sub_id ) {
+	
+	// remove slashes
+	$field_value = ninja_forms_stripslashes_deep( $field_value );
+	return $field_value;
+}
+add_filter( 'ninja_forms_view_sub_td', 'ninja_forms_strip_sub_td_slashes', 10, 3 );
+
+
+/**
+ * Remove tags from the submission form td
+ *
+ * @param  $field_value - the value of the field
+ * @param  $field_id    - the field id
+ * @param  $sub_id      - the submission id
+ * @return string       - the value of the user history field
+ */
+function ninja_forms_strip_sub_td_tag( $field_value, $field_id, $sub_id ) {
+
+	// remove tags
+	$field_value = ninja_forms_strip_tags_deep( $field_value );
+	return $field_value;
+}
+add_filter( 'ninja_forms_view_sub_td', 'ninja_forms_strip_sub_td_tag', 20, 3 );
+
 
 ?>

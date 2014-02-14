@@ -4,7 +4,7 @@
  *
  * @author Your Inspiration Themes
  * @package YITH WooCommerce Compare
- * @version 1.0.5
+ * @version 1.1.0
  */
 
 if ( !defined( 'YITH_WOOCOMPARE' ) ) { exit; } // Exit if accessed directly
@@ -56,15 +56,29 @@ if( !class_exists( 'YITH_Woocompare_Helper' ) ) {
             if ( ! isset( $woocommerce ) ) return array();
 
             $attributes = array();
-            $attribute_taxonomies = $woocommerce->get_attribute_taxonomies();
 
-            if( empty( $attribute_taxonomies ) ) return array();
-            foreach( $attribute_taxonomies as $attribute ) {
-                $tax = $woocommerce->attribute_taxonomy_name( $attribute->attribute_name );
-                if ( taxonomy_exists( $tax ) ) {
-                    $attributes[$tax] = ucfirst( $attribute->attribute_name );
+
+
+            if( function_exists( 'wc_get_attribute_taxonomies' ) && function_exists( 'wc_attribute_taxonomy_name' ) ) {
+                $attribute_taxonomies = wc_get_attribute_taxonomies();
+                if( empty( $attribute_taxonomies ) ) return array();
+                foreach( $attribute_taxonomies as $attribute ) {
+                    $tax = wc_attribute_taxonomy_name( $attribute->attribute_name );
+                    if ( taxonomy_exists( $tax ) ) {
+                        $attributes[$tax] = ucfirst( $attribute->attribute_name );
+                    }
+                }
+            }else{
+                $attribute_taxonomies = $woocommerce->get_attribute_taxonomies();
+                if( empty( $attribute_taxonomies ) ) return array();
+                foreach( $attribute_taxonomies as $attribute ) {
+                    $tax = $woocommerce->attribute_taxonomy_name( $attribute->attribute_name );
+                    if ( taxonomy_exists( $tax ) ) {
+                        $attributes[$tax] = ucfirst( $attribute->attribute_name );
+                    }
                 }
             }
+
 
             return $attributes;
         }

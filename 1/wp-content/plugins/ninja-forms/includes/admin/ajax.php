@@ -450,7 +450,7 @@ function ninja_forms_import_list_options(){
 	$options = $_REQUEST['options'];
 	$field_id = absint( $_REQUEST['field_id'] );
 	$options = str_replace('\,', '-comma-replace-placeholder-', $options );
-	$options = csv_explode( $options );
+	$options = ninja_forms_csv_explode( $options );
 
 	if( is_array( $options ) ){
 		$tmp_array = array();
@@ -566,7 +566,7 @@ add_action( 'wp_ajax_ninja_forms_add_calc_row', 'ninja_forms_add_calc_row' );
  * 						and line feed (CRLF should be returned according to RFC 4180
  * @return array 
  */
-function csv_explode( $str, $d=',', $e='"', $crlf=TRUE ) {
+function ninja_forms_csv_explode( $str, $d=',', $e='"', $crlf=TRUE ) {
 	// Convert CRLF to LF, easier to work with in regex
 	if( $crlf ) $str = str_replace("\r\n","\n",$str);
 	// Get rid of trailing linebreaks that RFC4180 allows

@@ -3,7 +3,7 @@ Contributors: kstover, jameslaws, daveshine, mordauk, bftrick, helgatheviking
 Tags: form, forms, contact form, custom form, form builder, form creator, form manager, form creation, contact forms, custom forms, forms builder, forms creator, forms manager, forms creation, form administration,
 Requires at least: 3.6
 Tested up to: 3.8.1
-Stable tag: 2.5
+Stable tag: 2.5.1
 License: GPLv2 or later
 
 Forms created with a simple drag and drop interface. Contact forms, Email collection forms, or any other form you want on your WordPress site.
@@ -75,6 +75,12 @@ Shortcodes have been re-implemented. They are used like so: [ninja_forms_display
 For help and video tutorials, please visit our website: [Ninja Forms Documentation](http://ninjaforms.com/documentation/intro/)
 
 == Upgrade Notice ==
+
+= 2.5.1 =
+
+*Bugs:*
+
+* Fixed a major bug that removed the "Number" field.
 
 = 2.5 =
 

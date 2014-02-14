@@ -1,12 +1,13 @@
 # 
 # Translators:
 # adamedotco <social@adame.co>, 2014
+# Ahmad Karama <ahmad.karama@hotmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: WooCommerce\n"
 "Report-Msgid-Bugs-To: https://github.com/woothemes/woocommerce/issues\n"
-"POT-Creation-Date: 2014-02-07 13:06:59+00:00\n"
-"PO-Revision-Date: 2014-02-07 08:30+0000\n"
+"POT-Creation-Date: 2014-02-12 13:22:09+00:00\n"
+"PO-Revision-Date: 2014-02-13 08:32+0000\n"
 "Last-Translator: mikejolley <mike.jolley@me.com>\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/woocommerce-core/language/ar/)\n"
 "MIME-Version: 1.0\n"
@@ -55,7 +56,7 @@ msgstr "رسائل التنبيه"
 msgid "Order tracking"
 msgstr "تتبع الطلب"
 
-#: assets/js/admin/editor_plugin_lang.php:15 includes/class-wc-install.php:230
+#: assets/js/admin/editor_plugin_lang.php:15 includes/class-wc-install.php:233
 #: includes/shortcodes/class-wc-shortcode-checkout.php:86
 #: includes/shortcodes/class-wc-shortcode-my-account.php:106
 #: includes/shortcodes/class-wc-shortcode-view-order.php:49
@@ -3097,7 +3098,7 @@ msgstr "نفد"
 
 #: includes/abstracts/abstract-wc-product.php:909
 #: includes/abstracts/abstract-wc-product.php:915
-#: includes/class-wc-cart.php:1403 includes/class-wc-order.php:800
+#: includes/class-wc-cart.php:1408 includes/class-wc-order.php:838
 #: includes/class-wc-product-variation.php:312
 msgid "Free!"
 msgstr "مجاني!"
@@ -3118,7 +3119,7 @@ msgstr "التقيم %s من 5"
 msgid "out of 5"
 msgstr "من 5"
 
-#: includes/abstracts/abstract-wc-product.php:1380
+#: includes/abstracts/abstract-wc-product.php:1385
 msgid "%s &ndash; %s"
 msgstr ""
 
@@ -3327,7 +3328,7 @@ msgid "File %d"
 msgstr "الملف %d:"
 
 #: includes/class-wc-ajax.php:978 includes/class-wc-ajax.php:979
-#: includes/class-wc-order.php:1474
+#: includes/class-wc-order.php:1537
 msgid "Item #%s stock reduced from %s to %s."
 msgstr "كمية العنصر #%s تغيرت من %s إلى %s."
 
@@ -3403,33 +3404,33 @@ msgid ""
 "apologise for any inconvenience caused."
 msgstr "نأسف، ليس لدينا ما يكفي من \"%s\" في المخزن. رجاء عدل عربتك وحاول مجددا. ونأسف مجددا على أي إزعاج."
 
-#: includes/class-wc-cart.php:782
+#: includes/class-wc-cart.php:787
 msgid "Sorry, &quot;%s&quot; cannot be purchased."
 msgstr "نأسف،  لكن &quot;%s&quot; لا يمكن بيعه."
 
-#: includes/class-wc-cart.php:789
+#: includes/class-wc-cart.php:794
 msgid ""
 "You cannot add &quot;%s&quot; to the cart because the product is out of "
 "stock."
 msgstr "لا يمكن إضافة &quot;%s&quot; إلى عربتك لأنه نفد."
 
-#: includes/class-wc-cart.php:794
+#: includes/class-wc-cart.php:799
 msgid ""
 "You cannot add that amount of &quot;%s&quot; to the cart because there is "
 "not enough stock (%s remaining)."
 msgstr "لا يمكن إضافة &quot;%s&quot; إلى عربتك لأن الكمية المتبقية أقل (بقي %s فقط)."
 
-#: includes/class-wc-cart.php:808 includes/class-wc-cart.php:827
-#: includes/class-wc-cart.php:840 includes/class-wc-frontend-scripts.php:144
-#: includes/wc-cart-functions.php:102 templates/cart/mini-cart.php:64
+#: includes/class-wc-cart.php:813 includes/class-wc-cart.php:832
+#: includes/class-wc-cart.php:845 includes/class-wc-frontend-scripts.php:151
+#: includes/wc-cart-functions.php:98 templates/cart/mini-cart.php:64
 msgid "View Cart"
 msgstr "شاهد محتوى العربة"
 
-#: includes/class-wc-cart.php:809
+#: includes/class-wc-cart.php:814
 msgid "You cannot add another &quot;%s&quot; to your cart."
 msgstr "لا يمكنك إضافة &quot;%s&quot; آخر إلى عربتك."
 
-#: includes/class-wc-cart.php:828 includes/class-wc-cart.php:841
+#: includes/class-wc-cart.php:833 includes/class-wc-cart.php:846
 msgid ""
 "You cannot add that amount to the cart &mdash; we have %s in stock and you "
 "already have %s in your cart."
@@ -3489,20 +3490,20 @@ msgid ""
 " to homepage</a>"
 msgstr ""
 
-#: includes/class-wc-checkout.php:484 includes/class-wc-form-handler.php:82
+#: includes/class-wc-checkout.php:484 includes/class-wc-form-handler.php:88
 msgid "is a required field."
 msgstr "حقل مطلوب"
 
-#: includes/class-wc-checkout.php:496 includes/class-wc-form-handler.php:92
+#: includes/class-wc-checkout.php:496 includes/class-wc-form-handler.php:99
 #: includes/shortcodes/class-wc-shortcode-cart.php:37
 msgid "Please enter a valid postcode/ZIP."
 msgstr "رجاء أدخل رمز بريدي صحيح"
 
-#: includes/class-wc-checkout.php:505 includes/class-wc-form-handler.php:101
+#: includes/class-wc-checkout.php:505 includes/class-wc-form-handler.php:108
 msgid "is not a valid phone number."
-msgstr ""
+msgstr "ليس رقم صحيح"
 
-#: includes/class-wc-checkout.php:511 includes/class-wc-form-handler.php:107
+#: includes/class-wc-checkout.php:511 includes/class-wc-form-handler.php:115
 msgid "is not a valid email address."
 msgstr "ليس بريدا إلكترونيا."
 
@@ -4739,7 +4740,7 @@ msgid "Product no longer exists."
 msgstr "المنتج لم يعد موجود."
 
 #: includes/class-wc-download-handler.php:87
-#: includes/class-wc-form-handler.php:488
+#: includes/class-wc-form-handler.php:519
 #: includes/shortcodes/class-wc-shortcode-checkout.php:86
 #: includes/shortcodes/class-wc-shortcode-checkout.php:167
 #: includes/shortcodes/class-wc-shortcode-my-account.php:106
@@ -4801,238 +4802,238 @@ msgstr "طلبيات مؤجلة"
 msgid "%s units of %s have been backordered in order %s."
 msgstr ""
 
-#: includes/class-wc-form-handler.php:119
+#: includes/class-wc-form-handler.php:129
 msgid "Address changed successfully."
 msgstr "العنوان تغير بنجاح."
 
-#: includes/class-wc-form-handler.php:166
+#: includes/class-wc-form-handler.php:180
 msgid "Please enter your name."
-msgstr ""
+msgstr "الرجاء أدخل اسمك"
 
-#: includes/class-wc-form-handler.php:169
-#: includes/wc-customer-functions.php:46
+#: includes/class-wc-form-handler.php:184
+#: includes/wc-customer-functions.php:48
 msgid "Please provide a valid email address."
-msgstr ""
+msgstr "الرجاء تزويدنا ببريد الكتروني صحيح"
 
-#: includes/class-wc-form-handler.php:172
+#: includes/class-wc-form-handler.php:186
 msgid "This email address is already registered."
-msgstr ""
+msgstr "البريد الالكتروني مسجّل مسبقاً"
 
-#: includes/class-wc-form-handler.php:175
+#: includes/class-wc-form-handler.php:190
 msgid "Please re-enter your password."
-msgstr ""
+msgstr "أعد كتابة كلمة المرور"
 
-#: includes/class-wc-form-handler.php:178
-#: includes/class-wc-form-handler.php:773
+#: includes/class-wc-form-handler.php:192
+#: includes/class-wc-form-handler.php:809
 msgid "Passwords do not match."
 msgstr "كلمة المرور غير صحيحة."
 
-#: includes/class-wc-form-handler.php:191
+#: includes/class-wc-form-handler.php:208
 msgid "Account details changed successfully."
-msgstr ""
+msgstr "تم تحديث معلومات الحساب بنجاح"
 
-#: includes/class-wc-form-handler.php:311
+#: includes/class-wc-form-handler.php:334
 msgid "Payment method added."
 msgstr ""
 
-#: includes/class-wc-form-handler.php:344
-#: includes/class-wc-form-handler.php:395
+#: includes/class-wc-form-handler.php:367
+#: includes/class-wc-form-handler.php:420
 msgid "Cart updated."
 msgstr "تحديث العربة"
 
-#: includes/class-wc-form-handler.php:378
+#: includes/class-wc-form-handler.php:402
 msgid "You can only have 1 %s in your cart."
 msgstr "يمكنك أن تضع %s واحد فقط في عربك."
 
-#: includes/class-wc-form-handler.php:457
+#: includes/class-wc-form-handler.php:488
 msgid "The cart has been filled with the items from your previous order."
 msgstr "عربتك تحوي عناصر طلب سابق."
 
-#: includes/class-wc-form-handler.php:478
+#: includes/class-wc-form-handler.php:509
 msgid "Order cancelled by customer."
 msgstr "الطلب ألغي بواسطة الزبون."
 
-#: includes/class-wc-form-handler.php:481
+#: includes/class-wc-form-handler.php:512
 msgid "Your order was cancelled."
 msgstr "طلبك ألغي."
 
-#: includes/class-wc-form-handler.php:486
+#: includes/class-wc-form-handler.php:517
 msgid ""
 "Your order can no longer be cancelled. Please contact us if you need "
 "assistance."
 msgstr ""
 
-#: includes/class-wc-form-handler.php:525
-#: includes/class-wc-form-handler.php:583
+#: includes/class-wc-form-handler.php:557
+#: includes/class-wc-form-handler.php:617
 msgid "Please choose product options&hellip;"
 msgstr "رجاء حدد نوع المنتج&hellip; "
 
-#: includes/class-wc-form-handler.php:616
+#: includes/class-wc-form-handler.php:651
 msgid ""
 "Please choose the quantity of items you wish to add to your cart&hellip;"
 msgstr "رجاء حدد الكمية التي تريد إضافتها لعربتك&hellip;"
 
-#: includes/class-wc-form-handler.php:623
+#: includes/class-wc-form-handler.php:658
 msgid "Please choose a product to add to your cart&hellip;"
 msgstr "رجاء حدد منتج لتضيفه لعربتك&hellip;"
 
-#: includes/class-wc-form-handler.php:683
-#: includes/class-wc-form-handler.php:687
-#: includes/class-wc-form-handler.php:691
-#: includes/class-wc-form-handler.php:700
-#: includes/class-wc-form-handler.php:813
+#: includes/class-wc-form-handler.php:718
+#: includes/class-wc-form-handler.php:722
+#: includes/class-wc-form-handler.php:726
+#: includes/class-wc-form-handler.php:735
+#: includes/class-wc-form-handler.php:857
 msgid "Error"
-msgstr ""
+msgstr "خطأ"
 
-#: includes/class-wc-form-handler.php:687
+#: includes/class-wc-form-handler.php:722
 msgid "Username is required."
 msgstr "اسم المستخدم مطلوب."
 
-#: includes/class-wc-form-handler.php:691
+#: includes/class-wc-form-handler.php:726
 msgid "Password is required."
 msgstr "كلمة المرور مطلوبة."
 
-#: includes/class-wc-form-handler.php:700
+#: includes/class-wc-form-handler.php:735
 msgid "A user could not be found with this email address."
-msgstr ""
+msgstr "لا يوجد مستخدم بهذا البريد الإلكتروني"
 
-#: includes/class-wc-form-handler.php:725
+#: includes/class-wc-form-handler.php:760
 msgid "You are now logged in as <strong>%s</strong>"
 msgstr ""
 
-#: includes/class-wc-form-handler.php:768
+#: includes/class-wc-form-handler.php:804
 msgid "Please enter your password."
 msgstr "رجاء أدخل كلمة المرور"
 
-#: includes/class-wc-form-handler.php:789
+#: includes/class-wc-form-handler.php:827
 msgid "Your password has been reset."
 msgstr "تم إعادة تعيين كلمة مرورك"
 
-#: includes/class-wc-form-handler.php:789
+#: includes/class-wc-form-handler.php:827
 msgid "Log in"
 msgstr "تسجيل الدخول"
 
-#: includes/class-wc-form-handler.php:829
-#: includes/wc-customer-functions.php:107
+#: includes/class-wc-form-handler.php:873
+#: includes/wc-customer-functions.php:110
 msgid "ERROR"
 msgstr "خطأ"
 
-#: includes/class-wc-form-handler.php:829
+#: includes/class-wc-form-handler.php:873
 msgid "Anti-spam field was filled in."
 msgstr "حقل مكافحة السبام خاطئ."
 
-#: includes/class-wc-frontend-scripts.php:110
+#: includes/class-wc-frontend-scripts.php:117
 msgid "Please select a rating"
 msgstr "رجاء قيم المنتج."
 
-#: includes/class-wc-frontend-scripts.php:127
+#: includes/class-wc-frontend-scripts.php:134
 #: includes/wc-template-functions.php:1573
 msgid "required"
 msgstr "مطلوب"
 
-#: includes/class-wc-frontend-scripts.php:151
+#: includes/class-wc-frontend-scripts.php:158
 msgid ""
 "Sorry, no products matched your selection. Please choose a different "
 "combination."
 msgstr "للأسف لا يوجد منتجات تطابق أختياراتك، الرجاء اختيار مجموعة مختلفة."
 
-#: includes/class-wc-frontend-scripts.php:152
+#: includes/class-wc-frontend-scripts.php:159
 msgid ""
 "Sorry, this product is unavailable. Please choose a different combination."
-msgstr ""
+msgstr "عفواً ، هذا المنتج غير متوفر. الرجاء اختيار تشكيلة أخرى "
 
-#: includes/class-wc-frontend-scripts.php:157
+#: includes/class-wc-frontend-scripts.php:164
 msgid "Select an option&hellip;"
 msgstr "رجاء حدد خيار&hellip;"
 
-#: includes/class-wc-install.php:214
+#: includes/class-wc-install.php:217
 msgctxt "page_slug"
 msgid "shop"
 msgstr "shop"
 
-#: includes/class-wc-install.php:215
+#: includes/class-wc-install.php:218
 msgid "Shop"
 msgstr "محل تجاري"
 
-#: includes/class-wc-install.php:219
+#: includes/class-wc-install.php:222
 msgctxt "page_slug"
 msgid "cart"
 msgstr "عربة"
 
-#: includes/class-wc-install.php:220
+#: includes/class-wc-install.php:223
 #: includes/widgets/class-wc-widget-cart.php:29
 #: includes/widgets/class-wc-widget-cart.php:56
 msgid "Cart"
 msgstr "العربة"
 
-#: includes/class-wc-install.php:224
+#: includes/class-wc-install.php:227
 msgctxt "page_slug"
 msgid "checkout"
 msgstr "المحاسبة"
 
-#: includes/class-wc-install.php:225 templates/cart/mini-cart.php:65
+#: includes/class-wc-install.php:228 templates/cart/mini-cart.php:65
 msgid "Checkout"
 msgstr "المحاسبة"
 
-#: includes/class-wc-install.php:229
+#: includes/class-wc-install.php:232
 msgctxt "page_slug"
 msgid "my-account"
-msgstr ""
+msgstr "حسابي"
 
-#: includes/class-wc-install.php:441
+#: includes/class-wc-install.php:444
 msgid "Customer"
 msgstr "زبون"
 
-#: includes/class-wc-install.php:448
+#: includes/class-wc-install.php:451
 msgid "Shop Manager"
 msgstr "مدير للمتجر"
 
-#: includes/class-wc-install.php:689
+#: includes/class-wc-install.php:692
 msgid "What's new:"
 msgstr "الجديد:"
 
-#: includes/class-wc-order.php:130
+#: includes/class-wc-order.php:137
 msgctxt "hash before order number"
 msgid "#"
 msgstr "#"
 
-#: includes/class-wc-order.php:795
+#: includes/class-wc-order.php:833
 msgid "&nbsp;<small>%svia %s</small>"
 msgstr "&nbsp;<small>%sلوسيلة الشحن \"%s\"</small>"
 
-#: includes/class-wc-order.php:856
+#: includes/class-wc-order.php:896
 msgid "Cart Subtotal:"
 msgstr "سعر العربة:"
 
-#: includes/class-wc-order.php:862
+#: includes/class-wc-order.php:903
 msgid "Cart Discount:"
 msgstr "خصم آخر:"
 
-#: includes/class-wc-order.php:868
+#: includes/class-wc-order.php:910
 msgid "Shipping:"
 msgstr "الشحن"
 
-#: includes/class-wc-order.php:913
+#: includes/class-wc-order.php:957
 msgid "Order Discount:"
 msgstr "الخصم الكلي:"
 
-#: includes/class-wc-order.php:918
+#: includes/class-wc-order.php:963
 msgid "Order Total:"
 msgstr "السعر النهائي:"
 
-#: includes/class-wc-order.php:936 includes/wc-cart-functions.php:226
+#: includes/class-wc-order.php:981 includes/wc-cart-functions.php:222
 msgid "(Includes %s)"
 msgstr "(يتضمن %s)"
 
-#: includes/class-wc-order.php:1176 includes/class-wc-order.php:1177
+#: includes/class-wc-order.php:1224 includes/class-wc-order.php:1225
 msgid "WooCommerce"
 msgstr "وو كومرس"
 
-#: includes/class-wc-order.php:1230
+#: includes/class-wc-order.php:1280
 msgid "Order status changed from %s to %s."
 msgstr "حالة تطلب تغيرت من %s إلى %s."
 
-#: includes/class-wc-order.php:1486
+#: includes/class-wc-order.php:1549
 msgid "Order item stock reduced successfully."
 msgstr "تم تعديل كمية المنتج."
 
@@ -5412,7 +5413,7 @@ msgstr "شراء المنتج"
 
 #: includes/class-wc-product-grouped.php:42
 msgid "View products"
-msgstr ""
+msgstr "عرض المنتجات"
 
 #: includes/class-wc-product-grouped.php:194
 #: includes/class-wc-product-variable.php:251
@@ -5440,7 +5441,7 @@ msgstr ""
 msgid "%s &ndash; %s%s"
 msgstr "%s &ndash; %s%s"
 
-#: includes/class-wc-shortcodes.php:965
+#: includes/class-wc-shortcodes.php:973
 msgid ""
 "Use $args[\"posts_per_page\"] instead. Deprecated argument will be removed "
 "in WC 2.2."
@@ -6657,179 +6658,183 @@ msgstr "نأسف، الطلب غير موجود في قاعدة بياناتنا
 msgid "This product is protected and cannot be purchased."
 msgstr ""
 
-#: includes/wc-cart-functions.php:87
+#: includes/wc-cart-functions.php:83
 msgid "Added &quot;%s&quot; to your cart."
 msgstr "تمت إضافة &quot;%s&quot; لعربتك."
 
-#: includes/wc-cart-functions.php:87
+#: includes/wc-cart-functions.php:83
 msgid "&quot; and &quot;"
 msgstr "&quot; و &quot;"
 
-#: includes/wc-cart-functions.php:90
+#: includes/wc-cart-functions.php:86
 msgid "&quot;%s&quot; was successfully added to your cart."
 msgstr "&quot;%s&quot; أضيف لعبتك بنجاح."
 
-#: includes/wc-cart-functions.php:98
+#: includes/wc-cart-functions.php:94
 msgid "Continue Shopping"
 msgstr "تابع التسوق"
 
-#: includes/wc-cart-functions.php:198
+#: includes/wc-cart-functions.php:194
 msgid "Free shipping coupon"
 msgstr ""
 
-#: includes/wc-cart-functions.php:200
+#: includes/wc-cart-functions.php:196
 msgid "[Remove]"
 msgstr "[إزالة]"
 
-#: includes/wc-cart-functions.php:261
+#: includes/wc-cart-functions.php:257
 msgid "Free"
 msgstr "مجانا"
 
-#: includes/wc-core-functions.php:162
+#: includes/wc-core-functions.php:167
 msgid "Australian Dollars"
 msgstr "دولار أسترالي"
 
-#: includes/wc-core-functions.php:163
+#: includes/wc-core-functions.php:168
 msgid "Brazilian Real"
 msgstr "ريال برازيلي"
 
-#: includes/wc-core-functions.php:164
+#: includes/wc-core-functions.php:169
 msgid "Bulgarian Lev"
 msgstr ""
 
-#: includes/wc-core-functions.php:165
+#: includes/wc-core-functions.php:170
 msgid "Canadian Dollars"
 msgstr "دولار كندي"
 
-#: includes/wc-core-functions.php:166
+#: includes/wc-core-functions.php:171
 msgid "Chilean Peso"
 msgstr ""
 
-#: includes/wc-core-functions.php:167
+#: includes/wc-core-functions.php:172
 msgid "Chinese Yuan"
 msgstr "يوان صيني"
 
-#: includes/wc-core-functions.php:168
+#: includes/wc-core-functions.php:173
 msgid "Colombian Peso"
 msgstr ""
 
-#: includes/wc-core-functions.php:169
+#: includes/wc-core-functions.php:174
 msgid "Czech Koruna"
 msgstr "كورونا تشيكية"
 
-#: includes/wc-core-functions.php:170
+#: includes/wc-core-functions.php:175
 msgid "Danish Krone"
 msgstr "كرونة دانماركى"
 
-#: includes/wc-core-functions.php:171
+#: includes/wc-core-functions.php:176
 msgid "Euros"
 msgstr "يورو"
 
-#: includes/wc-core-functions.php:172
+#: includes/wc-core-functions.php:177
 msgid "Hong Kong Dollar"
 msgstr "دولار هونج كونج"
 
-#: includes/wc-core-functions.php:173
+#: includes/wc-core-functions.php:178
+msgid "Croatia kuna"
+msgstr ""
+
+#: includes/wc-core-functions.php:179
 msgid "Hungarian Forint"
 msgstr "فورنت مجري"
 
-#: includes/wc-core-functions.php:174
+#: includes/wc-core-functions.php:180
 msgid "Icelandic krona"
 msgstr ""
 
-#: includes/wc-core-functions.php:175
+#: includes/wc-core-functions.php:181
 msgid "Indonesia Rupiah"
 msgstr "روبية إندونيسية"
 
-#: includes/wc-core-functions.php:176
+#: includes/wc-core-functions.php:182
 msgid "Indian Rupee"
 msgstr "روبيه هندي"
 
-#: includes/wc-core-functions.php:177
+#: includes/wc-core-functions.php:183
 msgid "Israeli Shekel"
 msgstr "شيكل إسرائيلي"
 
-#: includes/wc-core-functions.php:178
+#: includes/wc-core-functions.php:184
 msgid "Japanese Yen"
 msgstr "ين ياباني"
 
-#: includes/wc-core-functions.php:179
+#: includes/wc-core-functions.php:185
 msgid "South Korean Won"
 msgstr "وون كوريا الجنوبية"
 
-#: includes/wc-core-functions.php:180
+#: includes/wc-core-functions.php:186
 msgid "Malaysian Ringgits"
 msgstr "رينغيت ماليزي"
 
-#: includes/wc-core-functions.php:181
+#: includes/wc-core-functions.php:187
 msgid "Mexican Peso"
 msgstr "بيزو مكسيكي"
 
-#: includes/wc-core-functions.php:182
+#: includes/wc-core-functions.php:188
 msgid "Nigerian Naira"
 msgstr ""
 
-#: includes/wc-core-functions.php:183
+#: includes/wc-core-functions.php:189
 msgid "Norwegian Krone"
 msgstr "كرونة نرويجية"
 
-#: includes/wc-core-functions.php:184
+#: includes/wc-core-functions.php:190
 msgid "New Zealand Dollar"
 msgstr "دولار نيوزيلندى"
 
-#: includes/wc-core-functions.php:185
+#: includes/wc-core-functions.php:191
 msgid "Philippine Pesos"
 msgstr "بيزو فلبيني"
 
-#: includes/wc-core-functions.php:186
+#: includes/wc-core-functions.php:192
 msgid "Polish Zloty"
 msgstr "زلوتى بولندى"
 
-#: includes/wc-core-functions.php:187
+#: includes/wc-core-functions.php:193
 msgid "Pounds Sterling"
 msgstr "جنيه استرليني"
 
-#: includes/wc-core-functions.php:188
+#: includes/wc-core-functions.php:194
 msgid "Romanian Leu"
 msgstr "ليو روماني"
 
-#: includes/wc-core-functions.php:189
+#: includes/wc-core-functions.php:195
 msgid "Russian Ruble"
 msgstr ""
 
-#: includes/wc-core-functions.php:190
+#: includes/wc-core-functions.php:196
 msgid "Singapore Dollar"
 msgstr "دولار سنغافورى"
 
-#: includes/wc-core-functions.php:191
+#: includes/wc-core-functions.php:197
 msgid "South African rand"
 msgstr "راند جنوب أفريقي"
 
-#: includes/wc-core-functions.php:192
+#: includes/wc-core-functions.php:198
 msgid "Swedish Krona"
 msgstr "كرونة سويدية"
 
-#: includes/wc-core-functions.php:193
+#: includes/wc-core-functions.php:199
 msgid "Swiss Franc"
 msgstr "الفرنك السويسري"
 
-#: includes/wc-core-functions.php:194
+#: includes/wc-core-functions.php:200
 msgid "Taiwan New Dollars"
 msgstr "دولار تايوان الجديد"
 
-#: includes/wc-core-functions.php:195
+#: includes/wc-core-functions.php:201
 msgid "Thai Baht"
 msgstr "بات تايلندي"
 
-#: includes/wc-core-functions.php:196
+#: includes/wc-core-functions.php:202
 msgid "Turkish Lira"
 msgstr "ليرة تركية"
 
-#: includes/wc-core-functions.php:197
+#: includes/wc-core-functions.php:203
 msgid "US Dollars"
 msgstr "دولار أمريكي"
 
-#: includes/wc-core-functions.php:198
+#: includes/wc-core-functions.php:204
 msgid "Vietnamese Dong"
 msgstr ""
 
@@ -6849,25 +6854,25 @@ msgstr "خصم قيمة للمنتج"
 msgid "Product % Discount"
 msgstr "خصم مئوي للمنتج"
 
-#: includes/wc-customer-functions.php:49
+#: includes/wc-customer-functions.php:52
 msgid ""
 "An account is already registered with your email address. Please login."
 msgstr "أنت تملك حسابا بالفعل. رجاء سجل الدخول."
 
-#: includes/wc-customer-functions.php:59
+#: includes/wc-customer-functions.php:61
 msgid "Please enter a valid account username."
 msgstr ""
 
-#: includes/wc-customer-functions.php:62
+#: includes/wc-customer-functions.php:65
 msgid ""
 "An account is already registered with that username. Please choose another."
 msgstr "هناك بالفعل حساب بهذا الاسم، رجاء أختر اسم آخر."
 
-#: includes/wc-customer-functions.php:82
+#: includes/wc-customer-functions.php:85
 msgid "Please enter an account password."
 msgstr "رجاء ادخل كلمة المرور."
 
-#: includes/wc-customer-functions.php:107
+#: includes/wc-customer-functions.php:110
 msgid ""
 "Couldn&#8217;t register you&hellip; please contact us if you continue to "
 "have problems."
@@ -6959,11 +6964,11 @@ msgstr "البث في المنتجات"
 msgid "Search"
 msgstr "البحث"
 
-#: includes/wc-term-functions.php:118
+#: includes/wc-term-functions.php:121
 msgid "Select a category"
 msgstr "حدد تصنيف"
 
-#: includes/wc-term-functions.php:122
+#: includes/wc-term-functions.php:125
 msgid "Uncategorized"
 msgstr "غير مصنف"
 
@@ -7154,7 +7159,7 @@ msgstr "عرض"
 
 #: includes/widgets/class-wc-widget-products.php:43
 msgid "All Products"
-msgstr ""
+msgstr "جميع المنتجات"
 
 #: includes/widgets/class-wc-widget-products.php:44
 msgid "Featured Products"
@@ -7180,7 +7185,7 @@ msgstr "السعر"
 
 #: includes/widgets/class-wc-widget-products.php:55
 msgid "Random"
-msgstr ""
+msgstr "عشوائي"
 
 #: includes/widgets/class-wc-widget-products.php:56
 msgid "Sales"
@@ -7205,7 +7210,7 @@ msgstr "أخفاء المنتجات المجانية"
 
 #: includes/widgets/class-wc-widget-products.php:76
 msgid "Show hidden products"
-msgstr ""
+msgstr "إظهار المنتجات المخفية"
 
 #: includes/widgets/class-wc-widget-recent-reviews.php:21
 msgid "Display a list of your most recent reviews on your site."
@@ -7813,21 +7818,6 @@ msgstr ""
 msgid "Add Payment Method"
 msgstr "أضف طريقة دفع"
 
-#: templates/myaccount/form-change-password.php:20
-#: templates/myaccount/form-lost-password.php:31
-msgid "New password"
-msgstr "كلمة المرور الجديدة"
-
-#: templates/myaccount/form-change-password.php:24
-#: templates/myaccount/form-lost-password.php:35
-msgid "Re-enter new password"
-msgstr "تأكيد كلمة المرور"
-
-#: templates/myaccount/form-change-password.php:29
-#: templates/myaccount/form-lost-password.php:46
-msgid "Save"
-msgstr "حفظ"
-
 #: templates/myaccount/form-edit-account.php:20
 msgid "First name"
 msgstr "الاسم الأول"
@@ -7888,9 +7878,21 @@ msgstr "أنسيت كلمة مرورك؟ رجاء أدخل بريدك الإلك
 msgid "Enter a new password below."
 msgstr "أدخل كلمة مرورك الجديدة أدناه:"
 
+#: templates/myaccount/form-lost-password.php:31
+msgid "New password"
+msgstr "كلمة المرور الجديدة"
+
+#: templates/myaccount/form-lost-password.php:35
+msgid "Re-enter new password"
+msgstr "تأكيد كلمة المرور"
+
 #: templates/myaccount/form-lost-password.php:46
 msgid "Reset Password"
 msgstr "إعادة تعيين كلمة المرور"
+
+#: templates/myaccount/form-lost-password.php:46
+msgid "Save"
+msgstr "حفظ"
 
 #: templates/myaccount/my-account.php:19
 msgid "Hello <strong>%1$s</strong> (not %1$s? <a href=\"%2$s\">Sign out</a>)."

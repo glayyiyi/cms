@@ -4,7 +4,7 @@ Tags: ecommerce, e-commerce, commerce, woothemes, wordpress ecommerce, affiliate
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=paypal@woothemes.com&item_name=Donation+for+WooCommerce
 Requires at least: 3.8
 Tested up to: 3.8.1
-Stable tag: 2.1.0
+Stable tag: 2.1.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -125,6 +125,53 @@ Yes you can! Join in on our [GitHub repository](http://github.com/woothemes/wooc
 6. A product archive (grid).
 
 == Changelog ==
+
+= 2.1.2 - 13/02/2014 =
+* Fix - Removed nl2br function from plain text email-order-items email template
+* Fix - Made static string translatable in email-order-items email template
+* Fix - Added missing third parameter to _doing_it_wrong call
+* Fix - Sidebar in reports screen does now fit big numbers (long strings)
+* Fix - Report stock icon properly set up
+* Fix - Removed manual checks for AJAX requests, relying on DOING_AJAX constant now
+* Fix - Checkout get_value now returns null if no value is set, default can be used as fallback
+* Fix - Variation download url now cleaned via wc_clean instead of esc_url_raw
+* Fix - Wrap billing and shipping fields with a div/class to prevent field order issues
+* Fix - Fix line total display for order fees in admin panel order view page
+* Fix - Restored multiple image selection for product gallery
+* Fix - Update schemas before DBDELTA to fix mysql errors on update
+* Fix - Italian address formatting fix
+* Fix - Set countries as an array by default in the shipping abstract
+* Fix - Fixed term counts when terms span taxonomies
+* Fix - Fixed saving of fee tax total
+* Fix - Fixed "Shipping via" label in PayPal
+* Tweak - Tweak the order of checks in bulk_and_quick_edit_save_post to make it more efficient on autosave
+* Tweak - Always set order billing email address when user is logged in, if no email is provided
+* Refactor - Removed obsolete view order shortcode class
+* Localization - Multiple localization updates
+
+= 2.1.1 - 12/02/2014 =
+* Feature - Show notice if template files are out of date for themes including WooCommerce template files
+* Feature - Introducing supporting is_wc_endpoint_url function
+* Fix - During install, register all post types and endpoints so that the rewrite rules are correctly generated.
+* Fix - Allow line breaks in customer addresses on order details page
+* Fix - Fixed all language country codes to reflect WordPress standards
+* Fix - Payment gateway section links work in lower and upper caps texts
+* Fix - Prevents nonce notice when removing item from cart
+* Fix - Hide empty categories in product_categories shortcode
+* Fix - Fixed Twenty Thirteen single product page layout
+* Fix - Fix saving of checkboxes (off state) in widgets API
+* Fix - Proper password validation in user register on the My Account page
+* Fix - When add_to_cart is called, ensure the correct product_id is set for variations
+* Fix - Restored Italian translation files
+* Fix - Ensure stock status is updated. Prevents new products being hidden when the option to hide out of stock products is enabled
+* Fix - Fix manual order calculation when using non-standard decimal points
+* Tweak - Added Croatian Kuna currency
+* Tweak - Throw a non-fatal notice when file trying to be included as template doesn't exist
+* Tweak - Add versions to all scripts + styles to ensure browser cache is cleared
+* Tweak - Added tinymce buttons relevant to the short description
+* Refactor - Removed unused change password template and shortcode class
+* Refactor - Several function dockblocks improved
+* Refactor - Stripped out some unused variables
 
 = 2.1.0 - 10/02/2014 =
 * Feature - New REST API

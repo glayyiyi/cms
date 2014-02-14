@@ -106,7 +106,7 @@ function ninja_forms_export_subs_to_csv( $sub_ids = '', $return = false ){
 			ninja_forms_get_csv_terminator() );
 	}else{
 		header("Content-type: application/csv");
-		header("Content-Disposition: attachment; filename=".$filename);
+		header('Content-Disposition: attachment; filename="'.$filename.'"');
 		header("Pragma: no-cache");
 		header("Expires: 0");
 		echo apply_filters('ninja_forms_csv_bom',"\xEF\xBB\xBF") ; // Byte Order Mark

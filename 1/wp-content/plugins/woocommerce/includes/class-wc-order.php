@@ -657,13 +657,13 @@ class WC_Order {
 		// Backwards compat < 2.1 - get shipping title stored in meta
 		if ( $this->shipping_method_title ) {
 			$labels[] = $this->shipping_method_title;
-		}
+		} else {
+			// 2.1+ get line items for shipping
+			$shipping_methods = $this->get_shipping_methods();
 
-		// 2.1+ get line items for shipping
-		$shipping_methods = $this->get_shipping_methods();
-
-		foreach ( $shipping_methods as $shipping ) {
-			$labels[] = $shipping['name'];
+			foreach ( $shipping_methods as $shipping ) {
+				$labels[] = $shipping['name'];
+			}
 		}
 
 		return apply_filters( 'woocommerce_order_shipping_method', implode( ', ', $labels ), $this );
@@ -682,10 +682,8 @@ class WC_Order {
 			$tax_display = $this->tax_display_cart;
 		}
 
-		$subtotal = 0;
-
 		if ( ! isset( $item['line_subtotal'] ) || ! isset( $item['line_subtotal_tax'] ) ) {
-			return;
+			return '';
 		}
 
 		if ( 'excl' == $tax_display ) {
@@ -745,7 +743,7 @@ class WC_Order {
 			foreach ( $this->get_items() as $item ) {
 
 				if ( ! isset( $item['line_subtotal'] ) || ! isset( $item['line_subtotal_tax'] ) ) {
-					return;
+					return '';
 				}
 
 				$subtotal += $item['line_subtotal'];
@@ -764,7 +762,7 @@ class WC_Order {
 		} else {
 
 			if ( 'incl' == $tax_display ) {
-				return;
+				return '';
 			}
 
 			foreach ( $this->get_items() as $item ) {

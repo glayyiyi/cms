@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: YITH Woocommerce Compare\n"
-"POT-Creation-Date: 2013-09-04 15:57+0100\n"
-"PO-Revision-Date: 2013-09-04 15:58+0100\n"
+"POT-Creation-Date: 2014-02-13 09:30+0100\n"
+"PO-Revision-Date: 2014-02-13 09:31+0100\n"
 "Last-Translator: Nicola Mustone <mail@nicolamustone.it>\n"
 "Language-Team: Your Inspiration Themes <support@yithemes.com>\n"
 "Language: English\n"
@@ -26,24 +26,24 @@ msgstr "Impostazioni Generali"
 msgid "Added"
 msgstr "Aggiungo"
 
-#: ../class.yith-woocompare-frontend.php:143 ../templates/compare.php:47
+#: ../class.yith-woocompare-frontend.php:143 ../templates/compare.php:50
 msgid "Product Comparison"
 msgstr "Comparazione Prodotto"
 
-#: ../class.yith-woocompare-frontend.php:247
+#: ../class.yith-woocompare-frontend.php:254
 msgid "In stock"
 msgstr "In stock"
 
-#: ../class.yith-woocompare-frontend.php:330 ../yith-woocompare-options.php:38
+#: ../class.yith-woocompare-frontend.php:337 ../yith-woocompare-options.php:38
 #: ../widgets/class.yith-woocompare-widget.php:38
 msgid "Compare"
 msgstr "Compara"
 
-#: ../class.yith-woocompare-frontend.php:483
+#: ../class.yith-woocompare-frontend.php:496
 msgid "No products to compare"
 msgstr "Nessun prodotto da comparare"
 
-#: ../class.yith-woocompare-frontend.php:493 ../templates/compare.php:102
+#: ../class.yith-woocompare-frontend.php:506 ../templates/compare.php:105
 msgid "Remove"
 msgstr "Rimuovi"
 
@@ -91,9 +91,8 @@ msgid "Button"
 msgstr "Pulsante"
 
 #: ../yith-woocompare-options.php:35
-#, fuzzy
 msgid "Link/Button text"
-msgstr "Collegamento o Pulsante"
+msgstr "Testo Link/Pulsante"
 
 #: ../yith-woocompare-options.php:36
 msgid "Type the text to use for the button or the link of the compare."
@@ -129,11 +128,23 @@ msgid "Table Settings"
 msgstr "Impostazioni tabella."
 
 #: ../yith-woocompare-options.php:81
+msgid "Table title"
+msgstr "Titolo Tabella"
+
+#: ../yith-woocompare-options.php:82
+msgid "Type the text to use for the table title."
+msgstr ""
+
+#: ../yith-woocompare-options.php:84
+msgid "Compare products"
+msgstr "Compara prodotti"
+
+#: ../yith-woocompare-options.php:89
 msgid "Fields to show"
 msgstr "Campi da mostrare"
 
-#: ../yith-woocompare-options.php:82 ../yith-woocompare-options.php:91
-#: ../yith-woocompare-options.php:100
+#: ../yith-woocompare-options.php:90 ../yith-woocompare-options.php:99
+#: ../yith-woocompare-options.php:108
 msgid ""
 "Select the fields to show in the comparison table and order them by "
 "drag&drop (are included also the woocommerce attributes)"
@@ -141,31 +152,27 @@ msgstr ""
 "Seleziona i campi da mostrare nella tabella di comparazione e ordinali "
 "attraverso il drag&drop (sono inclusi anche gli attributi di woocommerce)"
 
-#: ../yith-woocompare-options.php:90
+#: ../yith-woocompare-options.php:98
 msgid "Repeat \"Price\" field at the end of the table"
 msgstr "Ripeti il campo \"Prezzo\" alla fine della tabella"
 
-#: ../yith-woocompare-options.php:99
+#: ../yith-woocompare-options.php:107
 msgid "Repeat \"Add to cart\" field at the end of the table"
 msgstr "Ripeti il campo con \"Aggiungi al carrello\" alla fine della tabella"
 
-#: ../yith-woocompare-options.php:108
+#: ../yith-woocompare-options.php:116
 msgid "Image size"
 msgstr "Dimensione immagine"
 
-#: ../yith-woocompare-options.php:109
+#: ../yith-woocompare-options.php:117
 msgid "Set the size for the images"
 msgstr "Imposta la dimensione per le immagini"
 
-#: ../templates/compare.php:68
-msgid "Compare products"
-msgstr "Compara prodotti"
-
-#: ../templates/compare.php:69
+#: ../templates/compare.php:72
 msgid "Close window [X]"
 msgstr "Chiudi finestra [X]"
 
-#: ../templates/compare.php:94
+#: ../templates/compare.php:97
 msgid "No products added in the compare table."
 msgstr "Nessun prodotto aggiunto nella tabella di comparazione."
 

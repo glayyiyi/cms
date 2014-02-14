@@ -131,7 +131,7 @@ function ninja_forms_export_form( $form_id ){
 	$today = date($date_format, $current_time);
 
 	header("Content-type: application/csv");
-	header("Content-Disposition: attachment; filename=".$form_title."-".$today.".nff");
+	header('Content-Disposition: attachment; filename="'.$form_title.'"-"'.$today.'".nff"');
 	header("Pragma: no-cache");
 	header("Expires: 0");
 	echo $form_row;

@@ -4,7 +4,7 @@
  *
  * @author Your Inspiration Themes
  * @package YITH Woocommerce Compare
- * @version 1.0.5
+ * @version 1.1.0
  */
 
 if ( !defined( 'YITH_WOOCOMPARE' ) ) { exit; } // Exit if accessed directly
@@ -198,8 +198,15 @@ if( !class_exists( 'YITH_Woocompare_Frontend' ) ) {
             remove_action( 'wp_head', '_admin_bar_bump_cb' );
 
             $plugin_path   = plugin_dir_path(__FILE__) . 'templates/' . $this->template_file;
-            $template_path = get_template_directory() . '/' . $woocommerce->template_url . $this->template_file;
-            $child_path    = get_stylesheet_directory() . '/' . $woocommerce->template_url . $this->template_file;
+
+            if ( defined('WC_TEMPLATE_PATH') ) {
+
+                $template_path = get_template_directory() . '/' . WC_TEMPLATE_PATH . $this->template_file;
+                $child_path    = get_stylesheet_directory() . '/'  .WC_TEMPLATE_PATH . $this->template_file;
+            }else{
+                $template_path = get_template_directory() . '/' . $woocommerce->template_url . $this->template_file;
+                $child_path    = get_stylesheet_directory() . '/' . $woocommerce->template_url . $this->template_file;
+            }
 
             foreach ( array( 'child_path', 'template_path', 'plugin_path' ) as $var ) {
                 if ( file_exists( ${$var} ) ) {
@@ -337,10 +344,16 @@ if( !class_exists( 'YITH_Woocompare_Frontend' ) ) {
             global $woocommerce;
 
             $filename = 'compare.css';
+            
             $plugin_path   = array( 'path' => plugin_dir_path(__FILE__) . 'assets/css/style.css', 'url' => YITH_WOOCOMPARE_URL . 'assets/css/style.css' );
-            $template_path = array( 'path' => get_template_directory() . '/' . $woocommerce->template_url . $filename,         'url' => get_template_directory_uri() . '/' . $woocommerce->template_url . $filename );
-            $child_path    = array( 'path' => get_stylesheet_directory() . '/' . $woocommerce->template_url . $filename,       'url' => get_stylesheet_directory_uri() . '/' . $woocommerce->template_url . $filename );
 
+            if ( defined('WC_TEMPLATE_PATH') ) {
+                $template_path = array( 'path' => get_template_directory() . '/' . WC_TEMPLATE_PATH . $filename,         'url' => get_template_directory_uri() . '/' . WC_TEMPLATE_PATH . $filename );
+                $child_path    = array( 'path' => get_stylesheet_directory() . '/' . WC_TEMPLATE_PATH . $filename,       'url' => get_stylesheet_directory_uri() . '/' . WC_TEMPLATE_PATH . $filename );
+            }else{
+                $template_path = array( 'path' => get_template_directory() . '/' . $woocommerce->template_url . $filename,         'url' => get_template_directory_uri() . '/' . $woocommerce->template_url . $filename );
+                $child_path    = array( 'path' => get_stylesheet_directory() . '/' . $woocommerce->template_url . $filename,       'url' => get_stylesheet_directory_uri() . '/' . $woocommerce->template_url . $filename );
+            }
             foreach ( array( 'child_path', 'template_path', 'plugin_path' ) as $var ) {
                 if ( file_exists( ${$var}['path'] ) ) {
                     return ${$var}['url'];
