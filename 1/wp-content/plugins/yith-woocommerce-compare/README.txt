@@ -4,7 +4,7 @@ Contributors: yithemes
 Tags: woocommerce, compare, compare products, product compare, widget
 Requires at least: 3.5.1
 Tested up to: 3.8.1
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -82,6 +82,10 @@ Yes, you can sort the fields in the compare table. You can do it in Woocommerce 
 3. The settings of plugin
 
 == Changelog ==
+
+= 1.1.1 =
+
+* Fixed: Add to cart Button on Compare page
 
 = 1.1.0 =
 

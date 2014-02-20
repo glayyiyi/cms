@@ -3055,7 +3055,7 @@ msgstr "有效期(月/年)"
 
 #: includes/abstracts/abstract-wc-payment-gateway.php:215
 msgid "Card Code"
-msgstr ""
+msgstr "校验码"
 
 #: includes/abstracts/abstract-wc-product.php:456
 #: includes/class-wc-product-simple.php:48
@@ -3488,7 +3488,7 @@ msgstr "延时交货"
 msgid ""
 "Sorry, your session has expired. <a href=\"%s\" class=\"wc-backward\">Return"
 " to homepage</a>"
-msgstr ""
+msgstr "对不起，登录超时，请返回首页重新登录"
 
 #: includes/class-wc-checkout.php:484 includes/class-wc-form-handler.php:88
 msgid "is a required field."
@@ -3501,7 +3501,7 @@ msgstr "请输入一个有效的邮政编码。"
 
 #: includes/class-wc-checkout.php:505 includes/class-wc-form-handler.php:108
 msgid "is not a valid phone number."
-msgstr ""
+msgstr "无效的电话号码"
 
 #: includes/class-wc-checkout.php:511 includes/class-wc-form-handler.php:115
 msgid "is not a valid email address."
@@ -7751,11 +7751,11 @@ msgstr "密码"
 
 #: templates/global/form-login.php:38 templates/myaccount/form-login.php:46
 msgid "Remember me"
-msgstr ""
+msgstr "自动登录"
 
 #: templates/global/form-login.php:42 templates/myaccount/form-login.php:50
 msgid "Lost your password?"
-msgstr ""
+msgstr "忘记密码?"
 
 #: templates/global/quantity-input.php:12
 msgctxt "Product quantity input tooltip"
@@ -7854,7 +7854,7 @@ msgstr "保存地址"
 
 #: templates/myaccount/form-login.php:32
 msgid "Username or email address"
-msgstr ""
+msgstr "用户名/邮件地址"
 
 #: templates/myaccount/form-login.php:63 templates/myaccount/form-login.php:96
 msgid "Register"
@@ -8104,7 +8104,7 @@ msgstr "电子邮件"
 
 #: templates/single-product-reviews.php:67
 msgid "Submit"
-msgstr ""
+msgstr "提交"
 
 #: templates/single-product-reviews.php:73
 msgid "Your Rating"

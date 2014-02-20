@@ -4,7 +4,7 @@
  *
  * @author Your Inspiration Themes
  * @package YITH Woocommerce Compare
- * @version 1.1.0
+ * @version 1.1.1
  */
 
 global $product;
@@ -125,7 +125,7 @@ $wc_get_template = function_exists('wc_get_template') ? 'wc_get_template' : 'woo
                                 break;
 
                             case 'add-to-cart':
-                                $wc_get_template( 'loop/add-to-cart.php' );
+                                $wc_get_template( 'loop/add-to-cart.php', array( 'product' => $product ) );
                                 break;
 
                             default:
@@ -156,7 +156,7 @@ $wc_get_template = function_exists('wc_get_template') ? 'wc_get_template' : 'woo
                 <th><?php echo $fields['add-to-cart'] ?></th>
 
                 <?php foreach( $products as $i => $product ) : $product_class = ( $i % 2 == 0 ? 'odd' : 'even' ) . ' product_' . $product->id ?>
-                    <td class="<?php echo $product_class ?>"><?php $wc_get_template( 'loop/add-to-cart.php' ); ?></td>
+                    <td class="<?php echo $product_class ?>"><?php $wc_get_template( 'loop/add-to-cart.php', array( 'product' => $product ) ); ?></td>
                 <?php endforeach; ?>
 
             </tr>

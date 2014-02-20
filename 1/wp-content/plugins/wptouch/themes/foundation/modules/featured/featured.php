@@ -219,11 +219,11 @@ function foundation_featured_slider( $manual = false, $manual_html = false ) {
 	if ( $manual == false && ( count( $foundation_featured_data ) >= FOUNDATION_FEATURED_MIN_NUM ) && $settings->featured_enabled ) {
 		echo $args['before'];
 
-		echo "<div id='slider' class='" . implode( ' ', foundation_featured_get_slider_classes() ) . "'>\n";
-		echo "<div class='swipe-wrap'>\n";
+		echo "<div id='slider' class='" . implode( ' ', foundation_featured_get_slider_classes() ) . "' style='height: 145px; '>\n";
+		echo "<div class='swipe-wrap' style='height: 130px;'>\n";
 
 		foreach( $foundation_featured_data as $image_data ) {
-			echo "<div class='one-swipe-image' style='visibility: hidden;'>";
+			echo "<div class='one-swipe-image' style='visibility: hidden; height: 130px;'>";
 			echo "<a href='" . $image_data->link . "' class='needsclick'>";
 			echo "<div class='comments-number'><span>" . $image_data->comments_number . "</span></div>";
 			echo "<img src='" . $image_data->image . "' alt='" . $image_data->title . "' / >";
