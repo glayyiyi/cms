@@ -99,7 +99,7 @@ if( !$is_open && !is_user_logged_in() && $EM_Event->get_bookings()->is_open(true
 			<?php 
 			if( !is_user_logged_in() && get_option('dbem_bookings_login_form') ){
 				//User is not logged in, show login form (enabled on settings page)
-				em_locate_template('forms/bookingform/login.php',true, array('EM_Event'=>$EM_Event));
+			//	em_locate_template('forms/bookingform/login.php',true, array('EM_Event'=>$EM_Event));
 			}
 			?>
 			<br class="clear" style="clear:left;" />  

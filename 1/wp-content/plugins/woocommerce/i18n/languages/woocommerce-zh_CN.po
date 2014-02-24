@@ -7896,7 +7896,7 @@ msgstr "保存"
 
 #: templates/myaccount/my-account.php:19
 msgid "Hello <strong>%1$s</strong> (not %1$s? <a href=\"%2$s\">Sign out</a>)."
-msgstr "您好 <strong>%1$s</strong> (不是 %1$s 吗? <a href=\"%2$s\">退出</a>)."
+msgstr "您好, 当前用户为 <strong>%1$s</strong> (若您不是 %1$s ,请 <a href=\"%2$s\">退出</a>注册新账号或直接登录)."
 
 #: templates/myaccount/my-account.php:24
 msgid ""

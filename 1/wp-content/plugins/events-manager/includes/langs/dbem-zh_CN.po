@@ -6527,7 +6527,7 @@ msgstr ""
 # @ dbem
 #: templates/forms/event/bookings.php:123
 msgid "Booking Cut-Off Date"
-msgstr "报名戒指日期"
+msgstr "报名截至日期"
 
 # @ dbem
 #: templates/forms/event/bookings.php:130
