@@ -853,6 +853,11 @@ class WC_Form_Handler {
                 return;
             }
 
+            if ($_POST['password'] != $_POST['confirm_password']){
+                wc_add_notice( __( 'confirm password must be the same as password', 'woocommerce' ), 'error' );
+                return;
+            }
+
 			try {
 
 				$validation_error = new WP_Error();
