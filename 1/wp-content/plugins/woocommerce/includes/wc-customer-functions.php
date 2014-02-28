@@ -44,13 +44,13 @@ add_filter( 'show_admin_bar', 'wc_disable_admin_bar', 10, 1 );
 function wc_create_new_customer( $email, $username = '', $password = '' ) {
 
 	// Check the e-mail address
-	if ( empty( $email ) || ! is_email( $email ) ) {
-		return new WP_Error( 'registration-error', __( 'Please provide a valid email address.', 'woocommerce' ) );
-	}
+//	if ( empty( $email ) || ! is_email( $email ) ) {
+//		return new WP_Error( 'registration-error', __( 'Please provide a valid email address.', 'woocommerce' ) );
+//	}
 
-	if ( email_exists( $email ) ) {
-		return new WP_Error( 'registration-error', __( 'An account is already registered with your email address. Please login.', 'woocommerce' ) );
-	}
+//	if ( email_exists( $email ) ) {
+//		return new WP_Error( 'registration-error', __( 'An account is already registered with your email address. Please login.', 'woocommerce' ) );
+//	}
 
 	// Handle username creation
 	if ( 'no' == get_option( 'woocommerce_registration_generate_username' ) || ! empty( $username ) ) {

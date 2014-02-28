@@ -848,6 +848,11 @@ class WC_Form_Handler {
 				$_username = '';
 			}
 
+            if(get_option($_POST['username']) != $_POST['captcha']){
+                wc_add_notice( __( 'please type right captcha', 'woocommerce' ), 'error' );
+                return;
+            }
+
 			try {
 
 				$validation_error = new WP_Error();
