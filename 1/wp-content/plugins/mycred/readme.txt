@@ -130,7 +130,7 @@ Security Update.
 
 = Language Contributors =
 * French - Chouf1 [Dan - BuddyPress France](http://bp-fr.net/)
-* Vietnamese - Biz.O
+* Vietnamese - Thu Hoai [Biz.O](http://bizover.net/)
 * Persian - Mani (maniV-A)
 
 

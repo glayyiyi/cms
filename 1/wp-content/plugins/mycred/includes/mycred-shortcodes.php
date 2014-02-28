@@ -326,6 +326,119 @@ if ( ! function_exists( 'mycred_render_shortcode_link' ) ) {
 }
 
 /**
+ * myCRED Shortcode: mycred_referral_bouns
+ * This shortcode allows the current user to send a pre-set amount of points
+ * to his referral user. A simpler version of the mycred_transfer shortcode.
+ * @see http://appcn100.com/shortcodes/mycred_referral_bonus/ 
+ * @since 1.1
+ * @version 1.0
+ */
+if ( ! function_exists( 'mycred_render_shortcode_referral' ) ) {
+	function mycred_render_shortcode_referral( $atts, $content = NULL )
+	{
+		//if ( ! is_user_logged_in() ) return;
+
+		extract( shortcode_atts( array(
+			'amount' => NULL,
+			'to'     => NULL,
+			'log'    => '',
+			'ref'    => 'gift',
+			'type'   => 'referral_bonus'
+		), $atts ) );
+		
+		// Amount is required
+		if ( $amount === NULL )
+			return '<strong>' . __( 'error', 'mycred' ) . '</strong> ' . __( 'Amount missing!', 'mycred' );
+
+		// Recipient is required
+		if ( empty( $to ) )
+			return '<strong>' . __( 'error', 'mycred' ) . '</strong> ' . __( 'User ID missing for recipient.', 'mycred' );
+		
+		// Log template is required
+		if ( empty( $log ) )
+			return '<strong>' . __( 'error', 'mycred' ) . '</strong> ' . __( 'Log Template Missing!', 'mycred' );
+		
+		if ( $to == 'author' ) {
+			// You can not use this outside the loop
+			$author = get_the_author_meta( 'ID' );
+			if ( empty( $author ) ) $author = $GLOBALS['post']->post_author;
+			$to = $author;
+		}
+		
+		global $mycred_sending_points;
+		
+		$mycred = mycred_get_settings();
+		$user_id = get_current_user_id();
+		
+		// Make sure current user or recipient is not excluded!
+		if ( $mycred->exclude_user( $to ) || $mycred->exclude_user( $user_id ) ) return;
+		
+		$account_limit = (int) apply_filters( 'mycred_transfer_acc_limit', 0 );
+		$balance = $mycred->get_users_cred( $user_id );
+		$amount = $mycred->number( $amount );
+		
+		// Insufficient Funds	
+		if ( $balance-$amount < $account_limit ) return;
+		
+		// We are ready!
+		$mycred_sending_points = true;
+
+		return '<input type="button" class="mycred-send-points-button" data-to="' . $to . '" data-ref="' . $ref . '" data-log="' . $log . '" data-amount="' . $amount . '" data-type="' . $type . '" value="' . $mycred->template_tags_general( $content ) . '" />';
+
+		// We must be logged in
+		//if ( ! is_user_logged_in() ) die();
+
+		// Security
+		//check_ajax_referer( 'mycred-send-points', 'token' );
+			
+		$mycred = mycred_get_settings();
+		$user_id = get_current_user_id();
+			
+		$account_limit = (int) apply_filters( 'mycred_transfer_acc_limit', 0 );
+		$balance = $mycred->get_users_cred( $user_id );
+		$amount = $mycred->number( $_POST['amount'] );
+		$new_balance = $balance-$amount;
+			
+		// Insufficient Funds
+		if ( $new_balance < $account_limit )
+			die();
+		// After this transfer our account will reach zero
+		elseif ( $new_balance == $account_limit )
+			$reply = 'zero';
+		// Check if this is the last time we can do these kinds of amounts
+		elseif ( $new_balance-$amount < $account_limit )
+			$reply = 'minus';
+		// Else everything is fine
+		else
+			$reply = 'done';
+			
+		// First deduct points
+		$mycred->add_creds(
+			trim( $_POST['reference'] ),
+			$user_id,
+			0-$amount,
+			trim( $_POST['log'] ),
+			$_POST['recipient'],
+			array( 'ref_type' => 'user' )
+		);
+			
+		// Then add to recipient
+		$mycred->add_creds(
+			trim( $_POST['reference'] ),
+			$_POST['recipient'],
+			$amount,
+			trim( $_POST['log'] ),
+			$user_id,
+			array( 'ref_type' => 'user' )
+		);
+			
+		// Share the good news
+		die( json_encode( $reply ) );
+	}
+}
+
+
+/**
  * myCRED Shortcode: mycred_send
  * This shortcode allows the current user to send a pre-set amount of points
  * to a pre-set user. A simpler version of the mycred_transfer shortcode.

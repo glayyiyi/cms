@@ -46,6 +46,62 @@ if ( !class_exists( 'myCRED_Admin' ) ) {
 			// Inline Editing
 			add_action( 'wp_ajax_mycred-inline-edit-users-balance', array( $this, 'inline_edit_user_balance' ) );
 			add_action( 'in_admin_footer',                          array( $this, 'admin_footer' )             );
+
+
+			// Outside Editing
+			add_action( 'wp_mycred_outside_edit_users_balance', array( $this, 'edit_user_balance' ) );
+		}
+
+		/**
+		 * Edit Users Balance for outside call.
+		 * @since 1.2
+		 * @version 1.0
+		 */
+		public function edit_user_balance( $attr ) {
+
+			//if ( !mycred_is_admin( $current_user ) )
+			//	die( json_encode( array( 'status' => 'ERROR_1' ) ) );
+			echo "-----ok----";	
+
+			// User
+			$user_id = abs( $attr['user'] );
+			if ( $this->core->exclude_user( $user_id ) )
+				die( json_encode( array( 'status' => 'ERROR_2', 'current' => __( 'User is excluded', 'mycred' ) ) ) );
+
+			// Log entry
+			$entry = trim( $attr['entry'] );
+			if ( $this->core->can_edit_creds() && !$this->core->can_edit_plugin() && empty( $entry ) )
+				die( json_encode( array( 'status' => 'ERROR_3', 'current' => __( 'Log Entry can not be empty', 'mycred' ) ) ) );
+
+			// Amount
+			if ( $attr['amount'] == 0 || empty( $attr['amount'] ) )
+				die( json_encode( array( 'status' => 'ERROR_4', 'current' => __( 'Amount can not be zero', 'mycred' ) ) ) );
+			else
+				$amount = $this->core->number( $attr['amount'] );
+
+			// Data
+			$data = apply_filters( 'mycred_manual_change', array( 'ref_type' => 'user' ), $this );
+
+			$current = $this->core->get_users_cred( $user_id );
+
+			// Execute
+			$this->core->add_creds(
+				'manual',
+				$user_id,
+				$amount,
+				$entry,
+				'admin',//$current_user,
+				$data
+			);
+
+			
+			$new = $this->core->get_users_cred( $user_id );
+			if ( $current+$amount != $new )
+				$new = $this->core->number( $current+$amount );
+			
+			//die( json_encode( array( 'status' => 'OK', 'current' => $new, 'blog_id' => $GLOBALS['blog_id'] ) ) );
+			//echo  json_encode( array( 'status' => 'OK', 'current' => $new, 'blog_id' => $GLOBALS['blog_id'] ) ) ;
+			echo "-----end----".$user_id." ".$amount." ".$entry." ".$data;	
 		}
 
 		/**
@@ -104,7 +160,7 @@ if ( !class_exists( 'myCRED_Admin' ) ) {
 		 * Admin Header
 		 * @filter mycred_icon_menu
 		 * @since 0.1
-		 * @version 1.2
+		 * @version 1.2.1
 		 */
 		public function admin_header() {
 			$screen = get_current_screen();
@@ -112,15 +168,6 @@ if ( !class_exists( 'myCRED_Admin' ) ) {
 				wp_enqueue_script( 'mycred-inline-edit' );
 				wp_enqueue_style( 'mycred-inline-edit' );
 			}
-
-			$image = apply_filters( 'mycred_icon_menu', plugins_url( 'assets/images/logo-menu.png', myCRED_THIS ) );
-			echo '
-<style type="text/css">
-#adminmenu .toplevel_page_myCRED div.wp-menu-image { background-image: url(' . $image . '); background-position: 1px -28px; }
-#adminmenu .toplevel_page_myCRED:hover div.wp-menu-image, 
-#adminmenu .toplevel_page_myCRED.current div.wp-menu-image, 
-#adminmenu .toplevel_page_myCRED .wp-menu-open div.wp-menu-image { background-position: 1px 0; }
-</style>' . "\n";
 		}
 
 		/**
