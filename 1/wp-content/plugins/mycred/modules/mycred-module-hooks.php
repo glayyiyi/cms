@@ -1009,6 +1009,242 @@ if ( !class_exists( 'myCRED_Hook_Comments' ) ) {
 }
 
 /**
+ * Hooks for Referral Bonus
+ * @since 1.1
+ * @version 1.0
+ */
+if ( !class_exists( 'myCRED_Hook_Referral_Bonus' ) ) {
+	class myCRED_Hook_Referral_Bonus extends myCRED_Hook {
+		/**
+		 * Construct
+		 */
+		function __construct( $hook_prefs ) {
+			parent::__construct( array(
+				'id'       => 'referral_bonus',
+				'defaults' => array(
+					'limit_by' => 'none',
+					'creds'    => 1,
+					'log'      => '%plural% for referral on: %url%'
+				)
+			), $hook_prefs );
+		}
+
+		/**
+		 * Run
+		 * @since 1.1
+		 * @version 1.0
+		 */
+		public function run() {
+			//add_action( 'mycred_front_enqueue',        array( $this, 'register_script' )       );
+			//add_action( 'wp_footer',                   array( $this, 'footer' )                );
+
+			add_shortcode( 'referral_bonus',              'mycred_render_shortcode_referral'          );
+			//add_action( 'wp_ajax_mycred-click-points', array( $this, 'ajax_call_link_points' ) );
+			add_filter( 'mycred_parse_tags_link',      array( $this, 'parse_custom_tags' ), 10, 2 );
+		}
+
+		/**
+		 * Customize Limit Options
+		 * @since 1.1
+		 * @version 1.0
+		 */
+		public function custom_limit() {
+			return array(
+				'none' => __( 'No limit', 'mycred' ),
+				'url'  => __( 'Once for each unique URL', 'mycred' ),
+				'id'   => __( 'Once for each unique link id', 'mycred' )
+			);
+		}
+
+		/**
+		 * Parse Custom Tags in Log
+		 * @since 1.1
+		 * @version 1.1.1
+		 */
+		public function parse_custom_tags( $content, $log_entry ) {
+			$data = maybe_unserialize( $log_entry->data );
+			$content = str_replace( '%referraler%', $data['referraler'], $content );
+			$content = str_replace( '%id%',  $data['link_id'], $content );
+			if ( isset( $data['link_title'] ) )
+				$content = str_replace( '%title%',  $data['link_title'], $content );
+
+			return $content;
+		}
+
+		/**
+		 * Custom Has Entry Check.
+		 * @since 1.1
+		 * @version 1.1.1
+		 */
+		public function has_entry( $action = '', $reference = '', $user_id = '', $data = '' ) {
+			global $wpdb;
+
+			if ( $this->prefs['limit_by'] == 'url' ) {
+				$reference = urldecode( $reference );
+				$string = '%s:8:"link_url";s:' . strlen( $reference ) . ':"' . $reference . '";%';
+			}
+			elseif ( $this->prefs['limit_by'] == 'id' ) {
+				$string = '%s:7:"link_id";s:' . strlen( $reference ) . ':"' . $reference . '";%';
+			}
+			else return false;
+
+			$sql = "SELECT id FROM {$this->core->log_table} WHERE ref = %s AND user_id = %d AND data LIKE %s;";
+			$wpdb->get_results( $wpdb->prepare( $sql, $action, $user_id, $string ) );
+			if ( $wpdb->num_rows > 0 ) return true;
+
+			return false;
+		}
+
+		/**
+		 * AJAX Call Handler
+		 * @since 1.1
+		 * @version 1.3.2
+		 */
+		public function ajax_call_link_points() {
+			// We must be logged in
+			if ( !is_user_logged_in() ) die( json_encode( 100 ) );
+			// Security
+			check_ajax_referer( 'mycred-link-points', 'token' );
+			// Current User
+			$user_id = get_current_user_id();
+			// Check if user should be excluded
+			if ( $this->core->exclude_user( $user_id ) ) die( json_encode( 200 ) );
+			// Key
+			if ( ! isset( $_POST['key'] ) ) die( json_encode( 300 ) );
+			require_once( myCRED_INCLUDES_DIR . 'mycred-protect.php' );
+			$protect = new myCRED_Protect();
+			list ( $amount, $id ) = array_pad( explode( ':', $protect->do_decode( $_POST['key'] ) ), 2, '' );
+			if ( $amount == '' || $id == '' ) die( json_encode( 300 ) );
+
+			// Amount
+			if ( $amount == 0 )
+				$amount = $this->prefs['creds'];
+			else
+				$amount = $this->core->number( $amount );
+			
+			if ( $amount == 0 || $amount == $this->core->zero() ) die( json_encode( 400 ) );
+
+			$data = array(
+				'ref_type'   => 'link',
+				'link_url'   => $_POST['url'],
+				'link_id'    => $id,
+				'link_title' => ( isset( $_POST['etitle'] ) ) ? $_POST['etitle'] : ''
+			);
+
+			// Limits
+			if ( $this->prefs['limit_by'] == 'url' ) {
+				if ( ! isset( $_POST['url'] ) || empty( $_POST['url'] ) ) die( json_encode( 500 ) );
+				if ( $this->has_clicked( $user_id, 'link_url', $data['link_url'] ) ) die( json_encode( 600 ) );
+			}
+			elseif ( $this->prefs['limit_by'] == 'id' ) {
+				if ( $this->has_clicked( $user_id, 'link_id', $data['link_id'] ) ) die( json_encode( 700 ) );
+			}
+
+			// Execute
+			$this->core->add_creds(
+				'referral_bonus',
+				$user_id,
+				$amount,
+				$this->prefs['log'],
+				'',
+				$data
+			);
+
+			// Report the good news
+			die( json_encode( 'done' ) );
+		}
+
+		/**
+		 * Has given bonus
+		 * Checks if a user has received points for a link based on either's referral
+		 * an ID or URL.
+		 * @since 1.3.3.1
+		 * @version 1.0
+		 */
+		public function has_givend( $user_id = NULL, $by = '', $check = '' ) {
+			global $wpdb;
+
+			$rows = $wpdb->get_results( $wpdb->prepare( "
+SELECT * 
+FROM {$this->core->log_table} 
+WHERE ref = %s 
+	AND user_id = %d", 'referral_bonus', $user_id ) );
+
+			if ( $wpdb->num_rows == 0 ) return false;
+
+			$reply = false;
+			foreach ( $rows as $row ) {
+				$data = maybe_unserialize( $row->data );
+				if ( ! is_array( $data ) || ! isset( $data[ $by ] ) ) continue;
+
+				if ( $data[ $by ] == $check ) {
+					$reply = true;
+					break;
+				}
+			}
+
+			$wpdb->flush();
+
+			return $reply;
+		}
+
+		/**
+		 * Preference for Referral Bonus Hook
+		 * @since 1.1
+		 * @version 1.0.2
+		 */
+		public function preferences() {
+			$prefs = $this->prefs; ?>
+
+			<label class="subheader"><?php echo $this->core->plural(); ?></label>
+				<label class="subheader"><?php _e( 'Bonus Levels', 'mycred' ); ?></label>
+				<ol class="inline">
+					<li>
+						<label for="<?php echo $this->field_id( array( 'approved' => 'creds' ) ); ?>"><?php _e( 'Comment Author', 'mycred' ); ?></label>
+						<div class="h2">
+						<input type="text" name="<?php echo $this->field_name( array( 'approved' => 'creds' ) ); ?>" id="<?php echo $this->field_id( array( 'approved' => 'creds' ) ); ?>" value="<?php echo $this->core->number( $prefs['approved']['creds'] ); ?>" size="8" /></div>
+					</li>
+					<li>
+						<label for="<?php echo $this->field_id( array( 'approved' => 'author' ) ); ?>"><?php _e( 'Content Author', 'mycred' ); ?></label>
+						<div class="h2"><input type="text" name="<?php echo $this->field_name( array( 'approved' => 'author' ) ); ?>" id="<?php echo $this->field_id( array( 'approved' => 'author' ) ); ?>" value="<?php echo $this->core->number( $prefs['approved']['author'] ); ?>" size="8" /></div>
+					</li>
+					<li class="block empty">&nbsp;</li>
+					<li class="block">
+					<label for="<?php echo $this->field_id( array( 'approved' => 'log' ) ); ?>"><?php _e( 'Log template', 'mycred' ); ?></label>
+					<div class="h2"><input type="text" name="<?php echo $this->field_name( array( 'approved' => 'log' ) ); ?>" id="<?php echo $this->field_id( array( 'approved' => 'log' ) ); ?>" value="<?php echo $prefs['approved']['log']; ?>" class="long" /></div>
+					<span class="description"><?php _e( 'Available template tags: General, Comment', 'mycred' ); ?></span>
+					</li>
+				</ol>
+				<ol>
+					<li>
+						<div class="h2">
+						<input type="text" name="<?php echo $this->field_name( 'creds' ); ?>" id="<?php echo $this->field_id( 'creds' ); ?>" value="<?php echo $this->core->number( $prefs['creds'] ); ?>" size="8" /></div>
+						<span class="description"><?php _e( 'The default amount to award for referral bonus. You can override this in the shortcode.', 'mycred' ); ?></span>
+					</li>
+				</ol>
+				<label class="subheader"><?php _e( 'Log Template', 'mycred' ); ?></label>
+				<ol>
+					<li>
+						<div class="h2"><input type="text" name="<?php echo $this->field_name( 'log' ); ?>" id="<?php echo $this->field_id( 'log' ); ?>" value="<?php echo $prefs['log']; ?>" class="long" /></div>
+						<span class="description"><?php _e( 'Available template tags: General and custom tags: %url%, %title% or %id%.', 'mycred' ); ?></span>
+					</li>
+				</ol>
+				<label class="subheader"><?php _e( 'Limits', 'mycred' ); ?></label>
+				<ol>
+					<li>
+						<?php 
+			add_filter( 'mycred_hook_impose_limits', array( $this, 'custom_limit' ) );				
+			$this->impose_limits_dropdown( 'limit_by', false ); ?>
+
+					</li>
+					<li><strong><?php _e( 'Note!', 'mycred' ); ?></strong> <?php echo $this->core->template_tags_general( __( 'If no ID is set when using the mycred_link shortcode, the shortcode will generate one automatically based on the value set under href. If you are using this feature for "sharing" content, it is recommended that you limit by ID.', 'mycred' ) ); ?></li>
+				</ol>
+<?php		unset( $this );
+		}
+	}
+}
+
+/**
  * Hooks for Clicking on Links
  * @since 1.1
  * @version 1.0

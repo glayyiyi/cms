@@ -284,7 +284,7 @@ if ( !class_exists( 'myCRED_Sell_Content' ) ) {
 		/**
 		 * Settings Page
 		 * @since 0.1
-		 * @version 1.1
+		 * @version 1.1.1
 		 */
 		public function after_general_settings() {
 			$sell_content = $this->sell_content;
@@ -346,7 +346,7 @@ if ( !class_exists( 'myCRED_Sell_Content' ) ) {
 						<li class="empty">&nbsp;</li>
 						<li>
 							<label for="<?php echo $this->field_id( array( 'defaults' => 'button_label' ) ); ?>"><?php _e( 'Button Label', 'mycred' ); ?></label>
-							<div class="h2"><input type="text" name="<?php echo $this->field_name( array( 'defaults' => 'button_label' ) ); ?>" id="<?php echo $this->field_id( array( 'defaults' => 'button_label' ) ); ?>" value="<?php echo $sell_content['defaults']['button_label']; ?>" size="12" /></div>
+							<div class="h2"><input type="text" name="<?php echo $this->field_name( array( 'defaults' => 'button_label' ) ); ?>" id="<?php echo $this->field_id( array( 'defaults' => 'button_label' ) ); ?>" value="<?php echo esc_attr( $sell_content['defaults']['button_label'] ); ?>" size="12" /></div>
 						</li>
 						<li>
 							<input type="checkbox" name="<?php echo $this->field_name( array( 'defaults' => 'overwrite_buttonlabel' ) ); ?>" id="<?php echo $this->field_id( array( 'defaults' => 'overwrite_buttonlabel' ) ); ?>" <?php checked( $sell_content['defaults']['overwrite_buttonlabel'], 1 ); ?> value="1" />
@@ -362,7 +362,7 @@ if ( !class_exists( 'myCRED_Sell_Content' ) ) {
 					<label class="subheader" for="<?php echo $this->field_id( array( 'templates' => 'visitors' ) ); ?>"><?php _e( 'Sale Template for non members', 'mycred' ); ?></label>
 					<ol id="myCRED-buy-template-visitors">
 						<li>
-							<textarea rows="10" cols="50" name="<?php echo $this->field_name( array( 'templates' => 'visitors' ) ); ?>" id="<?php echo $this->field_id( array( 'templates' => 'visitors' ) ); ?>" class="large-text code"><?php echo $sell_content['templates']['visitors']; ?></textarea>
+							<textarea rows="10" cols="50" name="<?php echo $this->field_name( array( 'templates' => 'visitors' ) ); ?>" id="<?php echo $this->field_id( array( 'templates' => 'visitors' ) ); ?>" class="large-text code"><?php echo esc_attr( $sell_content['templates']['visitors'] ); ?></textarea>
 							<span class="description"><?php _e( 'Do <strong>not</strong> use the %buy_button% in this template as a user must be logged in to buy content!', 'mycred' ); ?><br />
 							<?php _e( 'Available template tags are: %singular%, %plural%, %post_title%, %post_url%, %link_with_title%, %price%', 'mycred' ); ?></span>
 						</li>
@@ -370,7 +370,7 @@ if ( !class_exists( 'myCRED_Sell_Content' ) ) {
 					<label class="subheader" for="<?php echo $this->field_id( array( 'templates' => 'members' ) ); ?>"><?php _e( 'Sale Template for members', 'mycred' ); ?></label>
 					<ol id="myCRED-buy-template-members">
 						<li>
-							<textarea rows="10" cols="50" name="<?php echo $this->field_name( array( 'templates' => 'members' ) ); ?>" id="<?php echo $this->field_id( array( 'templates' => 'members' ) ); ?>" class="large-text code"><?php echo $sell_content['templates']['members']; ?></textarea>
+							<textarea rows="10" cols="50" name="<?php echo $this->field_name( array( 'templates' => 'members' ) ); ?>" id="<?php echo $this->field_id( array( 'templates' => 'members' ) ); ?>" class="large-text code"><?php echo esc_attr( $sell_content['templates']['members'] ); ?></textarea>
 							<span class="description"><?php _e( 'Your template must contain the %buy_button% tag for purchases to work!', 'mycred' ); ?><br />
 							<?php _e( 'Available template tags are: %singular%, %plural%, %post_title%, %post_url%, %link_with_title%, %buy_button%, %price%', 'mycred' ); ?></span>
 						</li>
@@ -378,7 +378,7 @@ if ( !class_exists( 'myCRED_Sell_Content' ) ) {
 					<label class="subheader" for="<?php echo $this->field_id( array( 'templates' => 'cantafford' ) ); ?>"><?php _e( 'Insufficient funds template', 'mycred' ); ?></label>
 					<ol id="myCRED-buy-template-insufficient">
 						<li>
-							<textarea rows="10" cols="50" name="<?php echo $this->field_name( array( 'templates' => 'cantafford' ) ); ?>" id="<?php echo $this->field_id( array( 'templates' => 'cantafford' ) ); ?>" class="large-text code"><?php echo $sell_content['templates']['cantafford']; ?></textarea>
+							<textarea rows="10" cols="50" name="<?php echo $this->field_name( array( 'templates' => 'cantafford' ) ); ?>" id="<?php echo $this->field_id( array( 'templates' => 'cantafford' ) ); ?>" class="large-text code"><?php echo esc_attr( $sell_content['templates']['cantafford'] ); ?></textarea>
 							<span class="description"><?php _e( 'Your template must contain the %buy_button% tag for purchases to work!', 'mycred' ); ?><br />
 							<?php _e( 'Available template tags are: %singular%, %plural%, %post_title%, %post_url%, %link_with_title%, %buy_button%, %price%', 'mycred' ); ?></span>
 						</li>
@@ -386,14 +386,14 @@ if ( !class_exists( 'myCRED_Sell_Content' ) ) {
 					<label class="subheader" for="<?php echo $this->field_id( array( 'logs' => 'buy' ) ); ?>"><?php _e( 'Log template for Purchases', 'mycred' ); ?></label>
 					<ol id="myCRED-buy-template-purchase">
 						<li>
-							<div class="h2"><input type="text" name="<?php echo $this->field_name( array( 'logs' => 'buy' ) ); ?>" id="<?php echo $this->field_id( array( 'logs' => 'buy' ) ); ?>" value="<?php echo $sell_content['logs']['buy']; ?>" class="long" /></div>
+							<div class="h2"><input type="text" name="<?php echo $this->field_name( array( 'logs' => 'buy' ) ); ?>" id="<?php echo $this->field_id( array( 'logs' => 'buy' ) ); ?>" value="<?php echo esc_attr( $sell_content['logs']['buy'] ); ?>" class="long" /></div>
 								<span class="description"><?php _e( 'Available template tags are: %singular%, %plural%, %post_title%, %post_url% or %link_with_title%', 'mycred' ); ?></span>
 						</li>
 					</ol>
 					<label class="subheader" for="<?php echo $this->field_id( array( 'logs' => 'sell' ) ); ?>"><?php _e( 'Log template for Sales', 'mycred' ); ?></label>
 					<ol id="myCRED-buy-template-sale">
 						<li>
-							<div class="h2"><input type="text" name="<?php echo $this->field_name( array( 'logs' => 'sell' ) ); ?>" id="<?php echo $this->field_id( array( 'logs' => 'sell' ) ); ?>" value="<?php echo $sell_content['logs']['sell']; ?>" class="long" /></div>
+							<div class="h2"><input type="text" name="<?php echo $this->field_name( array( 'logs' => 'sell' ) ); ?>" id="<?php echo $this->field_id( array( 'logs' => 'sell' ) ); ?>" value="<?php echo esc_attr( $sell_content['logs']['sell'] ); ?>" class="long" /></div>
 							<span class="description"><?php _e( 'Available template tags are: %singular%, %plural%, %post_title%, %post_url% or %link_with_title%', 'mycred' ); ?></span>
 						</li>
 					</ol>

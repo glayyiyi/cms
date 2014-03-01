@@ -386,7 +386,7 @@ function mycred_admin_menu()
 		$mycred->edit_creds_cap(),
 		'myCRED',
 		'',
-		$icon
+		apply_filters( 'mycred_icon_menu', $icon )
 	);
 
 	$about_label = sprintf( __( 'About %s', 'mycred' ), $name );
