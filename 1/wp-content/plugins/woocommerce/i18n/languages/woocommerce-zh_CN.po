@@ -16,6 +16,30 @@ msgstr ""
 "Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
+msgid "mobile number"
+msgstr "手机号码"
+
+msgid "confirm password"
+msgstr "确认密码"
+
+msgid "captcha"
+msgstr "验证码"
+
+msgid "send captcha"
+msgstr "发送验证码"
+
+msgid "please type mobile number"
+msgstr "请输入手机号码"
+
+msgid "failed to send message"
+msgstr "发送验证码失败"
+
+msgid "please type right captcha"
+msgstr "请输入正确的验证码"
+
+msgid "confirm password must be the same as password"
+msgstr "确认密码必须和密码一致"
+
 #: assets/js/admin/editor_plugin_lang.php:5
 msgid "Insert Shortcode"
 msgstr "插入图像"
