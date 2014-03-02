@@ -849,14 +849,14 @@ class WC_Form_Handler {
 			//	$_username = '';
 			//}
 
-<<<<<<< HEAD
+//<<<<<<< HEAD
 			//检查验证码
-			if (get_option($_username) != $_POST['captcha']){				
-				wc_add_notice( '输入的验证码不正确!', 'error' );
-				return;
-			}
+			//if (get_option($_username) != $_POST['captcha']){				
+				//wc_add_notice( '输入的验证码不正确!', 'error' );
+				//return;
+			//}
 			
-=======
+//=======
             if(get_option($_POST['username']) != $_POST['captcha']){
                 wc_add_notice( __( 'please type right captcha', 'woocommerce' ), 'error' );
                 return;
@@ -867,7 +867,7 @@ class WC_Form_Handler {
                 return;
             }
 
->>>>>>> bcabc2a46881154789dbe5a34b150b1dbcbc5f83
+//>>>>>>> bcabc2a46881154789dbe5a34b150b1dbcbc5f83
 			try {
 
 				$validation_error = new WP_Error();
