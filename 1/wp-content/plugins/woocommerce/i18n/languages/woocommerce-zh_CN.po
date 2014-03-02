@@ -20,6 +20,27 @@ msgstr ""
 msgid "Insert Shortcode"
 msgstr "插入图像"
 
+msgid "mobile number"
+msgstr "手机号码"
+
+msgid "register"
+msgstr "注册"
+
+msgid "type mobile number"
+msgstr "请输入手机号码"
+
+msgid "password strict"
+msgstr "请输入6-10个字母或数字"
+
+msgid "confirm password"
+msgstr "确认密码"
+
+msgid "captcha"
+msgstr "验证码"
+
+msgid "send captcha"
+msgstr "发送验证码"
+
 #: assets/js/admin/editor_plugin_lang.php:6
 msgid "Product price/cart button"
 msgstr "产品成功添加到你的购物车。"
@@ -7854,7 +7875,7 @@ msgstr "保存地址"
 
 #: templates/myaccount/form-login.php:32
 msgid "Username or email address"
-msgstr "用户名/邮件地址"
+msgstr "账号"
 
 #: templates/myaccount/form-login.php:63 templates/myaccount/form-login.php:96
 msgid "Register"

@@ -69,6 +69,19 @@ function wc_lostpassword_url() {
 }
 add_filter( 'lostpassword_url',  'wc_lostpassword_url', 10, 0 );
 
+/**
+ * Returns the url to the register endpoint url
+ *
+ * @access public
+ * @param string $url
+ * @return string
+ */
+function wc_reg_url() {
+    return wc_get_endpoint_url( 'register', '', get_permalink( wc_get_page_id( 'myaccount' ) ) );
+	//return "myaccount/form-register.php";
+}
+add_filter( 'reg_url',  'wc_reg_url', 10, 0 );
+
 
 /**
  * Get the link to the edit account details page

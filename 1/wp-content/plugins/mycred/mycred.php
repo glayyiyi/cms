@@ -594,5 +594,172 @@ function mycred_plugin_description_links( $links, $file )
 	$links[] = '<a href="http://mycred.me/store/" target="_blank">' . __( 'Store', 'mycred' ) . '</a>';
 
 	return $links;
+
 }
+
+
+///{-------DOMOB points , referral -----------
+/*
+We want to parse DOMOB's request, insert the user's points into DB.
+and count the referral bonus, insert the bonus points into referral person's account too.
+*/
+///-------DOMOB points 
+
+# Parse request URL, connect with DOMOB
+function getSignatureWithDOMOB($params, $private_key){
+        $signStr = '';
+        ksort($params);
+        foreach ($params as $k => $v) {
+            $signStr .= "{$k}={$v}";
+        }
+		$signStr .= $private_key;
+        return md5($signStr);
+    }
+function getUrlSignature($orgurl, $private_key){
+        $params = array();
+	$url = '';
+	$md5sign = '';
+	$publicId = '';
+	$signPos = strrpos( $orgurl, "&sign=" );
+	if(  $signPos > 0 ){
+		$md5sign = substr( $orgurl, $signPos + 6 );
+		$url = substr( $orgurl, 0, strrpos( $orgurl, "&sign=") );
+	}
+	else{
+		echo "no md5sum";
+		return false;
+	}
+        $url_parse = parse_url($url);
+        if (isset($url_parse['query'])){
+            $query_arr = explode('&', $url_parse['query']);
+            if (!empty($query_arr)){
+                foreach($query_arr as $p){
+                    if (strpos($p, '=') !== false){
+                        list($k, $v) = explode('=', $p);
+                        $params[$k] = urldecode($v);
+			if( !empty($params['pubid'] ) )
+				$publicId = $params['pubid'];
+		
+                    }
+                }
+            }
+        }
+        if ( getSignatureWithDOMOB($params, $private_key) == $md5sign 
+		// && $publicId == get_option('referral_domob_public_id') 
+		){
+		echo "true\n";
+		return true;
+	}
+	else{
+		echo "false\n";
+		return false;
+	}
+    }
+
+
+add_action( 'referral_with_domob', 'parse_domob_callback' );
+
+function parse_domob_callback(){
+	$url = trim('http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+	$ref = (int)$_GET['ref'];
+	
+	echo $url."\n";
+
+        $params = array();
+	$rate = get_option('referral_given_user_rate');
+	if( empty($rate) )
+		$rate = 0.5;
+
+	$privateKey = get_option('referral_domob_private_key' );
+	if( empty($privateKey) )
+		$privateKey = 'd3c98aa2';
+
+	if( getUrlSignature( $url, $privateKey ) == true ){
+        $url_parse = parse_url($url);
+	echo "<-test-->\n";
+        if (isset($url_parse['query'])){
+            $query_arr = explode('&', $url_parse['query']);
+            if (!empty($query_arr)){
+                foreach($query_arr as $p){
+                    if (strpos($p, '=') !== false){
+                        list($k, $v) = explode('=', $p);
+                        $params[$k] = urldecode($v);
+                    }
+                }
+            }
+        }
+		
+	}
+	echo $params['user']."\n";
+
+	$haveAddedOrder =  get_option( "domob_orderid_".$params['orderid'], NULL );
+	if( !empty($params) ){
+		$userid = $params['user'];
+		$price = $params['price'];
+		$memo = " order=".$params['orderid']." ad=".$params['ad']." adid=".$params['adid']." device=".$params['device']." real= ".$params['price']." ";
+	if( !empty($haveAddedOrder) && strlen($haveAddedOrder) > 6 ){
+		echo "[domob]\n".$haveAddedOrder;
+		return;
+	}
+
+echo " \n".$userid." ";
+	
+		if( !empty($userid) && $price > 0 ){
+	echo " ".$price."\n ";
+	//mycred_load();
+	//do_action('mycred_admin_init');
+	require_once( myCRED_INCLUDES_DIR . 'mycred-admin.php' );
+	$admin = new myCRED_Admin();
+        $admin->load();
+			//do_action('admin_init');
+			// current_level = 0, amount = price * 1/2  * 100 point, rate = 100%, max_level =1,
+			add_option( "domob_orderid_".$params['orderid'], $userid." added" );
+echo " domob_orderid=".$userid."\n ";
+	
+	$this_count_price = $price * 100 * $rate;
+	$memo .= " price=".$this_count_price;
+
+			count_referral_bonus( $userid, 0, $price * 100 * $rate , 1, 1, $userid , $memo);
+		}
+	}
+}
+
+
+# Parse user's referral ,and added bonus
+add_action( 'referral_bonus_count_recursion', 'count_referral_bonus' );
+
+function count_referral_bonus( $userlogin, $current_level, $amount, $rate, $max_level, $parent_id, $memo ) {
+    global  $wpdb;
+    $user =get_user_by('login', $userlogin);
+	if( empty($user) )
+		return false;
+    $referral_id = get_user_meta($user->ID, 'referral_id', true);
+	$referral_level = $user->data->referral_level;
+	$referral_rate = 0.2;//get_option( 'referral_level_'.($current_level + 1).'_rate' ); //$user->data->referral_rate;
+	$referral_max_level = 2;//get_option( 'max_referral_levels' );//$user->data->max_referral_level;
+
+	if( $current_level < 0 || $max_level < 0 || $current_level > $max_level ){
+		// end the recursion 
+		return true;
+	}
+	
+	if( $current_level >= 0 && $max_level > 0 && $current_level <= $max_level ){
+		//call edit_user_balance; 
+	    $attr = array();
+		$attr['user'] = $user->ID;
+		$attr['amount'] = $amount * $rate;
+		$attr['entry'] = " added by  " . $parent_id . " " . $memo;
+		
+		echo $referral_id;
+		echo $referral_rate."-->";
+		do_action('wp_mycred_outside_edit_users_balance',  $attr );
+		if( !empty($referral_id ) && !empty($referral_rate) && $referral_rate > 0 )
+		count_referral_bonus( $referral_id, $current_level + 1, $amount, $referral_rate, $referral_max_level, $userlogin, $memo );
+		return true;
+	}
+
+	return false;
+}
+///-------DOMOB points , referral -----------
+///-------DOMOB points  END.}
 ?>

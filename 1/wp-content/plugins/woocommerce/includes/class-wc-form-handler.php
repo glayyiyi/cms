@@ -502,10 +502,9 @@ class WC_Form_Handler {
 			$user_can_cancel  = current_user_can( 'cancel_order', $order_id );
 			$order_can_cancel = in_array( $order->status, apply_filters( 'woocommerce_valid_order_statuses_for_cancel', array( 'pending', 'failed' ) ) );
 			$redirect         = $_GET['redirect'];
-
-			if ( $order->status == 'cancelled' ) {
-				// Already cancelled - take no action
-			} elseif ( $user_can_cancel && $order_can_cancel && $order->id == $order_id && $order->order_key == $order_key && wp_verify_nonce( $_GET['_wpnonce'], 'woocommerce-cancel_order' ) ) {
+ 			if ( $order->status == 'cancelled' ) {
+                                 // Already cancelled - take no action
+                         } elseif ( $user_can_cancel && $order_can_cancel && $order->id == $order_id && $order->order_key == $order_key && wp_verify_nonce( $_GET['_wpnonce'], 'woocommerce-cancel_order' ) ) {
 
 				// Cancel the order + restore stock
 				$order->cancel_order( __('Order cancelled by customer.', 'woocommerce' ) );
@@ -728,7 +727,7 @@ class WC_Form_Handler {
 					throw new Exception( '<strong>' . __( 'Error', 'woocommerce' ) . ':</strong> ' . __( 'Password is required.', 'woocommerce' ) );
 				}
 
-				if ( is_email( $_POST['username'] ) && apply_filters( 'woocommerce_get_username_from_email', true ) ) {
+				if ( is_email( $_POST['username'] ) ) {
 					$user = get_user_by( 'email', $_POST['username'] );
 
 					if ( isset( $user->user_login ) ) {
@@ -826,7 +825,9 @@ class WC_Form_Handler {
 
 					do_action( 'woocommerce_customer_reset_password', $user );
 
-					wp_redirect( add_query_arg( 'reset', 'true', remove_query_arg( array( 'key', 'login' ) ) ) );
+					wc_add_notice( __( 'Your password has been reset.', 'woocommerce' ) . ' <a href="' . get_permalink( wc_get_page_id( 'myaccount' ) ) . '">' . __( 'Log in', 'woocommerce' ) . '</a>' );
+
+					wp_redirect( remove_query_arg( array( 'key', 'login' ) ) );
 					exit;
 				}
 			}
@@ -837,22 +838,29 @@ class WC_Form_Handler {
 	/**
 	 * Process the registration form.
 	 */
-	public function process_registration() {
+	public function process_registration() {		
 		if ( ! empty( $_POST['register'] ) ) {
 
 			wp_verify_nonce( $_POST['register'], 'woocommerce-register' );
 
-			if ( 'no' == get_option( 'woocommerce_registration_generate_username' ) ) {
+			//if ( 'no' == get_option( 'woocommerce_registration_generate_username' ) ) {
 				$_username = $_POST['username'];
-			} else {
-				$_username = '';
-			}
+			//} else {
+			//	$_username = '';
+			//}
 
+			//检查验证码
+			if (get_option($_username) != $_POST['captcha']){				
+				wc_add_notice( '输入的验证码不正确!', 'error' );
+				return;
+			}
+			
 			try {
 
 				$validation_error = new WP_Error();
+				
 				$validation_error = apply_filters( 'woocommerce_process_registration_errors', $validation_error, $_username, $_POST['password'], $_POST['email'] );
-
+				
 				if ( $validation_error->get_error_code() ) {
 					throw new Exception( '<strong>' . __( 'Error', 'woocommerce' ) . ':</strong> ' . $validation_error->get_error_message() );
 				}
@@ -865,9 +873,9 @@ class WC_Form_Handler {
 			}
 
 			$username   = ! empty( $_username ) ? wc_clean( $_username ) : '';
-			$email      = ! empty( $_POST['email'] ) ? wc_clean( $_POST['email'] ) : '';
+			//$email      = ! empty( $_POST['email'] ) ? wc_clean( $_POST['email'] ) : '';
 			$password   = ! empty( $_POST['password'] ) ? wc_clean( $_POST['password'] ) : '';
-
+			
 			// Anti-spam trap
 			if ( ! empty( $_POST['email_2'] ) ) {
 				wc_add_notice( '<strong>' . __( 'ERROR', 'woocommerce' ) . '</strong>: ' . __( 'Anti-spam field was filled in.', 'woocommerce' ), 'error' );
@@ -889,7 +897,7 @@ class WC_Form_Handler {
 			} else {
 				$redirect = esc_url( get_permalink( wc_get_page_id( 'myaccount' ) ) );
 			}
-
+			
 			wp_redirect( apply_filters( 'woocommerce_registration_redirect', $redirect ) );
 			exit;
 		}
@@ -897,3 +905,4 @@ class WC_Form_Handler {
 }
 
 new WC_Form_Handler();
+
