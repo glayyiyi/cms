@@ -850,10 +850,11 @@ class WC_Form_Handler {
 			}
 
             //手机是否已验证过
-            if(get_option($_POST['username']) != "1"){
+            if(get_option($_POST['username'].'isRight') != "1"){
                 wc_add_notice( __( 'mobile number is not validated', 'woocommerce' ), 'error' );
                 return;
             }
+            delete_option($_POST['username'].'isRight');
 
             if ($_POST['password'] != $_POST['confirm_password']){
                 wc_add_notice( __( 'confirm password must be the same as password', 'woocommerce' ), 'error' );
