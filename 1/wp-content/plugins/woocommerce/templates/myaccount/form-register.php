@@ -29,11 +29,10 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 <form  class="login" method="post">
     <?php do_action( 'woocommerce_register_form_start' ); ?>
     <div class="connerdiv">
-        <dl>
+        <dl class="connerbox">
             <dd><span><?php _e('mobile number', 'woocommerce')?></span><input id="username" name="username" placeholder="<?php _e('type mobile number', 'woocommerce')?>" maxlength="50" class="text_input" type="text"></dd>
         </dl>
-
-            <dl id="captchadiv">
+            <dl id="captchadiv" class="connerbox">
                 <span><?php _e('captcha', 'woocommerce')?></span>
                 <input id="captcha" name="captcha" maxlength="4" class="testcode" type="text">
 
@@ -41,11 +40,10 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
                 <dd><button onclick="validateCaptcha();return false;"><label>&nbsp;<?php _e('OK', 'woocommerce')?></label></button></dd>
             </dl>
             <div id="submitdiv" style="display: none" >
-                <dl>
+                <dl class="connerbox">
                     <dd><span><?php _e('Password', 'woocommerce')?></span><input name="password" value="" maxlength="50" placeholder="<?php _e('password strict', 'woocommerce')?>" class="text_input" type="password"></dd>
                     <dd><span><?php _e('confirm password', 'woocommerce')?></span><input name="confirm_password" value="" maxlength="50" placeholder="<?php _e('password strict', 'woocommerce')?>" class="text_input" type="password"></dd>
                 </dl>
-                <div class="space15"></div>
                 <?php do_action( 'woocommerce_register_form' ); ?>
                 <?php do_action( 'register_form' ); ?>
                 <input name="register" class="btn_red largerbtn longbtn" value="<?php _e('Register', 'woocommerce')?>" type="submit">
