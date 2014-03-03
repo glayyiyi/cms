@@ -35,7 +35,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
         <dl>
             <dl id="captchadiv">
                 <span><?php _e('captcha', 'woocommerce')?></span>
-                <input name="captcha" maxlength="4" class="testcode" type="text">
+                <input id="captcha" name="captcha" maxlength="4" class="testcode" type="text">
 
                 <button id="messageBtn" onclick="postMessage();return false;"><label>&nbsp;<?php _e('send captcha', 'woocommerce')?></label></button>
                 <dd><button onclick="validateCaptcha();return false;"><label>&nbsp;<?php _e('OK', 'woocommerce')?></label></button></dd>
@@ -58,6 +58,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
      function validateCaptcha(){
          jQuery(document).ready(function($){
              var phone = $('#username').val();
+             var captcha = $('#captcha').val();
              if (phone==''){
                  alert("<?php _e( 'please type mobile number', 'woocommerce'); ?>" );
                  return;
@@ -65,7 +66,8 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
              var data={
                  action:'validate_captcha',
-                 mobile: phone
+                 mobile: phone,
+                 captcha: captcha
              };
              $.post("<?php echo admin_url('admin-ajax.php');?>", data, function(response) {
                  if (response.indexOf('1') == -1){
