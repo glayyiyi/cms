@@ -78,7 +78,7 @@ add_filter( 'lostpassword_url',  'wc_lostpassword_url', 10, 0 );
  */
 function wc_reg_url() {
     return wc_get_endpoint_url( 'register', '', get_permalink( wc_get_page_id( 'myaccount' ) ) );
-	//return "myaccount/form-register.php";
+//	return "myaccount/form-login/?page=register";
 }
 add_filter( 'reg_url',  'wc_reg_url', 10, 0 );
 

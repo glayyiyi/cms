@@ -53,7 +53,8 @@ class WC_Shortcode_My_Account {
 
 				wc_get_template( 'myaccount/form-register.php' );
 
-			} else {
+			} else 
+			{
 
 				wc_get_template( 'myaccount/form-login.php' );
 
