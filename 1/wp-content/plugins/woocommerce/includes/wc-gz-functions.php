@@ -56,11 +56,7 @@ if ( ! function_exists( 'validate_captcha' ) ) :
         if ($isRight){
             update_option($mobile.'isRight', $isRight);
         }
-<<<<<<< HEAD
-        echo $captcha; //$isRight?'1':'0';
-=======
         echo $isRight?'1':'0';
->>>>>>> 89c0c537f8dcfa5377d2a23f941f688c59f778cc
     }
 endif;
 
