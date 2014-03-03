@@ -70,8 +70,8 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
       <input  tabindex="5" class="btn_red" name="login" value="<?php _e( 'Login', 'woocommerce' ); ?>" type="submit">
       </dl>
 
-      <input  class="forgetkey" style="border:0 black solid;filter:Alpha(opacity=40); " name="reg_btn" value="<?php _e( 'Register', 'woocommerce' ); ?>" type="button" onclick="setReg();setShow();">
- <!--       <a href="<?php echo esc_url( wc_reg_url() ); ?>" class="forgetkey" ><?php _e( 'Register', 'woocommerce' ); ?></a> -->
+<!--      <input  class="forgetkey" style="border:0 black solid;filter:Alpha(opacity=40); " name="reg_btn" value="--><?php //_e( 'Register', 'woocommerce' ); ?><!--" type="button" onclick="setReg();setShow();">-->
+        <a href="<?php echo esc_url( wc_reg_url() ); ?>" class="forgetkey" ><?php _e( 'Register', 'woocommerce' ); ?></a>
         <a href="<?php echo esc_url( wc_lostpassword_url() ); ?>" class="fr forgetkey" ><?php _e( 'Lost your password?', 'woocommerce' ); ?></a>
 
                         <?php do_action( 'woocommerce_login_form_end' ); ?>
