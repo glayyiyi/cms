@@ -854,7 +854,11 @@ class WC_Form_Handler {
                 wc_add_notice( __( 'mobile number is not validated', 'woocommerce' ), 'error' );
                 return;
             }
+<<<<<<< HEAD
 		delete_option($_POST['username'].'isRight');
+=======
+            delete_option($_POST['username'].'isRight');
+>>>>>>> 89c0c537f8dcfa5377d2a23f941f688c59f778cc
 
             if ($_POST['password'] != $_POST['confirm_password']){
                 wc_add_notice( __( 'confirm password must be the same as password', 'woocommerce' ), 'error' );
