@@ -87,15 +87,15 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
              if (!button.prop("disabled")){
                  button.attr("disabled", "disabled");
              }
-             button.text(sixtySecond--)
+             button.text(--sixtySecond)
 
              if (sixtySecond == 0){
                  button.html("<label>&nbsp;<?php _e('send captcha', 'woocommerce')?></label>")
                  button.removeAttr("disabled");
                  if (inter != null){
                      clearInterval(inter);
-                     sixtySecond = 60;
                  }
+                 sixtySecond = 60;
              }
          })
      }
