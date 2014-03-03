@@ -67,7 +67,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
                  action:'validate_captcha',
                  mobile: phone
              };
-             $.get("<?php echo admin_url('admin-ajax.php');?>", data, function(response) {
+             $.post("<?php echo admin_url('admin-ajax.php');?>", data, function(response) {
                  if (response.indexOf('1') == -1){
                      alert("<?php _e( 'failed to validate captcha', 'woocommerce'); ?>")
                  } else {

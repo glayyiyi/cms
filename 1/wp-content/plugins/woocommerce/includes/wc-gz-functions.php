@@ -52,13 +52,11 @@ if ( ! function_exists( 'validate_captcha' ) ) :
         $mobile = $_POST['mobile'];
         $existCaptcha = get_option($mobile);
 
-        $isRight = (!empty($captcha)
-            && !empty($existCaptcha)
-            && ($captcha == $existCaptcha));
+        $isRight = (!empty($captcha) && !empty($existCaptcha) && ($captcha == $existCaptcha));
         if ($isRight){
-            update_option($mobile, $isRight);
+            update_option($mobile.'isRight', $isRight);
         }
-        echo $isRight;
+        echo $captcha; //$isRight?'1':'0';
     }
 endif;
 
