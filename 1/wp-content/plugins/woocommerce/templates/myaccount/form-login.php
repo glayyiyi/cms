@@ -106,7 +106,7 @@ document.getElementById( "customer_login" ).style.display = "none";
         <?php do_action( 'woocommerce_register_form_start' ); ?>
         <div class="connerdiv">
             <dl class="connerbox">
-                <dd><span><?php _e('mobile number', 'woocommerce')?></span><input id="username" name="username" placeholder="<?php _e('type mobile number', 'woocommerce')?>" maxlength="50" class="text_input" type="text"></dd>
+                <dd><span><?php _e('mobile number', 'woocommerce')?></span><input id="user_name" name="username" placeholder="<?php _e('type mobile number', 'woocommerce')?>" maxlength="50" class="text_input" type="text"></dd>
             </dl>
             <dl>
                 <dl id="captchadiv">
@@ -133,7 +133,7 @@ document.getElementById( "customer_login" ).style.display = "none";
     <script type="text/javascript">
         function validateCaptcha(){
             jQuery(document).ready(function($){
-                var phone = $('#username').val();
+                var phone = $('#user_name').val();
                 if (phone==''){
                     alert("<?php _e( 'please type mobile number', 'woocommerce'); ?>" );
                     return;
@@ -149,14 +149,14 @@ document.getElementById( "customer_login" ).style.display = "none";
                     } else {
                         document.getElementById( "submitdiv" ).style.display = "inline";
                         document.getElementById( "captchadiv" ).style.display = "none";
-                        $('#username').attr("readonly","readonly");
+                        $('#user_name').attr("readonly","readonly");
                     }
                 });
             });
         }
         function postMessage(){
             jQuery(document).ready(function($){
-                var phone = $('#username').val();
+                var phone = $('#user_name').val();
                 if (phone==''){
                     alert("<?php _e( 'please type mobile number', 'woocommerce'); ?>" );
                     return;
