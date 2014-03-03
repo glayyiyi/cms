@@ -574,7 +574,7 @@ if ( ! function_exists( 'validate_captcha' ) ) :
 
         $isRight = (!empty($captcha)
             && !empty($existCaptcha)
-            && $captcha == $existCaptcha);
+            && ($captcha == $existCaptcha));
         if ($isRight){
             update_option($mobile, $isRight);
         }
