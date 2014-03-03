@@ -31,25 +31,52 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 <div class="connerdiv">
     <dl class="connerbox">
       <dd><span><?php _e('mobile number', 'woocommerce')?></span><input id="username" name="username" placeholder="<?php _e('type mobile number', 'woocommerce')?>" maxlength="50" class="text_input" type="text"></dd>
-      <dd><span><?php _e('Password', 'woocommerce')?></span><input name="password" value="" maxlength="50" placeholder="<?php _e('password strict', 'woocommerce')?>" class="text_input" type="password"></dd>
-      <dd><span><?php _e('confirm password', 'woocommerce')?></span><input name="confirm_password" value="" maxlength="50" placeholder="<?php _e('password strict', 'woocommerce')?>" class="text_input" type="password"></dd>
     </dl>
-        <dl>
+      <dl id="captchadiv">
       <span><?php _e('captcha', 'woocommerce')?></span>
         <input name="captcha" maxlength="4" class="testcode" type="text">
-
     	<button onclick="postMessage();return false;"><label>&nbsp;<?php _e('send captcha', 'woocommerce')?></label></button>
+      <button onclick="validateCaptcha();return false;"><label>&nbsp;<?php _e('OK', 'woocommerce')?></label></button>
     </dl>
-        <div class="space15"></div>
-        		<?php do_action( 'woocommerce_register_form' ); ?>
-			<?php do_action( 'register_form' ); ?>
+    <div id="submitdiv" style="display: none">
+    <dl>
+        <dd><span><?php _e('Password', 'woocommerce')?></span><input name="password" value="" maxlength="50" placeholder="<?php _e('password strict', 'woocommerce')?>" class="text_input" type="password"></dd>
+        <dd><span><?php _e('confirm password', 'woocommerce')?></span><input name="confirm_password" value="" maxlength="50" placeholder="<?php _e('password strict', 'woocommerce')?>" class="text_input" type="password"></dd>
+    </dl>
+    <?php do_action( 'woocommerce_register_form' ); ?>
+    <?php do_action( 'register_form' ); ?>
     <input name="register" class="btn_red largerbtn longbtn" value="<?php _e('Register', 'woocommerce')?>" type="submit">
-    			<?php do_action( 'woocommerce_register_form_end' ); ?>
+    <?php do_action( 'woocommerce_register_form_end' ); ?>
+    </div>
     <div class="space15"></div>
     </div>
  </form>
  <script type="text/javascript">
-function postMessage(){
+     function validateCaptcha(){
+         jQuery(document).ready(function($){
+             var phone = $('#username').val();
+             if (phone==''){
+                 alert("<?php _e( 'please type mobile number', 'woocommerce'); ?>" );
+                 return;
+             }
+
+             var data={
+                 action:'validate_captcha',
+                 mobile: phone
+             };
+             $.post("<?php echo admin_url('admin-ajax.php');?>", data, function(response) {
+                 if ('true'!= response){
+                     alert("<?php _e( 'failed to validate captcha', 'woocommerce'); ?>")
+                 } else {
+                     document.getElementById( "submitdiv" ).style.display = "inline";
+                     document.getElementById( "captchadiv" ).style.display = "none";
+                 }
+             });
+         });
+     }
+
+
+     function postMessage(){
 	jQuery(document).ready(function($){
 		var phone = $('#username').val();
 		if (phone==''){

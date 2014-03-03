@@ -565,3 +565,16 @@ endif;
 
 add_action('wp_ajax_post_message', 'post_message');
 add_action('wp_ajax_nopriv_post_message', 'post_message');
+
+if ( ! function_exists( 'validate_captcha' ) ) :
+    function validate_captcha(){
+        $captcha = $_POST['captcha'];
+        $mobile = $_POST['mobile'];
+        $existCaptcha = get_option($mobile);
+
+        echo ($captcha == $existCaptcha);
+    }
+endif;
+
+add_action('wp_ajax_validate_captcha', 'validate_captcha');
+add_action('wp_ajax_nopriv_validate_captcha', 'validate_captcha');

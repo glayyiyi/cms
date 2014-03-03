@@ -40,6 +40,9 @@ msgstr "请输入正确的验证码"
 msgid "confirm password must be the same as password"
 msgstr "确认密码必须和密码一致"
 
+msgid "failed to validate captcha"
+msgstr "手机验证码验证错误"
+
 #: assets/js/admin/editor_plugin_lang.php:5
 msgid "Insert Shortcode"
 msgstr "插入图像"
