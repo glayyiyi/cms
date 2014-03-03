@@ -29,10 +29,10 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 <form  class="login" method="post">
     <?php do_action( 'woocommerce_register_form_start' ); ?>
     <div class="connerdiv">
-        <dl class="connerbox">
+        <dl>
             <dd><span><?php _e('mobile number', 'woocommerce')?></span><input id="username" name="username" placeholder="<?php _e('type mobile number', 'woocommerce')?>" maxlength="50" class="text_input" type="text"></dd>
         </dl>
-        <dl>
+
             <dl id="captchadiv">
                 <span><?php _e('captcha', 'woocommerce')?></span>
                 <input id="captcha" name="captcha" maxlength="4" class="testcode" type="text">
@@ -109,12 +109,12 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 			alert("<?php _e( 'please type mobile number', 'woocommerce'); ?>" );
 			return;
 		}
-				
+
 		var data={
 			action:'post_message',
 			mobile: phone
 		};
-		$.post("<?php echo admin_url('admin-ajax.php');?>", data, function(response) {			
+		$.post("<?php echo admin_url('admin-ajax.php');?>", data, function(response) {
 		 if ('0'!=$(response).find('result').text()){
 			alert("<?php _e( 'failed to send message', 'woocommerce'); ?>")
 		} else {
