@@ -83,12 +83,16 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
      function countdown(){
          jQuery(document).ready(function($){
              var button = $("#messageBtn")
+
              if (sixtySecond == 0){
                  button.text("<label>&nbsp;<?php _e('send captcha', 'woocommerce')?></label>")
                  button.removeAttr("disabled");
                  if (inter != null){
                      clearInterval(inter);
                  }
+             }
+             if (!button.prop("disabled")){
+                 button.attr("disabled", "disabled");
              }
              button.text(sixtySecond--)
          })
@@ -111,7 +115,6 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 			alert("<?php _e( 'failed to send message', 'woocommerce'); ?>")
 		} else {
              inter = window.setInterval(countdown, 1000)
-             $("#messageBtn").attr("disabled", disabled);
          }
 		});
 	});
