@@ -572,7 +572,13 @@ if ( ! function_exists( 'validate_captcha' ) ) :
         $mobile = $_POST['mobile'];
         $existCaptcha = get_option($mobile);
 
-        echo ($captcha == $existCaptcha);
+        $isRight = (!empty($captcha)
+            && !empty($existCaptcha)
+            && $captcha == $existCaptcha);
+        if ($isRight){
+            update_option($mobile, $isRight);
+        }
+        echo $isRight;
     }
 endif;
 

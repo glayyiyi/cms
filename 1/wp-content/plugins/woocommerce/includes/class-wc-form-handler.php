@@ -849,10 +849,11 @@ class WC_Form_Handler {
 				$_username = '';
 			}
 
-//            if(get_option($_POST['username']) != $_POST['captcha']){
-//                wc_add_notice( __( 'please type right captcha', 'woocommerce' ), 'error' );
-//                return;
-//            }
+            //手机是否已验证过
+            if(get_option($_POST['username']) != "1"){
+                wc_add_notice( __( 'mobile number is not validated', 'woocommerce' ), 'error' );
+                return;
+            }
 
             if ($_POST['password'] != $_POST['confirm_password']){
                 wc_add_notice( __( 'confirm password must be the same as password', 'woocommerce' ), 'error' );

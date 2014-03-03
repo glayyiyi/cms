@@ -26,30 +26,75 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 .btn_red{color:#fff;width:100%;box-shadow:0 1px 1px rgba(0,0,0,.2);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff3c9b',endColorstr='#e61f80');background:-ms-linear-gradient(top, #ff3c9b, #e61f80);/*IE10*/background: -webkit-gradient(linear, 0 0, 0 100%, from(#ff3c9b), to(#e61f80));background: -moz-linear-gradient(top, #ff3c9b, #e61f80); border:#db207b 1px solid;}
 </style>
-<form  class="register" method="post">
-		<?php do_action( 'woocommerce_register_form_start' ); ?>
-<div class="connerdiv">
-    <dl class="connerbox">
-      <dd><span><?php _e('mobile number', 'woocommerce')?></span><input id="username" name="username" placeholder="<?php _e('type mobile number', 'woocommerce')?>" maxlength="50" class="text_input" type="text"></dd>
-      <dd><span><?php _e('Password', 'woocommerce')?></span><input name="password" value="" maxlength="50" placeholder="<?php _e('password strict', 'woocommerce')?>" class="text_input" type="password"></dd>
-      <dd><span><?php _e('confirm password', 'woocommerce')?></span><input name="confirm_password" value="" maxlength="50" placeholder="<?php _e('password strict', 'woocommerce')?>" class="text_input" type="password"></dd>      
-    </dl>
+<form  class="login" method="post">
+    <?php do_action( 'woocommerce_register_form_start' ); ?>
+    <div class="connerdiv">
+        <dl class="connerbox">
+            <dd><span><?php _e('mobile number', 'woocommerce')?></span><input id="username" name="username" placeholder="<?php _e('type mobile number', 'woocommerce')?>" maxlength="50" class="text_input" type="text"></dd>
+        </dl>
         <dl>
-      <span><?php _e('captcha', 'woocommerce')?></span>
-        <input name="captcha" maxlength="4" class="testcode" type="text">
-    	
-    	<button onclick="postMessage();return false;"><label>&nbsp;<?php _e('send captcha', 'woocommerce')?></label></button>
-    </dl>
-        <div class="space15"></div>
-        		<?php do_action( 'woocommerce_register_form' ); ?>
-			<?php do_action( 'register_form' ); ?>
-    <input name="register" class="btn_red largerbtn longbtn" value="<?php _e('register', 'woocommerce')?>" type="submit">
-    			<?php do_action( 'woocommerce_register_form_end' ); ?>
-    <div class="space15"></div>    
+            <dl id="captchadiv">
+                <span><?php _e('captcha', 'woocommerce')?></span>
+                <input name="captcha" maxlength="4" class="testcode" type="text">
+
+                <button id="messageBtn" onclick="postMessage();return false;"><label>&nbsp;<?php _e('send captcha', 'woocommerce')?></label></button>
+                <dd><button onclick="validateCaptcha();return false;"><label>&nbsp;<?php _e('OK', 'woocommerce')?></label></button></dd>
+            </dl>
+            <div id="submitdiv" style="display: none" >
+                <dl>
+                    <dd><span><?php _e('Password', 'woocommerce')?></span><input name="password" value="" maxlength="50" placeholder="<?php _e('password strict', 'woocommerce')?>" class="text_input" type="password"></dd>
+                    <dd><span><?php _e('confirm password', 'woocommerce')?></span><input name="confirm_password" value="" maxlength="50" placeholder="<?php _e('password strict', 'woocommerce')?>" class="text_input" type="password"></dd>
+                </dl>
+                <div class="space15"></div>
+                <?php do_action( 'woocommerce_register_form' ); ?>
+                <?php do_action( 'register_form' ); ?>
+                <input name="register" class="btn_red largerbtn longbtn" value="<?php _e('Register', 'woocommerce')?>" type="submit">
+                <?php do_action( 'woocommerce_register_form_end' ); ?>
+            </div>
+            <div class="space15"></div>
     </div>
- </form>
- <script type="text/javascript">
-function postMessage(){
+</form>
+<script type="text/javascript">
+     function validateCaptcha(){
+         jQuery(document).ready(function($){
+             var phone = $('#username').val();
+             if (phone==''){
+                 alert("<?php _e( 'please type mobile number', 'woocommerce'); ?>" );
+                 return;
+             }
+
+             var data={
+                 action:'validate_captcha',
+                 mobile: phone
+             };
+             $.get("<?php echo admin_url('admin-ajax.php');?>", data, function(response) {
+                 if (response.indexOf('1') == -1){
+                     alert("<?php _e( 'failed to validate captcha', 'woocommerce'); ?>")
+                 } else {
+                     document.getElementById( "submitdiv" ).style.display = "inline";
+                     document.getElementById( "captchadiv" ).style.display = "none";
+                     $('#username').attr("readonly","readonly");
+                 }
+             });
+         });
+     }
+     var sixtySecond = 60;
+     var inter = null;
+     function countdown(){
+         jQuery(document).ready(function($){
+             var button = $("#messageBtn")
+             if (sixtySecond == 0){
+                 button.text("<label>&nbsp;<?php _e('send captcha', 'woocommerce')?></label>")
+                 button.removeAttr("disabled");
+                 if (inter != null){
+                     clearInterval(inter);
+                 }
+             }
+             button.text(sixtySecond--)
+         })
+     }
+
+     function postMessage(){
 	jQuery(document).ready(function($){
 		var phone = $('#username').val();
 		if (phone==''){
@@ -64,7 +109,10 @@ function postMessage(){
 		$.post("<?php echo admin_url('admin-ajax.php');?>", data, function(response) {			
 		 if ('0'!=$(response).find('result').text()){
 			alert("<?php _e( 'failed to send message', 'woocommerce'); ?>")
-		}
+		} else {
+             inter = window.setInterval(countdown, 1000)
+             $("#messageBtn").attr("disabled", disabled);
+         }
 		});
 	});
 }

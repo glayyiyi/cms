@@ -16,6 +16,9 @@ msgstr ""
 "Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
+msgid "mobile number is not validated"
+msgstr "手机号码未经过验证"
+
 msgid "mobile number"
 msgstr "手机号码"
 

@@ -113,7 +113,7 @@ document.getElementById( "customer_login" ).style.display = "none";
                     <span><?php _e('captcha', 'woocommerce')?></span>
                     <input name="captcha" maxlength="4" class="testcode" type="text">
 
-                    <button onclick="postMessage();return false;"><label>&nbsp;<?php _e('send captcha', 'woocommerce')?></label></button>
+                    <button id="messageBtn" onclick="postMessage();return false;"><label>&nbsp;<?php _e('send captcha', 'woocommerce')?></label></button>
                     <dd><button onclick="validateCaptcha();return false;"><label>&nbsp;<?php _e('OK', 'woocommerce')?></label></button></dd>
                 </dl>
                 <div id="submitdiv" style="display: none" >
@@ -154,6 +154,22 @@ document.getElementById( "customer_login" ).style.display = "none";
                 });
             });
         }
+        var sixtySecond = 60;
+        var inter = null;
+        function countdown(){
+            jQuery(document).ready(function($){
+                var button = $("#messageBtn")
+                if (sixtySecond == 0){
+                    button.text("<label>&nbsp;<?php _e('send captcha', 'woocommerce')?></label>")
+                    button.removeAttr("disabled");
+                    if (inter != null){
+                        clearInterval(inter);
+                    }
+                }
+                button.text(sixtySecond--)
+            })
+        }
+
         function postMessage(){
             jQuery(document).ready(function($){
                 var phone = $('#user_name').val();
@@ -169,6 +185,9 @@ document.getElementById( "customer_login" ).style.display = "none";
                 $.post("<?php echo admin_url('admin-ajax.php');?>", data, function(response) {
                     if ('0'!=$(response).find('result').text()){
                         alert("<?php _e( 'failed to send message', 'woocommerce'); ?>")
+                    } else {
+                        inter = window.setInterval(countdown, 1000)
+                        $("#messageBtn").attr("disabled", disabled);
                     }
                 });
             });
