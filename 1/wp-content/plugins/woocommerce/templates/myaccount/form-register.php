@@ -90,10 +90,11 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
              button.text(sixtySecond--)
 
              if (sixtySecond == 0){
-                 button.text("<label>&nbsp;<?php _e('send captcha', 'woocommerce')?></label>")
+                 button.html("<label>&nbsp;<?php _e('send captcha', 'woocommerce')?></label>")
                  button.removeAttr("disabled");
                  if (inter != null){
                      clearInterval(inter);
+                     sixtySecond = 60;
                  }
              }
          })
