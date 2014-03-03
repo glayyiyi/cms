@@ -84,6 +84,11 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
          jQuery(document).ready(function($){
              var button = $("#messageBtn")
 
+             if (!button.prop("disabled")){
+                 button.attr("disabled", "disabled");
+             }
+             button.text(sixtySecond--)
+
              if (sixtySecond == 0){
                  button.text("<label>&nbsp;<?php _e('send captcha', 'woocommerce')?></label>")
                  button.removeAttr("disabled");
@@ -91,10 +96,6 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
                      clearInterval(inter);
                  }
              }
-             if (!button.prop("disabled")){
-                 button.attr("disabled", "disabled");
-             }
-             button.text(sixtySecond--)
          })
      }
 
