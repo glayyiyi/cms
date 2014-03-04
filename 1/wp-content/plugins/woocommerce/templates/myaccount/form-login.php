@@ -45,12 +45,12 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 <!--		<h2><?php _e( 'Login', 'woocommerce' ); ?></h2> -->
 
-		<form method="post" class="login">
+		<form method="post" class="login"> <!-- style="padding:5px; margin:5px;"> -->
 
 			<?php do_action( 'woocommerce_login_form_start' ); ?>
 
-<div class="connerdiv">
-      <dl class="connerbox">
+<div class="connerdiv" style="width:92%; padding:5px; margin:5px;">
+      <dl class="connerbox" style="width:99%; padding:1px; margin:1px;">
         <dd >
         <span class="required">*</span><label for="username"><?php _e( 'Username or email address', 'woocommerce' ); ?> </label>:
           <input tabindex="3" class="text_input" placeholder="<?php _e( 'Username or email address', 'woocommerce' ); ?>" name="username" id="username" type="text">
@@ -66,7 +66,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
       </dl>
 
         <?php wp_nonce_field( 'woocommerce-login' ); ?>
-      <dl class="connerbox">
+      <dl class="connerbox" style="width:99%; padding:1px; margin:1px;">
       <input  tabindex="5" class="btn_red" name="login" value="<?php _e( 'Login', 'woocommerce' ); ?>" type="submit">
       </dl>
 

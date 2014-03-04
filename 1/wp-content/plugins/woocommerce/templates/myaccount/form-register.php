@@ -17,8 +17,8 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 <style type="text/css">
 
-.connerdiv{ padding:10px 8px;}
-.connerbox{ margin-bottom:10px; background:#fff; border-radius:4px; border:#dadada 1px solid; box-shadow:0px 1px 2px rgba(0,0,0,.1) inset; -webkit-box-shadow:0px 1px 2px rgba(0,0,0,.1) inset;-moz-box-shadow:0px 1px 2px rgba(0,0,0,.1) inset;}
+.connerdiv{ padding:10px 8px;width:92%; padding:5px; margin:5px;}
+.connerbox{width:99%; padding:1px; margin:1px; margin-bottom:10px; background:#fff; border-radius:4px; border:#dadada 1px solid; box-shadow:0px 1px 2px rgba(0,0,0,.1) inset; -webkit-box-shadow:0px 1px 2px rgba(0,0,0,.1) inset;-moz-box-shadow:0px 1px 2px rgba(0,0,0,.1) inset;}
 .connerbox dd{ padding:6px 10px; font-style:normal; font-size:14px; border-bottom:#e0e0e0 1px solid;}
 .connerbox dd span{ float:left; display:inline-block; line-height:30px;}
 .connerbox dd:last-child{ border-bottom:none;}
@@ -29,18 +29,20 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 <form  class="login" method="post">
     <?php do_action( 'woocommerce_register_form_start' ); ?>
     <div class="connerdiv">
-        <dl class="connerbox">
+        <dl class="connerbox" style="width:99%; padding:1px; margin:1px;">
             <dd><span><?php _e('mobile number', 'woocommerce')?></span><input id="username" name="username" placeholder="<?php _e('type mobile number', 'woocommerce')?>" maxlength="50" class="text_input" type="text"></dd>
         </dl>
-            <dl id="captchadiv" class="connerbox">
+            <dl id="captchadiv" class="connerbox" style="width:99%; padding:1px; margin:1px;">
+	<dd>
                 <span><?php _e('captcha', 'woocommerce')?></span>
                 <input id="captcha" name="captcha" maxlength="4" class="testcode" type="text">
 
-                <button id="messageBtn" onclick="postMessage();return false;"><label>&nbsp;<?php _e('send captcha', 'woocommerce')?></label></button>
-                <dd><button onclick="validateCaptcha();return false;"><label>&nbsp;<?php _e('OK', 'woocommerce')?></label></button></dd>
+                <button id="messageBtn" style="width:100px; height:26px; " onclick="postMessage();return false;"><label >&nbsp;<?php _e('send captcha', 'woocommerce')?></label></button>
+</dd>
+                <dd><button class="btn_red" style="color:#fff; width:100px; height:30px;" onclick="validateCaptcha();return false;"><label>&nbsp;&nbsp;&nbsp;<?php _e('OK', 'woocommerce')?>&nbsp;&nbsp;&nbsp;</label></button></dd>
             </dl>
-            <div id="submitdiv" style="display: none" >
-                <dl class="connerbox">
+            <div id="submitdiv" style="display: none" style="width:99%; padding:1px; margin:1px;">
+                <dl class="connerbox" style="width:99%; padding:1px; margin:1px;">
                     <dd><span><?php _e('Password', 'woocommerce')?></span><input name="password" value="" maxlength="50" placeholder="<?php _e('password strict', 'woocommerce')?>" class="text_input" type="password"></dd>
                     <dd><span><?php _e('confirm password', 'woocommerce')?></span><input name="confirm_password" value="" maxlength="50" placeholder="<?php _e('password strict', 'woocommerce')?>" class="text_input" type="password"></dd>
                 </dl>

@@ -342,7 +342,7 @@ function push_notifications_change_settigs(){
 		"
 			<div id='pn_settings'>
 		   <h2>Settings:</h2>
-			<form name='push_notifications_setup' method='post' action='".$_SERVER['PHP_SELF']."?page=push_notifications&amp;updated=true'>
+			<form name='push_notifications_setup' method='post' action='".get_option ( 'siteurl' )."/wp-admin/admin.php?page=push_notifications&amp;updated=true'>
 		";
 
 		if (function_exists ('wp_nonce_field') )
@@ -398,7 +398,7 @@ function push_notifications_create_form(){
 	echo
 		"<div id='pn_form'>
 	        <h2>Create push notification</h2>
-			<form id='push_form' name='push_notifications' method='post' action='".$_SERVER['PHP_SELF']."?page=push_notifications&amp;updated=true'>
+			<form id='push_form' name='push_notifications' method='post' action='".get_option ( 'siteurl' )."/wp-admin/admin.php?page=push_notifications&amp;updated=true'>
 		";
 		
 		if (function_exists ('wp_nonce_field') )
