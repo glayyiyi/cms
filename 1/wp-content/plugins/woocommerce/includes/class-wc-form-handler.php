@@ -843,11 +843,11 @@ class WC_Form_Handler {
 
 			wp_verify_nonce( $_POST['register'], 'woocommerce-register' );
 
-			if ( 'no' == get_option( 'woocommerce_registration_generate_username' ) ) {
+//			if ( 'no' == get_option( 'woocommerce_registration_generate_username' ) ) {
 				$_username = $_POST['username'];
-			} else {
-				$_username = '';
-			}
+//			} else {
+//				$_username = '';
+//			}
 
             //手机是否已验证过
             if(get_option($_POST['username'].'isRight') != "1"){
