@@ -118,6 +118,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 		 if ('0'!=$(response).find('result').text()){
 			alert("<?php _e( 'failed to send message', 'woocommerce'); ?>")
 		} else {
+             countdown();
              inter = window.setInterval(countdown, 1000)
          }
 		});
