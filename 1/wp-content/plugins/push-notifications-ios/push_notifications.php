@@ -35,7 +35,7 @@ function push_notifications_css(){
 
 function push_notifications_admin_pages() {
 	//wp_enqueue_media();
-	add_menu_page( 'iOS Push消息', 'iOS Push消息', 'edit_products', 'push_notifications', 'push_notifications_options_page', plugins_url( '/push-notifications-ios/img/icon.png' ), 40 ); 
+	add_menu_page( 'iOS Push 消息', 'iOS Push 消息', 'edit_products', 'push_notifications', 'push_notifications_options_page', plugins_url( '/push-notifications-ios/img/icon.png' ), 40 ); 
 }
 
 /* ----------- INSTALATION ---------- */
