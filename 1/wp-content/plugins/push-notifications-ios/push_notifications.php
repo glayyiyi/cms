@@ -220,7 +220,7 @@ function push_notifications_send($pn_push_type, $json, $message, $sound, $badge)
 	if (!$fp)
 	exit("Failed to connect amarnew: $err $errstr");
 
-	echo 'Connected to APNS';
+	echo 'Connected to APNS/'.$ssl;
 
 
 
@@ -257,7 +257,7 @@ function push_notifications_send($pn_push_type, $json, $message, $sound, $badge)
 		if (!$result)
 			echo 'Message not delivered';
 		else
-			echo 'Message successfully delivered';
+			echo '消息发送成功:'.$deviceToken.'<br>';
 
 	}
 
@@ -414,7 +414,7 @@ function push_notifications_create_form(){
 							<p><textarea type='text' name='json' placeholder='JSON'>{ "aps": { "badge": 1, "alert": "Hello world!"}, "action": "" }</textarea></p>
 						</div>
 						<div>
-							<input type='submit' id="push_button" class='pn blue push_button' name='push_notifications_push_btn' value='Send' />
+							<input type='submit' id="push_button" class='pn blue push_button' name='push_notifications_push_btn' value='发送' />
 						</div>
 			</form>
 			</div>
