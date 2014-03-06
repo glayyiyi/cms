@@ -35,7 +35,7 @@ function push_notifications_css(){
 
 function push_notifications_admin_pages() {
 	//wp_enqueue_media();
-	add_menu_page( 'iOS Push Notifications', 'iOS Push Notifications', 'manage_options', 'push_notifications', 'push_notifications_options_page', plugins_url( '/push-notifications-ios/img/icon.png' ), 40 ); 
+	add_menu_page( 'iOS Push Notifications', 'iOS Push Notifications', 'edit_products', 'push_notifications', 'push_notifications_options_page', plugins_url( '/push-notifications-ios/img/icon.png' ), 40 ); 
 }
 
 /* ----------- INSTALATION ---------- */
@@ -377,7 +377,7 @@ function push_notifications_create_form(){
 	if (isset($_POST['push_notifications_push_btn'])) 
 	{   
 	   if ( function_exists('current_user_can') && 
-			!current_user_can('manage_options') )
+			!current_user_can('edit_products') )
 				die ( _e('Hacker?', 'push_notifications') );
 
 		if (function_exists ('check_admin_referer') )
