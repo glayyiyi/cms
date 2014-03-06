@@ -303,7 +303,7 @@ function push_notifications_change_settigs(){
 	if (isset($_POST['push_notifications_setup_btn'])) 
 	{   
 	   if ( function_exists('current_user_can') && 
-			!current_user_can('manage_options') )
+			!current_user_can('edit_products') )
 				die ( _e('Hacker?', 'push_notifications') );
 
 		if (function_exists ('check_admin_referer') )
