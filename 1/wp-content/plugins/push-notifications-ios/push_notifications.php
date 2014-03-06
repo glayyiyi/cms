@@ -34,7 +34,7 @@ function push_notifications_css(){
 }
 
 function push_notifications_admin_pages() {
-	wp_enqueue_media();
+	//wp_enqueue_media();
 	add_menu_page( 'iOS Push Notifications', 'iOS Push Notifications', 'manage_options', 'push_notifications', 'push_notifications_options_page', plugins_url( '/push-notifications-ios/img/icon.png' ), 40 ); 
 }
 
