@@ -1827,7 +1827,7 @@ function wp_ext2type( $ext ) {
 		'spreadsheet' => array( 'numbers',     'ods',  'xls',  'xlsx', 'xlsm',  'xlsb' ),
 		'interactive' => array( 'swf', 'key',  'ppt',  'pptx', 'pptm', 'pps',   'ppsx', 'ppsm', 'sldx', 'sldm', 'odp' ),
 		'text'        => array( 'asc', 'csv',  'tsv',  'txt' ),
-		'archive'     => array( 'bz2', 'cab',  'dmg',  'gz',   'rar',  'sea',   'sit',  'sqx',  'tar',  'tgz',  'zip','ipa','apk','7z' ),
+		'archive'     => array( 'bz2', 'cab',  'dmg',  'gz',   'rar',  'sea',   'sit',  'sqx',  'tar',  'tgz',  'zip','pem','ipa','apk','7z' ),
 		'code'        => array( 'css', 'htm',  'html', 'php',  'js' ),
 	) );
 
@@ -1994,6 +1994,7 @@ function wp_get_mime_types() {
 	'class' => 'application/java',
 	'tar' => 'application/x-tar',
 	'zip' => 'application/zip',
+	'pem'=>	 'application/octet-stream',
 	'apk' => 'application/zip',
 	'ipa' => 'application/zip',
 	'gz|gzip' => 'application/x-gzip',
