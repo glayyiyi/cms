@@ -1994,7 +1994,7 @@ function wp_get_mime_types() {
 	'class' => 'application/java',
 	'tar' => 'application/x-tar',
 	'zip' => 'application/zip',
-	'pem'=>	 'application/octet-stream',
+	'pem'=>	 'application/zip',
 	'apk' => 'application/zip',
 	'ipa' => 'application/zip',
 	'gz|gzip' => 'application/x-gzip',

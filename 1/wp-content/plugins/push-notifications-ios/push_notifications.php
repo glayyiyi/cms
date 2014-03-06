@@ -482,12 +482,12 @@ function push_notifications_get_attachment_id_from_url( $attachment_url = '' ) {
 
 
 register_activation_hook( __FILE__, 'push_notifications_install');
-register_deactivation_hook( __FILE__, 'push_notifications_uninstall');
+//register_deactivation_hook( __FILE__, 'push_notifications_uninstall');
 
 add_filter( 'page_template', 'push_notifications_page_template' );
 //add_filter('upload_mimes', 'add_custom_upload_mimes');
 
-//add_action('admin_head', 'push_notifications_css');
+add_action('admin_head', 'push_notifications_css');
 add_action('admin_menu', 'push_notifications_admin_pages');
 
 
