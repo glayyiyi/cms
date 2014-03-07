@@ -16,8 +16,15 @@ msgstr ""
 "Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
+
+msgid "user do not exists"
+msgstr "用户不存在"
+
 msgid "mobile number is not validated"
 msgstr "手机号码未经过验证"
+
+msgid "username or password is wrong"
+msgstr "用户名或密码错误"
 
 msgid "mobile number"
 msgstr "手机号码"
