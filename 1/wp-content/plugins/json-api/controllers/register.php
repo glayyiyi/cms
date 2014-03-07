@@ -13,16 +13,29 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
  */
 class json_api_register_controller {
 	public function register_user() {
+		global $json_api;
   	  
   		$device_id = $_POST['device_id'];
 		$exist_users = get_users(array(
-			'meta_key'     => 'device_id',
-			'meta_value'   => $device_id)); 
+					'meta_key'     => 'device_id',
+					'meta_value'   => $device_id)); 
 		$user_is_empty = empty($exist_users);
-  	  	if(!$user_is_empty){
-  	  	  return array(
-    		"user" => $exist_users[0]);
-  		}
+
+		if ( ! class_exists( 'myCRED_Settings' ) ) {
+			$json_api->error(" not found myCRED" );
+		}
+
+		$mycred = new myCRED_Settings();
+		if ( empty($mycred)  ) {
+			$json_api->error(" not found myCRED" );
+		}
+
+		if(!$user_is_empty){
+			return array(
+					"uid" => $exist_users[0]->id, 
+					"points" => $mycred->get_users_cred( $exist_users[0]->id, '' )
+				    );
+		}
   	  
   	  $usercount = get_option('usercount');
   	   $username = sanitize_user(empty($usercount) ?10000:($usercount+1) );
@@ -63,16 +76,8 @@ class json_api_register_controller {
   	  	  update_user_meta($customer_id, 'referral_id', $_COOKIE['referral_id'] );
   	}
 
-   	if ( ! class_exists( 'myCRED_Settings' ) ) {
-                        $json_api->error(" not found myCRED" );
-         }
 
-                $mycred = new myCRED_Settings();
-                if ( empty($mycred)  ) {
-                        $json_api->error(" not found myCRED" );
-                }
-
-	return array("uid" => get_userdata( $customer_id) 
+	return array("uid" =>  $customer_id 
 			, "points" => $mycred->get_users_cred( $user->id, '' )
 			, "key" => $randstr
 		  );
