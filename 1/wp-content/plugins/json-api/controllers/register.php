@@ -15,7 +15,7 @@ class json_api_register_controller {
 	public function register_user() {
 		global $json_api;
   	  
-  		$device_id = $_POST['device_id'];
+  		$device_id = $_GET['device_id'];
 		$exist_users = get_users(array(
 					'meta_key'     => 'device_id',
 					'meta_value'   => $device_id));
@@ -77,7 +77,7 @@ class json_api_register_controller {
 	
 
     update_user_meta($customer_id, 'device_id', $device_id);
-    update_user_meta($customer_id, 'device_type', $_POST['device_type'] );
+    update_user_meta($customer_id, 'device_type', $_GET['device_type'] );
     update_user_meta($customer_id, 'referral_id', $_COOKIE['referral_id'] );
     update_user_meta($customer_id, 'password_is_reset', false);
 
