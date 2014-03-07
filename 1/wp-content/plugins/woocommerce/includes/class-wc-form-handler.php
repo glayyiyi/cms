@@ -758,7 +758,7 @@ class WC_Form_Handler {
 					}
 
 					// Feedback
-					wc_add_notice( sprintf( __( 'You are now logged in as <strong>%s</strong>', 'woocommerce' ), $user->display_name ) );
+//					wc_add_notice( sprintf( __( 'You are now logged in as <strong>%s</strong>', 'woocommerce' ), $user->display_name ) );
 
 					wp_redirect( apply_filters( 'woocommerce_login_redirect', $redirect, $user ) );
 					exit;
@@ -855,6 +855,7 @@ class WC_Form_Handler {
                 return;
             }
 		delete_option($_POST['username'].'isRight');
+            delete_option($_POST['username']);
 
             if ($_POST['password'] != $_POST['confirm_password']){
                 wc_add_notice( __( 'confirm password must be the same as password', 'woocommerce' ), 'error' );

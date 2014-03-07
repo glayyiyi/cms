@@ -70,15 +70,15 @@ class json_api_register_controller {
 		return new WP_Error( 'registration-error', '<strong>' . __( 'ERROR', 'woocommerce' ) . '</strong>: ' . __( 'Couldn&#8217;t register you&hellip; please contact us if you continue to have problems.', 'woocommerce' ) );
 	}
 	
-	if ($user_is_empty){
-  	  	  update_user_meta($customer_id, 'device_id', $device_id);
-  	  	  update_user_meta($customer_id, 'device_type', $_POST['device_type'] );
-  	  	  update_user_meta($customer_id, 'referral_id', $_COOKIE['referral_id'] );
-  	}
+
+      update_user_meta($customer_id, 'device_id', $device_id);
+      update_user_meta($customer_id, 'device_type', $_POST['device_type'] );
+      update_user_meta($customer_id, 'referral_id', $_COOKIE['referral_id'] );
+    update_user_meta($customer_id, 'password_is_reset', false);
 
 
 	return array("uid" =>  $customer_id 
-			, "points" => $mycred->get_users_cred( $user->id, '' )
+			, "points" => $mycred->get_users_cred( $customer_id, '' )
 			, "key" => $randstr
 		  );
 	
@@ -218,6 +218,8 @@ function reset_password(){
 	
 	return array('message'=>__( 'Your password has been reset.', 'woocommerce' ));
 }
+
+
   
 }
 
