@@ -18,7 +18,8 @@ class json_api_register_controller {
   		$device_id = $_POST['device_id'];
 		$exist_users = get_users(array(
 					'meta_key'     => 'device_id',
-					'meta_value'   => $device_id)); 
+					'meta_value'   => $device_id));
+
 		$user_is_empty = empty($exist_users);
 
 		if ( ! class_exists( 'myCRED_Settings' ) ) {
@@ -31,9 +32,13 @@ class json_api_register_controller {
 		}
 
 		if(!$user_is_empty){
+            $userid = $exist_users[0]->id;
 			return array(
-					"uid" => $exist_users[0]->id, 
-					"points" => $mycred->get_users_cred( $exist_users[0]->id, '' )
+					"uid" => $userid,
+					"points" => $mycred->get_users_cred( $userid, '' ),
+                    'qq' => get_user_meta($userid, 'qq'),
+                    'alipay' => get_user_meta($userid, 'alipay'),
+                    'mobile' => get_user_meta($userid, 'mobile'),
 				    );
 		}
   	  
@@ -71,9 +76,9 @@ class json_api_register_controller {
 	}
 	
 
-      update_user_meta($customer_id, 'device_id', $device_id);
-      update_user_meta($customer_id, 'device_type', $_POST['device_type'] );
-      update_user_meta($customer_id, 'referral_id', $_COOKIE['referral_id'] );
+    update_user_meta($customer_id, 'device_id', $device_id);
+    update_user_meta($customer_id, 'device_type', $_POST['device_type'] );
+    update_user_meta($customer_id, 'referral_id', $_COOKIE['referral_id'] );
     update_user_meta($customer_id, 'password_is_reset', false);
 
 
@@ -198,7 +203,8 @@ function modifyuser(){
 	
 	$mobile = $_POST['mobile'];
 	if (!empty($mobile)){
-		wp_update_user( array ( 'id' => $userid, 'user_login' => $mobile ) ) ;		
+        update_user_meta($userid, 'mobile', $mobile);
+		//wp_update_user( array ( 'id' => $userid, 'user_login' => $mobile ) ) ;
 	}
 	
 	$refid = $_POST['refid'];
