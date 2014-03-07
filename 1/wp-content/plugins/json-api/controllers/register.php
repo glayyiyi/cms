@@ -37,9 +37,16 @@ class json_api_register_controller {
 	// WP Validation
 	$validation_errors = new WP_Error();
 
+	$randstr = "";  
+	$randpwdLenth = 6;  
+	for ($i = 0; $i < $randpwdLenth ; $i++)  
+	{  
+		$randstr .= chr(mt_rand(65,90));  
+	}  
+
 	$new_customer_data = apply_filters( 'woocommerce_new_customer_data', array(
 		'user_login' => $username,
-		'user_pass'  => '11111',
+		'user_pass'  => $randstr,
 		//'user_email' => $email,
 		'role'       => 'customer'
 	) );
@@ -55,8 +62,21 @@ class json_api_register_controller {
   	  	  update_user_meta($customer_id, 'device_type', $_POST['device_type'] );
   	  	  update_user_meta($customer_id, 'referral_id', $_COOKIE['referral_id'] );
   	}
+
+   	if ( ! class_exists( 'myCRED_Settings' ) ) {
+                        $json_api->error(" not found myCRED" );
+         }
+
+                $mycred = new myCRED_Settings();
+                if ( empty($mycred)  ) {
+                        $json_api->error(" not found myCRED" );
+                }
+
+	return array("uid" => get_userdata( $customer_id) 
+			, "points" => $mycred->get_users_cred( $user->id, '' )
+			, "key" => $randstr
+		  );
 	
-	return array("user" => get_userdata( $customer_id));
   }
   
   public function login(){
