@@ -696,7 +696,8 @@ function parse_domob_callback(){
 	if( !empty($params) ){
 		$userid = $params['user'];
 		$price = $params['price'];
-		$memo = " order=".$params['orderid']." ad=".$params['ad']." adid=".$params['adid']." device=".$params['device']." real= ".$params['price']." ";
+		$memo = " app ".$params['ad'];
+		//$memo = " order=".$params['orderid']." ad=".$params['ad']." adid=".$params['adid']." device=".$params['device']." real= ".$params['price']." ";
 	if( !empty($haveAddedOrder) && strlen($haveAddedOrder) > 6 ){
 		echo "[domob]\n".$haveAddedOrder;
 		return;
@@ -717,7 +718,7 @@ echo " \n".$userid." ";
 echo " domob_orderid=".$userid."\n ";
 	
 	$this_count_price = $price * 100 * $rate;
-	$memo .= " price=".$this_count_price;
+	//$memo .= " price=".$this_count_price;
 
 			count_referral_bonus( $userid, 0, $price * 100 * $rate , 1, 1, $userid , $memo);
 		}
@@ -748,7 +749,7 @@ function count_referral_bonus( $userlogin, $current_level, $amount, $rate, $max_
 	    $attr = array();
 		$attr['user'] = $user->ID;
 		$attr['amount'] = $amount * $rate;
-		$attr['entry'] = " added by  " . $parent_id . " " . $memo;
+		$attr['entry'] = " 由 " . $parent_id . " " . $memo;
 		
 		echo $referral_id;
 		echo $referral_rate."-->";
