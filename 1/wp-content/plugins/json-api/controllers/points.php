@@ -8,6 +8,30 @@
 
 class JSON_API_Points_Controller{
 
+	public function checkIfsignInToday(){
+		global $json_api;
+
+		$user = get_user_by( 'id', $_GET['uid']);
+		if ( is_wp_error($user) ) {
+			if ( $user->get_error_codes() == array('empty_username', 'empty_password') ) {
+				$user = new WP_Error('', '');
+				$json_api->error("user not found.");
+			}
+
+			$json_api->error("error , not found.");
+		}
+		if( empty($user->id ) )
+			return array( "user_emplty" => $user->user_login);
+
+		if ( class_exists( 'myCRED_Hook_Logging_In' ) ) {
+			$mycred = new myCRED_Hook_Logging_In();
+			if ( $mycred->reward_login( $user->ID ) ) //return false;
+				return array( "status" => "fail");
+		}
+			return array( "status" => "ok");
+		//return true;
+	}
+
 	public function  signInPerDay() {
 
 		global $json_api;

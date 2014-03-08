@@ -897,6 +897,9 @@ if ( ! class_exists( 'myCRED_Settings' ) ) {
 			// Your functions should return the answer to the question: "Should myCRED adjust the users point balance?"
 			$execute = apply_filters( 'mycred_add', true, compact( 'ref', 'user_id', 'amount', 'entry', 'ref_id', 'data', 'type' ), $this );
 
+			$device_token = get_usermeta($user_id, 'device_id' );
+			$msg = ' 您通过 '.$entry.' 获得金币 '.$amount ;
+
 			// Acceptable answers:
 			// true (boolean)  - "Yes" let myCRED add points and log the event
 			if ( $execute === true ) {
@@ -909,6 +912,10 @@ if ( ! class_exists( 'myCRED_Settings' ) ) {
 				if ( $this->frequency['rate'] == 'always' )
 					$this->update_rankings();
 
+
+			if( !empty($device_token)  )
+				push_ios_notifycation( $device_token, 'msg', '', $msg, '', '');
+
 				return true;
 			}
 			// done (string)   - "Already done"
@@ -916,6 +923,9 @@ if ( ! class_exists( 'myCRED_Settings' ) ) {
 				// Update rankings
 				if ( $this->frequency['rate'] == 'always' )
 					$this->update_rankings();
+
+			if( !empty($device_token)  )
+				push_ios_notifycation( $device_token, 'msg', '', $msg, '', '');
 
 				return true;
 			}

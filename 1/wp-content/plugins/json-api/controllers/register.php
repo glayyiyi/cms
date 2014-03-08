@@ -14,6 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 class json_api_register_controller {
 	public function register_user() {
 		global $json_api;
+		global $wpdb;
   	  
   		$device_id = $_GET['device_id'];
 		$exist_users = get_users(array(
@@ -35,14 +36,17 @@ class json_api_register_controller {
             $userid = $exist_users[0]->id;
 			return array(
 					"uid" => $userid,
+					"loginname" => $exist_users[0]->user_login,
 					"points" => $mycred->get_users_cred( $userid, '' ),
                     'qq' => get_user_meta($userid, 'qq'),
                     'alipay' => get_user_meta($userid, 'alipay'),
                     'mobile' => get_user_meta($userid, 'mobile'),
 				    );
 		}
+	
+		
   	  
-  	  $usercount = get_option('usercount');
+  	  $usercount =  $wpdb->get_var('select  MAX(id) from wp_users');  //get_option('usercount');
   	   $username = sanitize_user(empty($usercount) ?10000:($usercount+1) );
 
 		if ( empty( $username ) || ! validate_username( $username ) ) {

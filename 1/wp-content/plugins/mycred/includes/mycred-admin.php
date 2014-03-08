@@ -95,6 +95,8 @@ if ( !class_exists( 'myCRED_Admin' ) ) {
 			);
 
 			
+
+			
 			$new = $this->core->get_users_cred( $user_id );
 			if ( $current+$amount != $new )
 				$new = $this->core->number( $current+$amount );
