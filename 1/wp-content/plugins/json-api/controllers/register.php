@@ -86,7 +86,6 @@ class json_api_register_controller {
 			, "points" => $mycred->get_users_cred( $customer_id, '' )
 			, "key" => $randstr
 		  );
-	
   }
   
   public function login(){
@@ -97,7 +96,7 @@ class json_api_register_controller {
 				$creds  = array();
 
 				$validation_error = new WP_Error();
-				$validation_error = apply_filters( 'woocommerce_process_login_errors', $validation_error, $_POST['username'], $_POST['password'] );
+				$validation_error = apply_filters( 'woocommerce_process_login_errors', $validation_error, $_GET['uid'], $_POST['password'] );
 
 				if ( $validation_error->get_error_code() ) {
 					throw new Exception( '<strong>' . __( 'Error', 'woocommerce' ) . ':</strong> ' . $validation_error->get_error_message() );
@@ -190,7 +189,7 @@ function modifyuser(){
 	if (empty($userid)){
 		return array('status'=>'error', 'message'=>__( 'user does not exist', 'woocommerce' ));
 	}
-	$user = get_user_by('user_login', $userid);
+	$user = get_user_by('id', $userid);
     $userid = $user->ID;
 	$qq = $_POST['qq'];
 	if (!empty($qq)){

@@ -1,7 +1,7 @@
 <?php
 // if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+$canReward = class_exists( 'myCRED_Hook_Logging_In' ) && (new myCRED_Hook_Logging_In())->reward_login( $user->ID );
 
-$isChecked = true; //checkedin($_GET['uid'])
 ?>
 
 <?php wc_print_notices(); ?>
@@ -9,7 +9,7 @@ $isChecked = true; //checkedin($_GET['uid'])
 <form class="login" method="post">
     <div class="connerdiv">
         <h4 id="tips">
-            <?php if ($isChecked) { ?>
+            <?php if ($canReward) { ?>
                 今天还没有签到，快来签到吧
             <?php } else { ?>
                 今天已经签到过，明天再来吧
