@@ -152,6 +152,124 @@ function push_notifications_uninstall(){
 /*----------------------------------*/
 /*----------------------------------*/
 
+add_action('push_ios_notifycation', 'push_notifications_send_single');
+
+function push_notifications_send_single($device_id, $pn_push_type, $json, $message, $sound, $badge){
+
+
+	global $wpdb;
+	$pn_setting = $wpdb->prefix.'pn_setting';
+	$pn_settings =  $wpdb->get_results( $wpdb->prepare("SELECT * FROM $pn_setting WHERE id = %d", 1));
+	$pn_settings = $pn_settings[0];
+
+	$ssl_production = 'ssl://gateway.push.apple.com:2195';
+	$feedback_P = 'ssl://feedback.push.apple.com:2196';
+	$productionCertificate = $pn_settings->production_cer_path;
+
+
+	$ssl_sandbox = 'ssl://gateway.sandbox.push.apple.com:2195';
+	$sandboxCertificate = $pn_settings->developer_cer_path;
+	$feedback_S = 'ssl://feedback.sandbox.push.apple.com:2196';
+
+	$ssl; 
+	$certificate;
+	$passphrase;
+	$feedback;
+
+ 
+
+	if ($pn_settings->development == 'development'){
+
+		$ssl = $ssl_sandbox;
+		$certificate = $sandboxCertificate;
+		$passphrase = $pn_settings->development_cer_pass;
+		$feedback = $feedback_S;
+
+	}
+	else{
+
+		$ssl = $ssl_production;
+		$certificate = $productionCertificate;
+		$passphrase = $pn_settings->production_cer_pass;
+		$feedback = $feedback_P;
+
+	}
+
+	$attachment_id = push_notifications_get_attachment_id_from_url($certificate);
+
+	$certificate = get_attached_file( $attachment_id ); 
+
+
+
+	if (!file_exists($certificate)) 
+	    echo "The file $certificate does not exist! ".dirname(__FILE__);
+
+
+	$ctx = stream_context_create();
+	stream_context_set_option($ctx, 'ssl', 'local_cert', $certificate);
+	stream_context_set_option($ctx, 'ssl', 'passphrase', $passphrase);
+
+	$fp = stream_socket_client(
+		$ssl, 
+		$err, 
+		$errstr, 
+		60, 
+		STREAM_CLIENT_CONNECT|STREAM_CLIENT_PERSISTENT, 
+		$ctx
+	);
+
+	if (!$fp)
+	exit("Failed to connect amarnew: $err $errstr");
+
+	echo 'Connected to APNS/'.$ssl;
+
+
+
+
+	if ($pn_push_type != 'json' ){
+		$body['aps'] = array(
+			'badge' => $badge,
+			'alert' => $message,
+			'sound' => $sound
+		);
+
+		$json = json_encode($body);
+
+	}else{
+		$json = stripslashes($json);
+	}
+
+	$payload = $json;
+
+	echo $payload;
+
+	global $wpdb;
+	$apns_devices = $wpdb->prefix.'pn_apns_devices';
+	$devices_array = $wpdb->get_results( $wpdb->prepare ("SELECT * FROM $apns_devices where devicetoken=$device_id", 0));
+	
+	$result = false;
+
+	for ($i=0; $i!=count($devices_array); $i++){ 
+
+		$deviceToken = $devices_array[$i]->devicetoken;
+
+		$msg = chr(0) . pack('n', 32) . pack('H*', $deviceToken) . pack('n', strlen($payload)) . $payload;
+
+		$result = fwrite($fp, $msg, strlen($msg));
+
+		if (!$result)
+			echo 'Message not delivered';
+		else{
+			echo '消息发送成功:'.$deviceToken.'<br>';
+			$result = true;
+			
+		}
+
+	}
+
+	fclose($fp);	
+	return $result;
+}
 
 function push_notifications_send($pn_push_type, $json, $message, $sound, $badge){
 
