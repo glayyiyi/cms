@@ -11,7 +11,6 @@
 		
 			<?php 
 				do_action( 'wptouch_pre_head' );
-	wp_head();
 	do_action( 'wptouch_post_head' );
 			wptouch_the_post(); ?>
 
