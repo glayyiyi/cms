@@ -6,15 +6,6 @@
 <header>
 <link rel='stylesheet' id='foundation_font_awesome_css-css'  href='http://www.appcn100.com/cms/iagent/wp-content/plugins/wptouch/themes/foundation/modules/font-awesome/font-awesome.min.css?ver=2.0.4' type='text/css' media='screen' />
 <link rel='stylesheet' id='wptouch-parent-theme-css-css'  href='http://www.appcn100.com/cms/iagent/wp-content/plugins/wptouch/themes/foundation/default/style.css?ver=3.1.8' type='text/css' media='all' />
-<style type='text/css'>
-.page-wrapper { background-color: #f9f9f8; }
-a { color: #2d353f; }
-body, header, .wptouch-menu, #search-dropper, .date-circle { background-color: #2d353f; }
-a, #slider a p:after { color: #35c4ff; }
-.dots li.active, #switch .active { background-color: #35c4ff; }
-.bauhaus, .wptouch-login-wrap, form#commentform button#submit { background-color: #84ac50; }
-
-</style>
 <link rel='stylesheet' id='wptouch-theme-css-css'  href='http://www.appcn100.com/cms/iagent/wp-content/plugins/wptouch/themes/bauhaus/default/style.css?ver=3.1.8' type='text/css' media='all' />
 </header>
 <?php 
