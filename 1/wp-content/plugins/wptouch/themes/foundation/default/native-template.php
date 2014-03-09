@@ -2,6 +2,7 @@
 /*
 	Mobile Template: Native Page
 */
+include("wp-config.php");
 ?>
 
 
