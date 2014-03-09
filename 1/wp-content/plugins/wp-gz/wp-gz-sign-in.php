@@ -1,6 +1,8 @@
+
 <?php
+
 // if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
-$canReward = class_exists( 'myCRED_Hook_Logging_In' ) && (new myCRED_Hook_Logging_In())->reward_login( $user->ID );
+$canReward = class_exists( 'myCRED_Hook_Logging_In' ) && (new myCRED_Hook_Logging_In( array('myCRED_Hook_Logging_In') ))->reward_login( $user->ID );
 
 ?>
 
@@ -49,3 +51,5 @@ $canReward = class_exists( 'myCRED_Hook_Logging_In' ) && (new myCRED_Hook_Loggin
     }
 
 </script>
+
+</html>

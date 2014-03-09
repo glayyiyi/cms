@@ -380,7 +380,7 @@ if ( !class_exists( 'myCRED_Hook_Logging_In' ) ) {
 		 * @since 1.0.6
 		 * @version 1.1
 		 */
-		protected function reward_login( $user_id ) {
+		public function reward_login( $user_id ) {
 			$now = date_i18n( 'U' );
 			$today = date_i18n( 'Y-m-d' );
 			$past = get_user_meta( $user_id, 'mycred_last_login', true );
