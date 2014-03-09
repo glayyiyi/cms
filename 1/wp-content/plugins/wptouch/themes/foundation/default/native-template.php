@@ -9,7 +9,7 @@ include("wp-config.php");
 <?php if ( have_posts() ) { ?>
 <div id="content">
 	<div class="post-content">
-		<?php wptouch_the_content(); ?>
+		<?php the_content(); ?>
 	</div>
 </div>
 <?php } ?>
