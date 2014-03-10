@@ -5,7 +5,12 @@
 <?php wc_print_notices(); ?>
 
 <?php _e('my rank', 'woocommerce'); ?>
-<strong><?php echo do_shortcode('[mycred_my_ranking user_id="' . $_GET['uid'] . '"]'); ?></strong>
+<strong><?php $rank = (int)do_shortcode('[mycred_my_ranking user_id="'.$_GET['uid'].'"]');
+    if ($rank > 10) {
+        _e('you are out of ranks.', 'woocommerce');
+    } else {
+        _e('you are in rank, congratulations!', 'woocommerce');
+    }?></strong>
 <table>
     <thead>
     <th style="text-align:center;" colspan="3"><?php _e('ranking list', 'woocommerce'); ?></th>
