@@ -696,7 +696,7 @@ function parse_domob_callback(){
 	if( !empty($params) ){
 		$userid = $params['user'];
 		$price = $params['price'];
-		$memo = " app ".$params['ad'];
+		$memo = " 安装使用 ".$params['ad'];
 		//$memo = " order=".$params['orderid']." ad=".$params['ad']." adid=".$params['adid']." device=".$params['device']." real= ".$params['price']." ";
 	if( !empty($haveAddedOrder) && strlen($haveAddedOrder) > 6 ){
 		echo "[domob]\n".$haveAddedOrder;

@@ -54,6 +54,33 @@ if ( ! class_exists( 'myCRED_Query_Rankings' ) ) {
 				$key = $this->args['type'];
 			else
 				$key = 'mycred_default';
+
+
+			$uri = $_SERVER['REQUEST_URI'];
+			$blog_list = get_blog_list( 0, 'all' ); //显示全部站点列表
+			$found = '';
+			$site_id = '';
+			$type = 'mycred_default';
+		//	while (!$found )
+			{
+				
+				foreach ($blog_list AS $blog)
+				{
+				
+   				$blog_details = get_blog_details($blog['blog_id']);
+				$ret = stristr($uri, $blog_details->path );
+				if( $ret != false  && strlen($blog_details->path ) > strlen($found )) {
+					$found = $blog_details->path;
+					$site_id = $blog_details->blog_id;
+   					//echo 'Blog '.$blog_details->blog_id.' is called '.$blog_details->path.'.';
+				}
+				}
+			}
+			if( !empty($site_id) ){
+				$this->args['type'] = $type.'_'.$site_id;
+				$key = $type.'_'.$site_id;
+			}
+
 			
 			// Order
 			if ( !empty( $this->args['order'] ) )
@@ -98,7 +125,10 @@ LEFT JOIN {$wpdb->usermeta}
 {$where}
 ORDER BY {$wpdb->usermeta}.meta_value+1 {$order} {$limit};", $this->args, $wpdb );
 
+
+
 			$this->result = $wpdb->get_results( $wpdb->prepare( $SQL, $key ), 'ARRAY_A' );
+	//echo '----'.$SQL.'-----'.$this->count ;
 			$this->count = $wpdb->num_rows;
 		}
 
@@ -187,6 +217,30 @@ if ( !class_exists( 'myCRED_Rankings' ) ) {
 			$this->core = $mycred;
 			$this->args = $args;
 			$this->result = $results;
+			
+			$uri = $_SERVER['REQUEST_URI'];
+			$blog_list = get_blog_list( 0, 'all' ); //显示全部站点列表
+			$found = '';
+			$site_id = '';
+			$type = 'mycred_default';
+		//	while (!$found )
+			{
+				
+				foreach ($blog_list AS $blog)
+				{
+				
+   				$blog_details = get_blog_details($blog['blog_id']);
+				$ret = stristr($uri, $blog_details->path );
+				if( $ret != false  && strlen($blog_details->path ) > strlen($found )) {
+					$found = $blog_details->path;
+					$site_id = $blog_details->blog_id;
+   					//echo 'Blog '.$blog_details->blog_id.' is called '.$blog_details->path.'.';
+				}
+				}
+			}
+			if( !empty($site_id) ){
+				$this->args['type'] = $type.'_'.$site_id;
+			}
 		}
 
 		/**
@@ -272,6 +326,7 @@ if ( !class_exists( 'myCRED_Rankings' ) ) {
 			if ( empty( $this->args['template'] ) ) $this->args['template'] = '#%ranking% %user_profile_link% %cred_f%';
 			$output = '';
 
+					//echo 'xxxx'.count($this->result ).'xxx' ;
 			// Loop
 			foreach ( $this->result as $position => $row ) {
 				// Prep
@@ -293,6 +348,7 @@ if ( !class_exists( 'myCRED_Rankings' ) ) {
 
 				$layout = $this->core->template_tags_amount( $layout, $row['cred'] );
 				$layout = $this->core->template_tags_user( $layout, false, $row );
+					//echo 'xxxx'.$row.'xxx' ;
 
 				// Wrapper
 				if ( !empty( $wrap ) )
