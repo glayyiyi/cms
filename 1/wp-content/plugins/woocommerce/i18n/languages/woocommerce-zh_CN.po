@@ -16,6 +16,18 @@ msgstr ""
 "Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
+msgid "my rank: "
+msgstr "我当前的排名："
+
+msgid "ranking list"
+msgstr "排行榜"
+
+
+msgid "ranking"
+msgstr "排名"
+
+msgid "points"
+msgstr "积分"
 
 msgid "user do not exists"
 msgstr "用户不存在"
