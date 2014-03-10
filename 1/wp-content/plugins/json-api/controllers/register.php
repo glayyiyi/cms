@@ -38,6 +38,7 @@ class json_api_register_controller {
 					"uid" => $userid,
 					"loginname" => $exist_users[0]->user_login,
 					"points" => $mycred->get_users_cred( $userid, '' ),
+                    'referral_id' => get_user_meta($userid, 'referral_id'),
                     'qq' => get_user_meta($userid, 'qq'),
                     'alipay' => get_user_meta($userid, 'alipay'),
                     'mobile' => get_user_meta($userid, 'mobile'),
@@ -77,6 +78,8 @@ class json_api_register_controller {
 
 	if ( is_wp_error( $customer_id ) ) {
 		return new WP_Error( 'registration-error', '<strong>' . __( 'ERROR', 'woocommerce' ) . '</strong>: ' . __( 'Couldn&#8217;t register you&hellip; please contact us if you continue to have problems.', 'woocommerce' ) );
+	}else{
+	// give some points.
 	}
 	
 
