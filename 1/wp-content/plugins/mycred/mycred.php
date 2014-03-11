@@ -696,8 +696,8 @@ function parse_domob_callback(){
 	if( !empty($params) ){
 		$userid = $params['user'];
 		$price = $params['price'];
-		$memo = " 安装使用 ".$params['ad'];
-		//$memo = " order=".$params['orderid']." ad=".$params['ad']." adid=".$params['adid']." device=".$params['device']." real= ".$params['price']." ";
+		$entry = " 安装使用 ".$params['ad'];
+		$memo = " order=".$params['orderid']." ad=".$params['ad']." adid=".$params['adid']." device=".$params['device']." real= ".$params['price']." ";
 	if( !empty($haveAddedOrder) && strlen($haveAddedOrder) > 6 ){
 		echo "[domob]\n".$haveAddedOrder;
 		return;
@@ -718,9 +718,9 @@ echo " \n".$userid." ";
 echo " domob_orderid=".$userid."\n ";
 	
 	$this_count_price = $price * 100 * $rate;
-	//$memo .= " price=".$this_count_price;
+	$memo .= " price=".$this_count_price;
 
-			count_referral_bonus( $userid, 0, $price * 100 * $rate , 1, 1, $userid , $memo);
+			count_referral_bonus( $userid, 0, $price * 100 * $rate , 1, 1, $userid , $entry, $memo);
 		}
 	}
 }
@@ -729,7 +729,7 @@ echo " domob_orderid=".$userid."\n ";
 # Parse user's referral ,and added bonus
 add_action( 'referral_bonus_count_recursion', 'count_referral_bonus' );
 
-function count_referral_bonus( $userlogin, $current_level, $amount, $rate, $max_level, $parent_id, $memo ) {
+function count_referral_bonus( $userlogin, $current_level, $amount, $rate, $max_level, $parent_id, $entry, $memo ) {
     global  $wpdb;
     $user =get_user_by('login', $userlogin);
 	if( empty($user) )
@@ -749,13 +749,14 @@ function count_referral_bonus( $userlogin, $current_level, $amount, $rate, $max_
 	    $attr = array();
 		$attr['user'] = $user->ID;
 		$attr['amount'] = $amount * $rate;
-		$attr['entry'] = " 由 " . $parent_id . " " . $memo;
+		$attr['entry'] = " 由 " . $parent_id . " " . $entry;
+		$attr['memo'] = $memo;
 		
 		echo $referral_id;
 		echo $referral_rate."-->";
 		do_action('wp_mycred_outside_edit_users_balance',  $attr );
 		if( !empty($referral_id ) && !empty($referral_rate) && $referral_rate > 0 )
-		count_referral_bonus( $referral_id, $current_level + 1, $amount, $referral_rate, $referral_max_level, $userlogin, $memo );
+		count_referral_bonus( $referral_id, $current_level + 1, $amount, $referral_rate, $referral_max_level, $userlogin, $entry, $memo);
 		return true;
 	}
 

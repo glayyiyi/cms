@@ -16,6 +16,9 @@ msgstr ""
 "Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
+msgid "my rank"
+msgstr "您的排名："
+
 msgid "you are out of ranks."
 msgstr "您未进入排行榜，加油哦！"
 

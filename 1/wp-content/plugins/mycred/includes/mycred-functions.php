@@ -875,7 +875,7 @@ if ( ! class_exists( 'myCRED_Settings' ) ) {
 		 * @since 0.1
 		 * @version 1.3
 		 */
-		public function add_creds( $ref = '', $user_id = '', $amount = '', $entry = '', $ref_id = '', $data = '', $type = 'mycred_default' ) {
+		public function add_creds( $ref = '', $user_id = '', $amount = '', $entry = '', $ref_id = '', $data = '', $type = 'mycred_default' , $memo = '') {
 			// All the reasons we would fail
 			if ( empty( $ref ) || empty( $user_id ) || empty( $amount ) ) return false;
 			if ( $this->exclude_user( $user_id ) === true ) return false;
@@ -906,7 +906,7 @@ if ( ! class_exists( 'myCRED_Settings' ) ) {
 				$this->update_users_balance( $user_id, $amount );
 				
 				if ( ! empty( $entry ) )
-					$this->add_to_log( $ref, $user_id, $amount, $entry, $ref_id, $data, $type );
+					$this->add_to_log( $ref, $user_id, $amount, $entry, $ref_id, $data, $type , $memo);
 
 				// Update rankings
 				if ( $this->frequency['rate'] == 'always' )
@@ -963,7 +963,7 @@ if ( ! class_exists( 'myCRED_Settings' ) ) {
 		 * @returns boolean true on success or false on fail
 		 * @version 1.0.2
 		 */
-		public function add_to_log( $ref = '', $user_id = '', $amount = '', $entry = '', $ref_id = '', $data = '', $type = 'mycred_default' ) {
+		public function add_to_log( $ref = '', $user_id = '', $amount = '', $entry = '', $ref_id = '', $data = '', $type = 'mycred_default', $memo = '' ) {
 			// All the reasons we would fail
 			if ( empty( $ref ) || empty( $user_id ) || empty( $amount ) ) return false;
 			if ( ! preg_match( '/mycred_/', $type ) ) return false;
@@ -1001,6 +1001,7 @@ if ( ! class_exists( 'myCRED_Settings' ) ) {
 					'ctype'   => $type,
 					'time'    => date_i18n( 'U' ),
 					'entry'   => $entry,
+					'memo'	  => $memo,
 					'data'    => ( is_array( $data ) || is_object( $data ) ) ? serialize( $data ) : $data
 				),
 				array(
@@ -1010,6 +1011,7 @@ if ( ! class_exists( 'myCRED_Settings' ) ) {
 					$format,
 					'%s',
 					'%d',
+					'%s',
 					'%s',
 					( is_numeric( $data ) ) ? '%d' : '%s'
 				)

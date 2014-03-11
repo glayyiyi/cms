@@ -9,6 +9,7 @@
     if ( $rank <= 0) {
         _e('you are out of ranks.', 'woocommerce');
     } else {
+	echo $rank." .  " ;
         _e('you are in rank, congratulations!', 'woocommerce');
     }?></strong>
 <table>

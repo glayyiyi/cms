@@ -91,7 +91,9 @@ if ( !class_exists( 'myCRED_Admin' ) ) {
 				$amount,
 				$entry,
 				'admin',//$current_user,
-				$data
+				$data,
+				'mycred_default' , 
+				trim($attr['memo'])
 			);
 
 			
