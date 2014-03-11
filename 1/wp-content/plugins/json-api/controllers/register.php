@@ -38,10 +38,10 @@ class json_api_register_controller {
 					"uid" => $userid,
 					"loginname" => $exist_users[0]->user_login,
 					"points" => $mycred->get_users_cred( $userid, '' ),
-                    'referral_id' => get_user_meta($userid, 'referral_id'),
-                    'qq' => get_user_meta($userid, 'qq'),
-                    'alipay' => get_user_meta($userid, 'alipay'),
-                    'mobile' => get_user_meta($userid, 'mobile'),
+                    'referral_id' => get_user_meta($userid, 'referral_id', true),
+                    'qq' => get_user_meta($userid, 'qq', true),
+                    'alipay' => get_user_meta($userid, 'alipay', true),
+                    'mobile' => get_user_meta($userid, 'mobile', true),
 				    );
 		}
 	
@@ -148,10 +148,10 @@ class json_api_register_controller {
                         "uid" => $userid,
                         "loginname" => $user->user_login,
                         "points" => $mycred->get_users_cred( $userid, '' ),
-                        'referral_id' => get_user_meta($userid, 'referral_id'),
-                        'qq' => get_user_meta($userid, 'qq'),
-                        'alipay' => get_user_meta($userid, 'alipay'),
-                        'mobile' => get_user_meta($userid, 'mobile'),
+                        'referral_id' => get_user_meta($userid, 'referral_id', true),
+                        'qq' => get_user_meta($userid, 'qq', true),
+                        'alipay' => get_user_meta($userid, 'alipay', true),
+                        'mobile' => get_user_meta($userid, 'mobile', true),
                     );
 				}
 
