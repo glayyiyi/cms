@@ -19,7 +19,7 @@ if ( ! class_exists( 'myCRED_Query_Rankings' ) ) {
 		 */
 		public function __construct( $args = '' ) {
 			$this->args = shortcode_atts( array(
-				'number'      => '-1',
+				'number'      => '10',
 				'order'       => 'DESC',
 				'user_fields' => 'user_login,display_name,user_email,user_nicename,user_url',
 				'offset'      => 0,

@@ -6,7 +6,7 @@
 
 <?php _e('my rank', 'woocommerce'); ?>
 <strong><?php $rank = (int)do_shortcode('[mycred_my_ranking user_id="'.$_GET['uid'].'"]');
-    if ($rank > 10) {
+    if ( $rank <= 0) {
         _e('you are out of ranks.', 'woocommerce');
     } else {
         _e('you are in rank, congratulations!', 'woocommerce');
