@@ -206,28 +206,31 @@ function verifypass(){
 }
 
 function modifyuser(){
-	$userid = $_POST['uid'];
+    $data = $GLOBALS['HTTP_RAW_POST_DATA'];
+    $result = json_decode($data);
+
+    $userid = $result->{'uid'};
 	if (empty($userid)){
 		return array('status'=>'error', 'message'=>__( 'user does not exist', 'woocommerce' ));
 	}
 	$user = get_user_by('id', $userid);
     $userid = $user->ID;
-	$qq = $_POST['qq'];
+	$qq = $result->{'qq'};
 	if (!empty($qq)){
 		update_user_meta($userid, 'qq', $qq);
 	}
-	$alipay = $_POST['alipay'];
+	$alipay = $result->{'alipay'};
 	if (!empty($alipay)){
 		update_user_meta($userid, 'alipay', $alipay);
 	}
 	
-	$mobile = $_POST['mobile'];
+	$mobile = $result->{'mobile'};
 	if (!empty($mobile)){
         update_user_meta($userid, 'mobile', $mobile);
 		//wp_update_user( array ( 'id' => $userid, 'user_login' => $mobile ) ) ;
 	}
 	
-	$refid = $_POST['refid'];
+	$refid = $result->{'refid'};
 	if (!empty($refid)){
 		update_user_meta($userid, 'refid', $refid);
 	}
