@@ -136,9 +136,23 @@ class json_api_register_controller {
 				$user                   = wp_signon( apply_filters( 'woocommerce_login_credentials', $creds ), $secure_cookie );
 
 				if ( is_wp_error( $user ) ) {
-					throw new Exception( $user->get_error_message() );
+                    return array('status'=> 'error', 'message'=> $user->get_error_message());
 				} else {
-					return array('user'=> $user);					
+                    $userid = $user -> ID;
+                    $mycred = new myCRED_Settings();
+                    if ( empty($mycred)  ) {
+                        global $json_api;
+                        $json_api->error(" not found myCRED" );
+                    }
+					return array(
+                        "uid" => $userid,
+                        "loginname" => $user->user_login,
+                        "points" => $mycred->get_users_cred( $userid, '' ),
+                        'referral_id' => get_user_meta($userid, 'referral_id'),
+                        'qq' => get_user_meta($userid, 'qq'),
+                        'alipay' => get_user_meta($userid, 'alipay'),
+                        'mobile' => get_user_meta($userid, 'mobile'),
+                    );
 				}
 
 			} catch (Exception $e) {
