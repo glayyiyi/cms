@@ -6,7 +6,9 @@ $canReward = class_exists( 'myCRED_Hook_Logging_In' ) && (new myCRED_Hook_Loggin
 ?>
 
 <?php wc_print_notices(); ?>
-
+<style type="text/css">
+    .btn_red{color:#fff;width:100%;box-shadow:0 1px 1px rgba(0,0,0,.2);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff3c9b',endColorstr='#e61f80');background:-ms-linear-gradient(top, #ff3c9b, #e61f80);/*IE10*/background: -webkit-gradient(linear, 0 0, 0 100%, from(#ff3c9b), to(#e61f80));background: -moz-linear-gradient(top, #ff3c9b, #e61f80); border:#db207b 1px solid;}
+</style>
 <form class="login" method="post">
     <div class="connerdiv">
         <h4 id="tips">
@@ -24,10 +26,10 @@ $canReward = class_exists( 'myCRED_Hook_Logging_In' ) && (new myCRED_Hook_Loggin
             <dd>连续签到26-50天，每天奖励300金币</dd>
             <dd>连续签到50天以上，每天奖励500金币</dd>
         </dl>
-        <?php if (!$isChecked) { ?>
+        <?php if ($canReward) { ?>
             <div id="checkindiv">
-                <button onclick="checkin();return false;" style='margin-left:50%;'><label>
-                        &nbsp;<?php _e('checkin', 'woocommerce') ?></label></button>
+                <button onclick="checkin();return false;" class='btn_red'><label>
+                        &nbsp;<?php _e('check in', 'woocommerce') ?></label></button>
             </div>
         <?php } ?>
     </div>
