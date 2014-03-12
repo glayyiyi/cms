@@ -27,8 +27,8 @@ msgid "you are in rank, congratulations!"
 msgstr "您已进入排行榜，恭喜！"
 
 
-msgid "my rank: "
-msgstr "我当前的排名："
+msgid "my rank"
+msgstr "您当前的排名："
 
 msgid "ranking list"
 msgstr "排行榜"
