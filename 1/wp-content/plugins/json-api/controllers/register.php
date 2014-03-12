@@ -256,11 +256,13 @@ function verifypass(){
     }
 
 function reset_password(){
-	$user = WC_Shortcode_My_Account::check_password_reset_key( $_POST['key'], $_POST['uid'] );
+        $data = $GLOBALS['HTTP_RAW_POST_DATA'];
+        $result = json_decode(trim($data), true);
+	$user = WC_Shortcode_My_Account::check_password_reset_key( $result['key'], $result['uid'] );
 	if ( !is_object( $user ) ) {
 		return array('error'=>__( 'Password reset is not allowed for this user', 'woocommerce' ));
 	}
-	WC_Shortcode_My_Account::reset_password( $user, wc_clean( $_POST['newkey'] ) );
+	WC_Shortcode_My_Account::reset_password( $user, wc_clean( $result['newkey'] ) );
 	do_action( 'woocommerce_customer_reset_password', $user );
 	
 	return array('message'=>__( 'Your password has been reset.', 'woocommerce' ));
