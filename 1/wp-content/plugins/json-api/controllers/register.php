@@ -233,7 +233,7 @@ function modifyuser(){
 		//wp_update_user( array ( 'id' => $userid, 'user_login' => $mobile ) ) ;
 	}
 	
-	$refid = $result['refid'];
+	$refid = $result['referral_id'];
 	if (!empty($refid)){
 		update_user_meta($userid, 'referral_id', $refid);
 	}

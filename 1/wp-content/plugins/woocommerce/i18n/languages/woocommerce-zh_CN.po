@@ -16,6 +16,17 @@ msgstr ""
 "Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
+msgid "invitation explanation"
+ msgstr "邀请说明"
+
+ msgid "invite good friend"
+ msgstr "邀请好友"
+
+msgid "please type account"
+msgstr "请填写邀请人账号"
+
+msgid "your inviter: "
+msgstr "您的邀请人："
 
 msgid "check in"
 msgstr "签 到"
