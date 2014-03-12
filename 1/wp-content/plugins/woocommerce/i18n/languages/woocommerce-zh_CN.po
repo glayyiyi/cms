@@ -16,6 +16,10 @@ msgstr ""
 "Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
+msgid "inviter account does not exist"
+msgstr "邀请人账号不存在！"
+
+
 msgid "invitation explanation"
  msgstr "邀请说明"
 

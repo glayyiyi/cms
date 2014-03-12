@@ -205,40 +205,55 @@ function verifypass(){
 	return array('message'=> 'success');
 }
 
-function modifyuser(){
-    $data = $GLOBALS['HTTP_RAW_POST_DATA'];
-    $result = json_decode(trim($data), true);
-	//echo '    \n'.$result;
-	//var_dump($result);
-
-    $userid = $result['uid'];
+    function modify_user($result){
+        $userid = $result['uid'];
 //	echo '    \n'.$result['uid'];
-	if (empty($userid)){
-		return array('status'=>'error', 'message'=>__( 'user does not exist', 'woocommerce' ));
-	}
-	$user = get_user_by('id', $userid);
-    $userid = $user->ID;
-	$qq = $result['qq'];
-	if (!empty($qq)){
-		update_user_meta($userid, 'qq', $qq);
-	}
-	$alipay = $result['alipay'];
-	if (!empty($alipay)){
-		update_user_meta($userid, 'alipay', $alipay);
-	}
-	
-	$mobile = $result['mobile'];
-	if (!empty($mobile)){
-        update_user_meta($userid, 'mobile', $mobile);
-		//wp_update_user( array ( 'id' => $userid, 'user_login' => $mobile ) ) ;
-	}
-	
-	$refid = $result['referral_id'];
-	if (!empty($refid)){
-		update_user_meta($userid, 'referral_id', $refid);
-	}
-	return array('message'=>'success');
-}
+        if (empty($userid)){
+            return array('status'=>'error', 'message'=>__( 'user does not exist', 'woocommerce' ));
+        }
+        $user = get_user_by('id', $userid);
+        $userid = $user->ID;
+        $qq = $result['qq'];
+        if (!empty($qq)){
+            update_user_meta($userid, 'qq', $qq);
+        }
+        $alipay = $result['alipay'];
+        if (!empty($alipay)){
+            update_user_meta($userid, 'alipay', $alipay);
+        }
+
+        $mobile = $result['mobile'];
+        if (!empty($mobile)){
+            update_user_meta($userid, 'mobile', $mobile);
+            //wp_update_user( array ( 'id' => $userid, 'user_login' => $mobile ) ) ;
+        }
+
+        $refid = $result['referral_id'];
+        if (!empty($refid)){
+            update_user_meta($userid, 'referral_id', $refid);
+        }
+        return array('message'=>'success');
+    }
+
+    function addInviter(){
+        $referral = $_POST['referral_id'];
+        $user = get_user_by('login', $referral);
+
+        if ( isset( $user->user_login ) ){
+            $_POST['referral_id'] = $user->ID;
+            return $this::modify_user($_POST);
+        } else {
+            return array('status'=>"error", 'message'=>__( 'inviter account does not exist', 'woocommerce' ));
+        }
+    }
+
+    function modifyuser(){
+        $data = $GLOBALS['HTTP_RAW_POST_DATA'];
+        $result = json_decode(trim($data), true);
+        //echo '    \n'.$result;
+        //var_dump($result);
+        return $this::modify_user($result);
+    }
 
 function reset_password(){
 	$user = WC_Shortcode_My_Account::check_password_reset_key( $_POST['key'], $_POST['uid'] );

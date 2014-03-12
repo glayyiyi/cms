@@ -10,18 +10,17 @@ wc_print_notices();
 <?php if ($can_refer) { ?>
     <div id="tips">
         <form method="post">
-            <label><?php _e('your inviter: ', 'woocommerce') ?></label>
+            <label><?php _e('your inviter: ', 'woocommerce'); ?></label>
             <input type="text" name="inviter" id="inviter" placeholder="<?php _e('please type account', 'woocommerce'); ?>"/>
             <button onclick="submit();return false;"><label>
                     &nbsp;<?php _e('OK', 'woocommerce'); ?></label></button>
         </form>
     </div>
 <?php } ?>
-
 <div class="invite">
     <?php _e('invite good friend ', 'woocommerce'); ?>
 </div>
-<h4 id="tips">
+<h4>
     <?php _e('invitation explanation', 'woocommerce'); ?>
 </h4>
 <dl>
@@ -36,16 +35,20 @@ wc_print_notices();
 <script type="text/javascript">
     function submit() {
         jQuery(document).ready(function ($) {
-            var data = {
-                uid: "<?php echo $_GET['uid']?>"
-            };
-            $.get("<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/api/points/signInPerDay';?>", data, function (response) {
-                if (response.status == 'OK') {
+            var inviter = $("#inviter").val();
+            if (inviter == ""){
+                alert("<?php _e('please type account', 'woocommerce'); ?>");
+                return ;
+            }
+
+            var data = {"uid": "<?php echo $_GET['uid']?>", "referral_id": inviter};
+            $.post("<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/api/register/addInviter';?>", data, function (response) {
+                if (response.status == 'ok') {
                     $('#tips').remove();
                 } else {
                     alert(response.message)
                 }
-            });
+            }, "json");
         });
     }
 
