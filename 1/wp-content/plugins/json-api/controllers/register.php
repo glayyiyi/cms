@@ -259,17 +259,22 @@ function verifypass(){
 function reset_password(){
         $data = $GLOBALS['HTTP_RAW_POST_DATA'];
         $result = json_decode(trim($data), true);
-        $password_is_reset = get_user_meta($result['uid'], 'password_is_reset', true);
-	if( !empty($password_is_reset) && empty($result['key'] ))
-		return array('error'=>__( 'Please input old password', 'woocommerce' ));
-	$user = wp_authenticate( $result['uid'], $result['key'] );
+        $password_is_reset = get_user_meta($result['uid'], 'havePassword', true);
+	if( $password_is_reset == 'true' && empty($result['key'] )){
+		return array('status' =>'error', 'msg' =>__( 'Please input old password', 'woocommerce' ));
+	}
+	if( empty($password_is_reset ) && empty($result['key']) )
+		$user = get_user_by('id', $result['uid'] );
+	else
+		$user = wp_authenticate( $result['uid'], $result['key'] );
+
 	if ( is_wp_error( $user ) ) {
-		return array('status'=>'error', 'message'=>$user->get_error_message());
+		return array('status'=>'error', 'msg'=>$user->get_error_message());
 	}
-	$user = WC_Shortcode_My_Account::check_password_reset_key( $result['key'], $result['uid'] );
-	if ( !is_object( $user ) ) {
-		return array('status' =>'error', 'msg'=>__( 'Password reset is not allowed for this user', 'woocommerce' ));
-	}
+	//$user = WC_Shortcode_My_Account::check_password_reset_key( $result['key'], $result['uid'] );
+	//if ( !is_object( $user ) ) {
+	//	return array('status' =>'error', 'msg'=>__( 'Password reset is not allowed for this user', 'woocommerce' ));
+	//}
 	
 	WC_Shortcode_My_Account::reset_password( $user, wc_clean( $result['newkey'] ) );
 	do_action( 'woocommerce_customer_reset_password', $user );
