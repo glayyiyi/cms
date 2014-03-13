@@ -373,6 +373,7 @@ if ( !class_exists( 'myCRED_Hook_Logging_In' ) ) {
 			);
 		}
 
+
 		/**
 		 * Reward Login Check
 		 * Checks to see if the given user id should be rewarded for logging in.
@@ -380,7 +381,7 @@ if ( !class_exists( 'myCRED_Hook_Logging_In' ) ) {
 		 * @since 1.0.6
 		 * @version 1.1
 		 */
-		public function reward_login( $user_id ) {
+		public function reward_login( $user_id, $is_login=true) {
 			$now = date_i18n( 'U' );
 			$today = date_i18n( 'Y-m-d' );
 			$past = get_user_meta( $user_id, 'mycred_last_login', true );
@@ -418,10 +419,12 @@ if ( !class_exists( 'myCRED_Hook_Logging_In' ) ) {
 			}
 
 			// Update new login time
-			if ( $this->prefs['limit'] == 'daily' )
-				update_user_meta( $user_id, 'mycred_last_login', $today );
-			else
-				update_user_meta( $user_id, 'mycred_last_login', $now );
+            if ($is_login){
+                if ( $this->prefs['limit'] == 'daily' )
+                    update_user_meta( $user_id, 'mycred_last_login', $today );
+                else
+                    update_user_meta( $user_id, 'mycred_last_login', $now );
+            }
 
 			return true;
 		}
