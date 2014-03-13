@@ -52,5 +52,3 @@ $canReward = class_exists( 'myCRED_Hook_Logging_In' ) && (new myCRED_Hook_Loggin
     }
 
 </script>
-
-</html>

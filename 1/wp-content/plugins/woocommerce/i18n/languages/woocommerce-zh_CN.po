@@ -24,7 +24,7 @@ msgid "invitation explanation"
  msgstr "邀请说明"
 
  msgid "invite good friend"
- msgstr "邀请好友"
+ msgstr "邀请好友加入，受邀好友安装激活成功，你即可赚取20金币，并有30%提成"
 
 msgid "please type account"
 msgstr "请填写邀请人账号"
