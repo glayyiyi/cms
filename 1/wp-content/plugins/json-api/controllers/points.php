@@ -24,9 +24,9 @@ class JSON_API_Points_Controller{
 			return array( "user_emplty" => $user->user_login);
 
 		if ( class_exists( 'myCRED_Hook_Logging_In' ) ) {
-			$mycred = new myCRED_Hook_Logging_In();
-			if ( $mycred->reward_login( $user->id ) ) //return false;
-				return array( "status" => "error", "msg" => "今日已经签到过!" );
+			//$mycred = new myCRED_Hook_Logging_In();
+			//if ( $mycred->reward_login( $user->id ) ) //return false;
+			//	return array( "status" => "error", "msg" => "今日已经签到过!" );
 			//$mycred->logging_in( $user->id );
 		}
 			return array( "status" => "ok");
@@ -53,7 +53,9 @@ class JSON_API_Points_Controller{
 
 		//wp_set_auth_cookie($user->ID, $credentials['remember'], $secure_cookie);
 		//--- use  wp_login ---> mycred_login function, to add creds.
-		do_action('wp_login', $user->user_login, $user);
+			$mycred = new myCRED_Hook_Logging_In();
+			$mycred->logging_in( $user->id );
+		//do_action('wp_login', $user->user_login, $user);
 
 		return array( "user" => $user->user_login);
 	}
