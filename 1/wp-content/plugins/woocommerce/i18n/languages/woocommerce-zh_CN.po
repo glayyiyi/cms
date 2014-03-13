@@ -53,7 +53,7 @@ msgid "ranking"
 msgstr "排名"
 
 msgid "points"
-msgstr "积分"
+msgstr "金币"
 
 msgid "user do not exists"
 msgstr "用户不存在"
