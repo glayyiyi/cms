@@ -137,7 +137,7 @@ class json_api_register_controller {
 				$user                   = wp_signon( apply_filters( 'woocommerce_login_credentials', $creds ), $secure_cookie );
 
 				if ( is_wp_error( $user ) ) {
-                    return array('status'=> 'error', 'message'=> $user->get_error_message());
+                    return array('status'=> 'error', 'message'=> __( 'username or password is wrong', 'woocommerce' ) );
 				} else {
                     $userid = $user -> ID;
                     $mycred = new myCRED_Settings();
@@ -157,7 +157,7 @@ class json_api_register_controller {
 				}
 
 			} catch (Exception $e) {
-				//wc_add_notice( apply_filters('login_errors', $e->getMessage() ), 'error' );
+//				wc_add_notice( apply_filters('login_errors', $e->getMessage() ), 'error' );
 			}		
 			return array('status'=> 'error');					
   }  
