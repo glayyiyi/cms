@@ -1,6 +1,6 @@
 <?php
 wp_enqueue_script('jquery');
-$can_refer = !empty($_GET['referral_id']) && !empty($_GET['uid']) && get_user_meta($_GET['uid'], 'referral_id', true) == '';
+$can_refer = !empty($_GET['uid']) && get_user_meta($_GET['uid'], 'referral_id', true) == '';
 wc_print_notices();
 ?>
 <style type="text/css">
