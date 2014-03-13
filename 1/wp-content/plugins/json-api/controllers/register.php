@@ -104,7 +104,7 @@ class json_api_register_controller {
 				$creds  = array();
 
 				$validation_error = new WP_Error();
-				$validation_error = apply_filters( 'woocommerce_process_login_errors', $validation_error, $_GET['uid'], $_POST['password'] );
+				$validation_error = apply_filters( 'woocommerce_process_login_errors', $validation_error, $_GET['uid'], $_GET['password'] );
 
 				if ( $validation_error->get_error_code() ) {
 					throw new Exception( '<strong>' . __( 'Error', 'woocommerce' ) . ':</strong> ' . $validation_error->get_error_message() );
@@ -157,7 +157,7 @@ class json_api_register_controller {
 				}
 
 			} catch (Exception $e) {
-				wc_add_notice( apply_filters('login_errors', $e->getMessage() ), 'error' );
+				//wc_add_notice( apply_filters('login_errors', $e->getMessage() ), 'error' );
 			}		
 			return array('status'=> 'error');					
   }  
@@ -259,10 +259,15 @@ function verifypass(){
 function reset_password(){
         $data = $GLOBALS['HTTP_RAW_POST_DATA'];
         $result = json_decode(trim($data), true);
-        $password_is_reset = get_user_meta($result['uid'], 'password_is_reset', true);
-	if( !empty($password_is_reset) && empty($result['key'] ))
-		return array('error'=>__( 'Please input old password', 'woocommerce' ));
-	$user = wp_authenticate( $result['uid'], $result['key'] );
+        $password_is_reset = get_user_meta($result['uid'], 'havePassword', true);
+	if( $password_is_reset == 'true' && empty($result['key'] )){
+		return array('status' =>'error', 'msg' =>__( 'Please input old password', 'woocommerce' ));
+	}
+	if( empty($password_is_reset ) && empty($result['key']) )
+		$user = get_user_by('id', $result['uid'] );
+	else
+		$user = wp_authenticate( $result['uid'], $result['key'] );
+
 	if ( is_wp_error( $user ) ) {
 		return array('status'=>'error', 'msg'=>$user->get_error_message());
 	}
