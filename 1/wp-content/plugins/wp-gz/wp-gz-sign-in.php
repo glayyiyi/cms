@@ -40,7 +40,7 @@ $canReward = class_exists( 'myCRED_Hook_Logging_In' ) && (new myCRED_Hook_Loggin
             var data = {
                 uid: "<?php echo $_GET['uid']?>"
             };
-            $.get("<?php echo 'http://'.$_SERVER['HTTP_HOST'].'/api/points/signInPerDay';?>", data, function (response) {
+            $.get("<?php echo get_site_url().'/api/points/signInPerDay';?>", data, function (response) {
                 if (response.status == 'ok') {
                     $('#tips').text("<?php _e('hascheckedin', 'woocommerce')?>");
                     $('#checkindiv').remove();
