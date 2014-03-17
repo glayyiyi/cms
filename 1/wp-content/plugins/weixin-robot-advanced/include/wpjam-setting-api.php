@@ -123,15 +123,14 @@ function wpjam_field_callback($args) {
 	if($type == 'text'){
 		echo '<input type="text" id="'.$field_name.'" name="'.$field.'" value="'.$value.'" class="regular-text" />';
 	}elseif($type == 'checkbox'){
-		$checked = $value?'checked':'';
-		echo '<input type="checkbox" id="'.$field_name.'" name="'.$field.'" value="1" '.$checked.' />';
+		echo '<input type="checkbox" id="'.$field_name.'" name="'.$field.'" value="1" '.checked("1",$value,false).' />';
 	}elseif($type == 'textarea'){
 		$rows = isset($args['rows'])?$args['rows']:10;
 		echo '<textarea id="'.$field_name.'" name="'.$field.'" rows="'.$rows.'" cols="50" class="large-text  code">'.$value.'</textarea>';
 	}elseif ($type == 'select'){
 		echo '<select id="'.$field_name.'" name="'.$field.'">';
-		foreach ($args['options'] as $key => $option_value){ $selected = ($key == $value)?'selected':'';
-			echo '<option value="'.$key.'" '.$selected.'>'.$option_value.'</option>';
+		foreach ($args['options'] as $option_value => $option_title){ 
+			echo '<option value="'.$option_value.'" '.selected($option_value,$value,false).'>'.$option_title.'</option>';
 		}
 		echo '</select>';
 	}
@@ -253,19 +252,16 @@ function wpjam_admin_display_fields($fields, $fields_type = 'table'){
 			$rows = isset($field['rows'])?$field['rows']:6;
 			$new_fields[$name] = array('title'=>$title, 'html'=>'<textarea name="'.$name.'" id="'. $name.'" rows="'.$rows.'" cols="50"  class="'.$class.' code" >'.esc_attr($value).'</textarea>'.$description);
 		}elseif ($type == 'select'){
-			$new_field['title'] = $title;
 			$new_field_html  = '<select name="'.$name.'" id="'. $name.'">';
-			foreach ($field['options'] as $key => $option_value){ $selected = ($key == $value)?'selected':'';
-				$new_field_html .= '<option value="'.$key.'" '.$selected.'>'.$option_value.'</option>';
+			foreach ($field['options'] as $option_value => $option_title){ 
+				$new_field_html .= '<option value="'.$option_value.'" '.selected($option_value,$value,false).'>'.$option_title.'</option>';
 			}
 			$new_field_html .= '</select>';
 			$new_fields[$name] = array('title'=>$title, 'html'=>$new_field_html.$description);
 		}elseif ($type == 'radio'){
-			$new_field['title'] = $title;
 			$new_field_html  = '';
-			foreach ($field['options'] as $key => $option_value) {
-				$checked = ($value == $option_value)?'checked':'';
-				$new_field_html  .= '<p><input name="'.$name.'" type="radio" id="'.$name.'" value="'.$option_value .'" '.$checked.' /> '.$key.'</p>';
+			foreach ($field['options'] as $option_value => $option_title) {
+				$new_field_html  .= '<p><input name="'.$name.'" type="radio" id="'.$name.'" value="'.$option_value .'" '.checked($option_value,$value,false).' /> '.$option_title.'</p>';
 			}
 			$new_fields[$name] = array('title'=>$title, 'html'=>$new_field_html.$description);
 		}
@@ -344,8 +340,8 @@ function wpjam_admin_display_form_table($form_fields){
 					<input name="<?php echo $name;?>" id="<?php echo $name;?>" type="checkbox"  value="<?php echo $value ?>" <?php echo $form_field['checked']; ?> /> 是否激活
 				<?php }elseif ($type == 'select'){ ?>
 					<select name="<?php echo $name;?>" id="<?php echo $name;?>"  >
-					<?php foreach ($form_field['options'] as $key => $option_value){ $selected = ($key == $value)?'selected':''; ?>
-						<option value="<?php echo $key; ?>" <?php echo $selected; ?>><?php echo $option_value; ?></option>
+					<?php foreach ($form_field['options'] as $option_value => $option_title){ $selected = ($option_value == $value)?'selected':''; ?>
+						<option value="<?php echo $key; ?>" <?php echo $selected; ?>><?php echo $option_title; ?></option>
 					<?php }?>
 					</select>
 				<?php }elseif($type == 'file'){ ?>
