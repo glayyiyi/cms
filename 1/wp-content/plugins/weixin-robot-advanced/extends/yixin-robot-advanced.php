@@ -3,7 +3,7 @@
 Plugin Name: 易信机器人高级版
 Plugin URI: http://blog.wpjam.com/project/yixin-robot-advanced/
 Description: 易信机器人的主要功能就是能够将你的公众账号和你的 WordPress 博客联系起来，搜索和用户发送信息匹配的日志，并自动回复用户，让你使用易信进行营销事半功倍。
-Version: 3.8
+Version: 3.9
 Author: Denis
 Author URI: http://blog.wpjam.com/
 */
@@ -63,7 +63,7 @@ function yixin_robot_get_access_token(){
 
 	if(weixin_robot_get_setting('yixin_app_id') && weixin_robot_get_setting('yixin_app_secret')){
 		
-		$yixin_robot_access_token = get_transient('yixin-robot-access-token');
+		$yixin_robot_access_token = get_transient('yixin_robot_access_token');
 
 		if($yixin_robot_access_token === false){
 			$url = 'https://api.yixin.im/cgi-bin/token?grant_type=client_credential&appid='.weixin_robot_get_setting('yixin_app_id').'&secret='. weixin_robot_get_setting('yixin_app_secret');
@@ -76,7 +76,7 @@ function yixin_robot_get_access_token(){
 			$yixin_robot_access_token = json_decode($yixin_robot_access_token['body'],true);
 
 			if(isset($yixin_robot_access_token['access_token'])){
-				set_transient('yixin-robot-access-token',$yixin_robot_access_token['access_token'],$yixin_robot_access_token['expires_in']);
+				set_transient('yixin_robot_access_token',$yixin_robot_access_token['access_token'],$yixin_robot_access_token['expires_in']);
 				return $yixin_robot_access_token['access_token'];
 			}else{
 				print_r($yixin_robot_access_token);
@@ -127,8 +127,14 @@ function wpjam_yixin_messages_table($messages_table){
 
 add_filter('weixin_tables','yixin_robot_messages_weixin_tables');
 function yixin_robot_messages_weixin_tables($weixin_tables){
-	$weixin_tables['易信消息'] = 'yixin_robot_messages_crate_table';
+	$weixin_tables['yixin_robot_messages_crate_table'] = array('易信消息');
 	return $weixin_tables;
+}
+
+add_filter('weixin_transient_caches','yixin_robot_transient_caches');
+function yixin_robot_transient_caches($transient_caches){
+	$transient_caches['易信 Access Token '] = array('yixin_robot_access_token');
+	return $transient_caches;
 }
 
 register_activation_hook( WEIXIN_ROBOT_PLUGIN_FILE,'yixin_robot_messages_crate_table');
