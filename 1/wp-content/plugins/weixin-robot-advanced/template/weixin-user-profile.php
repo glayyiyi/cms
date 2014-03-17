@@ -2,8 +2,11 @@
 if(!is_weixin()){
 	wp_die('请在微信中访问该页！');
 }
-$query_id		= $_GET['weixin_user_id'];
-$weixin_openid 	= weixin_robot_user_get_openid($query_id);
+
+$query_key = weixin_robot_get_user_query_key();
+
+$query_id		= $_GET[$query_key];
+$weixin_openid 	= weixin_robot_get_user_openid($query_id);
 
 if($weixin_openid == false){
 	wp_die('非法访问！');
@@ -25,7 +28,7 @@ if(isset($_GET['update'])){
 	}
 }else{
 	global $wpdb;
-	$weixin_credits_table = weixin_robot_credits_table();
+	$weixin_credits_table = weixin_robot_get_credits_table();
 	$weixin_credits = $wpdb->get_results($wpdb->prepare("SELECT * FROM {$weixin_credits_table} WHERE weixin_openid=%s ORDER BY id DESC LIMIT 0,30;",$weixin_openid));
 }
 
@@ -70,6 +73,12 @@ ul.buttons li a{text-decoration:none;color:#000;}
 	 -webkit-transition: background 0.4s; 
 }
     </style>
+    <script type="text/javascript">
+	document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+		WeixinJSBridge.call('hideOptionMenu');
+		//WeixinJSBridge.call('hideToolbar');
+	});
+	</script>
 <?php //wp_head();?>
 </head>
 <body>
@@ -96,12 +105,12 @@ ul.buttons li a{text-decoration:none;color:#000;}
 
 		<p>
 			<label for="mobile">手机：</label><br />
-			<input type="text" class="form-fields" name="phone" id="phone" value="<?php echo $weixin_user['phone']?>">
+			<input type="text" class="form-fields" name="phone" id="phone" value="<?php echo isset($weixin_user['phone'])?$weixin_user['phone']:'';?>">
 		</p>
 
 		<p>
 			<label for="address">地址：</label><br />
-			<textarea class="form-fields" name="address" id="address" rows="3"><?php echo $weixin_user['address']?></textarea>
+			<textarea class="form-fields" name="address" id="address" rows="3"><?php echo isset($weixin_user['address'])?$weixin_user['address']:'';?></textarea>
 		</p>
 
 		<p>
@@ -121,8 +130,8 @@ ul.buttons li a{text-decoration:none;color:#000;}
 <?php } else {  ?>
 	<p><strong>你现在共有 <?php echo weixin_robot_get_credit($weixin_openid); ?> 积分</strong>：</p>
 	<ul class="buttons">
-		<li><a href="<?php echo home_url('?weixin_user_profile&weixin_user_id='.$query_id.'&credit_rule=1')?>" class=button>查看积分规则</a></li>
-		<li><a href="<?php echo home_url('?weixin_user_profile&weixin_user_id='.$query_id.'&update=1')?>" class=button>修改个人资料</a></li>
+		<li><a href="<?php echo home_url('?weixin_user_profile&'.$query_key.'='.$query_id.'&credit_rule=1')?>" class=button>查看积分规则</a></li>
+		<li><a href="<?php echo home_url('?weixin_user_profile&'.$query_key.'='.$query_id.'&update=1')?>" class=button>修改个人资料</a></li>
 	</ul>
 	
 	<p><strong>积分历史</strong>：</p>
