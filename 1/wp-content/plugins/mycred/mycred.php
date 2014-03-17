@@ -676,7 +676,7 @@ function parse_domob_callback(){
 
 	if( getUrlSignature( $url, $privateKey ) == true ){
         $url_parse = parse_url($url);
-	echo "<-test-->\n";
+//	echo "<-test-->\n";
         if (isset($url_parse['query'])){
             $query_arr = explode('&', $url_parse['query']);
             if (!empty($query_arr)){
@@ -690,7 +690,7 @@ function parse_domob_callback(){
         }
 		
 	}
-	echo $params['user']."\n";
+//	echo $params['user']."\n";
 
 	$haveAddedOrder =  get_option( "domob_orderid_".$params['orderid'], NULL );
 	if( !empty($params) ){
@@ -703,10 +703,10 @@ function parse_domob_callback(){
 		return;
 	}
 
-echo " \n".$userid." ";
+//echo " \n".$userid." ";
 	
 		if( !empty($userid) && $price > 0 ){
-	echo " ".$price."\n ";
+//	echo " ".$price."\n ";
 	//mycred_load();
 	//do_action('mycred_admin_init');
 	require_once( myCRED_INCLUDES_DIR . 'mycred-admin.php' );
@@ -715,12 +715,16 @@ echo " \n".$userid." ";
 			//do_action('admin_init');
 			// current_level = 0, amount = price * 1/2  * 100 point, rate = 100%, max_level =1,
 			add_option( "domob_orderid_".$params['orderid'], $userid." added" );
-echo " domob_orderid=".$userid."\n ";
+//echo " domob_orderid=".$userid."\n ";
 	
 	$this_count_price = $price * 100 * $rate;
 	$memo .= " price=".$this_count_price;
 
-			count_referral_bonus( $userid, 0, $price * 100 * $rate , 1, 1, $userid , $entry, $memo);
+    $settings = new myCRED_Settings();
+    $settings->add_creds('download', $userid, $this_count_price,
+        " 由 " . $userid . " " . $entry, $params['adid'], '', 'mycred_default', $memo);
+
+        count_referral_bonus( $userid, 0, $this_count_price, 1, $entry);
 		}
 	}
 }
@@ -729,38 +733,41 @@ echo " domob_orderid=".$userid."\n ";
 # Parse user's referral ,and added bonus
 add_action( 'referral_bonus_count_recursion', 'count_referral_bonus' );
 
-function count_referral_bonus( $userlogin, $current_level, $amount, $rate, $max_level, $parent_id, $entry, $memo ) {
-    global  $wpdb;
+function count_referral_bonus( $userlogin, $current_level, $amount, $max_level) {
+    if( $current_level < 0 || $max_level < 0 || $current_level > $max_level ){
+        // end the recursion
+        return true;
+    }
+
     $user =get_user_by('login', $userlogin);
-	if( empty($user) )
-		return false;
+	if( empty($user) ){
+        return false;
+    }
+
+    //call edit_user_balance;
+//    $attr = array();
+//    $attr['user'] = $user->ID;
+//    $attr['amount'] = $amount * $rate;
+//    $attr['entry'] = " 由 " . $parent_id . " " . $entry;
+//    $attr['memo'] = $memo;
+//    do_action('wp_mycred_outside_edit_users_balance',  $attr );
+
     $referral_id = get_user_meta($user->ID, 'referral_id', true);
 	$referral_level = $user->data->referral_level;
 	$referral_rate = 0.2;//get_option( 'referral_level_'.($current_level + 1).'_rate' ); //$user->data->referral_rate;
 	$referral_max_level = 2;//get_option( 'max_referral_levels' );//$user->data->max_referral_level;
+    if( !empty($referral_id ) && !empty($referral_rate) && $referral_rate > 0 ){
+        $price = $amount * $referral_rate;
+        $settings = new myCRED_Settings();
+        $settings->add_creds('cascade_bonus', $referral_id, $price,
+            "下家安装应用时获取提成", $user->ID, '', 'mycred_default', 'price='.$price);
 
-	if( $current_level < 0 || $max_level < 0 || $current_level > $max_level ){
-		// end the recursion 
-		return true;
-	}
-	
-	if( $current_level >= 0 && $max_level > 0 && $current_level <= $max_level ){
-		//call edit_user_balance; 
-	    $attr = array();
-		$attr['user'] = $user->ID;
-		$attr['amount'] = $amount * $rate;
-		$attr['entry'] = " 由 " . $parent_id . " " . $entry;
-		$attr['memo'] = $memo;
-		
-		echo $referral_id;
-		echo $referral_rate."-->";
-		do_action('wp_mycred_outside_edit_users_balance',  $attr );
-		if( !empty($referral_id ) && !empty($referral_rate) && $referral_rate > 0 )
-		count_referral_bonus( $referral_id, $current_level + 1, $amount, $referral_rate, $referral_max_level, $userlogin, $entry, $memo);
-		return true;
-	}
+        count_referral_bonus( $referral_id, $current_level + 1, $amount,
+            $referral_max_level);
+    }
 
-	return false;
+    return true;
+
 }
 ///-------DOMOB points , referral -----------
 ///-------DOMOB points  END.}
