@@ -3,7 +3,7 @@
 Plugin Name: 微信机器人高级版
 Plugin URI: http://wpjam.net/item/weixin-robot-advanced/
 Description: 微信机器人的主要功能就是能够将你的公众账号和你的 WordPress 博客联系起来，搜索和用户发送信息匹配的日志，并自动回复用户，让你使用微信进行营销事半功倍。
-Version: 3.8
+Version: 3.9.2
 Author: Denis
 Author URI: http://blog.wpjam.com/
 */
@@ -14,7 +14,7 @@ define('WEIXIN_ROBOT_PLUGIN_FILE',  __FILE__);
 
 add_action('init', 'wpjam_weixin_robot_redirect', 11);
 function wpjam_weixin_robot_redirect($wp){
-	if(isset($_GET['weixin-api']) ){
+	if(isset($_GET['weixin-api']) || isset($_GET['signature'])){
 		global $wechatObj;
 		if(!isset($wechatObj)){
 			$wechatObj = new wechatCallback();
@@ -32,12 +32,12 @@ class wechatCallback {
 
 	public function valid(){
 
-		//file_put_contents(WP_CONTENT_DIR.'/uploads/test.html',var_export($_GET,true));
+		//file_put_contents(WP_CONTENT_DIR.'/uploads/weixin.log',var_export($_GET,true));
 		if(isset($_GET['debug'])){
 			$this->checkSignature();
 			$this->responseMsg();
 		}else{
-			if($this->checkSignature() || isset($_GET['yixin'])||isset ($_GET['weixin-search'] )){
+			if($this->checkSignature() || isset($_GET['yixin'])){
 				if(isset($_GET["echostr"])){
 					$echoStr = $_GET["echostr"];
 					echo $echoStr;					
@@ -52,15 +52,10 @@ class wechatCallback {
 		$postStr = (isset($GLOBALS["HTTP_RAW_POST_DATA"]))?$GLOBALS["HTTP_RAW_POST_DATA"]:'';
 		//file_put_contents(WP_CONTENT_DIR.'/uploads/test.html',var_export($postStr,true));
 
-		if (isset($_GET['debug']) || !empty($postStr)||isset ($_GET['weixin-search'] )){	
+		if (isset($_GET['debug']) || !empty($postStr)){	
 			if(isset($_GET['debug'])){
 				$this->fromUsername = $this->toUsername = '';
 				$keyword = strtolower(trim($_GET['t']));
-			}elseif (isset ( $_GET['weixin-search'] )) { //By Glay
-				$action = $_GET ['action'];
-				$keyword = $_GET ['weixin-search'];
-				$this->fromUsername = $_GET['fromUsername'];
-				$this->toUsername = $_GET['toUsername'];
 			}else{
 				$postObj		= simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
 
@@ -117,10 +112,11 @@ class wechatCallback {
 		unset($post_types['attachment']);
 
 		$weixin_query_array = array(
-			's'					=> $keyword, 
-			'posts_per_page'	=> $weixin_count , 
-			'post_status'		=> 'publish',
-			'post_type'			=> $post_types
+			's'						=> $keyword, 
+			'ignore_sticky_posts'	=> true,
+			'posts_per_page'		=> $weixin_count , 
+			'post_status'			=> 'publish',
+			'post_type'				=> $post_types
 		);
 
 		$weixin_query_array = apply_filters('weixin_query',$weixin_query_array); 
@@ -173,13 +169,7 @@ class wechatCallback {
 			if(weixin_robot_get_setting('weixin_3rd_search')){
 				weixin_robot_3rd_reply();
 			}else{
-				$weixin_not_found = weixin_robot_get_setting('weixin_not_found');
-				$weixin_not_found = weixin_robot_str_replace(str_replace('[keyword]', '【'.$keyword.'】', $weixin_not_found),$this);
-				if($weixin_not_found){
-
-					echo sprintf($this->get_textTpl(), $weixin_not_found);
-				}
-				$this->response = 'not-found';
+				weixin_robot_not_found_reply($keyword);
 			}
 		}
 	}
@@ -206,11 +196,16 @@ class wechatCallback {
 		return $this->response;
 	}
 
-	public function get_textTpl(){
-		return "<xml>
+	private function get_basicTpl(){
+		return "
 				<ToUserName><![CDATA[".$this->fromUsername."]]></ToUserName>
 				<FromUserName><![CDATA[".$this->toUsername."]]></FromUserName>
 				<CreateTime>".time()."</CreateTime>
+		";
+	}
+	public function get_textTpl(){
+		return "
+			<xml>".$this->get_basicTpl()."
 				<MsgType><![CDATA[text]]></MsgType>
 				<Content><![CDATA[%s]]></Content>
 			</xml>
@@ -219,11 +214,9 @@ class wechatCallback {
 
 	public function get_picTpl(){
 		return "
-			<xml>
-				<ToUserName><![CDATA[".$this->fromUsername."]]></ToUserName>
-				<FromUserName><![CDATA[".$this->toUsername."]]></FromUserName>
-				<CreateTime>".time()."</CreateTime>
+			<xml>".$this->get_basicTpl()."
 				<MsgType><![CDATA[news]]></MsgType>
+				<Content><![CDATA[]]></Content>
 				<ArticleCount>%d</ArticleCount>
 				<Articles>
 				%s
@@ -231,6 +224,56 @@ class wechatCallback {
 			</xml>
 		";
 	}
+
+	public function get_imageTpl(){
+		return "
+			<xml>".$this->get_basicTpl()."
+				<MsgType><![CDATA[image]]></MsgType>
+				<Image>
+				<MediaId><![CDATA[%s]]></MediaId>
+				</Image>
+			</xml>
+		";
+	}
+
+	public function get_voiceTpl(){
+		return "
+			<xml>".$this->get_basicTpl()."
+				<MsgType><![CDATA[voice]]></MsgType>
+				<Voice>
+				<MediaId><![CDATA[%s]]></MediaId>
+				</Voice>
+			</xml>
+		";
+	}
+
+	public function get_videoTpl(){
+		return "
+			<xml>".$this->get_basicTpl()."
+				<MsgType><![CDATA[video]]></MsgType>
+				<Video>
+				<MediaId><![CDATA[%s]]></MediaId>
+				<Title><![CDATA[%s]]></Title>
+				<Description><![CDATA[%s]]></Description>
+				</Video>
+			</xml>
+		";
+	}
+
+	public function get_musicTpl(){
+		return "
+			<xml>".$this->get_basicTpl()."
+				<MsgType><![CDATA[music]]></MsgType>
+				<Music>
+				<Title><![CDATA[%s]]></Title>
+				<Description><![CDATA[%s]]></Description>
+				<MusicUrl><![CDATA[%s]]></MusicUrl>
+				<HQMusicUrl><![CDATA[%s]]></HQMusicUrl>
+				<ThumbMediaId><![CDATA[%s]]></ThumbMediaId>
+			</Music>
+			</xml>
+		";
+	}	
 
 	public function get_msgType(){
 		return $this->msgType;
@@ -254,7 +297,8 @@ class wechatCallback {
 			echo 'WEIXIN_TOKEN：'.$weixin_token."\n";
 		}
 		$tmpArr = array($weixin_token, $timestamp, $nonce);
-		sort($tmpArr);
+		//sort($tmpArr);
+		sort($tmpArr,SORT_STRING);
 		$tmpStr = implode( $tmpArr );
 		$tmpStr = sha1( $tmpStr );
 		
@@ -269,7 +313,7 @@ class wechatCallback {
 // 开始加载其他文件。
 function weixin_robot_get_wpjam_include_dir(){
 	$wpjam_include_versions = get_transient('wpjam_include_versions');
-	$version = '20140121';
+	$version = '20140320';
     if($wpjam_include_versions === false || empty($wpjam_include_versions[$version])){
         $wpjam_include_versions[$version] = WEIXIN_ROBOT_PLUGIN_DIR.'/include';
         set_transient('wpjam_include_versions', $wpjam_include_versions, 600);
@@ -288,18 +332,19 @@ if(!function_exists('wpjam_option_page')){
 	include($wpjam_include_dir.'/wpjam-setting-api.php');
 }
 
-include(WEIXIN_ROBOT_PLUGIN_DIR.'/weixin-robot-functions.php');		// 自定义接口和常用函数
-include(WEIXIN_ROBOT_PLUGIN_DIR.'/weixin-robot-options.php');		// 后台选项
-include(WEIXIN_ROBOT_PLUGIN_DIR.'/weixin-robot-custom-reply.php');	// 自定义回复
-include(WEIXIN_ROBOT_PLUGIN_DIR.'/weixin-robot-custom-menu.php');	// 自定义菜单
-include(WEIXIN_ROBOT_PLUGIN_DIR.'/weixin-robot-user.php');			// 微信用户系统
+include(WEIXIN_ROBOT_PLUGIN_DIR.'/weixin-robot-functions.php');			// 自定义接口和常用函数
 
-if(weixin_robot_get_setting('weixin_credit')){
-	include(WEIXIN_ROBOT_PLUGIN_DIR.'/weixin-robot-credit.php');	// 微信积分系统
+include(WEIXIN_ROBOT_PLUGIN_DIR.'/weixin-robot-options.php');			// 后台选项
+include(WEIXIN_ROBOT_PLUGIN_DIR.'/weixin-robot-custom-reply.php');		// 自定义回复
+include(WEIXIN_ROBOT_PLUGIN_DIR.'/weixin-robot-custom-menu.php');		// 自定义菜单
+if(weixin_robot_get_setting('weixin_disable_stats') == false) {
+	include(WEIXIN_ROBOT_PLUGIN_DIR.'/weixin-robot-stats.php');			// 数据统计分析
 }
 
-if(weixin_robot_get_setting('weixin_disable_stats') == false) {
-	include(WEIXIN_ROBOT_PLUGIN_DIR.'/weixin-robot-stats.php');		// 数据统计
+include(WEIXIN_ROBOT_PLUGIN_DIR.'/weixin-robot-user.php');				// 微信用户系统
+
+if(weixin_robot_get_setting('weixin_credit')){
+	include(WEIXIN_ROBOT_PLUGIN_DIR.'/weixin-robot-credit.php');		// 微信积分系统
 }
 
 $weixin_extend_dir = WEIXIN_ROBOT_PLUGIN_DIR.'/extends';
