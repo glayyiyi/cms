@@ -32,8 +32,16 @@ class json_api_register_controller {
 			$json_api->error(" not found myCRED" );
 		}
 
+		$signInToday = true;
+
 		if(!$user_is_empty){
             $userid = $exist_users[0]->id;
+		 if ( class_exists( 'myCRED_Hook_Logging_In' ) ) {
+                        $mycred1 = new myCRED_Hook_Logging_In();
+                        if ( $mycred1->reward_login( $userid , false) )
+				$signInToday = false;
+		}
+
 			return array(
 					"uid" => $userid,
 					"loginname" => $exist_users[0]->user_login,
@@ -42,6 +50,7 @@ class json_api_register_controller {
                     "havePassword" => get_user_meta($userid, 'havePassword', true),
                     "qq" => get_user_meta($userid, 'qq', true),
                     "alipay" => get_user_meta($userid, 'alipay', true),
+                    "haveSignInToday" => $signInToday,
                     "mobile" => get_user_meta($userid, 'mobile', true)
 				    );
 		}
@@ -139,8 +148,14 @@ class json_api_register_controller {
 				if ( is_wp_error( $user ) ) {
                     return array('status'=> 'error', 'message'=> __( 'username or password is wrong', 'woocommerce' ) );
 				} else {
-                    $userid = $user -> ID;
+                    $userid = $user->ID;
                     $mycred = new myCRED_Settings();
+		$signInToday = true;
+		 if ( class_exists( 'myCRED_Hook_Logging_In' ) ) {
+                        $mycred1 = new myCRED_Hook_Logging_In();
+                        if ( $mycred1->reward_login( $user->id , false) )
+				$signInToday = false;
+		}
                     if ( empty($mycred)  ) {
                         global $json_api;
                         $json_api->error(" not found myCRED" );
@@ -152,7 +167,8 @@ class json_api_register_controller {
                         'referral_id' => get_user_meta($userid, 'referral_id', true),
                         'qq' => get_user_meta($userid, 'qq', true),
                         'alipay' => get_user_meta($userid, 'alipay', true),
-                        'mobile' => get_user_meta($userid, 'mobile', true),
+                    	'haveSignInToday' => $signInToday,
+                        'mobile' => get_user_meta($userid, 'mobile', true)
                     );
 				}
 

@@ -24,12 +24,12 @@ class JSON_API_Points_Controller{
 			return array( "user_emplty" => $user->user_login);
 
 		if ( class_exists( 'myCRED_Hook_Logging_In' ) ) {
-			//$mycred = new myCRED_Hook_Logging_In();
-			//if ( $mycred->reward_login( $user->id ) ) //return false;
-			//	return array( "status" => "error", "msg" => "今日已经签到过!" );
+			$mycred = new myCRED_Hook_Logging_In();
+			if ( $mycred->reward_login( $user->id , false) ) //return false;
+				return array( "status" => "ok");
 			//$mycred->logging_in( $user->id );
 		}
-			return array( "status" => "ok");
+		return array( "status" => "error", "msg" => "今日已经签到过!" );
 			//return array( "status" => "error", "msg" => "system error!");
 		//return true;
 	}

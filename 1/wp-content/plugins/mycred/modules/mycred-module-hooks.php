@@ -329,7 +329,7 @@ if ( !class_exists( 'myCRED_Hook_Logging_In' ) ) {
 			parent::__construct( array(
 				'id'       => 'logging_in',
 				'defaults' => array(
-					'creds'   => 1,
+					'creds'   => 10,
 					'log'     => '%plural% for logging in',
 					'limit'   => 'daily'
 				)
