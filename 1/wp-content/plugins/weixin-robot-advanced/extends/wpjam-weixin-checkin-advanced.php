@@ -3,7 +3,7 @@
 Plugin Name: 微信高级签到插件
 Plugin URI: http://wpjam.net/item/wpjam-weixin-checkin-advanced/
 Description: 微信高级签到 WordPress 插件，可以查看总共签到次数，连续签到次数，排名，击败多少用户。
-Version: 1.2
+Version: 1.3
 Author: Denis
 Author URI: http://blog.wpjam.com/
 */
@@ -57,15 +57,22 @@ function wpjan_weixin_checkin_default_option($defaults_options, $option_name){
 
 add_filter('weixin_response_types','wpjam_weixin_checkin_response_types');
 function wpjam_weixin_checkin_response_types($response_types){
-    $response_types['top-credits']         = '回复积分排行榜';
-    $response_types['top-checkin']         = '回复签到排行榜';
+    $response_types['top-credits']         = '积分排行榜';
+    $response_types['top-checkin']         = '签到排行榜';
     return $response_types;
 }
 
 add_filter('weixin_tables','wpjam_checkin_weixin_tables');
 function wpjam_checkin_weixin_tables($weixin_tables){
-	$weixin_tables['高级签到'] = 'weixin_robot_continue_checkin_create_table';
+	$weixin_tables['weixin_robot_continue_checkin_create_table'] = array('高级签到');
 	return $weixin_tables;
+}
+
+add_filter('weixin_transient_caches','wpjam_checkin_transient_caches');
+function wpjam_checkin_transient_caches($transient_caches){
+	$transient_caches['签到排行榜'] = array('weixin_top_checkin_users');
+	$transient_caches['积分排行榜'] = array('weixin_top_credit_users');
+	return $transient_caches;
 }
 
 add_filter('weixin_checkin_success','wpjam_weixin_checkin_success',10,2);
@@ -145,7 +152,7 @@ function weixin_robot_continue_checkin_create_table() {
 
 function wpjam_weixin_get_total_checkin_number($weixin_openid){
 	global $wpdb;
-	$weixin_credits_table = weixin_robot_credits_table();
+	$weixin_credits_table = weixin_robot_get_credits_table();
 
 	$current_time = current_time('timestamp');
 	$current_date = date('Ymd',$current_time);
@@ -191,7 +198,7 @@ function wpjam_weixin_set_continue_checkin_number($weixin_openid){
 	global $wpdb;
 
 	$weixin_checkin_table = weixin_robot_checkin_table();
-	$weixin_credits_table = weixin_robot_credits_table();
+	$weixin_credits_table = weixin_robot_get_credits_table();
 
 	$current_time = current_time('timestamp');
 	$yesterday_time = $current_time - 86400;
@@ -224,7 +231,7 @@ function wpjam_weixin_get_checkin_order($weixin_openid){
 	$checkin_order = wp_cache_get($weixin_openid, 'checkin_order_'.$current_date);
 	if($checkin_order == false){
 		global $wpdb;
-		$weixin_credits_table = weixin_robot_credits_table();		
+		$weixin_credits_table = weixin_robot_get_credits_table();		
 		
 		$first_checkin_time = $wpdb->get_var($wpdb->prepare("SELECT SQL_NO_CACHE `time` FROM {$weixin_credits_table} WHERE `type`='checkin' AND weixin_openid=%s AND ( ( YEAR( time ) = %d AND MONTH( time ) = %d AND DAYOFMONTH( time ) = %d ) ) ORDER BY id ASC LIMIT 1",$weixin_openid, date('Y',$current_time), date('m',$current_time), date('d',$current_time)));
 
@@ -272,7 +279,7 @@ function wpjam_get_top_checkin_users(){
 	if($top_checkin_users == false){
 		global $wpdb;
 		$weixin_checkin_table = weixin_robot_checkin_table();
-		$weixin_users_table = weixin_robot_users_table();
+		$weixin_users_table = weixin_robot_get_users_table();
 
 		$top_checkin_users = $wpdb->get_results("SELECT weixin_openid,total_number,nickname,name FROM {$weixin_checkin_table} wxc INNER JOIN {$weixin_users_table} wxu ON (wxc.weixin_openid=wxu.openid) WHERE (wxu.nickname !='' OR wxu.name !='') ORDER BY total_number DESC LIMIT 0,20",OBJECT_K);
 
@@ -308,8 +315,8 @@ function wpjam_weixin_get_top_credit_users(){
 	$top_credit_users = get_transient('weixin_top_credit_users');
 	if($top_credit_users == false){
 		global $wpdb;
-		$weixin_credits_table = weixin_robot_credits_table();
-		$weixin_users_table = weixin_robot_users_table();
+		$weixin_credits_table = weixin_robot_get_credits_table();
+		$weixin_users_table = weixin_robot_get_users_table();
 
 
 		$top_credit_users = $wpdb->get_results("SELECT SQL_CALC_FOUND_ROWS wut.*, wct.credit FROM  $weixin_users_table wut LEFT JOIN $weixin_credits_table wct ON wut.openid = wct.weixin_openid WHERE  subscribe = '1' AND wct.id in (SELECT MAX( id ) FROM $weixin_credits_table  WHERE name!='' OR nickname!='' GROUP BY weixin_openid) ORDER BY wct.credit desc limit 0,20 ");
@@ -358,7 +365,7 @@ function weixin_robot_checkin_page(){
 	$limit				= 'LIMIT '.$start_count.','.$number_per_page;
 
 	$weixin_checkin_table = weixin_robot_checkin_table();
-	$weixin_users_table = weixin_robot_users_table();
+	$weixin_users_table = weixin_robot_get_users_table();
 
 	$sql = "SELECT wxu.*, wxc.continue_number, wxc.total_number FROM {$weixin_checkin_table} wxc INNER JOIN {$weixin_users_table} wxu ON (wxc.weixin_openid=wxu.openid) WHERE subscribe = '1' ORDER BY total_number DESC $limit";
 
