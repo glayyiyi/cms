@@ -360,7 +360,7 @@ function reset_password(){
             }
             $resultArray[$key] = $existResult;
         }
-        return array("message"=>json_encode($resultArray));
+        return array("message"=>json_encode(array_values($resultArray)));
     }
   
 }
