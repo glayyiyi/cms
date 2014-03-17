@@ -1,63 +1,4 @@
 <?php 
-add_action('weixin_robot','wpjam_stats_weixin_robot');
-function wpjam_stats_weixin_robot($wechatObj){
-	$response	= $wechatObj->get_response();
-	$postObj	= $wechatObj->get_postObj();
-	if($response && $postObj){
-		weixin_robot_insert_message($postObj, $response);
-	}
-}
-
-function weixin_robot_get_messages_table(){
-	global $wpdb;
-	return apply_filters('weixin_messages_table',$wpdb->prefix.'weixin_messages');
-}
-
-register_activation_hook( WEIXIN_ROBOT_PLUGIN_FILE,'weixin_robot_messages_create_table');
-function weixin_robot_messages_create_table() {	
-	global $wpdb;
- 
-	$weixin_messages_table = weixin_robot_get_messages_table();
-	if($wpdb->get_var("show tables like '$weixin_messages_table'") != $weixin_messages_table) {
-		$sql = "
-		CREATE TABLE IF NOT EXISTS ".$weixin_messages_table." (
-			`id` bigint(20) NOT NULL auto_increment,
-			`MsgId` bigint(64) NOT NULL,
-			`FromUserName` varchar(30) character set utf8 NOT NULL,
-			`MsgType` varchar(10) character set utf8 NOT NULL,
-			`CreateTime` int(10) NOT NULL,
-
-			`Content` longtext character set utf8 NOT NULL,
-
-			`PicUrl` varchar(255) character set utf8 NOT NULL,
-
-			`Location_X` double(10,6) NOT NULL,
-			`Location_Y` double(10,6) NOT NULL,
-			`Scale` int(10) NOT NULL,
-			`label` varchar(255) character set utf8 NOT NULL,
-
-			`Title` text character set utf8 NOT NULL,
-			`Description` longtext character set utf8 NOT NULL,
-			`Url` varchar(255) character set utf8 NOT NULL,
-
-			`Event` varchar(255) character set utf8 NOT NULL,
-			`EventKey` varchar(255) character set utf8 NOT NULL,
-
-			`Format` varchar(255) character set utf8 NOT NULL,
-			`MediaId` text character set utf8 NOT NULL,
-			`Recognition` text character set utf8 NOT NULL,
-		 
-			`Response` varchar(255) character set utf8 NOT NULL,
-			PRIMARY KEY (`id`)
-		) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-		";
-
-		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
- 
-		dbDelta($sql);
-	}
-}
-
 function weixin_robot_insert_message($postObj,$Response=''){
 
 	if(!is_object($postObj)) return 0;
@@ -86,6 +27,7 @@ function weixin_robot_insert_message($postObj,$Response=''){
 		'Format'		=> '',
 		'MediaId'		=> '',
 		'Recognition'	=> '',
+		//'UserAgent'		=> $_SERVER['HTTP_USER_AGENT']
 	);
 
 	$msgType = $postObj->MsgType;
@@ -190,6 +132,7 @@ function weixin_robot_stats_get_types(){
 		'event'			=>'事件消息', 
 		'subscribe'		=>'用户订阅', 
 		'unsubscribe'	=>'取消订阅', 
+		'netuser'		=>'净增长', 
 		'location'		=>'位置消息', 
 		'image'			=>'图片消息', 
 		'link'			=>'链接消息', 
@@ -206,6 +149,10 @@ function weixin_robot_get_response_types(){
 		'cat'			=> '分类最新日志',
 		'custom-text'	=> '自定义文本回复',
 		'custom-img'	=> '自定义图文回复',
+		'custom-image'	=> '自定义图片回复',
+		'custom-voice'	=> '自定义音频回复',
+		'custom-music'	=> '自定义音乐回复',
+		'custom-video'	=> '自定义视频回复',
 		'query'			=> '搜索查询回复',
 		'too-long'		=> '关键字太长',
 		'not-found'		=> '没有匹配内容',
@@ -213,7 +160,11 @@ function weixin_robot_get_response_types(){
 		'loction'		=> '位置自动回复',
 		'link'			=> '链接自动回复',
 		'image'			=> '图片自动回复',
-		'enter-reply'	=> '进入微信回复'
+		'enter-reply'	=> '进入微信回复',
+		'3rd'			=> '第三方回复',
+
+		'checkin'		=> '回复签到',
+		'credit'		=> '回复积分'
 	);
 
 	return apply_filters('weixin_response_types',$response_types);
@@ -227,7 +178,11 @@ function weixin_robot_stats2_page(){
 
 	$current_tab = isset($_GET['tab'])?$_GET['tab']:'stats';
 
-	$tabs = array('stats'=>'消息统计分析','summary'=>'回复统计分析');
+	$tabs = array('stats'=>'消息','summary'=>'回复','user_stats'=>'活跃用户');
+	if(weixin_robot_get_setting('weixin_app_id') && weixin_robot_get_setting('weixin_app_secret')) {
+		$tabs['custom_menu_stats']	= '自定义菜单';
+	}
+
 	?>
 	<div class="wrap">
 		<h2 class="nav-tab-wrapper">
@@ -263,6 +218,7 @@ function weixin_robot_stats_page() {
 	SUM(case when MsgType='event' AND Event!='subscribe' AND Event!='unsubscribe' then 1 else 0 end) as event, 
 	SUM(case when MsgType='event' AND Event='subscribe' then 1 else 0 end) as subscribe, 
 	SUM(case when MsgType='event' AND Event='unsubscribe' then 1 else 0 end) as unsubscribe,
+	SUM(case when MsgType='event' AND Event='subscribe' then 1 when MsgType='event' AND Event='unsubscribe' then -1 else 0 end ) as netuser,
 	SUM(case when MsgType='location' then 1 else 0 end) as location, 
 	SUM(case when MsgType='image' then 1 else 0 end) as image, 
 	SUM(case when MsgType='link' then 1 else 0 end) as link, 
@@ -340,7 +296,7 @@ function weixin_robot_stats_page() {
 	$data = array();
 
 	if($type == 'total'){	
-		$morris_ykeys = array('total','text','event','subscribe','unsubscribe');
+		$morris_ykeys = array('total','text','event','subscribe','netuser');
 
 		$morris_labels = array();
 		foreach ($morris_ykeys as $morris_ykey) {
@@ -534,6 +490,197 @@ function weixin_robot_summary_page(){
 	<?php
 }
 
+function weixin_robot_user_stats_page(){ 
+	?>
+	<h3>用户活跃度统计分析</h3>
+	<?php 
+	global $wpdb, $plugin_page;
+
+	$start_date	= weixin_robot_stats_get_start_date();
+	$end_date 	= weixin_robot_stats_get_end_date();
+	$end_time	= $end_date.' 23:59:59';
+
+	$weixin_messages_table = weixin_robot_get_messages_table();
+
+	$where = 'CreateTime > '.strtotime($start_date).' AND CreateTime < '.strtotime($end_time);
+
+	weixin_robot_stats_header();
+
+	$sum = "
+	SUM(case when MsgType='text' then 1 else 0 end) as text,
+	SUM(case when MsgType='event' AND Event!='subscribe' AND Event!='unsubscribe' then 1 else 0 end) as event, 
+	SUM(case when MsgType='location' then 1 else 0 end) as location, 
+	SUM(case when MsgType='image' then 1 else 0 end) as image, 
+	SUM(case when MsgType='link' then 1 else 0 end) as link, 
+	SUM(case when MsgType='voice' then 1 else 0 end) as voice
+	";
+
+	$sql = "SELECT COUNT( * ) AS total, FromUserName, {$sum} FROM {$weixin_messages_table} WHERE {$where} GROUP BY FromUserName ORDER BY total DESC LIMIT 0,100 ";
+
+	$counts = $wpdb->get_results($sql);
+
+	$types = weixin_robot_stats_get_types();
+	unset($types['subscribe']);
+	unset($types['unsubscribe']);
+
+	?>
+	
+	<table class="widefat" cellspacing="0">
+		<thead>
+			<tr>
+				<?php if(weixin_robot_get_setting('weixin_advanced_api') && strpos($weixin_messages_table, 'weixin')){?>
+				<th colspan="2">用户</th>
+				<?php } else { ?>
+				<th>用户</th>
+				<?php }?>
+				<?php foreach ($types as $key=>$value) {?>
+				<th><?php echo $value;?></th>
+				<?php }?>
+			</tr>
+		</thead>
+		<tbody>
+		<?php $data = array(); $i=0;?>
+		<?php $alternate = '';?>
+		<?php foreach ($counts as $count) { $alternate = $alternate?'':'alternate';?>
+			<?php if($count->FromUserName){?>
+			<?php $weixin_openid=$count->FromUserName; ?>
+			<tr class="<?php echo $alternate;?>">
+			<?php if(weixin_robot_get_setting('weixin_advanced_api') && strpos($weixin_messages_table, 'weixin')){?>
+				<?php $weixin_user = weixin_robot_get_user($weixin_openid); ?>
+				<?php if($weixin_user['subscribe']){ ?>
+				<td>
+				<?php 
+				$weixin_user_avatar = '';
+				if(!empty($weixin_user['headimgurl'])){
+					$weixin_user_avatar = WEIXIN_ROBOT_PLUGIN_URL.'/include/timthumb.php?src='.$weixin_user['headimgurl'];
+				?>
+					<a href="<?php echo admin_url('admin.php?page='.$plugin_page.'&openid='.$weixin_openid)?>"><img src="<?php echo $weixin_user_avatar; ?>" width="32" /></a>
+				<?php }?>
+				</td>
+				<td>
+					<?php echo $weixin_user['nickname']; ?>（<?php if($weixin_user['sex']==1){ echo '男'; } elseif($weixin_user['sex']==2) { echo '女'; }else{ echo "未知"; }?>）<br />
+					<?php echo $weixin_user['country'].' '.$weixin_user['province'].' '.$weixin_user['city'];?><br />
+				</td>
+				<?php } else{ ?>
+				<td colspan="2">
+					<span style="color:red;">*已经取消关注</span>
+				</td>
+				<?php } ?>
+			<?php }else{ ?>
+				<td><?php echo $weixin_openid; ?></td>
+			<?php } ?>
+			<?php foreach ($types as $key=>$value) {?>
+				<td><?php echo $count->$key;?></td>
+			<?php }?>
+			</tr>
+			<?php }?>
+		<?php } ?>
+		<?php $data = "\n".implode(",\n", $data)."\n";?>
+		</tbody>
+	</table>
+	<?php
+}
+
+function weixin_robot_custom_menu_stats_page(){
+?>
+	<h3>自定义菜单点击统计分析</h3>
+	<?php 
+
+	global $wpdb, $plugin_page;
+
+	$start_date	= weixin_robot_stats_get_start_date();
+	$end_date 	= weixin_robot_stats_get_end_date();
+	$end_time	= $end_date.' 23:59:59';
+
+	$weixin_messages_table = weixin_robot_get_messages_table();
+
+	$where = 'CreateTime > '.strtotime($start_date).' AND CreateTime < '.strtotime($end_time);
+
+	weixin_robot_stats_header();
+
+
+	$weixin_robot_custom_menus = get_option('weixin-robot-custom-menus');
+
+	$click_keys = array();
+
+	if($weixin_robot_custom_menus){
+		foreach($weixin_robot_custom_menus as $weixin_robot_custom_menu){
+			if($weixin_robot_custom_menu['type'] == 'click' && $weixin_robot_custom_menu['key'] ){
+				$click_keys[] = $weixin_robot_custom_menu['key'];
+			}	
+		}
+
+		if($click_keys){
+			$click_keys = "'".implode("','", $click_keys)."'";
+
+			$sql = "SELECT EventKey, count(*) as count FROM {$weixin_messages_table} WHERE 1=1 AND {$where} AND MsgType = 'event' AND EventKey in({$click_keys}) GROUP BY EventKey";
+
+			$counts = $wpdb->get_results($sql,OBJECT_K);
+
+			$sql = "SELECT count(*) as total FROM {$weixin_messages_table} WHERE 1=1 AND {$where} AND MsgType = 'event' AND EventKey in({$click_keys})";
+
+			$total = $wpdb->get_var($sql);
+		}
+	}	
+
+	?>
+	
+	<?php if($weixin_robot_custom_menus && $click_keys) { ?>
+
+	<!--<p>只有点击类型的菜单才能统计！！</p>-->
+
+	<?php $weixin_robot_ordered_custom_menus = weixin_robot_get_ordered_custom_menus($weixin_robot_custom_menus);?>
+	
+	<table class="widefat" cellspacing="0">
+	<thead>
+		<tr>
+			<th>按钮</th>
+			<th>按钮位置/子按钮位置</th>
+			<th>类型</th>
+			<th>Key/URL</th>
+			<th>点击数</th>
+			<th>比率</th>
+		</tr>
+	</thead>
+	<tbody>
+	<?php $alternate = '';?>
+	<?php foreach($weixin_robot_ordered_custom_menus as $weixin_robot_custom_menu){ $alternate = $alternate?'':'alternate'; ?>
+		<?php if(isset($weixin_robot_custom_menu['parent'])){ $weixin_menu = $weixin_robot_custom_menu['parent'];?>
+		<tr class="<?php echo $alternate; ?>">
+			<td><?php echo $weixin_menu['name']; ?></td>
+			<td><?php echo $weixin_menu['position']; ?></td>
+			<td><?php echo $weixin_menu['type']; ?></td>
+			<td <?php if($weixin_menu['type'] == 'view' || empty($counts[$weixin_menu['key']]) ) {echo 'colspan="3"';} ?>><?php echo $weixin_menu['key']; ?></td>
+			<?php $id = $weixin_menu['id'];?>
+			<?php if($weixin_menu['type'] == 'click' && isset($counts[$weixin_menu['key']])) { $count = $counts[$weixin_menu['key']]->count; ?>
+			<td><?php echo $count;?></td>
+			<td><?php echo round($count/$total*100,2).'%'; ?>
+			<?php }?>
+		</tr>
+		<?php } ?>
+		<?php if(isset($weixin_robot_custom_menu['sub'])){  ?>
+		<?php foreach($weixin_robot_custom_menu['sub'] as $weixin_menu){ $alternate = $alternate?'':'alternate';?>
+		<tr colspan="4" class="<?php echo $alternate; ?>">
+			<td> └── <?php echo $weixin_menu['name']; ?></td>
+			<td> └── <?php echo $weixin_menu['sub_position']; ?></td>
+			<td><?php echo $weixin_menu['type']; ?></td>
+			<td <?php if($weixin_menu['type'] == 'view'){echo 'colspan="3"';} ?>><?php echo $weixin_menu['key']; ?></td>
+			<?php $id = $weixin_menu['id'];?>
+			<?php if($weixin_menu['type'] == 'click' && isset($counts[$weixin_menu['key']])) { $count = $counts[$weixin_menu['key']]->count; ?>
+			<td><?php echo $count;?></td>
+			<td><?php echo round($count/$total*100,2).'%'; ?>
+			<?php }?>
+		<tr>
+		<?php }?>
+		<?php } ?>
+	<?php } ?>
+	</tbody>
+	</table>
+
+	<?php }
+
+}
+
 function weixin_robot_messages_page() {
 	?>
 	<div class="wrap">
@@ -683,7 +830,10 @@ function weixin_robot_messages_page() {
 				}elseif($MsgType == 'link'){
 					echo '<a href="'.$weixin_message->Url.'" target="_blank">'.$weixin_message->Title.'</a>';
 				}elseif($MsgType == 'image'){
-					echo '<a href="'.$weixin_message->PicUrl.'" target="_blank"><img src="'.$weixin_message->PicUrl.'" width="100px;"></a>';
+					echo '<a href="'.$weixin_message->PicUrl.'" target="_blank" title="'.$weixin_message->MediaId.'"><img src="'.$weixin_message->PicUrl.'" alt="'.$weixin_message->MediaId.'" width="100px;"></a>';
+					if(isset($_GET['debug'])){
+						echo '<br />MediaId：'.$weixin_message->MediaId;
+					}
 				}elseif($MsgType == 'location'){
 					echo '<a href="http://ditu.google.cn/maps?q='.urlencode($weixin_message->label).'&amp;ll='.$weixin_message->Location_X.','.$weixin_message->Location_Y.'&amp;source=embed" target="_blank">'.$weixin_message->label.'</a>';
 				}elseif($MsgType == 'event'){
@@ -694,6 +844,9 @@ function weixin_robot_messages_page() {
 						echo $weixin_message->Recognition;
 					}else{
 						echo '未识别';
+					}
+					if(isset($_GET['debug'])){
+						echo '<br />MediaId：'.$weixin_message->MediaId;
 					}
 				}else{
 					echo $MsgType;

@@ -1,4 +1,157 @@
 <?php
+function weixin_robot_get_custom_replies_table(){
+	global $wpdb;
+	return $wpdb->prefix.'weixin_custom_replies';
+}
+
+function weixin_robot_get_messages_table(){
+	global $wpdb;
+	return apply_filters('weixin_messages_table',$wpdb->prefix.'weixin_messages');
+}
+
+function weixin_robot_get_users_table(){
+	global $wpdb;
+	return $wpdb->prefix.'weixin_users';
+}
+
+function weixin_robot_get_credits_table(){
+	global $wpdb;
+	return $wpdb->prefix.'weixin_credits';
+}
+
+register_activation_hook( WEIXIN_ROBOT_PLUGIN_FILE,'weixin_robot_create_table');
+function weixin_robot_create_table() {	
+	global $wpdb;
+ 
+	$weixin_messages_table			= weixin_robot_get_messages_table();
+	$weixin_users_table				= weixin_robot_get_users_table();
+	$weixin_credits_table			= weixin_robot_get_credits_table();
+	$weixin_custom_replies_table	= weixin_robot_get_custom_replies_table();
+
+	if($wpdb->get_var("show tables like '$weixin_messages_table'") != $weixin_messages_table) {
+		$sql = "
+		CREATE TABLE IF NOT EXISTS ".$weixin_messages_table." (
+			`id` bigint(20) NOT NULL auto_increment,
+			`MsgId` bigint(64) NOT NULL,
+			`FromUserName` varchar(30) character set utf8 NOT NULL,
+			`MsgType` varchar(10) character set utf8 NOT NULL,
+			`CreateTime` int(10) NOT NULL,
+
+			`Content` longtext character set utf8 NOT NULL,
+
+			`PicUrl` varchar(255) character set utf8 NOT NULL,
+
+			`Location_X` double(10,6) NOT NULL,
+			`Location_Y` double(10,6) NOT NULL,
+			`Scale` int(10) NOT NULL,
+			`label` varchar(255) character set utf8 NOT NULL,
+
+			`Title` text character set utf8 NOT NULL,
+			`Description` longtext character set utf8 NOT NULL,
+			`Url` varchar(255) character set utf8 NOT NULL,
+
+			`Event` varchar(255) character set utf8 NOT NULL,
+			`EventKey` varchar(255) character set utf8 NOT NULL,
+
+			`Format` varchar(255) character set utf8 NOT NULL,
+			`MediaId` text character set utf8 NOT NULL,
+			`Recognition` text character set utf8 NOT NULL,
+		 
+			`Response` varchar(255) character set utf8 NOT NULL,
+			PRIMARY KEY (`id`)
+		) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+		";
+
+		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+ 
+		dbDelta($sql);
+	}
+
+	if($wpdb->get_var("show tables like '{$weixin_users_table}'") != $weixin_users_table) {
+		$sql = "
+		CREATE TABLE IF NOT EXISTS `{$weixin_users_table}` (
+		  `id` bigint(20) NOT NULL auto_increment,
+		  `openid` varchar(30) NOT NULL,
+		  `nickname` varchar(50) NOT NULL COMMENT '昵称',
+		  `name` varchar(50) NOT NULL COMMENT '姓名',
+		  `phone` varchar(20) NOT NULL COMMENT '电话号码',
+		  `id_card` varchar(18) NOT NULL COMMENT '身份证',
+		  `address` text NOT NULL COMMENT '地址',
+		  `subscribe` int(1) NOT NULL default '1',
+		  `subscribe_time` int(10) NOT NULL,
+		  `sex` int(1) NOT NULL,
+		  `city` varchar(255) NOT NULL,
+		  `country` varchar(255) NOT NULL,
+		  `province` varchar(255) NOT NULL,
+		  `language` varchar(255) NOT NULL,
+		  `headimgurl` varchar(255) NOT NULL,
+		  `last_update` int(10) NOT NULL,
+		  PRIMARY KEY  (`id`),
+		  UNIQUE KEY `weixin_openid` (`openid`)
+		) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+		";
+		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+ 
+		dbDelta($sql);
+	}
+
+	if($wpdb->get_var("show tables like '{$weixin_credits_table}'") != $weixin_credits_table) {
+		$sql = "
+		CREATE TABLE IF NOT EXISTS `{$weixin_credits_table}` (
+		  `id` bigint(20) NOT NULL auto_increment,
+		  `weixin_openid` varchar(30) NOT NULL,
+		  `operator_id` bigint(20) default NULL,
+		  `credit_change` int(10) NOT NULL COMMENT '本次变动的积分',
+		  `credit` int(10) NOT NULL COMMENT '变动后的总积分',
+		  `exp_change` int(10) NOT NULL COMMENT '本次变动的经验值',
+		  `exp` int(10) NOT NULL COMMENT '变动后的总经验值',
+		  `type` varchar(20) NOT NULL COMMENT '积分变动类型',
+		  `post_id` bigint(20) NOT NULL default '0',
+		  `note` varchar(255) NOT NULL COMMENT '备注',
+		  `limit` int(1) NOT NULL default '0' COMMENT '是否到每日积分上限',
+		  `time` datetime NOT NULL COMMENT '+8时区',
+		  `url` char(255) NOT NULL COMMENT '操作的相关 URL',
+		  PRIMARY KEY  (`id`),
+		  KEY `type` (`type`),
+		  KEY `weixin_openid` (`weixin_openid`)
+		) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+		";
+		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+ 
+		dbDelta($sql);
+	}
+
+	if($wpdb->get_var("show tables like '$weixin_custom_replies_table'") != $weixin_custom_replies_table) {
+		$sql = "
+		CREATE TABLE IF NOT EXISTS " . $weixin_custom_replies_table . " (
+			`id` bigint(20) NOT NULL AUTO_INCREMENT,
+			`keyword` varchar(255) CHARACTER SET utf8 NOT NULL,
+			`match` varchar(10) CHARACTER SET utf8 NOT NULL DEFAULT 'full',
+			`reply` text CHARACTER SET utf8 NOT NULL,
+			`status` int(1) NOT NULL DEFAULT '1',
+			`time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+			`type` varchar(10) CHARACTER SET utf8 NOT NULL DEFAULT 'text',
+			PRIMARY KEY (`id`),
+			UNIQUE KEY `keyword` (`keyword`)
+		) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+		";
+		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+ 
+		dbDelta($sql);
+	}
+}
+
+// 写数据到微信信息表
+add_action('weixin_robot','wpjam_stats_weixin_robot');
+function wpjam_stats_weixin_robot($wechatObj){
+	$response	= $wechatObj->get_response();
+	$postObj	= $wechatObj->get_postObj();
+	if($response && $postObj){
+		weixin_robot_insert_message($postObj, $response);
+	}
+}
+
+
 
 //自定义回复，内置回复，函数回复，关键字太长处理等。
 add_filter('weixin_custom_keyword','weixin_robot_custom_keyword',1,2);
@@ -10,6 +163,12 @@ function weixin_robot_custom_keyword($false,$keyword){
 		echo "";
 		$wechatObj->set_response('need-manual');
 		return true;
+	}elseif($keyword == 'subscribe'){
+		$weixin_openid = $wechatObj->get_fromUsername();
+		if($weixin_openid){
+			$weixin_user = array('subscribe'=>1);
+			weixin_robot_update_user($weixin_openid,$weixin_user);
+		}
 	}
 
 	// 前缀匹配，只支持2个字
@@ -27,20 +186,7 @@ function weixin_robot_custom_keyword($false,$keyword){
 	}
 
 	if($weixin_custom_reply){
-		if($weixin_custom_reply->type == 'text'){	
-			$wechatObj->set_response('custom-text');
-			$weixin_text_reply =  weixin_robot_str_replace($weixin_custom_reply->reply, $wechatObj);
-			echo sprintf($wechatObj->get_textTpl(), $weixin_text_reply);
-		}elseif($weixin_custom_reply->type == 'img'){
-			add_filter('weixin_query','weixin_robot_img_reply_query');
-			$wechatObj->set_response('custom-img');
-			$wechatObj->query($keyword);
-		}elseif($weixin_custom_reply->type == 'function'){
-			call_user_func($weixin_custom_reply->reply, $keyword);
-		}elseif($weixin_custom_reply->type == '3rd'){
-			weixin_robot_3rd_reply();
-		}
-
+		weixin_robot_custom_reply($weixin_custom_reply,$keyword);
 		return true;
 	}
 
@@ -60,24 +206,60 @@ function weixin_robot_custom_keyword($false,$keyword){
 		return true;
 	}
 
-	// 检测关键字是不是太长了
-	$keyword_length = mb_strwidth(preg_replace('/[\x00-\x7F]/','',$keyword),'utf-8')+str_word_count($keyword)*2;
-
-	$weixin_keyword_allow_length = weixin_robot_get_setting('weixin_keyword_allow_length');
-	
-	if($keyword_length > $weixin_keyword_allow_length){
-
-		$weixin_keyword_too_long = weixin_robot_str_replace(weixin_robot_get_setting('weixin_keyword_too_long'),$wechatObj);
-
-		if($weixin_keyword_too_long){
-			echo sprintf($wechatObj->get_textTpl(), $weixin_keyword_too_long);
-		}
-		$wechatObj->set_response('too-long');
-
+	if(weixin_robot_get_setting('weixin_disable_search')){
+		weixin_robot_not_found_reply($keyword);	
 		return true;
+	}else{
+		// 检测关键字是不是太长了
+		if(!weixin_robot_get_setting('weixin_3rd_search')){
+			$keyword_length = mb_strwidth(preg_replace('/[\x00-\x7F]/','',$keyword),'utf-8')+str_word_count($keyword)*2;
+
+			$weixin_keyword_allow_length = weixin_robot_get_setting('weixin_keyword_allow_length');
+			
+			if($keyword_length > $weixin_keyword_allow_length){
+
+				$weixin_keyword_too_long = weixin_robot_str_replace(weixin_robot_get_setting('weixin_keyword_too_long'),$wechatObj);
+
+				if($weixin_keyword_too_long){
+					echo sprintf($wechatObj->get_textTpl(), $weixin_keyword_too_long);
+				}
+				$wechatObj->set_response('too-long');
+
+				return true;
+			}
+		}
 	}
 	
 	return $false;
+}
+
+function weixin_robot_custom_reply($weixin_custom_reply, $keyword){
+	global $wechatObj;
+	if($weixin_custom_reply->type == 'text'){	
+		$wechatObj->set_response('custom-text');
+		$weixin_text_reply =  weixin_robot_str_replace($weixin_custom_reply->reply, $wechatObj);
+		echo sprintf($wechatObj->get_textTpl(), $weixin_text_reply);
+	}elseif($weixin_custom_reply->type == 'img'){
+		add_filter('weixin_query','weixin_robot_img_reply_query');
+		$wechatObj->set_response('custom-img');
+		$wechatObj->query($keyword);
+	}elseif($weixin_custom_reply->type == 'function'){
+		call_user_func($weixin_custom_reply->reply, $keyword);
+	}elseif($weixin_custom_reply->type == '3rd'){
+		weixin_robot_3rd_reply();
+	}elseif($weixin_custom_reply->type == 'image'){
+		$wechatObj->set_response('custom-image');
+		echo sprintf($wechatObj->get_imageTpl(), $weixin_custom_reply->reply);
+	}elseif($weixin_custom_reply->type == 'voice'){
+		$wechatObj->set_response('custom-voice');
+		echo sprintf($wechatObj->get_voiceTpl(), $weixin_custom_reply->reply);
+	}elseif($weixin_custom_reply->type == 'voice'){
+		$wechatObj->set_response('custom-music');
+		//echo sprintf($wechatObj->get_musicTpl(), $weixin_custom_reply->reply);
+	}elseif($weixin_custom_reply->type == 'voice'){
+		$wechatObj->set_response('custom-video');
+		//echo sprintf($wechatObj->get_videoTpl(), $weixin_custom_reply->reply);
+	}
 }
 
 //获取自定义回复列表
@@ -124,6 +306,10 @@ function weixin_robot_get_builtin_replies($type = ''){
 		$weixin_builtin_replies['[image]'] 			= array('type'=>'full',	'reply'=>'默认图片回复',		'function'=>'weixin_robot_default_reply');
 		$weixin_builtin_replies['[link]'] 			= array('type'=>'full',	'reply'=>'默认链接回复',		'function'=>'weixin_robot_default_reply');
 		$weixin_builtin_replies['[video]'] 			= array('type'=>'full',	'reply'=>'默认视频回复',		'function'=>'weixin_robot_default_reply');
+		
+		
+		$weixin_builtin_replies['[default]'] 		= array('type'=>'full',	'reply'=>'没有匹配时回复',	'function'=>'weixin_robot_not_found_reply');
+		
 
 		if(weixin_robot_get_setting('weixin_advanced_api') ){
 			$weixin_builtin_replies['[event-location]']	= array('type'=>'full',	'reply'=>'获取用户地理位置',	'function'=>'weixin_robot_location_event_reply');
@@ -152,7 +338,7 @@ function weixin_robot_get_builtin_replies($type = ''){
 
 		$weixin_builtin_replies = apply_filters('weixin_builtin_reply', $weixin_builtin_replies);
 
-		set_transient('weixin_builtin_replies',$weixin_builtin_replies,60);
+		set_transient('weixin_builtin_replies',$weixin_builtin_replies,3600);
 	}
 
 	if($type){
@@ -162,7 +348,7 @@ function weixin_robot_get_builtin_replies($type = ''){
 			foreach ($weixin_builtin_replies as $key => $weixin_builtin_reply) {
 				$weixin_builtin_replies_new[$weixin_builtin_reply['type']][$key] = $weixin_builtin_reply;
 			}
-			set_transient('weixin_builtin_replies_new',$weixin_builtin_replies_new,60);
+			set_transient('weixin_builtin_replies_new',$weixin_builtin_replies_new,3600);
 		}
 		return $weixin_builtin_replies_new[$type];
 	}else{
@@ -179,7 +365,7 @@ function weixin_robot_3rd_reply(){
 	$nonce 			= (string)(time()-rand(1000,10000));
 
 	$signature		= array($third_token, $timestamp, $nonce);
-	sort($signature);
+	sort($signature,SORT_STRING);
 	$signature		= implode( $signature );
 	$signature		= sha1( $signature );
 
@@ -196,7 +382,7 @@ function weixin_robot_3rd_reply(){
 		)
 	);
 
-	//file_put_contents(WP_CONTENT_DIR.'/uploads/test.html',var_export($postStr,true));
+	file_put_contents(WP_CONTENT_DIR.'/uploads/test.html',var_export($postStr,true));
 	//file_put_contents(WP_CONTENT_DIR.'/uploads/test.html',var_export($response,true));
 
 	echo $response['body'];
@@ -204,26 +390,26 @@ function weixin_robot_3rd_reply(){
 }
 
 // 欢迎回复
-function weixin_robot_welcome_reply(){
+function weixin_robot_welcome_reply($keyword){
 	global $wechatObj;
 	$weixin_welcome = weixin_robot_str_replace(weixin_robot_get_setting('weixin_welcome'),$wechatObj);
 	echo sprintf($wechatObj->get_textTpl(), $weixin_welcome);
 	$wechatObj->set_response('welcome');
 }
 
-// 第一次订阅回复
-function weixin_robot_subscribe_reply(){
+// 订阅回复
+function weixin_robot_subscribe_reply($keyword){
 	global $wechatObj;
-	weixin_robot_welcome_reply();
 	$weixin_openid = $wechatObj->get_fromUsername();
 	if($weixin_openid){
 		$weixin_user = array('subscribe'=>1);
 		weixin_robot_update_user($weixin_openid,$weixin_user);
 	}
+	weixin_robot_welcome_reply($keyword);
 }
 
 // 取消订阅回复
-function weixin_robot_unsubscribe_reply(){
+function weixin_robot_unsubscribe_reply($keyword){
 	global $wechatObj;
 	$weixin_unsubscribe = "你怎么忍心取消对我的订阅？";
 	echo sprintf($wechatObj->get_textTpl(), $weixin_unsubscribe);
@@ -247,8 +433,23 @@ function weixin_robot_default_reply($keyword){
 	$wechatObj->set_response($keyword);
 }
 
+function weixin_robot_not_found_reply($keyword){
+	global $wechatObj;
+
+	if(isset($weixin_custom_keywords['[default]'])){
+		$weixin_custom_reply = $weixin_custom_keywords['[default]'];
+        weixin_robot_custom_reply($weixin_custom_reply,'[default]');
+	}else{
+		$weixin_not_found = weixin_robot_str_replace(str_replace('[keyword]', '【'.$keyword.'】', weixin_robot_get_setting('weixin_not_found')),$wechatObj);
+		if($weixin_not_found){
+			echo sprintf($wechatObj->get_textTpl(), $weixin_not_found);
+		}
+		$wechatObj->set_response('not-found');
+	}
+}
+
 // 用户自动上传地理位置时的回复
-function weixin_robot_location_event_reply(){
+function weixin_robot_location_event_reply($keyword){
 	global $wechatObj, $wpdb;
 
     $weixin_messages_table = weixin_robot_get_messages_table();
@@ -266,8 +467,13 @@ function weixin_robot_location_event_reply(){
     }
 
     if(current_time('timestamp') - $last_enter_reply > apply_filters('weixin_enter_time',60*60*24)+3600*8)  {
-    	$weixin_enter = weixin_robot_str_replace(weixin_robot_get_setting('weixin_enter'),$wechatObj);
-    	echo sprintf($wechatObj->get_textTpl(), $weixin_enter);
+    	if(isset($weixin_custom_keywords['[event-location]'])){
+			$weixin_custom_reply = $weixin_custom_keywords['[event-location]'];
+	        weixin_robot_custom_reply($weixin_custom_reply,'[event-location]');
+		}else{
+			$weixin_enter = weixin_robot_str_replace(weixin_robot_get_setting('weixin_enter'),$wechatObj);
+    		echo sprintf($wechatObj->get_textTpl(), $weixin_enter);
+		}
     	wp_cache_set($weixin_openid, current_time('timestamp'), 'weixin_enter_reply', 60*60*24);
     	$wechatObj->set_response('enter-reply');
 	}else{
@@ -286,25 +492,25 @@ function weixin_robot_posts_where_30( $where = '' ) {
 	return $where . " AND post_date > '" . date('Y-m-d', strtotime('-60 days')) . "'";
 }
 
-function weixin_robot_advanced_reply(){
+function weixin_robot_advanced_reply($keyword){
 	global $wechatObj;
 	$wechatObj->set_response('advanced');
 	$wechatObj->query();
 }
 
 //按照时间排序
-function weixin_robot_new_posts_reply(){
+function weixin_robot_new_posts_reply($keyword){
 	add_filter('weixin_query','weixin_robot_new_query');
-	weixin_robot_advanced_reply();
+	weixin_robot_advanced_reply($keyword);
 }
 function weixin_robot_new_query($weixin_query_array){
 	unset($weixin_query_array['s']);
 	return $weixin_query_array;
 }
 //随机排序
-function weixin_robot_rand_posts_reply(){
+function weixin_robot_rand_posts_reply($keyword){
 	add_filter('weixin_query','weixin_robot_rand_query');
-	weixin_robot_advanced_reply();
+	weixin_robot_advanced_reply($keyword);
 }
 function weixin_robot_rand_query($weixin_query_array){
 	unset($weixin_query_array['s']);
@@ -312,9 +518,9 @@ function weixin_robot_rand_query($weixin_query_array){
 	return $weixin_query_array;
 }
 //按照浏览排序
-function weixin_robot_hot_posts_reply(){
+function weixin_robot_hot_posts_reply($keyword){
 	add_filter('weixin_query','weixin_robot_hot_query');
-	weixin_robot_advanced_reply();
+	weixin_robot_advanced_reply($keyword);
 }
 function weixin_robot_hot_query($weixin_query_array){
 	unset($weixin_query_array['s']);
@@ -323,9 +529,9 @@ function weixin_robot_hot_query($weixin_query_array){
 	return $weixin_query_array;
 }
 //按照留言数排序
-function weixin_robot_comment_posts_reply(){
+function weixin_robot_comment_posts_reply($keyword){
 	add_filter('weixin_query','weixin_robot_comment_query');
-	weixin_robot_advanced_reply();
+	weixin_robot_advanced_reply($keyword);
 }
 function weixin_robot_comment_query($weixin_query_array){
 	unset($weixin_query_array['s']);
@@ -333,28 +539,28 @@ function weixin_robot_comment_query($weixin_query_array){
 	return $weixin_query_array;
 }
 //7天内最热
-function weixin_robot_hot_7_posts_reply(){
-	ad_filter('weixin_query','weixin_robot_hot_query');
+function weixin_robot_hot_7_posts_reply($keyword){
+	add_filter('weixin_query','weixin_robot_hot_query');
 	add_filter('posts_where', 'weixin_robot_posts_where_7' );
-	weixin_robot_advanced_reply();
+	weixin_robot_advanced_reply($keyword);
 }
 //7天内留言最多 
-function weixin_robot_comment_7_posts_reply(){
+function weixin_robot_comment_7_posts_reply($keyword){
 	add_filter('weixin_query','weixin_robot_comment_query');
 	add_filter('posts_where', 'weixin_robot_posts_where_7' );
-	weixin_robot_advanced_reply();
+	weixin_robot_advanced_reply($keyword);
 }
 //7天内最热
-function weixin_robot_hot_30_posts_reply(){
+function weixin_robot_hot_30_posts_reply($keyword){
 	add_filter('weixin_query','weixin_robot_hot_query');
 	add_filter('posts_where', 'weixin_robot_posts_where_30' );
-	weixin_robot_advanced_reply();
+	weixin_robot_advanced_reply($keyword);
 }
 //30天内留言最多
-function weixin_robot_comment_30_posts_reply(){
+function weixin_robot_comment_30_posts_reply($keyword){
 	add_filter('weixin_query','weixin_robot_comment_query');
 	add_filter('posts_where', 'weixin_robot_posts_where_30' );
-	weixin_robot_advanced_reply();
+	weixin_robot_advanced_reply($keyword);
 }
 //如果搜索关键字是分类名或者 tag 名，直接返回该分类或者tag下最新日志
 add_filter('weixin_query','weixin_robot_taxonomy_query', 99);
@@ -392,8 +598,9 @@ function weixin_robot_img_reply_query($weixin_query_array){
 
 	return $weixin_query_array;
 }
+
 // 通过自定义字段设置改变图文的链接
-// 给用户添加 query_id，用于访问页面时，获取当前用户
+// 给用户添加 query_id 或者 openid，用于访问页面时，获取当前用户
 add_filter('weixin_url','weixin_robot_url_add_query_id', 99);
 function weixin_robot_url_add_query_id($url){
 	global $wechatObj, $post;
@@ -404,16 +611,20 @@ function weixin_robot_url_add_query_id($url){
 
 	$weixin_openid = $wechatObj->get_fromUsername();
 
-	$query_id = weixin_robot_user_get_query_id($weixin_openid);
+	if($use_openid = get_post_meta($post->ID, 'use_openid', true)){
+		return add_query_arg('weixin_openid', $weixin_openid, $url);	
+	}else{
+		$query_id = weixin_robot_get_user_query_id($weixin_openid);
 
-	$query_key = apply_filters('weixin_user_query_string_key','weixin_user_id');
+		$query_key = weixin_robot_get_user_query_key();
 
-	return add_query_arg($query_key, $query_id, $url);	
+		return add_query_arg($query_key, $query_id, $url);	
+	}
 }
 
 // 设置如果系统安装了七牛存储或者 WPJAM Thumbnail 高级缩略图插件，则使用它们截图
-add_filter('weixin_thumb','wpjam_weixin_thumb_filter',10,3);
-function wpjam_weixin_thumb_filter($thumb,$size,$post){
+add_filter('weixin_pre_thumb','wpjam_weixin_pre_get_thumb',10,3);
+function wpjam_weixin_pre_get_thumb($thumb,$size,$post){
 	if(function_exists('wpjam_get_post_thumbnail_src')){
 		if(wpjam_has_post_thumbnail()){
 			$thumb = wpjam_get_post_thumbnail_src($post, $size);
@@ -421,21 +632,38 @@ function wpjam_weixin_thumb_filter($thumb,$size,$post){
 	}
 	return $thumb;
 }
-// 获取用户的最新的地理位置并缓存10分钟。
-function weixin_robot_get_user_location($weixin_openid){
-	$location = wp_cache_get($weixin_openid,'weixin_location');
-	if($location === false){
-		global $wpdb;
-		$weixin_messages_table = weixin_robot_get_messages_table();
 
-		$time = current_time('timestamp') - 3600*(2+get_option('gmt_offset'));
+add_action( 'wp_enqueue_scripts', 'weixin_robot_enqueue_scripts' );
+function weixin_robot_enqueue_scripts() {
+	if(is_singular() && is_weixin()){
+		global $post;
 
-		$location = $wpdb->get_row($wpdb->prepare("SELECT Location_X as x, Location_Y as y FROM {$weixin_messages_table} WHERE Location_X >0 AND Location_Y >0 AND FromUserName=%s AND CreateTime>%d ORDER BY CreateTime DESC LIMIT 0,1;",$weixin_openid,$time),ARRAY_A);
-		wp_cache_set($weixin_openid, $location,'weixin_location', 600);
+		$img			= apply_filters('weixin_share_img',get_post_weixin_thumb($post,array(120,120)));
+		$link			= apply_filters('weixin_share_url',get_permalink());
+		$title			= apply_filters('weixin_share_title', get_the_title());
+		$desc			= apply_filters('weixin_share_desc', get_post_excerpt($post));
+		$weixin_openid 	= weixin_robot_get_user_openid();
+
+		wp_enqueue_script('jquery');
+		
+		wp_enqueue_script( 'weixin', WEIXIN_ROBOT_PLUGIN_URL.'/static/weixin-share.js', array('jquery') );
+		wp_localize_script('weixin', 'weixin_data', array(
+				'appid' 		=> '',
+				'fakeid'		=> '',
+				'img'			=> $img,
+				'link'			=> $link,
+				'title'			=> $title,
+				'desc'			=> $desc,
+				'credit'		=> weixin_robot_get_setting('weixin_credit'),
+				'ajax_url'		=> admin_url('admin-ajax.php'),
+				'nonce'			=> wp_create_nonce( 'weixin_share' ),
+				'post_id'		=> $post->ID,
+				'weixin_openid'	=> $weixin_openid,
+				'notify'		=> weixin_robot_get_setting('weixin_share_notify')
+			)	
+		);
 	}
-	return $location;
 }
-
 
 // 常用函数
 
@@ -451,14 +679,14 @@ function is_weixin(){
 
 if(!function_exists('get_post_excerpt')){
     //获取日志摘要
-    function get_post_excerpt($post, $excerpt_length=240){
+    function get_post_excerpt($post=null, $excerpt_length=240){
         if(!$post) $post = get_post();
 
         $post_excerpt = $post->post_excerpt;
 
         if($post_excerpt == ''){
             $post_content	= $post->post_content;
-            $post_content	= do_shortcode($post_content);
+            $post_content	= apply_filters('the_content',$post_content);
             $post_content	= wp_strip_all_tags( $post_content );
             $excerpt_length	= apply_filters('excerpt_length', $excerpt_length);     
             $excerpt_more	= apply_filters('excerpt_more', ' ' . '&hellip;');
@@ -483,7 +711,7 @@ if(!function_exists('get_post_excerpt')){
 
 if(!function_exists('get_post_first_image')){
 	function get_post_first_image($post_content){
-		preg_match_all('|<img.*?src=[\'"](.*?)[\'"].*?>|i', $post_content, $matches);
+		preg_match_all('|<img.*?src=[\'"](.*?)[\'"].*?>|i', do_shortcode($post_content), $matches);
 		if($matches){	 
 			return $matches[1][0];
 		}else{
@@ -497,7 +725,7 @@ function weixin_robot_check_domain($id=56){
 }
 
 function get_post_weixin_thumb($post,$size){
-	$thumb = apply_filters('weixin_thumb',false,$size,$post);
+	$thumb = apply_filters('weixin_pre_thumb',false,$size,$post);
 
 	if($thumb===false){
 		$thumbnail_id = get_post_thumbnail_id($post->ID);
@@ -512,6 +740,8 @@ function get_post_weixin_thumb($post,$size){
 			$thumb = weixin_robot_get_setting('weixin_default');
 		}
 	}
+
+	$thumb = apply_filters('weixin_thumb',$thumb,$size);
 	
 	return $thumb;
 }
@@ -524,7 +754,7 @@ function weixin_robot_get_setting($setting_name){
 function weixin_robot_str_replace($str, $wechatObj){
 	$weixin_openid = $wechatObj->get_fromUsername();
 	if($weixin_openid){
-		$query_id = weixin_robot_user_get_query_id($weixin_openid);	
+		$query_id = weixin_robot_get_user_query_id($weixin_openid);	
 		return str_replace(array("\r\n",'[openid]','[query_id]'),array("\n",$weixin_openid,$query_id),$str);
 	}else{
 		return $str;
@@ -560,6 +790,8 @@ function weixin_robot_get_default_option($option_name){
 		return weixin_robot_get_default_advanced_option();
 	}
 }
+
+
 
 
 /*

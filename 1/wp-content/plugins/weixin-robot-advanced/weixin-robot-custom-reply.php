@@ -1,32 +1,4 @@
 <?php 
-register_activation_hook( WEIXIN_ROBOT_PLUGIN_FILE,'weixin_robot_custom_replies_create_table');
-function weixin_robot_custom_replies_create_table() {	
-	global $wpdb;
- 
-	$weixin_custom_replies_table = weixin_robot_get_custom_replies_table();
-	if($wpdb->get_var("show tables like '$weixin_custom_replies_table'") != $weixin_custom_replies_table) {
-		$sql = "
-		CREATE TABLE IF NOT EXISTS " . $weixin_custom_replies_table . " (
-			`id` bigint(20) NOT NULL AUTO_INCREMENT,
-			`keyword` varchar(255) CHARACTER SET utf8 NOT NULL,
-			`match` varchar(10) CHARACTER SET utf8 NOT NULL DEFAULT 'full',
-			`reply` text CHARACTER SET utf8 NOT NULL,
-			`status` int(1) NOT NULL DEFAULT '1',
-			`time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-			`type` varchar(10) CHARACTER SET utf8 NOT NULL DEFAULT 'text',
-			PRIMARY KEY (`id`),
-			UNIQUE KEY `keyword` (`keyword`)
-		) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-		";
-		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
- 
-		dbDelta($sql);
-	}
-
-	$sql = "ALTER TABLE  " . $weixin_custom_replies_table . " ADD  `match` VARCHAR( 10 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  'full' AFTER  `keyword`";
-	$wpdb->query($sql);
-}
-
 function weixin_robot_custom_reply_page(){
 	global $wpdb,$weixin_robot_custom_replies,$id,$succeed_msg;
 
@@ -139,12 +111,14 @@ function weixin_robot_builtin_reply_list(){
 	<tbody>
 	<?php $alternate = '';?>
 	<?php foreach($weixin_builtin_replies as $keyword => $weixin_builtin_reply){ $alternate = $alternate?'':'alternate';?>
+		<?php if( $weixin_builtin_reply['function'] != 'wpjam_weixin_emotions_reply'){?>
 		<tr class="<?php echo $alternate;?>">
 			<td><?php echo $keyword; ?></td>
 			<td><?php if($weixin_builtin_reply['type'] == 'full'){ echo '完全匹配'; }else{ echo '前缀匹配'; }; ?></td>
 			<td><?php echo $weixin_builtin_reply['reply']; ?></td>
 			<td><?php echo $weixin_builtin_reply['function']; ?></td>
 		</tr>
+		<?php } ?>
 	<?php } ?>
 	</tbody>
 	</table>
@@ -165,6 +139,8 @@ function weixin_robot_get_custom_reply_types(){
 	if(weixin_robot_get_setting('weixin_3rd_url') && weixin_robot_get_setting('weixin_3rd_token')){
 		$types['3rd'] = '第三方平台';
 	}
+
+	$types = apply_filters('weixin_custom_reply_types',$types);
 
 	return $types;
 }
@@ -295,10 +271,5 @@ function weixin_robot_custom_reply_add(){
 	});
 	</script> 
 <?php
-
 }
 
-function weixin_robot_get_custom_replies_table(){
-	global $wpdb;
-	return $wpdb->prefix.'weixin_custom_replies';
-}

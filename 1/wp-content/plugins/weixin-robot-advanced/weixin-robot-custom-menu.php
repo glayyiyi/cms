@@ -192,13 +192,13 @@ function weixin_robot_post_custom_menus($message, $weixin_robot_custom_menus){
 		$weixin_robot_access_token = weixin_robot_get_access_token();
 
 		if($weixin_robot_access_token){
-			$url = 'https://api.weixin.qq.com/cgi-bin/menu/create?access_token='.$weixin_robot_access_token;
+			$url = 'http://wpjam.net/api/weixin.php?action=create_menu&access_token='.$weixin_robot_access_token.'&domain='.wpjam_net_get_domain();
 			$request = weixin_robot_create_buttons_request($weixin_robot_custom_menus);
 			$result = weixin_robot_post_custom_menus_core($url,$request);
-			if($result){
-				$message = $message?$message.'<br />':$message;
-				return $message.'微信：'.$result;
-			}
+
+			$message = $message?$message.'<br />':$message;
+			return $message.'微信：'.$result;
+			
 		}
 	}
 			
@@ -207,19 +207,12 @@ function weixin_robot_post_custom_menus($message, $weixin_robot_custom_menus){
 
 function weixin_robot_post_custom_menus_core($url,$request){
 	
-	$response = wp_remote_post($url,array( 'body' => urldecode(json_encode($request)),'sslverify'=>false));
-
+	$response = wp_remote_post($url,array( 'body' => $request,'sslverify'=>false));
+			
 	if(is_wp_error($response)){
-		echo $response->get_error_code().'：'. $response->get_error_message();
-		exit;
-	}
-
-	$response = json_decode($response['body'],true);
-
-	if($response['errcode']){
-		return $response['errcode'].': '.$response['errmsg'];
+		return $response->get_error_code().'：'. $response->get_error_message();
 	}else{
-		return '自定义菜单成功同步';
+		return $response['body'];
 	}
 }
 
@@ -276,7 +269,7 @@ function weixin_robot_get_access_token(){
 
 	if(weixin_robot_get_setting('weixin_app_id') && weixin_robot_get_setting('weixin_app_secret')){
 		
-		$weixin_robot_access_token = get_transient('weixin-robot-access-token');
+		$weixin_robot_access_token = get_transient('weixin_robot_access_token');
 
 		if($weixin_robot_access_token === false){
 			$url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.weixin_robot_get_setting('weixin_app_id').'&secret='.weixin_robot_get_setting('weixin_app_secret');
@@ -289,10 +282,10 @@ function weixin_robot_get_access_token(){
 
 			if(isset($weixin_robot_access_token['access_token'])){
 
-				set_transient('weixin-robot-access-token',$weixin_robot_access_token['access_token'],$weixin_robot_access_token['expires_in']);
+				set_transient('weixin_robot_access_token',$weixin_robot_access_token['access_token'],$weixin_robot_access_token['expires_in']);
 				return $weixin_robot_access_token['access_token'];
 			}else{
-				print_r($weixin_robot_get_access_token);
+				//print_r($weixin_robot_get_access_token);
 				exit;
 			}
 		}else{

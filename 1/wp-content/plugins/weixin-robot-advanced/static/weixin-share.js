@@ -11,7 +11,7 @@ function htmlDecode(e) {
 //weixin_data.desc	= htmlDecode(weixin_data.desc),
 
 weixin_data.desc	= weixin_data.desc || weixin_data.link;
-
+//link	="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx29f139b356296675&redirect_uri=http://www.appcn100.com/cms/appcn100/?weixin-oauth2="+link+"&response_type=code&scope=snsapi_base&state=base#wechat_redirect";
 function weixin_robot_credit_share(share_type){
 	if(weixin_data.credit == 1 && weixin_data.weixin_openid != ''){
 		jQuery.ajax({
