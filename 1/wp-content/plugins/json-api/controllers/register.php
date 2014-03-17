@@ -333,8 +333,8 @@ function reset_password(){
 
         $uid = $_REQUEST['uid'];
         global $wpdb;
-        $sql = "SELECT log.ref_id FROM wp_mycred_log log WHERE %s = %s and %s = %s;";
-        $refs = $wpdb->get_col( $wpdb->prepare( $sql, 'ref', 'download', 'user_id',  $uid) );
+        $sql = "SELECT ref_id FROM wp_mycred_log WHERE ref = %s and user_id= %s;";
+        $refs = $wpdb->get_col( $wpdb->prepare( $sql, 'download', $uid) );
 
         if ( $refs ) {
             $refs = array_unique( $refs );
