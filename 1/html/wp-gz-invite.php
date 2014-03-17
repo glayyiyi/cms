@@ -14,6 +14,7 @@ require( dirname(__FILE__) . '/../wp-load.php' );
 
 // if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
+echo '<p><p>';
 include '../wp-content/plugins/wp-gz/wp-gz-inviter.php';
 
 ?>
