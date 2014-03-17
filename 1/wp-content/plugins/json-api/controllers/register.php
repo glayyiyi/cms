@@ -61,11 +61,15 @@ class json_api_register_controller {
   	   $username = sanitize_user(empty($usercount) ?10000:($usercount+1) );
 
 		if ( empty( $username ) || ! validate_username( $username ) ) {
-			return new WP_Error( 'registration-error', __( 'Please enter a valid account username.', 'woocommerce' ) );
+			return array("status" =>  'error'
+            , "message" => '请输入注册的账号名'
+            );
 		}
 
 		if ( username_exists( $username ) )
-			return new WP_Error( 'registration-error', __( 'An account is already registered with that username. Please choose another.', 'woocommerce' ) );
+			return array("status" =>  'error'
+            , "message" => '注册的账号已存在，请重新选择'
+            );
 	
 	// WP Validation
 	$validation_errors = new WP_Error();
@@ -87,7 +91,9 @@ class json_api_register_controller {
 	$customer_id = wp_insert_user( $new_customer_data );
 
 	if ( is_wp_error( $customer_id ) ) {
-		return new WP_Error( 'registration-error', '<strong>' . __( 'ERROR', 'woocommerce' ) . '</strong>: ' . __( 'Couldn&#8217;t register you&hellip; please contact us if you continue to have problems.', 'woocommerce' ) );
+		return array("status" =>  'error'
+        , "message" => '注册账号失败'
+        );
 	}else{
 	// give some points.
 	}
@@ -95,7 +101,20 @@ class json_api_register_controller {
 
     update_user_meta($customer_id, 'device_id', $device_id);
     update_user_meta($customer_id, 'device_type', $_GET['device_type'] );
-    update_user_meta($customer_id, 'referral_id', $_COOKIE['referral_id'] );
+    $refer_id = $_COOKIE['referral_id'];
+    if (!class_exists( 'myCRED_Settings' )){
+        return array("status" =>  'error'
+        , "message" => '注册账号失败'
+        );
+    }
+        $credSetting = new myCRED_Settings();
+        $credSetting->add_creds('register', $customer_id, 10, '注册账号');
+
+    if (isset($refer_id)) {
+        $credSetting->add_creds('inviter', $refer_id, 10, '推荐其他人注册', $customer_id);
+        update_user_meta($customer_id, 'referral_id', $refer_id);
+    }
+
     //update_user_meta($customer_id, 'havePassword', false);
 
 
