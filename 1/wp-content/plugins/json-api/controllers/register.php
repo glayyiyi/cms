@@ -355,12 +355,11 @@ function reset_password(){
             if (empty($existResult->banner_image_url)){
                 $existResult->banner_image_url = "";
             }
-            if(in_array($existResult->adid, $refs)){
-                continue;
-            }
+
+            $existResult->installed = in_array($existResult->adid, $refs);
             $resultArray[$key] = $existResult;
         }
-        return array("message"=>json_encode(array_values($resultArray)));
+        return array("data"=>json_encode(array_values($resultArray)));
     }
   
 }
