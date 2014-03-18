@@ -129,7 +129,10 @@ function push_notifications_install(){
     );
 	
    update_post_meta(get_page_by_path("register_user_device")->ID, "_wp_page_template", 'register_user_device.php');
+
+
 }
+
 function push_notifications_page_template( $page_template ){
     if ( is_page( "register_user_device" ) )
         $page_template = dirname( __FILE__ ) . '/register_user_device.php';
@@ -152,10 +155,10 @@ function push_notifications_uninstall(){
 /*----------------------------------*/
 /*----------------------------------*/
 
-add_action('push_ios_notifycation', 'push_notifications_send_single');
 
 function push_notifications_send_single($device_id, $pn_push_type, $json, $message, $sound, $badge){
 
+//echo '---'.$device_id. ' '.$pn_push_type. '-- '.$json. ' --'.$message. ' -- '.$sound ;
 
 	global $wpdb;
 	$pn_setting = $wpdb->prefix.'pn_setting';
@@ -201,8 +204,8 @@ function push_notifications_send_single($device_id, $pn_push_type, $json, $messa
 
 
 
-	if (!file_exists($certificate)) 
-	    echo "The file $certificate does not exist! ".dirname(__FILE__);
+	//if (!file_exists($certificate)) 
+	    //echo "The file $certificate does not exist! ".dirname(__FILE__);
 
 
 	$ctx = stream_context_create();
@@ -221,7 +224,7 @@ function push_notifications_send_single($device_id, $pn_push_type, $json, $messa
 	if (!$fp)
 	exit("Failed to connect amarnew: $err $errstr");
 
-	echo 'Connected to APNS/'.$ssl;
+	//echo 'Connected to APNS/'.$ssl;
 
 
 
@@ -241,13 +244,14 @@ function push_notifications_send_single($device_id, $pn_push_type, $json, $messa
 
 	$payload = $json;
 
-	echo $payload;
+	//echo $payload;
 
 	global $wpdb;
 	$apns_devices = $wpdb->prefix.'pn_apns_devices';
 	$devices_array = $wpdb->get_results( $wpdb->prepare ("SELECT * FROM $apns_devices where devicetoken=$device_id", 0));
 	
 	$result = false;
+	//echo '2323---- '.count($devices_array);
 
 	for ($i=0; $i!=count($devices_array); $i++){ 
 
@@ -257,10 +261,12 @@ function push_notifications_send_single($device_id, $pn_push_type, $json, $messa
 
 		$result = fwrite($fp, $msg, strlen($msg));
 
-		if (!$result)
-			echo 'Message not delivered';
+		if (!$result){
+			$return = false;
+			//echo 'Message not delivered';
+		}
 		else{
-			echo '消息发送成功:'.$deviceToken.'<br>';
+			//echo '消息发送成功:'.$deviceToken.'<br>';
 			$result = true;
 			
 		}
@@ -607,6 +613,7 @@ add_filter( 'page_template', 'push_notifications_page_template' );
 
 add_action('admin_head', 'push_notifications_css');
 add_action('admin_menu', 'push_notifications_admin_pages');
+add_action('push_ios_notifycation', 'push_notifications_send_single', 10, 6);
 
 
 

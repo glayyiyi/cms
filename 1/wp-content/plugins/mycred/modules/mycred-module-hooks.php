@@ -363,6 +363,7 @@ if ( !class_exists( 'myCRED_Hook_Logging_In' ) ) {
 
 			// Check if we should reward
 			if ( !$this->reward_login( $user->ID ) ) return;
+//echo 'af error3---'.$user->ID.'---'.$this->prefs['creds'].'----'.$this->prefs['log'].'---'.is_object($this->core);
 
 			// Execute
 			$this->core->add_creds(

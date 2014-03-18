@@ -724,14 +724,14 @@ function parse_domob_callback(){
     $settings->add_creds('download', $userid, $this_count_price,
         " 由 " . $userid . " " . $entry, $params['adid'], '', 'mycred_default', $memo);
 
-        count_referral_bonus( $userid, 0, $this_count_price, 1, $entry);
+    $user =get_user_by('login', $userid);
+        count_referral_bonus( $user->id, 0, $this_count_price , 1 ); //, $entry);
 		}
 	}
 }
 
 
 # Parse user's referral ,and added bonus
-add_action( 'referral_bonus_count_recursion', 'count_referral_bonus' );
 
 function count_referral_bonus( $userlogin, $current_level, $amount, $max_level) {
     if( $current_level < 0 || $max_level < 0 || $current_level > $max_level ){
@@ -739,7 +739,7 @@ function count_referral_bonus( $userlogin, $current_level, $amount, $max_level) 
         return true;
     }
 
-    $user =get_user_by('login', $userlogin);
+    $user =get_user_by('id', $userlogin);
 	if( empty($user) ){
         return false;
     }
@@ -762,7 +762,7 @@ function count_referral_bonus( $userlogin, $current_level, $amount, $max_level) 
         $settings->add_creds('cascade_bonus', $referral_id, $price,
             "下家安装应用时获取提成", $user->ID, '', 'mycred_default', 'price='.$price);
 
-        count_referral_bonus( $referral_id, $current_level + 1, $amount,
+        count_referral_bonus( $referral_id, $current_level + 1, $amount * 0.5,
             $referral_max_level);
     }
 

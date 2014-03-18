@@ -10,6 +10,7 @@ class JSON_API_Points_Controller{
 
 	public function checkIfsignInToday(){
 		global $json_api;
+		
 
 		$user = get_user_by( 'id', $_GET['uid']);
 		if ( is_wp_error($user) ) {
@@ -23,12 +24,12 @@ class JSON_API_Points_Controller{
 		if( empty($user->id ) )
 			return array( "user_emplty" => $user->user_login);
 
-		if ( class_exists( 'myCRED_Hook_Logging_In' ) ) {
-			$mycred = new myCRED_Hook_Logging_In();
-			if ( $mycred->reward_login( $user->id , false) ) //return false;
+		//if ( class_exists( 'myCRED_Hook_Logging_In' ) ) {
+			$mycred_json = new myCRED_Hook_Logging_In();
+			if ( $mycred_json->reward_login( $user->id , false) ) //return false;
 				return array( "status" => "ok");
-			//$mycred->logging_in( $user->id );
-		}
+			//$mycred_json->logging_in( $user->id );
+		//}
 		return array( "status" => "error", "msg" => "今日已经签到过!" );
 			//return array( "status" => "error", "msg" => "system error!");
 		//return true;
@@ -53,9 +54,9 @@ class JSON_API_Points_Controller{
 
 		//wp_set_auth_cookie($user->ID, $credentials['remember'], $secure_cookie);
 		//--- use  wp_login ---> mycred_login function, to add creds.
-			$mycred = new myCRED_Hook_Logging_In();
-			$mycred->logging_in( $user->id );
-		//do_action('wp_login', $user->user_login, $user);
+		//	$mycred_json = new myCRED_Hook_Logging_In();
+		//	$mycred_json->logging_in( $user->id, $user );
+		do_action('wp_login', $user->user_login, $user);
 
 		return array( "user" => $user->user_login);
 	}
@@ -63,6 +64,7 @@ class JSON_API_Points_Controller{
 
 	public function myPoints(){
 		global $json_api;
+		global $mycred;
 
 		$user = get_user_by( 'id', $_GET['uid']);
 		if ( is_wp_error($user) ) {
@@ -81,10 +83,6 @@ class JSON_API_Points_Controller{
 			$json_api->error(" not found myCRED" );
 		}
 
-		$mycred = new myCRED_Settings();
-		if ( empty($mycred)  ) {
-			$json_api->error(" not found myCRED" );
-		}
 
 		return array( "points" => $mycred->get_users_cred( $user->id, '' )  );
 

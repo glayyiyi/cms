@@ -914,7 +914,9 @@ if ( ! class_exists( 'myCRED_Settings' ) ) {
 
 
 			if( !empty($device_token)  )
-				push_ios_notifycation( $device_token, 'msg', '', $msg, '', '');
+//echo '--1--'.$device_token. ' ' . $msg;
+				//if( exist( 'push_ios_notifycation') )
+				do_action( 'push_ios_notifycation',  $device_token, 'msg', null, $msg, null, null);
 
 				return true;
 			}
@@ -925,7 +927,9 @@ if ( ! class_exists( 'myCRED_Settings' ) ) {
 					$this->update_rankings();
 
 			if( !empty($device_token)  )
-				push_ios_notifycation( $device_token, 'msg', '', $msg, '', '');
+//echo '--2--'.$device_token. ' ' . $msg;
+				do_action( 'push_ios_notifycation',  $device_token, 'msg', null, $msg, null, null);
+				//push_ios_notifycation( $device_token, 'msg', '', $msg, '', '');
 
 				return true;
 			}
