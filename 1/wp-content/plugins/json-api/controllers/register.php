@@ -349,12 +349,12 @@ class json_api_register_controller {
 				$existResult->banner_image_url = "";
 			}
 
-			$existResult->installed = in_array($existResult->adid, $refs);
-			$resultArray[$key] = $existResult;
-		}
-		return array("data"=>json_encode(array_values($resultArray)));
-	}
-
+            $existResult->installed = in_array($existResult->adid, $refs);
+            $resultArray[$key] = $existResult;
+        }
+        return array("data"=>array_values($resultArray));
+    }
+  
 }
 
 ?>
