@@ -383,7 +383,7 @@ class json_api_register_controller {
             $post_id = $posts_array[$i]->ID;
 
             $img_id = get_post_thumbnail_id($post_id); // 35 being the ID of the Post
-            $img_url = wp_get_attachment_image_src($img_id);
+            $img_url = wp_get_attachment_image_src($img_id, array(320, 150));
             $img_url = $img_url[0];
 
             $attachments = wp_get_attachment_url($post_id );
