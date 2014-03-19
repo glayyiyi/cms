@@ -324,9 +324,11 @@ class json_api_register_controller {
 		$num = count($result);
 		$resultArray = array();
 
+        $current_blog = get_blog_id_from_url($_SERVER['SERVER_NAME'], $_SERVER["REQUEST_URI"]);
+
 		$uid = $_REQUEST['uid'];
 		global $wpdb;
-		$sql = "SELECT ref_id FROM wp_mycred_log WHERE ref = %s and user_id= %s;";
+		$sql = "SELECT ref_id FROM wp_".$current_blog."_mycred_log WHERE ref = %s and user_id= %s;";
 		$refs = $wpdb->get_col( $wpdb->prepare( $sql, 'download', $uid) );
 
 		if ( $refs ) {
@@ -354,7 +356,35 @@ class json_api_register_controller {
         }
         return array("data"=>array_values($resultArray));
     }
-  
+
+    function list_banner(){
+        $args = array(
+            'category'        => '58',
+            'orderby'         => 'post_date',
+            'order'           => 'DESC',
+        );
+        $posts_array = get_posts( $args );
+        $result_array = array();
+        for ($i=0;$i<count($posts_array);++$i){
+            $post_id = $posts_array[$i]->ID;
+
+            $img_id = get_post_thumbnail_id($post_id); // 35 being the ID of the Post
+            $img_url = wp_get_attachment_image_src($img_id);
+            $img_url = $img_url[0];
+
+            $attachments = wp_get_attachment_url($post_id );
+
+            $post = array();
+            $post['img_url'] = $img_url;
+            $post['attach_url'] = $attachments;
+
+            $result_array[] = $post;
+        }
+
+        return array("message" =>$result_array);
+    }
+
+
 }
 
 ?>
