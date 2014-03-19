@@ -29,7 +29,7 @@ if (
 
 	if ( $_GET['task'] == 'register'){
 
-		$wpdb->insert( 
+		$wpdb->replace( 
 				$apns_devices, 
 				array( 
 					'appname'       =>  $_GET['appname'],

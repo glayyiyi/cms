@@ -181,15 +181,7 @@ function push_notifications_send_single($device_id, $pn_push_type, $json, $messa
 
  
 
-	if ($pn_settings->development == 'development'){
-
-		$ssl = $ssl_sandbox;
-		$certificate = $sandboxCertificate;
-		$passphrase = $pn_settings->development_cer_pass;
-		$feedback = $feedback_S;
-
-	}
-	else{
+	{
 
 		$ssl = $ssl_production;
 		$certificate = $productionCertificate;
@@ -204,8 +196,8 @@ function push_notifications_send_single($device_id, $pn_push_type, $json, $messa
 
 
 
-	//if (!file_exists($certificate)) 
-	    //echo "The file $certificate does not exist! ".dirname(__FILE__);
+	if (!file_exists($certificate)) 
+	    echo "The file $certificate does not exist! ".dirname(__FILE__);
 
 
 	$ctx = stream_context_create();
@@ -226,9 +218,6 @@ function push_notifications_send_single($device_id, $pn_push_type, $json, $messa
 
 	//echo 'Connected to APNS/'.$ssl;
 
-
-
-
 	if ($pn_push_type != 'json' ){
 		$body['aps'] = array(
 			'badge' => $badge,
@@ -248,16 +237,17 @@ function push_notifications_send_single($device_id, $pn_push_type, $json, $messa
 
 	global $wpdb;
 	$apns_devices = $wpdb->prefix.'pn_apns_devices';
-	$devices_array = $wpdb->get_results( $wpdb->prepare ("SELECT * FROM $apns_devices where devicetoken=$device_id", 0));
+	$devices_array = $wpdb->get_results( $wpdb->prepare ("SELECT * FROM $apns_devices where deviceuid='$device_id'", 0));
 	
 	$result = false;
-	//echo '2323---- '.count($devices_array);
+	//echo '2323-'.$apns_devices.'--- '.count($devices_array).' '.$device_id;
 
 	for ($i=0; $i!=count($devices_array); $i++){ 
 
 		$deviceToken = $devices_array[$i]->devicetoken;
 
 		$msg = chr(0) . pack('n', 32) . pack('H*', $deviceToken) . pack('n', strlen($payload)) . $payload;
+		//echo $msg;
 
 		$result = fwrite($fp, $msg, strlen($msg));
 
