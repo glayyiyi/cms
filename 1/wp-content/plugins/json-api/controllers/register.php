@@ -381,7 +381,7 @@ class json_api_register_controller {
             $result_array[] = $post;
         }
 
-        return array("message" =>$result_array);
+        return array("banner_list" =>$result_array);
     }
 
 
