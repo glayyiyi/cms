@@ -313,22 +313,36 @@ class json_api_register_controller {
 	}
 
 	function domob_request_adfeed( ){
-		$ipb = $_REQUEST['ipb'];
-		if( $ipb !=  "96ZJ1pPwzeOxHwTAII" )//get_option( 'referral_domob_public_id' ) )
-			die( json_encode( array( 'status' => 'ERROR', 'message' => 'no such publicId' ) ) );
 		//$url = "http://".get_option( 'domob_adfeed_url' )."?ipb=".$ipb;
-		$url = "http://r.ow.domob.cn/ow/interface/common/adfeed".get_option( 'domob_adfeed_url' )."?ipb=".$ipb;
+		$url = "http://r.ow.domob.cn/ow/interface/common/adfeed".get_option( 'domob_adfeed_url' )."?ipb=96ZJ1pPwzeOxHwTAII";
 
 		$json_ret = file_get_contents($url);
 		$result = json_decode(trim($json_ret));
 		$num = count($result);
 		$resultArray = array();
 
-        $current_blog = get_blog_id_from_url($_SERVER['SERVER_NAME'], $_SERVER["REQUEST_URI"]);
+
+       // $current_blog = '';
+       // if (is_multisite()){
+          //  $uri = $_SERVER['REQUEST_URI'];
+          //  $blog_list = get_blog_list( 0, 'all' ); //显示全部站点列表
+
+            // foreach ($blog_list AS $blog)
+            // {
+              //  $ret = strpos($uri, $blog['path']);
+
+               // if($ret === 0) {
+                //    $current_blog = $blog['blog_id'];
+              //      break;
+            //    }
+          //  }
+        //}
+
 
 		$uid = $_REQUEST['uid'];
 		global $wpdb;
-		$sql = "SELECT ref_id FROM wp_".$current_blog."_mycred_log WHERE ref = %s and user_id= %s;";
+		$table = $wpdb->prefix.'mycred_log';
+        $sql = 'SELECT ref_id FROM '.$table.' WHERE ref = %s and user_id= %s;';
 		$refs = $wpdb->get_col( $wpdb->prepare( $sql, 'download', $uid) );
 
 		if ( $refs ) {
@@ -376,7 +390,9 @@ class json_api_register_controller {
 
             $post = array();
             $post['img_url'] = $img_url;
-            $post['attach_url'] = $attachments;
+            if($attachments){
+                $post['attach_url'] = $attachments;
+            }
 
             $result_array[] = $post;
         }
