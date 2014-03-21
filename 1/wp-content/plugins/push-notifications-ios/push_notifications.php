@@ -245,6 +245,7 @@ function push_notifications_send_single($device_id, $pn_push_type, $json, $messa
 	for ($i=0; $i!=count($devices_array); $i++){ 
 
 		$deviceToken = $devices_array[$i]->devicetoken;
+	//echo ' '.$deviceToken;
 
 		$msg = chr(0) . pack('n', 32) . pack('H*', $deviceToken) . pack('n', strlen($payload)) . $payload;
 		//echo $msg;

@@ -154,7 +154,16 @@ class json_api_register_controller {
 				}
 
 			} else {
-				$creds['user_login'] 	= $_GET['uid'];
+				$loginName = get_user_by('id', $_GET['uid'] );
+				if( isset( $loginName->user_login) )
+					$creds['user_login'] 	= $loginName->user_login; //$_GET['uid'];
+				else{
+					$user1 = get_user_by('login', $_GET['uid']);
+					if( isset( $user1->user_login ) )
+						$creds['user_login'] = $user1->user_login;
+					else
+					throw new Exception( '<strong>' . __( 'Error', 'woocommerce' ) . ':</strong> ' . __( 'A user could not be found with this email address.', 'woocommerce' ) );
+				}
 			}
 
 			$creds['user_password'] = $_GET['password'];
