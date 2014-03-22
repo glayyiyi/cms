@@ -675,22 +675,22 @@ function parse_domob_callback(){
 		$privateKey = 'd3c98aa2';
 
 	if( getUrlSignature( $url, $privateKey ) == true ){
-        $url_parse = parse_url($url);
-//	echo "<-test-->\n";
-        if (isset($url_parse['query'])){
-            $query_arr = explode('&', $url_parse['query']);
-            if (!empty($query_arr)){
-                foreach($query_arr as $p){
-                    if (strpos($p, '=') !== false){
-                        list($k, $v) = explode('=', $p);
-                        $params[$k] = urldecode($v);
-                    }
-                }
-            }
-        }
-		
+		$url_parse = parse_url($url);
+		//	echo "<-test-->\n";
+		if (isset($url_parse['query'])){
+			$query_arr = explode('&', $url_parse['query']);
+			if (!empty($query_arr)){
+				foreach($query_arr as $p){
+					if (strpos($p, '=') !== false){
+						list($k, $v) = explode('=', $p);
+						$params[$k] = urldecode($v);
+					}
+				}
+			}
+		}
+
 	}
-//	echo $params['user']."\n";
+	//	echo $params['user']."\n";
 
 	$haveAddedOrder =  get_option( "domob_orderid_".$params['orderid'], NULL );
 	if( !empty($params) ){
@@ -698,34 +698,39 @@ function parse_domob_callback(){
 		$price = $params['price'];
 		$entry = " 安装使用 ".$params['ad'];
 		$memo = " order=".$params['orderid']." ad=".$params['ad']." adid=".$params['adid']." device=".$params['device']." real= ".$params['price']." ";
-	if( !empty($haveAddedOrder) && strlen($haveAddedOrder) > 6 ){
-		echo "[domob]\n".$haveAddedOrder;
-		return;
-	}
+		if( !empty($haveAddedOrder) && strlen($haveAddedOrder) > 6 ){
+			echo "[domob]\n".$haveAddedOrder;
+			return;
+		}
 
-//echo " \n".$userid." ";
-	
+		//echo " \n".$userid." ";
+
 		if( !empty($userid) && $price > 0 ){
-//	echo " ".$price."\n ";
-	//mycred_load();
-	//do_action('mycred_admin_init');
-	require_once( myCRED_INCLUDES_DIR . 'mycred-admin.php' );
-	$admin = new myCRED_Admin();
-        $admin->load();
+			//	echo " ".$price."\n ";
+			//mycred_load();
+			//do_action('mycred_admin_init');
+			require_once( myCRED_INCLUDES_DIR . 'mycred-admin.php' );
+			$admin = new myCRED_Admin();
+			$admin->load();
 			//do_action('admin_init');
 			// current_level = 0, amount = price * 1/2  * 100 point, rate = 100%, max_level =1,
 			add_option( "domob_orderid_".$params['orderid'], $userid." added" );
-//echo " domob_orderid=".$userid."\n ";
-	
-	$this_count_price = $price * 100 * $rate;
-	$memo .= " price=".$this_count_price;
+			//echo " domob_orderid=".$userid."\n ";
 
-    $settings = new myCRED_Settings();
-    $settings->add_creds('download', $userid, $this_count_price,
-        " 由 " . $userid . " " . $entry, $params['adid'], '', 'mycred_default', $memo);
+			$this_count_price = $price * 100 * $rate;
+			$memo .= " price=".$this_count_price;
 
-    $user =get_user_by('login', $userid);
-        count_referral_bonus( $user->id, 0, $this_count_price , 1 ); //, $entry);
+			$settings = new myCRED_Settings();
+			$user =get_user_by('login', $userid);
+			if(empty($user) ){
+				$user = get_user_by('id', $userid);
+				if( empty($user) )
+					return;
+			}
+			$settings->add_creds('download', $user->id, $this_count_price,
+					" 由 " . $userid . " " . $entry, $params['adid'], '', 'mycred_default', $memo);
+
+			count_referral_bonus( $user->id, 0, $this_count_price , 1 ); //, $entry);
 		}
 	}
 }
