@@ -170,14 +170,26 @@ class json_api_register_controller {
 					, "message" => '注册账号失败'
 				    );
 		}else{
-			// give some points.
+			// search ip list
+			/*
+			$tableRefList = $wpdb->prefix.'inviter';// 'wp_referral_log';
+			$sqlReferral = 'SELECT * FROM %s where ip="%s" and new_user_id is null and create_time > date_add(now(), interval 30 minute); ';
+			$refIPList = $wpdb->get_results( $wpdb->prepare( $sqlReferral, $tableRefList, $_SERVER['REMOTE_ADDR']) );
+			if( isset( $refIPList ) ){
+			$refer_id = $refIPList[0]->referral_id;
+			$updateData = array("new_user_id" => $customer_id );
+			$whereSql = 'where id = '.refIPList[0]->id;
+			$wpdb->update( $tableRefList, $updateData, $whereSql ); 
+			}
+			*/
 		}
 
 
 		update_user_meta($customer_id, 'device_id', $device_id);
 		update_user_meta($customer_id, 'device_type', $_GET['device_type'] );
-		$refer_id = $_COOKIE['referral_id'];
-		$logs->setLog( $customer_id . '   '.$refer_id );
+		if( ! isset($refer_id) )
+			$refer_id = $_COOKIE['referral_id'];
+		//$logs->setLog( $customer_id . '   '.$refer_id );
 		if (!class_exists( 'myCRED_Settings' )){
 			return array("status" =>  'error'
 					, "message" => '注册账号失败'
