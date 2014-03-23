@@ -93,7 +93,7 @@ class json_api_register_controller {
 		$filename=date("d",time()).".log";
 		$logs=new Logs($dir,$filename);
 		$requestInformation = $_SERVER['REMOTE_ADDR'].', '.$_SERVER['HTTP_USER_AGENT'].', http://'.$_SERVER['HTTP_HOST'].htmlentities($_SERVER['PHP_SELF']).'?'.$_SERVER['QUERY_STRING']."\n"; 
-		$logs->setLog( $requestInformation );
+			$logs->setLog( $requestInformation );
 
 		$device_id = $_GET['device_id'];
 		$exist_users = get_users(array(
@@ -171,25 +171,29 @@ class json_api_register_controller {
 				    );
 		}else{
 			// search ip list
-			/*
 			$tableRefList = $wpdb->prefix.'inviter';// 'wp_referral_log';
-			$sqlReferral = 'SELECT * FROM %s where ip="%s" and new_user_id is null and create_time > date_add(now(), interval 30 minute); ';
-			$refIPList = $wpdb->get_results( $wpdb->prepare( $sqlReferral, $tableRefList, $_SERVER['REMOTE_ADDR']) );
-			if( isset( $refIPList ) ){
-			$refer_id = $refIPList[0]->referral_id;
-			$updateData = array("new_user_id" => $customer_id );
-			$whereSql = 'where id = '.refIPList[0]->id;
-			$wpdb->update( $tableRefList, $updateData, $whereSql ); 
+
+			$sqlReferral = 'SELECT * FROM '.$tableRefList.'  where ip=%s and new_user_id is null and create_time > %s ;'    ;
+			$refIPList = $wpdb->get_results( $wpdb->prepare( $sqlReferral,  $_SERVER['REMOTE_ADDR'] , time()-30*60 ) );
+			$logs->setLog( $wpdb->prepare( $sqlReferral,  $_SERVER['REMOTE_ADDR'], time()-30*60 ) );
+			if( isset( $refIPList ) && count($refIPList) > 0 ){
+				$logs->setLog( count($refIPList ) );
+				foreach ( $refIPList as $row ) {
+					$refer_id = $row->referral_id;
+					$logs->setLog( $refer_id  );
+					$whereSql = 'update '.$tableRefList.' set new_user_id = '.$customer_id. ' where id = '.$row->ID;
+					$wpdb->query(  $whereSql ); 
+					break;
+				}
 			}
-			*/
 		}
 
 
 		update_user_meta($customer_id, 'device_id', $device_id);
 		update_user_meta($customer_id, 'device_type', $_GET['device_type'] );
+		$logs->setLog( $customer_id . '   '.$refer_id );
 		if( ! isset($refer_id) )
 			$refer_id = $_COOKIE['referral_id'];
-		//$logs->setLog( $customer_id . '   '.$refer_id );
 		if (!class_exists( 'myCRED_Settings' )){
 			return array("status" =>  'error'
 					, "message" => '注册账号失败'
@@ -253,7 +257,7 @@ class json_api_register_controller {
 					if( isset( $user1->user_login ) )
 						$creds['user_login'] = $user1->user_login;
 					else
-					throw new Exception( '<strong>' . __( 'Error', 'woocommerce' ) . ':</strong> ' . __( 'A user could not be found with this email address.', 'woocommerce' ) );
+						throw new Exception( '<strong>' . __( 'Error', 'woocommerce' ) . ':</strong> ' . __( 'A user could not be found with this email address.', 'woocommerce' ) );
 				}
 			}
 
@@ -422,27 +426,27 @@ class json_api_register_controller {
 		$resultArray = array();
 
 
-       // $current_blog = '';
-       // if (is_multisite()){
-          //  $uri = $_SERVER['REQUEST_URI'];
-          //  $blog_list = get_blog_list( 0, 'all' ); //显示全部站点列表
+		// $current_blog = '';
+		// if (is_multisite()){
+		//  $uri = $_SERVER['REQUEST_URI'];
+		//  $blog_list = get_blog_list( 0, 'all' ); //显示全部站点列表
 
-            // foreach ($blog_list AS $blog)
-            // {
-              //  $ret = strpos($uri, $blog['path']);
+		// foreach ($blog_list AS $blog)
+		// {
+		//  $ret = strpos($uri, $blog['path']);
 
-               // if($ret === 0) {
-                //    $current_blog = $blog['blog_id'];
-              //      break;
-            //    }
-          //  }
-        //}
+		// if($ret === 0) {
+		//    $current_blog = $blog['blog_id'];
+		//      break;
+		//    }
+		//  }
+		//}
 
 
 		$uid = $_REQUEST['uid'];
 		global $wpdb;
 		$table = $wpdb->prefix.'mycred_log';
-        $sql = 'SELECT ref_id FROM '.$table.' WHERE ref = %s and user_id= %s;';
+		$sql = 'SELECT ref_id FROM '.$table.' WHERE ref = %s and user_id= %s;';
 		$refs = $wpdb->get_col( $wpdb->prepare( $sql, 'download', $uid) );
 
 		if ( $refs ) {
@@ -465,40 +469,40 @@ class json_api_register_controller {
 				$existResult->banner_image_url = "";
 			}
 
-            $existResult->installed = in_array($existResult->adid, $refs);
-            $resultArray[$key] = $existResult;
-        }
-        return array("data"=>array_values($resultArray));
-    }
+			$existResult->installed = in_array($existResult->adid, $refs);
+			$resultArray[$key] = $existResult;
+		}
+		return array("data"=>array_values($resultArray));
+	}
 
-    function list_banner(){
-        $args = array(
-            'category'        => '58',
-            'orderby'         => 'post_date',
-            'order'           => 'DESC',
-        );
-        $posts_array = get_posts( $args );
-        $result_array = array();
-        for ($i=0;$i<count($posts_array);++$i){
-            $post_id = $posts_array[$i]->ID;
+	function list_banner(){
+		$args = array(
+				'category'        => '58',
+				'orderby'         => 'post_date',
+				'order'           => 'DESC',
+			     );
+		$posts_array = get_posts( $args );
+		$result_array = array();
+		for ($i=0;$i<count($posts_array);++$i){
+			$post_id = $posts_array[$i]->ID;
 
-            $img_id = get_post_thumbnail_id($post_id); // 35 being the ID of the Post
-            $img_url = wp_get_attachment_image_src($img_id, array(320, 150));
-            $img_url = $img_url[0];
+			$img_id = get_post_thumbnail_id($post_id); // 35 being the ID of the Post
+			$img_url = wp_get_attachment_image_src($img_id, array(320, 150));
+			$img_url = $img_url[0];
 
-            $attachments = wp_get_attachment_url($post_id );
+			$attachments = wp_get_attachment_url($post_id );
 
-            $post = array();
-            $post['img_url'] = $img_url;
-            if($attachments){
-                $post['attach_url'] = $attachments;
-            }
+			$post = array();
+			$post['img_url'] = $img_url;
+			if($attachments){
+				$post['attach_url'] = $attachments;
+			}
 
-            $result_array[] = $post;
-        }
+			$result_array[] = $post;
+		}
 
-        return array("banner_list" =>$result_array);
-    }
+		return array("banner_list" =>$result_array);
+	}
 
 
 }
