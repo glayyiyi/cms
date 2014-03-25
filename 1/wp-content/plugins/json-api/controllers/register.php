@@ -369,15 +369,16 @@ class json_api_register_controller {
 	}
 
 	function addInviter(){
-		$referral = $_POST['referral_id'];
-		$user = get_user_by('login', $referral);
+        $referral = $_POST['referral_id'];
+        $user = get_user_by('id', $referral);
 
-		if ( isset( $user->user_login ) ){
-			$_POST['referral_id'] = $user->ID;
-			return $this::modify_user($_POST);
-		} else {
-			return array('status'=>"error", 'message'=>__( 'inviter account does not exist', 'woocommerce' ));
-		}
+        if(is_wp_error( $user ) ){
+            return array('status'=>"error",
+                'message'=>__( 'inviter account does not exist', 'woocommerce' ));
+        }
+
+        $_POST['referral_id'] = $user->ID;
+        return $this::modify_user($_POST);
 	}
 
 	function modifyuser(){
@@ -475,16 +476,16 @@ class json_api_register_controller {
 		return array("data"=>array_values($resultArray));
 	}
 
-	function list_banner(){
-		$args = array(
-				'category'        => '58',
-				'orderby'         => 'post_date',
-				'order'           => 'DESC',
-			     );
-		$posts_array = get_posts( $args );
-		$result_array = array();
-		for ($i=0;$i<count($posts_array);++$i){
-			$post_id = $posts_array[$i]->ID;
+    function list_banner(){
+        $args = array(
+            'category'        => '58',
+            'orderby'         => 'post_date',
+            'order'           => 'DESC',
+        );
+        $posts_array = get_posts( $args );
+        $result_array = array();
+        for ($i=0;$i<count($posts_array);++$i){
+            $post_id = $posts_array[$i]->ID;
 
 			$img_id = get_post_thumbnail_id($post_id); // 35 being the ID of the Post
 			$img_url = wp_get_attachment_image_src($img_id, array(320, 150));
@@ -492,11 +493,11 @@ class json_api_register_controller {
 
 			$attachments = wp_get_attachment_url($post_id );
 
-			$post = array();
-			$post['img_url'] = $img_url;
-			if($attachments){
-				$post['attach_url'] = $attachments;
-			}
+            $post = array();
+            $post['img_url'] = $img_url;
+            if($attachments){
+                $post['attach_url'] = $attachments;
+            }
 
 			$result_array[] = $post;
 		}

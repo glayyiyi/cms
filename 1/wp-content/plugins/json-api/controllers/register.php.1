@@ -268,12 +268,14 @@ function verifypass(){
         $referral = $_POST['referral_id'];
         $user = get_user_by('login', $referral);
 
-        if ( isset( $user->user_login ) ){
-            $_POST['referral_id'] = $user->ID;
-            return $this::modify_user($_POST);
-        } else {
-            return array('status'=>"error", 'message'=>__( 'inviter account does not exist', 'woocommerce' ));
+        if(is_wp_error( $user ) ){
+            return array('status'=>"error",
+            'message'=>__( 'inviter account does not exist', 'woocommerce' ));
         }
+
+        $_POST['referral_id'] = $user->ID;
+        return $this::modify_user($_POST);
+
     }
 
     function modifyuser(){
