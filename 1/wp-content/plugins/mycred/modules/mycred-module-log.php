@@ -371,6 +371,9 @@ if ( !class_exists( 'myCRED_Log' ) ) {
 			if ( isset( $_GET['order'] ) && !empty( $_GET['order'] ) )
 				$args['order'] = $_GET['order'];
 
+            if ( isset( $_GET['offset'] ) && !empty( $_GET['offset'] ) )
+                $args['offset'] = (int)$_GET['offset']+1;
+
 			$log = new myCRED_Query_Log( $args );
 			unset( $log->headers['column-username'] ); ?>
 
@@ -395,7 +398,8 @@ if ( !class_exists( 'myCRED_Log' ) ) {
 
 			if ( isset( $_GET['order'] ) && !empty( $_GET['order'] ) )
 				echo '<input type="hidden" name="order" value="' . $_GET['order'] . '" />';
-			
+
+
 			$log->search(); ?>
 
 			<input type="hidden" name="page" value="mycred_my_history" />
@@ -406,7 +410,6 @@ if ( !class_exists( 'myCRED_Log' ) ) {
 
 			</div>
 			<?php $log->display(); ?>
-
 			<div class="tablenav bottom">
 				<?php $this->table_nav( 'bottom', true, $log->num_rows ); ?>
 

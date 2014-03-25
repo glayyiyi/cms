@@ -48,7 +48,8 @@ if ( !class_exists( 'myCRED_Query_Log' ) ) {
 				'orderby'  => 'time',
 				'order'    => 'DESC',
 				'ids'      => false,
-				'cache'    => NULL
+				'cache'    => NULL,
+                'offset'   => 0
 			);
 			$this->args = mycred_apply_defaults( $defaults, $args );
 
@@ -211,8 +212,10 @@ if ( !class_exists( 'myCRED_Query_Log' ) ) {
 				// Limits
 				if ( $this->args['number'] == '-1' )
 					$limits = '';
-				elseif ( $this->args['number'] > 0 )
-					$limits = 'LIMIT 0,' . absint( $this->args['number'] );
+				elseif ( $this->args['number'] > 0 ){
+                    $offset = $this->args['offset'] > 0?$this->args['offset']:0;
+                    $limits = 'LIMIT ' . ($offset* $this->args['number']). ',' . absint( $this->args['number'] );
+                }
 
 				// Filter
 				$select = apply_filters( 'mycred_query_log_select', $select, $this->args, $this->core );
@@ -335,6 +338,8 @@ if ( !class_exists( 'myCRED_Query_Log' ) ) {
 					$output .= $this->get_the_entry( $log_entry );
 					$output .= '</tr>';
 				}
+                $output .= '<tr><td colspan="' . count( $this->headers ) . '" class="no-entries"><a href="'.site_url().
+                    '/html/wp-gz-history-points.php?uid='.$this->args['user_id'].'&offset='.$this->args['offset'].'">更多</a></td></tr>';
 			}
 			// No log entry
 			else {

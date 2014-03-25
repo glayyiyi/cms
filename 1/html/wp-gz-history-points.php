@@ -22,7 +22,12 @@ require( dirname(__FILE__) . '/../wp-load.php' );
 
 <form class="login" method="post">
     <div class="connerdiv">
-        <?php echo do_shortcode('[mycred_history user_id="'.$_GET['uid'].'" number="10"]'); ?>
+        <?php $offset = -1;
+        if (isset($_GET['offset']) && is_numeric($_GET['offset'])){
+            $offset = (int)$_GET['offset'];
+        }
+        $offset += 1;
+        echo do_shortcode('[mycred_history user_id="'.$_GET['uid'].'" number="10" offset="'.$offset.'"]'); ?>
     </div>
 </form>
 <script type="text/javascript">

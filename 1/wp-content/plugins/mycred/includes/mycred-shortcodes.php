@@ -89,6 +89,7 @@ if ( ! function_exists( 'mycred_render_shortcode_history' ) ) {
 		extract( shortcode_atts( array(
 			'user_id'   => NULL,
 			'number'    => NULL,
+            'offset'    => 0,
 			'time'      => NULL,
 			'ref'       => NULL,
 			'order'     => NULL,
@@ -116,6 +117,9 @@ if ( ! function_exists( 'mycred_render_shortcode_history' ) ) {
 
 		if ( $order !== NULL )
 			$args['order'] = $order;
+
+        if ( $offset !== NULL )
+            $args['$offset'] = $offset;
 
 		$log = new myCRED_Query_Log( $args );
 
