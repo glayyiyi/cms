@@ -119,7 +119,7 @@ if ( ! function_exists( 'mycred_render_shortcode_history' ) ) {
 			$args['order'] = $order;
 
         if ( $offset !== NULL )
-            $args['$offset'] = $offset;
+            $args['offset'] = $offset;
 
 		$log = new myCRED_Query_Log( $args );
 
