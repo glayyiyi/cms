@@ -203,8 +203,17 @@ class json_api_register_controller {
 		$credSetting->add_creds('register', $customer_id, 10, '注册账号');
 
 		if (isset($refer_id)) {
+			$refMan = get_user_by('id', $refer_id);
+			$boolSetRef = true;
+			if( empty($refMan ) )
+				$boolSetRef = false; 
+			$temp_ref_id = get_user_meta($refMan->id, 'referral_id' , true);
+			if( $temp_ref_id == $customer_id || $refMan->id == $customer_id )
+				$boolSetRef = false;
+			if( $boolSetRef ){
 			$credSetting->add_creds('inviter', $refer_id, 10, '推荐其他人注册', $customer_id);
 			update_user_meta($customer_id, 'referral_id', $refer_id);
+			}
 		}
 
 		//update_user_meta($customer_id, 'havePassword', false);
@@ -294,41 +303,6 @@ class json_api_register_controller {
 		return array('status'=> 'error');					
 	}  
 
-	function post_message(){
-		$time = date('ymdHi');
-		$captcha = rand(1000,9999);
-		$mobile = $_GET['mobile'];
-		$xml = '<?xml version="1.0" encoding="UTF-8"?><MtPacket><cpid>010000001969</cpid><mid>0</mid><cpmid>'.time().'</cpmid><mobile>'.$mobile.'</mobile><port>010121</port><msg>'.$captcha.'������������֤�룬ʮ��������Ч�������տƼ���</msg><signature>'.md5('d7d32d62942801a3811e297db1a81164'.$time).'</signature><timestamp>'.$time.'</timestamp><validtime>0</validtime></MtPacket>';
-
-		$url = 'http://api.10690909.com/providermt';
-
-		$header = 'Content-type: text/xml';
-
-		$ch = Curl_init();
-		curl_setopt($ch, CURLOPT_URL, $url);
-
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-		curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
-
-		curl_setopt($ch, CURLOPT_POST, 1);
-
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);
-
-		$response = curl_exec($ch);
-
-		if(curl_errno($ch)){
-			return array('status'=>'error', 'message'=>curl_error($ch));
-		} else {
-			update_option($mobile, $captcha);
-		}
-		curl_close($ch);
-
-		$xml = simplexml_load_string($response);		
-		$result = (string) $xml->result;
-
-		return array('result'=>$result);
-	}
 
 	function verifypass(){
 		$user = wp_authenticate( $_GET['uid'], $_GET['password'] );
@@ -339,6 +313,9 @@ class json_api_register_controller {
 	}
 
 	function modify_user($result){
+
+		global $mycred;
+
 		$userid = $result['uid'];
 		//	echo '    \n'.$result['uid'];
 		if (empty($userid)){
@@ -363,7 +340,19 @@ class json_api_register_controller {
 
 		$refid = $result['referral_id'];
 		if (!empty($refid)){
-			update_user_meta($userid, 'referral_id', $refid);
+			if (isset($refid)) {
+				$refMan = get_user_by('id', $refid);
+				$boolSetRef = true;
+				if( empty($refMan ) )
+					$boolSetRef = false; 
+				$temp_ref_id = get_user_meta($refMan->id, 'referral_id' , true);
+				if( ($temp_ref_id == $userid) || ($refMan->id == $userid ) )
+					$boolSetRef = false;
+				if( $boolSetRef ){
+					$mycred->add_creds('inviter', $refid, 10, '推荐其他人注册', $userid);
+					update_user_meta($userid, 'referral_id', $refid);
+				}
+			}
 		}
 		return array('message'=>'success');
 	}
@@ -505,6 +494,41 @@ class json_api_register_controller {
 		return array("banner_list" =>$result_array);
 	}
 
+	function post_message(){
+		$time = date('ymdHi');
+		$captcha = rand(1000,9999);
+		$mobile = $_GET['mobile'];
+		$xml = '<?xml version="1.0" encoding="UTF-8"?><MtPacket><cpid>010000001969</cpid><mid>0</mid><cpmid>'.time().'</cpmid><mobile>'.$mobile.'</mobile><port>010121</port><msg>'.$captcha.'������������֤�룬ʮ��������Ч�������տƼ���</msg><signature>'.md5('d7d32d62942801a3811e297db1a81164'.$time).'</signature><timestamp>'.$time.'</timestamp><validtime>0</validtime></MtPacket>';
+
+		$url = 'http://api.10690909.com/providermt';
+
+		$header = 'Content-type: text/xml';
+
+		$ch = Curl_init();
+		curl_setopt($ch, CURLOPT_URL, $url);
+
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+		curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+
+		curl_setopt($ch, CURLOPT_POST, 1);
+
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);
+
+		$response = curl_exec($ch);
+
+		if(curl_errno($ch)){
+			return array('status'=>'error', 'message'=>curl_error($ch));
+		} else {
+			update_option($mobile, $captcha);
+		}
+		curl_close($ch);
+
+		$xml = simplexml_load_string($response);		
+		$result = (string) $xml->result;
+
+		return array('result'=>$result);
+	}
 
 }
 
