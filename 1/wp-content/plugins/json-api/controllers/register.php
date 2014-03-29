@@ -434,6 +434,11 @@ class json_api_register_controller {
 
 
 		$uid = $_REQUEST['uid'];
+		if( empty($uid) || !isset($uid) )
+			return array("status" => "error", "msg" => "no user id" );
+		$temp_u = get_user_by('id', $uid);
+		if( empty($temp_u) || !isset($temp_u) )
+			return array("status" => "error", "msg" => "no user id" );
 		global $wpdb;
 		$table = $wpdb->prefix.'mycred_log';
 		$sql = 'SELECT ref_id FROM '.$table.' WHERE ref = %s and user_id= %s;';
