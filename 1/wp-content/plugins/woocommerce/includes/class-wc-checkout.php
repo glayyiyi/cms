@@ -809,7 +809,8 @@ class WC_Checkout {
         // Update cart totals now we have customer address
         WC()->cart->calculate_totals_api();
 
-        $method = $_POST['payment_method'];
+        $method = isset($_POST['payment_method'])?$_POST['payment_method']:'mycred';
+
         if ( WC()->cart->needs_payment() ) {
 
             // Payment Method
