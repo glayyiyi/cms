@@ -835,8 +835,11 @@ class WC_Checkout {
                 $this->check_cart_items();
 
                 // Abort if errors are present
-                if ( wc_notice_count( 'error' ) > 0 )
+                if ( wc_notice_count( 'error' ) > 0 ){
+                    return array('status'=>'error');
                     throw new Exception();
+                }
+
 
                 $order_id = $this->create_order();
 
@@ -850,7 +853,7 @@ class WC_Checkout {
                     if ( $result['result'] == 'success' ) {
 
                         $result = apply_filters( 'woocommerce_payment_successful_result', $result, $order_id );
-                        return $result;
+                        return array('message'=>$result);
                         if ( is_ajax() ) {
                             echo '<!--WC_START-->' . json_encode( $result ) . '<!--WC_END-->';
                             exit;
@@ -874,7 +877,7 @@ class WC_Checkout {
 
                     // Get redirect
                     $return_url = $order->get_checkout_order_received_url();
-
+                    return array( 'message'=>$return_url);
                     // Redirect to success/confirmation/payment page
                     if ( is_ajax() ) {
                         echo '<!--WC_START-->' . json_encode(
@@ -901,25 +904,6 @@ class WC_Checkout {
             }
 
         } // endif
-
-        // If we reached this point then there were errors
-        if ( is_ajax() ) {
-
-            ob_start();
-            wc_print_notices();
-            $messages = ob_get_clean();
-
-            echo '<!--WC_START-->' . json_encode(
-                    array(
-                        'result'	=> 'failure',
-                        'messages' 	=> $messages,
-                        'refresh' 	=> isset( WC()->session->refresh_totals ) ? 'true' : 'false',
-                        'reload'    => isset( WC()->session->reload_checkout ) ? 'true' : 'false'
-                    )
-                ) . '<!--WC_END-->';
-
-            unset( WC()->session->refresh_totals, WC()->session->reload_checkout );
-            exit;
-        }
+        return array('status'=>'error');
     }
 }
