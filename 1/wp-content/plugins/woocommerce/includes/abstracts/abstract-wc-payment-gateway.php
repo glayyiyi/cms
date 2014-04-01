@@ -146,6 +146,8 @@ abstract class WC_Payment_Gateway extends WC_Settings_API {
 	 */
 	public function process_payment( $order_id ) {}
 
+    public function process_payment_api( $order_id, $customer_id) {}
+
 	/**
 	 * Validate Frontend Fields
 	 *

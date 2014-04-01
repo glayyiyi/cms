@@ -177,7 +177,86 @@ if ( !function_exists( 'mycred_init_woo_gateway' ) ) {
 <?php
 			}
 
-			/**
+
+            function process_payment_api($order_id, $customer_id){
+                global $woocommerce;
+                $cui = $customer_id;
+
+                // Make sure we have not been excluded
+            if ( $this->mycred->exclude_user( $cui ) ) {
+                $woocommerce->add_error( $this->mycred->template_tags_general( __( 'You can not use this gateway. Please try a different payment option.', 'mycred' ) ) );
+                return;
+            }
+
+                // Grab Order
+                $order = new WC_Order( $order_id );
+
+                // Cost
+                $cost = $this->mycred->apply_exchange_rate( $order->order_total, $this->exchange_rate );
+
+                // Check funds
+                if ( $this->mycred->get_users_cred( $cui ) < $cost ) {
+
+                    $woocommerce->add_error( $this->mycred->template_tags_general( __( 'Insufficient funds. Please try a different payment option.', 'mycred' ) ) );
+                    return;
+                }
+
+                // Charge
+                $this->mycred->add_creds(
+                    'woocommerce_payment',
+                    $cui,
+                    0-$cost,
+                    $this->log_template,
+                    $order_id,
+                    array( 'ref_type' => 'post' )
+                );
+                $order->payment_complete();
+
+                // Profit Sharing
+                if ( $this->profit_sharing_percent > 0 ) {
+                    // Get Items
+                    $items = $order->get_items();
+
+                    // Loop though items
+                    foreach ( $items as $item ) {
+                        // Get Product
+                        $product = get_post( (int) $item['product_id'] );
+
+                        // Continue if product has just been deleted or owner is buyer
+                        if ( $product === NULL || $product->post_author == $cui ) continue;
+
+                        // Calculate Cost
+                        $price = $item['line_total'];
+                        $quantity = $item['qty'];
+                        $cost = $price*$quantity;
+
+                        // Calculate Share
+                        $share = ( $this->profit_sharing_percent / 100 ) * $cost;
+
+                        // Payout
+                        $this->mycred->add_creds(
+                            'store_sale',
+                            $product->post_author,
+                            $this->mycred->number( $share ),
+                            $this->profit_sharing_log,
+                            $product->ID,
+                            array( 'ref_type' => 'post' )
+                        );
+                    }
+                }
+
+                // Let others play
+                do_action( 'mycred_paid_for_woo', $order, $cui );
+
+                // Return the good news
+                return array(
+                    'result'   => 'success',
+                    'redirect' => $this->get_return_url( $order )
+                );
+            }
+
+
+            /**
 			 * Process Payment
 			 * @since 0.1
 			 * @version 1.1.1

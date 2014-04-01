@@ -792,4 +792,133 @@ class WC_Checkout {
 			}
 		}
 	}
+
+    public function process_checkout_api() {
+        if ( ! defined( 'WOOCOMMERCE_CHECKOUT' ) )
+            define( 'WOOCOMMERCE_CHECKOUT', true );
+
+        // Prevent timeout
+        @set_time_limit(0);
+
+        // Checkout fields (not defined in checkout_fields)
+        $this->posted['terms']                     = isset( $_POST['terms'] ) ? 1 : 0;
+        $this->posted['payment_method']            = isset( $_POST['payment_method'] ) ? stripslashes( $_POST['payment_method'] ) : '';
+
+        WC()->cart->cart_contents[] = array('data'=>get_product($_POST['product_id']),
+            'quantity'=>$_POST['quantity']);
+        // Update cart totals now we have customer address
+        WC()->cart->calculate_totals_api();
+
+        $method = $_POST['payment_method'];
+        if ( WC()->cart->needs_payment() ) {
+
+            // Payment Method
+            $available_gateways = WC()->payment_gateways->get_available_payment_gateways();
+
+            if ( ! isset( $available_gateways[ $method ] ) ) {
+                $this->payment_method = '';
+                wc_add_notice( __( 'Invalid payment method.', 'woocommerce' ), 'error' );
+            } else {
+                $this->payment_method = $available_gateways[ $method ];
+                $this->payment_method->validate_fields();
+            }
+        }
+
+        if ( wc_notice_count( 'error' ) == 0 ) {
+            try {
+                $customer_id = $_POST['uid'];
+                // Customer accounts
+                $this->customer_id = apply_filters( 'woocommerce_checkout_customer_id', $customer_id );
+
+                // Do a final stock check at this point
+                $this->check_cart_items();
+
+                // Abort if errors are present
+                if ( wc_notice_count( 'error' ) > 0 )
+                    throw new Exception();
+
+                $order_id = $this->create_order();
+
+                // Process payment
+                if ( WC()->cart->needs_payment() ) {
+
+                    // Process Payment
+                    $result = $available_gateways[ $this->posted['payment_method'] ]->process_payment_api( $order_id, $customer_id);
+
+                    // Redirect to success/confirmation/payment page
+                    if ( $result['result'] == 'success' ) {
+
+                        $result = apply_filters( 'woocommerce_payment_successful_result', $result, $order_id );
+                        return $result;
+                        if ( is_ajax() ) {
+                            echo '<!--WC_START-->' . json_encode( $result ) . '<!--WC_END-->';
+                            exit;
+                        } else {
+                            wp_redirect( $result['redirect'] );
+                            exit;
+                        }
+
+                    }
+
+                } else {
+
+                    if ( empty( $order ) )
+                        $order = new WC_Order( $order_id );
+
+                    // No payment was required for order
+                    $order->payment_complete();
+
+                    // Empty the Cart
+                    WC()->cart->empty_cart();
+
+                    // Get redirect
+                    $return_url = $order->get_checkout_order_received_url();
+
+                    // Redirect to success/confirmation/payment page
+                    if ( is_ajax() ) {
+                        echo '<!--WC_START-->' . json_encode(
+                                array(
+                                    'result' 	=> 'success',
+                                    'redirect'  => apply_filters( 'woocommerce_checkout_no_payment_needed_redirect', $return_url, $order )
+                                )
+                            ) . '<!--WC_END-->';
+                        exit;
+                    } else {
+                        wp_safe_redirect(
+                            apply_filters( 'woocommerce_checkout_no_payment_needed_redirect', $return_url, $order )
+                        );
+                        exit;
+                    }
+
+                }
+
+            } catch ( Exception $e ) {
+
+                if ( ! empty( $e ) )
+                    wc_add_notice( $e->getMessage(), 'error' );
+
+            }
+
+        } // endif
+
+        // If we reached this point then there were errors
+        if ( is_ajax() ) {
+
+            ob_start();
+            wc_print_notices();
+            $messages = ob_get_clean();
+
+            echo '<!--WC_START-->' . json_encode(
+                    array(
+                        'result'	=> 'failure',
+                        'messages' 	=> $messages,
+                        'refresh' 	=> isset( WC()->session->refresh_totals ) ? 'true' : 'false',
+                        'reload'    => isset( WC()->session->reload_checkout ) ? 'true' : 'false'
+                    )
+                ) . '<!--WC_END-->';
+
+            unset( WC()->session->refresh_totals, WC()->session->reload_checkout );
+            exit;
+        }
+    }
 }

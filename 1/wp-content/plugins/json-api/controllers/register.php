@@ -535,6 +535,12 @@ class json_api_register_controller {
 		return array('result'=>$result);
 	}
 
+    function pay(){
+        $woocommerce_checkout = WC()->checkout();
+        $a = $woocommerce_checkout->process_checkout_api();
+        return array('status'=>'error', 'message'=>$a);
+    }
+
 }
 
 ?>

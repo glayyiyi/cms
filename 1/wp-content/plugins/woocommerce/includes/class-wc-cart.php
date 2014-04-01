@@ -2100,4 +2100,48 @@ class WC_Cart {
 			}
 			return apply_filters( 'woocommerce_cart_total_discount', $total_discount, $this );
 		}
+
+    /**
+     * Calculate totals for the items in the cart.
+     *
+     * @access public
+     */
+    public function calculate_totals_api() {
+        /**
+         * Calculate totals for items
+         */
+        foreach ( $this->get_cart() as $cart_item_key => $values ) {
+
+            $_product = $values['data'];
+
+            // Prices
+            $base_price = $_product->get_price();
+            $line_price = $_product->get_price() * $values['quantity'];
+
+
+            $this->cart_contents_weight += $_product->get_weight() * $values['quantity'];
+            $this->cart_contents_count  += $values['quantity'];
+
+            // Discounted Price (price with any pre-tax discounts applied)
+            $discounted_price      = $base_price;
+            $discounted_tax_amount = 0;
+            $tax_amount            = 0;
+            $line_subtotal_tax     = 0;
+            $line_subtotal         = $line_price;
+            $line_tax              = 0;
+            $line_total            = $this->tax->round( $discounted_price * $values['quantity'] );
+
+            $this->subtotal += $line_price;
+            $this->subtotal_ex_tax += $line_price;
+
+            // Cart contents total is based on discounted prices and is used for the final total calculation
+            $this->cart_contents_total += $line_total;
+            // Store costs + taxes for lines
+            $this->cart_contents[ $cart_item_key ]['line_total'] 		= $line_total;
+            $this->cart_contents[ $cart_item_key ]['line_subtotal'] 	= $line_subtotal;
+        }
+
+            // Grand Total - Discounted product prices, discounted tax, shipping cost + tax, and any discounts to be added after tax (e.g. store credit)
+        $this->total = max( 0, apply_filters( 'woocommerce_calculated_total', round( $this->cart_contents_total + $this->tax_total + $this->shipping_tax_total + $this->shipping_total - $this->discount_total + $this->fee_total, $this->dp ), $this ) );
+    }
 }
