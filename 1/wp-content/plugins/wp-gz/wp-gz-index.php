@@ -11,5 +11,6 @@ ob_start();
 require dirname( __FILE__ ) . '/wp-gz-referral.php';
 require dirname( __FILE__ ) . '/wp-gz-user-level.php';
 require dirname( __FILE__ ) . '/wp-gz-agency-level.php';
+require dirname( __FILE__ ) . '/wp-gz-creds-list.php';
 
 ?>    
