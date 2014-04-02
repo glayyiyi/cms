@@ -13,4 +13,10 @@ require dirname( __FILE__ ) . '/wp-gz-user-level.php';
 require dirname( __FILE__ ) . '/wp-gz-agency-level.php';
 require dirname( __FILE__ ) . '/wp-gz-creds-list.php';
 
+define( 'GZ_THIS',          __FILE__ );
+define( 'GZ_ROOT_DIR',      plugin_dir_path( GZ_THIS ) );
+
+require_once( GZ_ROOT_DIR . 'wp-gz-shortcodes.php' );
+require_once( GZ_ROOT_DIR . 'wp-gz-functions.php' );
+
 ?>    

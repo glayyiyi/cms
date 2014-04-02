@@ -214,7 +214,7 @@ if ( !class_exists( 'myCRED_Query_Log' ) ) {
 					$limits = '';
 				elseif ( $this->args['number'] > 0 ){
                     $offset = $this->args['offset'] > 0?$this->args['offset']:0;
-                    $limits = 'LIMIT ' . ($offset* $this->args['number']). ',' . absint( $this->args['number'] );
+                    $limits = 'LIMIT ' . ($offset* absint( $this->args['number'])). ',' . absint( $this->args['number'] );
                 }
 
 				// Filter
