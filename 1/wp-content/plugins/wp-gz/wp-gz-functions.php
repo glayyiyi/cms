@@ -19,7 +19,7 @@ if (!function_exists('query_gz_cred')) {
         IN ('cascade_bonus', 'download')
         AND b.meta_key = 'mobile'";
         if(isset($_GET['mobile'])){
-            $sql .= " and b.meta_value like %".$_GET['mobile']."% ";
+            $sql .= " and b.meta_value like '%".$_GET['mobile']."%' ";
         }
         $sql .= " GROUP BY a.user_id order by d.user_registered asc";
         if(isset($_GET['page_number'])){
