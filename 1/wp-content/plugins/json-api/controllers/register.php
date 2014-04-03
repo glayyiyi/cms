@@ -191,6 +191,8 @@ class json_api_register_controller {
 
 		update_user_meta($customer_id, 'device_id', $device_id);
 		update_user_meta($customer_id, 'device_type', $_GET['device_type'] );
+		if( !empty( $_GET['mobile'] ) )
+ 			update_user_meta($customer_id, 'mobile', $_GET['mobile'] );
 		$logs->setLog( $customer_id . '   '.$refer_id );
 		if( ! isset($refer_id) )
 			$refer_id = $_COOKIE['referral_id'];
