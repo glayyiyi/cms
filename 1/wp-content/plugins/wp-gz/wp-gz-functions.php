@@ -18,15 +18,15 @@ if (!function_exists('query_gz_cred')) {
         WHERE a.ref
         IN ('cascade_bonus', 'download')
         AND b.meta_key = 'mobile'";
-        if($_GET['mobile'] != NULL){
+        if(isset($_GET['mobile'])){
             $sql .= " and b.meta_value like %".$_GET['mobile']."% ";
         }
         $sql .= " GROUP BY a.user_id order by d.user_registered asc";
-        if($_GET['page_number']== NULL){
+        if(isset($_GET['page_number'])){
             $page_number = 0;
         }
 
-        if($_GET['page_size'] == null){
+        if(isset($_GET['page_size'])){
             $page_size = 50;
         }
         $page_number = absint($page_number);
