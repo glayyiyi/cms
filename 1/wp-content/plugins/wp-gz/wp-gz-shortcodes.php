@@ -33,7 +33,7 @@ if (!function_exists('gz_cred_display')) {
             <th style="text-align:center;width:100px;">积分</th>
             <th style="text-align:center;width:200px;">手机号</th>
             <th style="text-align:center;width:200px;">时间</th>
-            <th style="text-align:center;width:100px;">选择</th>
+            <th style="text-align:center;width:100px;"><input type="checkbox" click="clickAll()" id="all"/> 全选</th>
             </thead>';
 
         $output = '';

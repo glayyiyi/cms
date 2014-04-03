@@ -21,6 +21,15 @@ function cred_list_adm_html_page() {
             document.getElementById('cur_levels').value = value;
 
         }
+
+        function clickAll(){
+            var checked = document.getElementById("all").checked;
+            var boxes = document.getElementsByName("account[]");
+            for (var i=0; i< boxes.length; i++){
+                boxes[i].name = 'account['+i+']'
+                boxes[i].checked = checked;
+            }
+        }
     </script>
     <div>
         <h2>积分查询</h2>

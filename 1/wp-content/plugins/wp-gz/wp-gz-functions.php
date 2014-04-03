@@ -7,7 +7,7 @@ if (!function_exists('query_gz_cred')) {
     {
         global $wpdb;
 
-        $log_table = $wpdb->prefix . 'mycred_log';
+        $log_table = 'wp_10_mycred_log';//$wpdb->prefix . 'mycred_log';
 
         $sql = "SELECT a.user_id, SUM( a.creds ) as creds, b.meta_value AS 'mobile', d.user_registered as regtime FROM " . $log_table . " AS a
         LEFT JOIN wp_usermeta AS b ON a.user_id = b.user_id
@@ -31,7 +31,8 @@ if (!function_exists('query_gz_cred')) {
         }
         $page_number = absint($page_number);
         $page_size = absint($page_size);
-        $sql .= "limit ".($page_number*$page_size).','.(($page_number +1) * $page_size);
+
+        //$sql .= "limit ".($page_number*$page_size).','.(($page_number +1) * $page_size);
 
         $credsList = $wpdb->get_results($sql);
         return $credsList;
