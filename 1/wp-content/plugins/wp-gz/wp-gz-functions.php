@@ -22,7 +22,7 @@ if (!function_exists('query_gz_cred')) {
             $sql .= " and b.meta_value like '%".$_GET['mobile']."%' ";
         }
         $sql .= " GROUP BY a.user_id order by d.user_registered asc";
-        echo $sql;
+        echo "查询mobile：".$sql;
         if(isset($_GET['page_number'])){
             $page_number = 0;
         }
