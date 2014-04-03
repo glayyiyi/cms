@@ -26,13 +26,18 @@ function cred_list_adm_html_page() {
             var checkes = document.getElementsByClassName("checkbox");
             var checked = document.getElementById("all").checked;
             for (var i=0; i<checkes.length; i++){
-                checkes[i].name = 'account[]';
                 checkes[i].checked = checked;
             }
-
-            var boxes = document.getElementsByName("account[]");
-            for (var i=0; i< boxes.length; i++){
-                boxes[i].name = 'account['+i+']'
+        }
+        function multiCheck(){
+            var checkes = document.getElementsByClassName("checkbox");
+            var index = 0;
+            for(var i=0; i<checkes.length; i++){
+                var box = checkes[i]
+                if(box.checked){
+                    box.name = 'account['+index+']';
+                    index++;
+                }
             }
         }
     </script>
@@ -47,7 +52,7 @@ function cred_list_adm_html_page() {
                 foreach($_GET['account'] as $item){
                     update_user_meta($item, 'take_away', 1);
                 }
-                }
+            }
             $credsList = query_gz_cred();
             echo  gz_cred_display($credsList);
             ?>

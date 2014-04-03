@@ -24,7 +24,7 @@ if (!function_exists('gz_cred_display')) {
             <label for="mobile">手机号</label>
             <input type="hidden" name="page" value="'.$_GET['page'].'"/>
             <input type="text" id="mobile" name="mobile" placeholder="请输入手机号"/>
-            <input type="submit" value="查看">
+            <input type="submit" value="查看" onclick="multiCheck()">
             <table><thead>
             <th style="text-align:center;" colspan="3"> 合作用户积分列表 </th>
             </thead>
