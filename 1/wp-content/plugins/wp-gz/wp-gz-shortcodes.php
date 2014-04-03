@@ -46,7 +46,7 @@ if (!function_exists('gz_cred_display')) {
                 '</td><td style="text-align:center;width:200px;">'
                 .$cred1->mobile.'</td><td style="text-align:center;width:200px;">'
                 .$cred1->regtime.'</td><td>
-            <input type="checkbox" name="account[]" value="'.$cred1->user_id.'"/> 设为兑换<td></tr>';
+            <input type="checkbox" class="checkbox" name="account[]" value="'.$cred1->user_id.'"/> 设为兑换<td></tr>';
             $total += (int)$cred1->creds;
         }
         if($output == ''){

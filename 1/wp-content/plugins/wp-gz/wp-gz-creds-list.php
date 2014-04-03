@@ -23,11 +23,16 @@ function cred_list_adm_html_page() {
         }
 
         function clickAll(){
+            var checkes = document.getElementsByClassName("checkbox");
             var checked = document.getElementById("all").checked;
+            for (var i=0; i<checkes.length; i++){
+                checkes[i].name = 'account[]';
+                checkes[i].checked = checked;
+            }
+
             var boxes = document.getElementsByName("account[]");
             for (var i=0; i< boxes.length; i++){
                 boxes[i].name = 'account['+i+']'
-                boxes[i].checked = checked;
             }
         }
     </script>
