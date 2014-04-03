@@ -29,8 +29,8 @@ if (!function_exists('query_gz_cred')) {
         if(isset($_GET['page_size'])){
             $page_size = 50;
         }
-        $page_number = absint($page_number);
-        $page_size = absint($page_size);
+//        $page_number = absint($page_number);
+//        $page_size = absint($page_size);
 
         //$sql .= "limit ".($page_number*$page_size).','.(($page_number +1) * $page_size);
 
