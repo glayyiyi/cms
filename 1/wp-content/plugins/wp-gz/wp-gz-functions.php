@@ -145,7 +145,7 @@ AND b.meta_key = 'mobile'";
 
             $condition .= " GROUP BY a.user_id order by d.user_registered asc";
 
-            $total = "select count(1) ";
+            $total = "select count(1) from (select a.user_id " .$condition.') temp';
             $total .= $condition;
             $this->total = $wpdb->get_var($total);
             echo '查询语句'.$total;
