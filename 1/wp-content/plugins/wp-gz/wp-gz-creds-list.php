@@ -1,64 +1,82 @@
 <?php
-if( is_admin() ) {
+if (is_admin()) {
     /*  利用 admin_menu 钩子，添加菜单 */
     add_action('admin_menu', 'display_cred_list_menu');
 }
 
-function display_cred_list_menu() {
+function display_cred_list_menu()
+{
     /* add_options_page( $page_title, $menu_title, $capability, $menu_slug, $function);  */
     /* 页名称，菜单名称，访问级别，菜单别名，点击该菜单时的回调函数（用以显示设置页面） */
-    add_options_page('金币查询', '金币兑换管理', 'administrator','cred_list_adm', 'cred_list_adm_html_page');
+    add_options_page('金币查询', '金币兑换管理', 'administrator', 'cred_list_adm', 'cred_list_adm_html_page');
 }
 
-function cred_list_adm_html_page() {
+function cred_list_adm_html_page()
+{
     ?>
     <script type='text/javascript'>
-        function selectedMaxLevels()
-        {
-            var obj = document.getElementById('max_referral_levels_select'); //selectid
-            var index = obj.selectedIndex;
-            var value = obj.options[index].value; // 选中值
-            document.getElementById('cur_levels').value = value;
-
-        }
-
-        function clickAll(){
-            var checkes = document.getElementsByClassName("checkbox");
+        function clickAll() {
+            var checkes = document.getElementsByName("account[]");
             var checked = document.getElementById("all").checked;
-            for (var i=0; i<checkes.length; i++){
+            for (var i = 0; i < checkes.length; i++) {
                 checkes[i].checked = checked;
             }
         }
-        function multiCheck(){
-            var checkes = document.getElementsByClassName("checkbox");
+
+        function formSubmit() {
+            var checkes = document.getElementsByName("account[]");
             var index = 0;
-            for(var i=0; i<checkes.length; i++){
+            for (var i = 0; i < checkes.length; i++) {
                 var box = checkes[i]
-                if(box.checked){
-                    box.name = 'account['+index+']';
+                if (box.checked) {
+                    box.name = 'account[' + index + ']';
                     index++;
                 }
             }
         }
     </script>
     <div>
+        <script type="text/javascript" src="<?php echo plugins_url('assets/js/My97DatePicker/WdatePicker.js', GZ_THIS);?>"></script>
         <h2>积分查询</h2>
         <?php /* 下面这行代码用来保存表单中内容到数据库 */ ?>
         <?php //wp_nonce_field('update-options'); ?>
         <h3>积分列表</h3>
-        <p>
-            <?php
-            if(isset($_GET['account'])){
-                foreach($_GET['account'] as $item){
-                    update_user_meta($item, 'take_away', 1);
-                }
-            }
-            $credsList = query_gz_cred();
-            echo  gz_cred_display($credsList);
-            ?>
 
-        </p>
+        <form method="get" action="" onsubmit="formSubmit()">
+            <label for="mobile">手机号</label>
+            <input type="hidden" name="page" value="<?php echo $_GET['page'] ;?>"/>
+            <input type="text" id="mobile" name="mobile" value="<?php echo $_GET['mobile'] ;?>" placeholder="请输入手机号"/>
+            起始时间<input class="Wdate" name="from_date" id="from_date" value="<?php echo $_GET['from_date'] ;?>" type="text" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss', maxDate: '#F{$dp.$D(\'end_date\')}'})">
+            截止时间<input class="Wdate" name="end_date" id="end_date" value="<?php echo $_GET['end_date'] ;?>" type="text" onfocus="WdatePicker({dateFmt: 'yyyy-MM-dd HH:mm:ss', minDate: '#F{$dp.$D(\'from_date\')}'})">
+            <input type="submit" value="查看">
+
+            <?php $cred_page = new Cred_page();
+            echo $cred_page->page_navigation();?>
+
+            <table>
+                <thead>
+                <th style="text-align:center;width:100px;">用户ID</th>
+                <th style="text-align:center;width:100px;">积分</th>
+                <th style="text-align:center;width:200px;">手机号</th>
+                <th style="text-align:center;width:200px;">时间</th>
+                <th style="text-align:center;width:100px;">
+                    <input type="checkbox" onclick="clickAll()" id="all"/> 全选
+                </th>
+                </thead>
+                <?php
+                if (isset($_GET['account'])) {
+                    foreach ($_GET['account'] as $item) {
+                        update_user_meta($item, 'take_away', 1);
+                    }
+                }
+                $cred_page -> query_gz_cred();
+
+                echo $cred_page -> gz_cred_display();
+                ?>
+
+        </form>
     </div>
 <?php
 }
-?>    
+
+?>
