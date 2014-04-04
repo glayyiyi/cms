@@ -128,7 +128,7 @@ AND c.meta_key = 'take_away'
 AND c.meta_value !=1
 LEFT JOIN wp_users AS d ON a.user_id = d.id
 WHERE a.ref
-IN ('cascade_bonus', 'download')
+IN ('download')
 AND b.meta_key = 'mobile'";
 
             if (isset($_GET['mobile']) && !empty($_GET['mobile'])) {
