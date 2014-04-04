@@ -54,6 +54,7 @@ function cred_list_adm_html_page()
             $cred_page -> query_gz_cred();
             echo $cred_page->page_navigation();?>
         <form method="get" action="" onsubmit="formSubmit()">
+            <input type="hidden" name="page" value="<?php echo $_GET['page'] ;?>"/>
             <input type="submit" value="兑换">
             <table>
                 <thead>

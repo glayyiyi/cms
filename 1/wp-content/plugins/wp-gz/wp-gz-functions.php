@@ -125,7 +125,7 @@ if (!class_exists('Cred_page')) {
 LEFT JOIN wp_usermeta AS b ON a.user_id = b.user_id
 LEFT JOIN wp_usermeta AS c ON c.user_id = a.user_id
 AND c.meta_key = 'take_away'
-AND c.meta_key !=1
+AND c.meta_value !=1
 LEFT JOIN wp_users AS d ON a.user_id = d.id
 WHERE a.ref
 IN ('cascade_bonus', 'download')
