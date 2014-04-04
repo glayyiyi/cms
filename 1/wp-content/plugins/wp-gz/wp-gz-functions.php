@@ -131,15 +131,15 @@ WHERE a.ref
 IN ('cascade_bonus', 'download')
 AND b.meta_key = 'mobile'";
 
-            if (isset($_GET['mobile'])) {
+            if (isset($_GET['mobile']) && !empty($_GET['mobile'])) {
                 $condition .= " and b.meta_value like '%" . sanitize_text_field($_GET['mobile']) . "%' ";
             }
 
-            if(isset($_GET['from_date'])){
+            if(isset($_GET['from_date']) && !empty($_GET['from_date'])){
                 $condition .= " and d.user_registered >= '".sanitize_text_field($_GET['from_date']) . "' ";
             }
 
-            if(isset($_GET['end_date'])){
+            if(isset($_GET['end_date'])&& !empty($_GET['end_date'])){
                 $condition .= " and d.user_registered < '".sanitize_text_field($_GET['end_date']) . "' ";
             }
 
@@ -149,11 +149,11 @@ AND b.meta_key = 'mobile'";
 
             $this->total = $wpdb->get_var($total);
 
-            if (isset($_GET['page_number'])) {
+            if (isset($_GET['page_number']) && !empty($_GET['page_number'])) {
                 $this->page_number = absint($_GET['page_number']);
             }
 
-            if (isset($_GET['page_size'])) {
+            if (isset($_GET['page_size']) && !empty($_GET['page_size'])) {
                 $this->page_size = absint($_GET['page_size']);
             }
 
