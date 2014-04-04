@@ -146,7 +146,7 @@ AND b.meta_key = 'mobile'";
             $condition .= " GROUP BY a.user_id order by d.user_registered asc";
 
             $total = "select count(1) from (select a.user_id " .$condition.') temp';
-            $total .= $condition;
+
             $this->total = $wpdb->get_var($total);
             echo '查询语句'.$total;
 
@@ -160,7 +160,7 @@ AND b.meta_key = 'mobile'";
 
             $first_index = $this->page_size * $this->page_number;
             $condition .= " limit " . ($first_index) . ',' . ($first_index + $this->$page_size);
-
+            echo '条件语句'.$condition;
             $sql = "SELECT a.user_id, SUM( a.creds ) as creds, b.meta_value AS 'mobile', d.user_registered as regtime ";
             $sql .= $condition;
             echo '查询语句'.$sql;
