@@ -132,15 +132,15 @@ IN ('cascade_bonus', 'download')
 AND b.meta_key = 'mobile'";
 
             if (isset($_GET['mobile'])) {
-                $condition .= " and b.meta_value like ' % " . sanitize_text_field($_GET['mobile']) . "%' ";
+                $condition .= " and b.meta_value like '%" . sanitize_text_field($_GET['mobile']) . "%' ";
             }
 
             if(isset($_GET['from_date'])){
-                $condition .= " and d.user_registered >=".sanitize_text_field($_GET['from_date']);
+                $condition .= " and d.user_registered >= '".sanitize_text_field($_GET['from_date']) . "' ";
             }
 
             if(isset($_GET['end_date'])){
-                $condition .= " and d.user_registered <".sanitize_text_field($_GET['end_date']);
+                $condition .= " and d.user_registered < '".sanitize_text_field($_GET['end_date']) . "' ";
             }
 
             $condition .= " GROUP BY a.user_id order by d.user_registered asc";
