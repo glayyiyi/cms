@@ -148,7 +148,6 @@ AND b.meta_key = 'mobile'";
             $total = "select count(1) from (select a.user_id " .$condition.') temp';
 
             $this->total = $wpdb->get_var($total);
-            echo '查询语句'.$total;
 
             if (isset($_GET['page_number'])) {
                 $this->page_number = absint($_GET['page_number']);
@@ -159,8 +158,7 @@ AND b.meta_key = 'mobile'";
             }
 
             $first_index = $this->page_size * $this->page_number;
-            $condition .= " limit " . ($first_index) . ',' . ($first_index + $this->$page_size);
-            echo '条件语句'.$condition;
+            $condition .= " limit ".$first_index.','.($first_index+$this->page_size) ;
             $sql = "SELECT a.user_id, SUM( a.creds ) as creds, b.meta_value AS 'mobile', d.user_registered as regtime ";
             $sql .= $condition;
             echo '查询语句'.$sql;
