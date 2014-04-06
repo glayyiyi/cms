@@ -178,14 +178,25 @@ function push_notifications_send_single($device_id, $pn_push_type, $json, $messa
 	$certificate;
 	$passphrase;
 	$feedback;
-
- 
+    $passphrase = $pn_settings->production_cer_pass;
+    
+	$apns_devices = $wpdb->prefix.'pn_apns_devices';
+	$devices_array = $wpdb->get_results( $wpdb->prepare ("SELECT * FROM $apns_devices where deviceuid='$device_id'  order by created desc   ", 0));
+    
+	if( count($devices_array) > 0 ){
+		if( !empty($devices_array[0]->certificate) && isset($devices_array[0]->certificate) ){
+			$productionCertificate = 'http://www.appcn100.com/cms/iagent/wp-content/uploads/sites/10/2014/04/ck.pem';	
+			$passphrase='feige';
+		}
+	}
+	else{
+		return;
+	}
 
 	{
 
 		$ssl = $ssl_production;
 		$certificate = $productionCertificate;
-		$passphrase = $pn_settings->production_cer_pass;
 		$feedback = $feedback_P;
 
 	}
@@ -235,9 +246,6 @@ function push_notifications_send_single($device_id, $pn_push_type, $json, $messa
 
 	//echo $payload;
 
-	global $wpdb;
-	$apns_devices = $wpdb->prefix.'pn_apns_devices';
-	$devices_array = $wpdb->get_results( $wpdb->prepare ("SELECT * FROM $apns_devices where deviceuid='$device_id'", 0));
 	
 	$result = false;
 	//echo '2323-'.$apns_devices.'--- '.count($devices_array).' '.$device_id;

@@ -28,10 +28,13 @@ if (
 	){
 
 	if ( $_GET['task'] == 'register'){
+	
+	$now_time = time();
 
 		$wpdb->replace( 
 				$apns_devices, 
 				array( 
+					'created'	=> $now_time,
 					'appname'       =>  $_GET['appname'],
 					'appversion'    =>  $_GET['appversion'],
 					'deviceuid'     =>  $_GET['deviceuid'],
@@ -42,8 +45,10 @@ if (
 					'pushbadge'     =>  $_GET['pushbadge'],
 					'pushalert'     =>  $_GET['pushalert'],
 					'pushsound'     =>  $_GET['pushsound']
+					,'certificate' => $_GET['cert']
 				), 
 				array( 
+					'%s',
 					'%s', 
 					'%s', 
 					'%s', 
@@ -54,6 +59,7 @@ if (
 					'%s', 
 					'%s', 
 					'%s'
+					,'%s'
 				) 
 			);
 
