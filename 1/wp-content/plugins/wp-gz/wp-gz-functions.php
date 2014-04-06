@@ -149,8 +149,8 @@ AND b.meta_key = 'mobile'";
 
             $this->total = $wpdb->get_var($total);
 
-            if (isset($_GET['page_number']) && !empty($_GET['page_number'])) {
-                $this->page_number = absint($_GET['page_number']);
+            if (isset($_GET['paged']) && !empty($_GET['paged'])) {
+                $this->page_number = absint($_GET['paged']);
             }
 
             if (isset($_GET['page_size']) && !empty($_GET['page_size'])) {
