@@ -644,7 +644,25 @@ class json_api_register_controller {
         return array("msg" => '修改用户成功');
     }
 
+    public function active_user(){
+        $result = $this->valid_user($_REQUEST['key']);
+        if($result['status'] != 'ok'){
+            return $result;
+        }
+        $uid = $_REQUEST['user_id'];
+        update_user_meta($uid, 'user_flag', 'active') ;
+        return array('msg'=>'成功启用用户');
+    }
 
+    public function inactive_user(){
+        $result = $this->valid_user($_REQUEST['key']);
+        if($result['status'] != 'ok'){
+            return $result;
+        }
+        $uid = $_REQUEST['user_id'];
+        update_user_meta($uid, 'user_flag', 'inactive') ;
+        return array('msg'=>'成功禁用用户');
+    }
 }
 
 ?>
