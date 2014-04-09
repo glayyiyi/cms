@@ -543,6 +543,108 @@ class json_api_register_controller {
         return array('status'=>'error', 'message'=>$a);
     }
 
+    public function valid_user($key){
+        $data = base64_decode($key);
+        if(!$data){
+            return array('msg'=>'操作凭证无效', 'status'=>'error');
+        }
+
+        $salt = '';
+        $data = str_ireplace($data, '', $salt);
+        $info_array = preg_split(',', $data);
+        if(count($info_array) != 3) {
+            return array('msg'=>'凭证信息有误', 'status'=>'error');
+        }
+
+        $time = strtotime($info_array[2]);
+        if(!$time){
+            return array('msg'=>'日期信息有误', 'status'=>'error');
+        }
+
+        $user = wp_authenticate( $info_array[0], $info_array[1] );
+        if ( is_wp_error( $user ) ) {
+            return array('status'=>'error', 'message'=>$user->get_error_message());
+        }
+        return array('status'=>'ok');
+    }
+
+    public function add_user()
+    {
+        $result = $this->valid_user($_REQUEST['key']);
+        if($result['status'] != 'ok'){
+            return $result;
+        }
+
+        $username = sanitize_user($_REQUEST['username']);
+        $password = sanitize_text_field($_REQUEST['password']);
+        $displayname = sanitize_text_field($_REQUEST['display_name']);
+
+        if(!$displayname){
+            $displayname = $username;
+        }
+
+        $msg = '添加用户成功';
+        if (!$username) {
+            $msg = "请输入用户名";
+        } elseif(!$password){
+            $msg = "请输入密码";
+        } else {
+            if (!validate_username($username)) {
+                $msg = '用户名不符合规则';
+            } elseif (username_exists($username)) {
+                $msg = '用户名已存在';
+            }
+
+            $user = array(
+                'user_login' => $username,
+                'user_pass' => $password,
+                'display_name' => $displayname
+            );
+            $user_id = wp_insert_user($user);
+        }
+
+        return array(
+            "msg" => $msg,
+            "user_id" => $user_id
+        );
+    }
+
+    public function remove_user(){
+        $result = $this->valid_user($_REQUEST['key']);
+        if($result['status'] != 'ok'){
+            return $result;
+        }
+        $id = $_REQUEST['user_id'];
+
+        $msg = '删除用户成功';
+        if(!$id){
+            $msg = '请选择要删除的用户';
+        } else {
+            include_once( ABSPATH . '/wp-admin/includes/user.php' );
+            if (!wp_delete_user($id)){
+                $msg = '删除用户失败';
+            }
+        }
+        return array(
+            "msg" => $msg
+        );
+    }
+
+    public function edit_user(){
+
+        $result = $this->valid_user($_REQUEST['key']);
+        if($result['status'] != 'ok'){
+            return $result;
+        }
+
+        $user = new stdClass;
+        $user->ID = $_REQUEST['user_id'];
+        $user->display_name = $_REQUEST['display_name'];
+        $user_id = wp_update_user( $user );
+        return array("msg" => '修改用户成功');
+    }
+
+
 }
 
 ?>
