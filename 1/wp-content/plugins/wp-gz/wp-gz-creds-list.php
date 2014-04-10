@@ -26,8 +26,9 @@ function cred_list_adm_html_page()
         function formSubmit() {
             var checkes = document.getElementsByName("account[]");
             var index = 0;
-            for (var i = 0; i < checkes.length; i++) {
-                var box = checkes[i]
+            var length = checkes.length;
+            for (var i = 0; i < length; i++) {
+                var box = document.getElementsByName("account[]")[0];
                 if (box.checked) {
                     box.name = 'account[' + index + ']';
                     index++;
