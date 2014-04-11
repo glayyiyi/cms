@@ -801,15 +801,15 @@ class WC_Checkout {
         @set_time_limit(0);
 
         // Checkout fields (not defined in checkout_fields)
-        $this->posted['terms']                     = isset( $_POST['terms'] ) ? 1 : 0;
-        $this->posted['payment_method']            = isset( $_POST['payment_method'] ) ? stripslashes( $_POST['payment_method'] ) : '';
+        $this->posted['terms']                     = isset( $_REQUEST['terms'] ) ? 1 : 0;
+        $this->posted['payment_method']            = isset( $_REQUEST['payment_method'] ) ? stripslashes( $_REQUEST['payment_method'] ) : '';
 
-        WC()->cart->cart_contents[] = array('data'=>get_product($_POST['product_id']),
-            'quantity'=>$_POST['quantity']);
+        WC()->cart->cart_contents[] = array('data'=>get_product($_REQUEST['product_id']),
+            'quantity'=>$_REQUEST['quantity']);
         // Update cart totals now we have customer address
         WC()->cart->calculate_totals_api();
 
-        $method = isset($_POST['payment_method'])?$_POST['payment_method']:'mycred';
+        $method = isset($_REQUEST['payment_method'])?$_REQUEST['payment_method']:'mycred';
 
         if ( WC()->cart->needs_payment() ) {
 
@@ -827,7 +827,7 @@ class WC_Checkout {
 
         if ( wc_notice_count( 'error' ) == 0 ) {
             try {
-                $customer_id = $_POST['uid'];
+                $customer_id = $_REQUEST['uid'];
                 // Customer accounts
                 $this->customer_id = apply_filters( 'woocommerce_checkout_customer_id', $customer_id );
 
