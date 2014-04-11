@@ -25,5 +25,4 @@ add_filter('wp_authenticate_user', function($user) {
     }
     return new WP_Error('1','账号未启用');
 }, 10, 2);
-
-?>    
+?>

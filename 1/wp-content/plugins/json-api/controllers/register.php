@@ -543,36 +543,18 @@ class json_api_register_controller {
         return array('status'=>'error', 'message'=>$a);
     }
 
-    public function valid_user($key){
-        $data = base64_decode($key);
-        if(!$data){
-            return array('msg'=>'操作凭证无效', 'status'=>'error');
-        }
+    public function valid_user($token, $time){
+        $salt = 'd465d66f7152f85b2e39abec0e35aa0f';
 
-        $salt = '';
-        $data = str_ireplace($data, '', $salt);
-        $info_array = preg_split(',', $data);
-        if(count($info_array) != 3) {
-            return array('msg'=>'凭证信息有误', 'status'=>'error');
-        }
-
-        $time = strtotime($info_array[2]);
-        if(!$time){
-            return array('msg'=>'日期信息有误', 'status'=>'error');
-        }
-
-        $user = wp_authenticate( $info_array[0], $info_array[1] );
-        if ( is_wp_error( $user ) ) {
-            return array('status'=>'error', 'message'=>$user->get_error_message());
-        }
-        return array('status'=>'ok');
+        $new_token = md5($time . $salt);
+        return (((int)$time + 60) < time()) && $new_token == $token;
     }
 
     public function add_user()
     {
-        $result = $this->valid_user($_REQUEST['key']);
-        if($result['status'] != 'ok'){
-            return $result;
+        $result = $this->valid_user($_REQUEST['token'], $_REQUEST['timestamp']);
+        if(!$result){
+            return array('status'=>'error', 'message'=>'用户鉴权失败，不能进行此操作');
         }
 
         $username = sanitize_user($_REQUEST['username']);
@@ -610,9 +592,9 @@ class json_api_register_controller {
     }
 
     public function remove_user(){
-        $result = $this->valid_user($_REQUEST['key']);
-        if($result['status'] != 'ok'){
-            return $result;
+        $result = $this->valid_user($_REQUEST['token'], $_REQUEST['timestamp']);
+        if(!$result){
+            return array('status'=>'error', 'message'=>'用户鉴权失败，不能进行此操作');
         }
         $id = $_REQUEST['user_id'];
 
@@ -632,22 +614,23 @@ class json_api_register_controller {
 
     public function edit_user(){
 
-        $result = $this->valid_user($_REQUEST['key']);
-        if($result['status'] != 'ok'){
-            return $result;
+        $result = $this->valid_user($_REQUEST['token'], $_REQUEST['timestamp']);
+        if(!$result){
+            return array('status'=>'error', 'message'=>'用户鉴权失败，不能进行此操作');
         }
 
         $user = new stdClass;
         $user->ID = $_REQUEST['user_id'];
         $user->display_name = $_REQUEST['display_name'];
+        $user->user_pass = $_REQUEST['user_pass'];
         $user_id = wp_update_user( $user );
         return array("msg" => '修改用户成功');
     }
 
     public function active_user(){
-        $result = $this->valid_user($_REQUEST['key']);
-        if($result['status'] != 'ok'){
-            return $result;
+        $result = $this->valid_user($_REQUEST['token'], $_REQUEST['timestamp']);
+        if(!$result){
+            return array('status'=>'error', 'message'=>'用户鉴权失败，不能进行此操作');
         }
         $uid = $_REQUEST['user_id'];
         update_user_meta($uid, 'user_flag', 'active') ;
@@ -655,9 +638,9 @@ class json_api_register_controller {
     }
 
     public function inactive_user(){
-        $result = $this->valid_user($_REQUEST['key']);
-        if($result['status'] != 'ok'){
-            return $result;
+        $result = $this->valid_user($_REQUEST['token'], $_REQUEST['timestamp']);
+        if(!$result){
+            return array('status'=>'error', 'message'=>'用户鉴权失败，不能进行此操作');
         }
         $uid = $_REQUEST['user_id'];
         update_user_meta($uid, 'user_flag', 'inactive') ;
