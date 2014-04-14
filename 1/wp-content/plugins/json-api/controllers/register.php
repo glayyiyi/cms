@@ -537,10 +537,37 @@ class json_api_register_controller {
 		return array('result'=>$result);
 	}
 
-    function pay(){
-        $woocommerce_checkout = WC()->checkout();
-        $a = $woocommerce_checkout->process_checkout_api();
-        return array('status'=>'error', 'message'=>$a);
+	function pay(){
+		$creds  = array();
+		$loginName = get_user_by('id', $_GET['uid'] );
+		if( isset( $loginName->user_login) )
+			$creds['user_login'] 	= $loginName->user_login; //$_GET['uid'];
+		else{
+			$user1 = get_user_by('login', $_GET['uid']);
+			if( isset( $user1->user_login ) )
+				$creds['user_login'] = $user1->user_login;
+			else{
+				return array('status'=>'error', 'message'=>'user not exist' );
+			}
+		}
+		$creds['user_password'] = $_GET['password'];
+		$creds['remember']      = isset( $_GET['rememberme'] );
+		$secure_cookie          = is_ssl() ? true : false;
+		$user                   = wp_signon( apply_filters( 'woocommerce_login_credentials', $creds ), $secure_cookie );
+
+		if ( is_wp_error( $user ) ) {
+			return array('status'=> 'error', 'message'=> __( 'username or password is wrong', 'woocommerce' ) );
+		} else {
+			$userid = $user->ID;
+			$signInToday = true;
+		}
+		$woocommerce_checkout = WC()->checkout();
+		$a = $woocommerce_checkout->process_checkout_api();
+		if( !empty($a) )
+			return array('status'=>'error', 'message'=>$a);
+		else
+			return array('status'=>'ok', 'message'=> 'success');
+
     }
 
     public function valid_user($token, $time){
