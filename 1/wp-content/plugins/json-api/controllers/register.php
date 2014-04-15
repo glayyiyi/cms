@@ -574,7 +574,7 @@ class json_api_register_controller {
         $salt = 'd465d66f7152f85b2e39abec0e35aa0f';
 
         $new_token = md5($time . $salt);
-        return (((int)$time + 60) < time()) && $new_token == $token;
+        return (($time + 60) < date('YmdHIs')) && $new_token == $token;
     }
 
     public function add_user()
