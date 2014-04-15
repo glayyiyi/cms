@@ -581,7 +581,7 @@ class json_api_register_controller {
     {
         $result = $this->valid_user($_REQUEST['token'], $_REQUEST['timestamp']);
         if(!$result){
-            return array('status'=>'error', 'message'=>'用户鉴权失败，不能进行此操作');
+            return array('status'=>'error', 'msg'=>'用户鉴权失败，不能进行此操作');
         }
 
         $username = sanitize_user($_REQUEST['username']);
@@ -621,7 +621,7 @@ class json_api_register_controller {
     public function remove_user(){
         $result = $this->valid_user($_REQUEST['token'], $_REQUEST['timestamp']);
         if(!$result){
-            return array('status'=>'error', 'message'=>'用户鉴权失败，不能进行此操作');
+            return array('status'=>'error', 'msg'=>'用户鉴权失败，不能进行此操作');
         }
         $id = $_REQUEST['user_id'];
 
@@ -643,7 +643,7 @@ class json_api_register_controller {
 
         $result = $this->valid_user($_REQUEST['token'], $_REQUEST['timestamp']);
         if(!$result){
-            return array('status'=>'error', 'message'=>'用户鉴权失败，不能进行此操作');
+            return array('status'=>'error', 'msg'=>'用户鉴权失败，不能进行此操作');
         }
 
         $user = new stdClass;
@@ -657,7 +657,7 @@ class json_api_register_controller {
     public function active_user(){
         $result = $this->valid_user($_REQUEST['token'], $_REQUEST['timestamp']);
         if(!$result){
-            return array('status'=>'error', 'message'=>'用户鉴权失败，不能进行此操作');
+            return array('status'=>'error', 'msg'=>'用户鉴权失败，不能进行此操作');
         }
         $uid = $_REQUEST['user_id'];
         update_user_meta($uid, 'user_flag', 'active') ;
@@ -667,7 +667,7 @@ class json_api_register_controller {
     public function inactive_user(){
         $result = $this->valid_user($_REQUEST['token'], $_REQUEST['timestamp']);
         if(!$result){
-            return array('status'=>'error', 'message'=>'用户鉴权失败，不能进行此操作');
+            return array('status'=>'error', 'msg'=>'用户鉴权失败，不能进行此操作');
         }
         $uid = $_REQUEST['user_id'];
         update_user_meta($uid, 'user_flag', 'inactive') ;
