@@ -651,7 +651,11 @@ class json_api_register_controller {
         $user->display_name = $_REQUEST['display_name'];
         $user->user_pass = $_REQUEST['user_pass'];
         $user_id = wp_update_user( $user );
-        return array("msg" => '修改用户成功');
+        if (is_wp_error($user_id)) {
+            return array("msg" => '修改用户失败');
+        } else {
+            return array('status'=>'error', "msg" => '修改用户成功');
+        }
     }
 
     public function active_user(){
