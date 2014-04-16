@@ -678,6 +678,74 @@ class json_api_register_controller {
         update_user_meta($uid, 'user_flag', 'inactive') ;
         return array('msg'=>'成功禁用用户');
     }
+
+    function notify() {
+        $posted = $_POST['json'];
+        $posted = json_decode($posted);
+        $posted = stripslashes_deep( $posted['body'] );
+
+        if ( ! empty( $posted['outTradeNo'] ) ) {
+
+            $order = new WC_Order( $posted['outTradeNo'] );
+
+            // Lowercase returned variables
+            $posted['payment_status'] 	= strtolower( $posted['tradeState'] );
+            // Sandbox fix
+            if ( '0' == $posted['payment_status'] ) {
+                $posted['payment_status'] = 'completed';
+            }
+
+            // We are here so lets check status and do actions
+            switch ( $posted['payment_status'] ) {
+                case 'completed' :
+                case 'pending' :
+
+                    // Check order not already completed
+                    if ( $order->status == 'completed' ) {
+                        exit;
+                    }
+
+                    // Store PP Details
+                    if ( ! empty( $posted['bankType'] ) ) {
+                        update_post_meta( $order->id, '银行通道类型', wc_clean( $posted['bankType'] ) );
+                    }
+                    if ( ! empty( $posted['bankBillno'] ) ) {
+                        update_post_meta( $order->id, '银行订单号', wc_clean( $posted['bankBillno'] ) );
+                    }
+                    if ( ! empty( $posted['notifyId'] ) ) {
+                        update_post_meta( $order->id, '支付结果通知id', wc_clean( $posted['notifyId'] ) );
+                    }
+                    if ( ! empty( $posted['transactionId'] ) ) {
+                        update_post_meta( $order->id, '交易号', wc_clean( $posted['transactionId'] ) );
+                    }
+
+                    if ( $posted['payment_status'] == 'completed' ) {
+                        $order->add_order_note( __( '微信支付完成', 'woocommerce' ) );
+                        $order->payment_complete();
+                    } else {
+                        $order->update_status( 'on-hold', sprintf( __( 'Payment pending: %s', 'woocommerce' ), $posted['pending_reason'] ) );
+                    }
+
+                    break;
+                case 'denied' :
+                case 'expired' :
+                case 'failed' :
+                case 'voided' :
+                    // Order failed
+                    $order->update_status( 'failed', sprintf( __( 'Payment %s via WECHAT.', 'woocommerce' ), strtolower( $posted['payment_status'] ) ) );
+                    break;
+
+                default :
+                    // No action
+                    break;
+            }
+
+            return array('code'=>'0');
+        }
+
+    }
+
+
 }
 
 ?>
