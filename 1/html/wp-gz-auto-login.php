@@ -16,6 +16,10 @@ $user_login = $_GET['username'];
 $password = $_GET['password'];
 $user = wp_authenticate($user_login, $password);
 
+if(is_wp_error($user)){
+    return;
+}
+
 $user_id = $user->ID;
 wp_set_current_user($user_id, $user_login);
 do_action('wp_login', $user_login);
