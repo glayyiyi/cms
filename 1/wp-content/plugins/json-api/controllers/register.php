@@ -607,7 +607,8 @@ class json_api_register_controller {
             $user = array(
                 'user_login' => $username,
                 'user_pass' => $password,
-                'display_name' => $displayname
+                'display_name' => $displayname,
+                'role' => 'editor'
             );
             $user_id = wp_insert_user($user);
         }

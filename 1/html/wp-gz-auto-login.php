@@ -2,26 +2,33 @@
 <html lang="zh-CN" class="boxed ">
 <head>
 
-<meta charset="UTF-8" />
+    <meta charset="UTF-8" />
 
-<title> 果子助手</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel="stylesheet" type="text/css" href="http://www.appcn100.com/cms/iagent/wp-content/themes/mystile/style.css" media="screen" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<script type='text/javascript' src='http://www.appcn100.com/cms/iagent/wp-admin/load-scripts.php?c=1&amp;load%5B%5D=jquery-core,jquery-migrate,utils,jquery-ui-core,jquery-ui-widget,jquery-ui-accordion&amp;ver=3.8.1'></script>
-<?php
-require( dirname(__FILE__) . '/../wp-load.php' );
+    <title> 果子助手</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <?php
+    require( dirname(__FILE__) . '/../wp-load.php' );
 
-$user_login = $_GET['username'];
-$password = $_GET['password'];
-$user = wp_authenticate($user_login, $password);
+    $user_login = $_GET['username'];
+    $password = $_GET['password'];
 
-if(is_wp_error($user)){
-    return;
-}
+    $user = wp_signon(array('user_login'=>$user_login, 'user_password'=>$password), false);
 
-$user_id = $user->ID;
-wp_set_current_user($user_id, $user_login);
-do_action('wp_login', $user_login);
-?>
-</html>
+    if ( !is_wp_error($user)) {
+        $redirect_to = admin_url();
+        if ( is_multisite() && !get_active_blog_for_user($user->ID) && !is_super_admin( $user->ID ) )
+            $redirect_to = user_admin_url();
+        elseif ( is_multisite() && !$user->has_cap('read') )
+            $redirect_to = get_dashboard_url( $user->ID );
+        elseif ( !$user->has_cap('edit_posts') )
+            $redirect_to = admin_url('profile.php');
+
+        wp_safe_redirect($redirect_to);
+        exit();
+    }
+
+    ?>
+    <html>
+    </html>
+
