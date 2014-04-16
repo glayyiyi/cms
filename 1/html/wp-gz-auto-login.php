@@ -10,8 +10,8 @@
     <?php
     require( dirname(__FILE__) . '/../wp-load.php' );
 
-    $user_login = $_GET['username'];
-    $password = $_GET['password'];
+    $user_login = $_REQUEST['username'];
+    $password = $_REQUEST['password'];
 
     $user = wp_signon(array('user_login'=>$user_login, 'user_password'=>$password), false);
 
