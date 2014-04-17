@@ -327,7 +327,8 @@ if ( !function_exists( 'wechat_init_woo_gateway' ) ) {
                 $result_code = $result['response'];
                 $response = json_decode($result_code['response']);
                 if($response['code'] === 0){
-                    $paypal_args = array('requestJson'=>$result_code);
+                    $paypal_args = array('requestJson'=>$result_code,
+                        'successUrl'=>$this->notify_url);
                     $paypal_args = http_build_query( $paypal_args, '', '&' );
 
                     $paypal_adr = $this->local_url . '?';
