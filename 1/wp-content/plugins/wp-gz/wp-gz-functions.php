@@ -9,7 +9,7 @@ if (!class_exists('Cred_page')) {
         public $result_list;
         public $total;
 
-        public $page_number = 0;
+        public $page_number = 1;
         public $page_size = 50;
 
         /**
@@ -58,7 +58,7 @@ if (!class_exists('Cred_page')) {
 
             $pagination = '<div class="tablenav bottom" ><div class="tablenav-pages" >
         <span class="displaying-num" > 每页 '
-                . $this->page_size . '共 ' . $total_pages . '</span><span class="pagination-links">
+                . $this->page_size . '共 ' . $total_pages . '页，总计'.$this->total.'条</span><span class="pagination-links">
             <a class="first-page '
                 . ($current_page == 1 ? 'disabled' : '') . '" title="前往第一页"
        href="' . $first_page_url . '">«</a><a class="prev-page '
@@ -156,8 +156,10 @@ AND b.meta_key = 'mobile'";
             if (isset($_GET['page_size']) && !empty($_GET['page_size'])) {
                 $this->page_size = absint($_GET['page_size']);
             }
-
-            $first_index = $this->page_size * $this->page_number;
+            if ($this->page_number < 1){
+                $this->page_number = 1;
+            }
+            $first_index = $this->page_size * ($this->page_number-1);
             $condition .= " limit ".$first_index.','.($first_index+$this->page_size) ;
             $sql = "SELECT a.user_id, SUM( a.creds ) as creds, b.meta_value AS 'mobile', d.user_registered as regtime ";
             $sql .= $condition;
