@@ -27,7 +27,8 @@ if (!class_exists('Cred_page')) {
                 unset($_GET['paged']);
             }
 
-            $base_url = add_query_arg($_GET, admin_url('admin.php'));
+            $curr_url = 'http://'.$_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"] . $_SERVER["REQUEST_URI"];
+            $base_url = add_query_arg($_GET, $curr_url);
 
             $total_pages = ceil($this ->total / $this->page_size);
 
