@@ -776,4 +776,120 @@ function count_referral_bonus( $userlogin, $current_level, $amount, $max_level) 
 }
 ///-------DOMOB points , referral -----------
 ///-------DOMOB points  END.}
+
+////------------------- limei {
+
+function get_signatureLimei($str, $key)
+{
+    $signature = "";
+    if (function_exists('hash_hmac'))
+    {
+        $signature = base64_encode(hash_hmac("sha1", $str, $key, true));
+    }
+    else
+    {
+        $blocksize    = 64;
+        $hashfunc    = 'sha1';
+        if (strlen($key) > $blocksize)
+        {
+            $key = pack('H*', $hashfunc($key));
+        }
+        $key    = str_pad($key,$blocksize,chr(0x00));
+        $ipad    = str_repeat(chr(0x36),$blocksize);
+        $opad    = str_repeat(chr(0x5c),$blocksize);
+        $hmac     = pack(
+            'H*',$hashfunc(
+                ($key^$opad).pack(
+                    'H*',$hashfunc(
+                        ($key^$ipad).$str
+                    )
+                )
+            )
+        );
+        $signature = base64_encode($hmac);
+    }
+
+    return $signature;
+} 
+
+add_action( 'referral_with_limei', 'parse_limei_callback' );
+
+function parse_limei_callback(){
+	$url = trim('http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+	
+        $params = array();
+
+	//if( getUrlSignature( $url, $privateKey ) == true )
+	{
+		$url_parse = parse_url($url);
+		//	echo "<-test-->\n";
+		if (isset($url_parse['query'])){
+			$query_arr = explode('&', $url_parse['query']);
+			if (!empty($query_arr)){
+				foreach($query_arr as $p){
+					if (strpos($p, '=') !== false){
+						list($k, $v) = explode('=', $p);
+						$params[$k] = urldecode($v);
+					}
+				}
+			}
+		}
+
+	}
+
+	if( !empty($params['orderId']) && strlen($params['orderId'] > 6 ) )
+		$haveAddedOrder =  get_option( "limei_orderid_".$params['orderId'], NULL );
+	if( !empty($params) ){
+		//$signValue = "aduid".$params['aduid']."aid".$params['aid']."idfa".$params['idfa']."point".$params['point']."source".$params['source']."timestamp".$params['timestamp'];//."uid".$params['uid'];
+		//$signValue = "aduid+".$params['aduid']."aid+".$params['aid']."cid+".$params['cid']."idfa+".$params['idfa']."point+".$params['point']."source+".$params['source']."timestamp+".$params['timestamp']."title+".$params['title']."uid+".$params['uid'];
+		//$signRet = get_signatureLimei( $signValue, "f4e948ebf830d2ab50519a2c143e8305" );
+
+		// echo $signValue." \n".$signRet." ";
+		//$accountArray = explode("_", $params['uid'] );
+		//$userid = $accountArray[2];
+		$signOrg = $params['sign'];
+		$userid = $params['aid'];
+		$point = $params['point'];
+		$entry = " 安装使用 ".$params['title'];
+		$memo = " order=".$params['orderId']." ad=".$params['title']." adid=".$params['aduid']." idfa=".$params['idfa']." source= ".$params['source']." ";
+		if( !empty($haveAddedOrder) && strlen($haveAddedOrder) > 10 ){
+			echo "[limei]\n".$haveAddedOrder;
+		//	return;
+		}
+
+		if( !empty($userid) && $point > 0 ){
+			//	echo " ".$price."\n ";
+			//mycred_load();
+			//do_action('mycred_admin_init');
+			require_once( myCRED_INCLUDES_DIR . 'mycred-admin.php' );
+			$admin = new myCRED_Admin();
+			$admin->load();
+			//do_action('admin_init');
+			// current_level = 0, amount = price * 1/2  * 100 point, rate = 100%, max_level =1,
+			if( !empty($params['orderId']) &&  strlen($params['orderId'] > 6 ) )
+			add_option( "limei_orderid_".$params['orderId'], $userid." added" );
+			//echo " domob_orderid=".$userid."\n ";
+
+			$this_count_price = $point;
+			$memo .= " price=".$this_count_price;
+
+			$settings = new myCRED_Settings();
+			$user =get_user_by('login', $userid);
+			if(empty($user) ){
+				$user = get_user_by('id', $userid);
+				if( empty($user) )
+					return;
+			}
+			$settings->add_creds('download', $user->id, $this_count_price,
+					" 由 " . $userid . " " . $entry, $params['aduid'], '', 'mycred_default', $memo);
+
+			count_referral_bonus( $user->id, 0, $this_count_price , 1 ); //, $entry);
+		}
+	}
+}
+
+
+/////-------------------- limei }
+
+
 ?>

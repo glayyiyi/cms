@@ -161,10 +161,13 @@ AND b.meta_key = 'mobile'";
                 $this->page_number = 1;
             }
             $first_index = $this->page_size * ($this->page_number-1);
-            $condition .= " limit ".$first_index.','.($first_index+$this->page_size) ;
+            $condition .= " limit ".$first_index.','.($this->page_size) ;
+
             $sql = "SELECT a.user_id, SUM( a.creds ) as creds, b.meta_value AS 'mobile', d.user_registered as regtime ";
             $sql .= $condition;
+
             $this->result_list = $wpdb->get_results($sql);
+
         }
     }
 }
