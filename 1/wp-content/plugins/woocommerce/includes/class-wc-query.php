@@ -82,7 +82,6 @@ class WC_Query {
 			'lost-password'      => get_option( 'woocommerce_myaccount_lost_password_endpoint', 'lost-password' ),
 			'customer-logout'    => get_option( 'woocommerce_logout_endpoint', 'customer-logout' ),
 			'add-payment-method' => get_option( 'woocommerce_myaccount_add_payment_method_endpoint', 'add-payment-method' ),
-			'register'         => get_option( 'woocommerce_myaccount_register_endpoint', 'register' ),
 		);
 	}
 
@@ -445,7 +444,7 @@ class WC_Query {
 				)
 			);
 
-			set_transient( $transient_name, $unfiltered_product_ids );
+			set_transient( $transient_name, $unfiltered_product_ids, YEAR_IN_SECONDS );
 		}
 
 		// Store the variable

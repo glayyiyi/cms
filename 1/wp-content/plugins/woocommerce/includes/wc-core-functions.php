@@ -25,8 +25,6 @@ include( 'wc-page-functions.php' );
 include( 'wc-product-functions.php' );
 include( 'wc-term-functions.php' );
 include( 'wc-attribute-functions.php' );
-//------ added 
-include( 'wc-gz-functions.php' );
 
 /**
  * Filters on data used in admin and frontend
@@ -168,12 +166,13 @@ function get_woocommerce_currencies() {
 			array(
 				'AED' => __( 'United Arab Emirates Dirham', 'woocommerce' ),
 				'AUD' => __( 'Australian Dollars', 'woocommerce' ),
+				'BDT' => __( 'Bangladeshi Taka', 'woocommerce' ),
 				'BRL' => __( 'Brazilian Real', 'woocommerce' ),
 				'BGN' => __( 'Bulgarian Lev', 'woocommerce' ),
 				'CAD' => __( 'Canadian Dollars', 'woocommerce' ),
 				'CLP' => __( 'Chilean Peso', 'woocommerce' ),
 				'CNY' => __( 'Chinese Yuan', 'woocommerce' ),
-				'COP' => __( 'Colombian Peso', 'woocommerce' ),				
+				'COP' => __( 'Colombian Peso', 'woocommerce' ),
 				'CZK' => __( 'Czech Koruna', 'woocommerce' ),
 				'DKK' => __( 'Danish Krone', 'woocommerce' ),
 				'EUR' => __( 'Euros', 'woocommerce' ),
@@ -222,7 +221,10 @@ function get_woocommerce_currency_symbol( $currency = '' ) {
 
 	switch ( $currency ) {
 		case 'AED' :
-			$currency_symbol = '(د.إ';
+			$currency_symbol = 'د.إ';
+			break;
+		case 'BDT':
+			$currency_symbol = '&#2547;&nbsp;';
 			break;
 		case 'BRL' :
 			$currency_symbol = '&#82;&#36;';
@@ -273,6 +275,7 @@ function get_woocommerce_currency_symbol( $currency = '' ) {
 		case 'RON' : $currency_symbol = 'lei'; break;
 		case 'VND' : $currency_symbol = '&#8363;'; break;
 		case 'NGN' : $currency_symbol = '&#8358;'; break;
+		case 'HRK' : $currency_symbol = 'Kn'; break;
 		default    : $currency_symbol = ''; break;
 	}
 
@@ -363,10 +366,11 @@ function wc_print_js() {
  * @param  string  $name   Name of the cookie being set
  * @param  string  $value  Value of the cookie
  * @param  integer $expire Expiry of the cookie
+ * @param  string  $secure Whether the cookie should be served only over https
  */
-function wc_setcookie( $name, $value, $expire = 0 ) {
+function wc_setcookie( $name, $value, $expire = 0, $secure = false ) {
 	if ( ! headers_sent() ) {
-		setcookie( $name, $value, $expire, COOKIEPATH, COOKIE_DOMAIN, false );
+		setcookie( $name, $value, $expire, COOKIEPATH, COOKIE_DOMAIN, $secure );
 	} elseif ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 		trigger_error( "Cookie cannot be set - headers already sent", E_USER_NOTICE );
 	}
@@ -381,7 +385,7 @@ function wc_setcookie( $name, $value, $expire = 0 ) {
  */
 function get_woocommerce_api_url( $path ) {
 
-	$url = get_home_url( null, 'wc-api/v' . WC_API::VERSION . '/', ( 'yes' === get_option( 'woocommerce_force_ssl_checkout' ) ) ? 'https' : 'http' );
+	$url = get_home_url( null, 'wc-api/v' . WC_API::VERSION . '/', is_ssl() ? 'https' : 'http' );
 
 	if ( ! empty( $path ) && is_string( $path ) ) {
 		$url .= ltrim( $path, '/' );

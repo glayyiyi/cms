@@ -4,14 +4,15 @@
 # Morten Andersen <morten@w-academy.dk>, 2014
 # Rudimidtgaard <rudimidtgaard@gmail.com>, 2014
 # teddyostergaard <teddyostergaard@gmail.com>, 2014
-# Clausen <Thomas@designgrotten.dk>, 2014
+# Sanne Dan Jensen <Thomas@designgrotten.dk>, 2014
+# Thomas Clausen <tntc1978@gmail.com>, 2014
 msgid ""
 msgstr ""
 "Project-Id-Version: WooCommerce\n"
 "Report-Msgid-Bugs-To: https://github.com/woothemes/woocommerce/issues\n"
-"POT-Creation-Date: 2014-02-21 16:11:55+00:00\n"
-"PO-Revision-Date: 2014-02-22 08:50+0000\n"
-"Last-Translator: mikejolley <mike.jolley@me.com>\n"
+"POT-Creation-Date: 2014-03-24 12:16:53+00:00\n"
+"PO-Revision-Date: 2014-04-05 17:55+0000\n"
+"Last-Translator: Sanne Dan Jensen <Thomas@designgrotten.dk>\n"
 "Language-Team: Danish (Denmark) (http://www.transifex.com/projects/p/woocommerce/language/da_DK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,19 +22,19 @@ msgstr ""
 
 #: assets/js/admin/editor_plugin_lang.php:5
 msgid "Insert Shortcode"
-msgstr "Tilføj Shortcode"
+msgstr "Indsæt Shortcode"
 
 #: assets/js/admin/editor_plugin_lang.php:6
 msgid "Product price/cart button"
-msgstr "Produktpris/Betalingsknap"
+msgstr "Produktpris/kurvknap"
 
 #: assets/js/admin/editor_plugin_lang.php:7
 msgid "Product by SKU/ID"
-msgstr "Produkt af Varenummer/ID"
+msgstr "Produkt efter varenummer:"
 
 #: assets/js/admin/editor_plugin_lang.php:8
 msgid "Products by SKU/ID"
-msgstr "Produkter af varenumre/ID"
+msgstr "Produkter efter varenummer:"
 
 #: assets/js/admin/editor_plugin_lang.php:9
 msgid "Product categories"
@@ -41,15 +42,15 @@ msgstr "Produktkategorier"
 
 #: assets/js/admin/editor_plugin_lang.php:10
 msgid "Products by category slug"
-msgstr "Produkter af kategori slug"
+msgstr "Produkter efter kategorislug"
 
 #: assets/js/admin/editor_plugin_lang.php:11
 msgid "Recent products"
-msgstr "Nye produkter"
+msgstr "Seneste produkter"
 
 #: assets/js/admin/editor_plugin_lang.php:12
 msgid "Featured products"
-msgstr "Udvalgte produkter"
+msgstr "Fremhævede produkter"
 
 #: assets/js/admin/editor_plugin_lang.php:13
 msgid "Shop Messages"
@@ -59,9 +60,9 @@ msgstr "Shop-Beskeder"
 msgid "Order tracking"
 msgstr "Ordresporing"
 
-#: assets/js/admin/editor_plugin_lang.php:15 includes/class-wc-install.php:233
-#: includes/shortcodes/class-wc-shortcode-checkout.php:86
-#: includes/shortcodes/class-wc-shortcode-my-account.php:106
+#: assets/js/admin/editor_plugin_lang.php:15
+#: includes/shortcodes/class-wc-shortcode-checkout.php:91
+#: includes/shortcodes/class-wc-shortcode-my-account.php:111
 #: templates/checkout/thankyou.php:30
 msgid "My Account"
 msgstr "Min konto"
@@ -97,6 +98,254 @@ msgstr "Victoria"
 #: i18n/states/AU.php:20
 msgid "Western Australia"
 msgstr "Western Australia"
+
+#: i18n/states/BD.php:13
+msgid "Bagerhat"
+msgstr ""
+
+#: i18n/states/BD.php:14
+msgid "Bandarban"
+msgstr ""
+
+#: i18n/states/BD.php:15
+msgid "Barguna"
+msgstr ""
+
+#: i18n/states/BD.php:16
+msgid "Barisal"
+msgstr ""
+
+#: i18n/states/BD.php:17
+msgid "Bhola"
+msgstr ""
+
+#: i18n/states/BD.php:18
+msgid "Bogra"
+msgstr ""
+
+#: i18n/states/BD.php:19
+msgid "Chandpur"
+msgstr ""
+
+#: i18n/states/BD.php:20
+msgid "Chittagong"
+msgstr ""
+
+#: i18n/states/BD.php:21
+msgid "Chuadanga"
+msgstr ""
+
+#: i18n/states/BD.php:22
+msgid "Comilla"
+msgstr ""
+
+#: i18n/states/BD.php:23
+msgid "Cox's Bazar"
+msgstr ""
+
+#: i18n/states/BD.php:24
+msgid "Dhaka"
+msgstr ""
+
+#: i18n/states/BD.php:25
+msgid "Dinajpur"
+msgstr ""
+
+#: i18n/states/BD.php:26
+msgid "Faridpur "
+msgstr ""
+
+#: i18n/states/BD.php:27
+msgid "Feni"
+msgstr ""
+
+#: i18n/states/BD.php:28
+msgid "Gaibandha"
+msgstr ""
+
+#: i18n/states/BD.php:29
+msgid "Gazipur"
+msgstr ""
+
+#: i18n/states/BD.php:30
+msgid "Gopalganj"
+msgstr ""
+
+#: i18n/states/BD.php:31
+msgid "Jamalpur"
+msgstr ""
+
+#: i18n/states/BD.php:32
+msgid "Jessore"
+msgstr ""
+
+#: i18n/states/BD.php:33
+msgid "Jhalokati"
+msgstr ""
+
+#: i18n/states/BD.php:34
+msgid "Jhenaidah"
+msgstr ""
+
+#: i18n/states/BD.php:35
+msgid "Joypurhat"
+msgstr ""
+
+#: i18n/states/BD.php:36
+msgid "Khagrachhari"
+msgstr ""
+
+#: i18n/states/BD.php:37
+msgid "Khulna"
+msgstr ""
+
+#: i18n/states/BD.php:38
+msgid "Kishoreganj"
+msgstr ""
+
+#: i18n/states/BD.php:39
+msgid "Kurigram"
+msgstr ""
+
+#: i18n/states/BD.php:40
+msgid "Kushtia"
+msgstr ""
+
+#: i18n/states/BD.php:41
+msgid "Lakshmipur"
+msgstr ""
+
+#: i18n/states/BD.php:42
+msgid "Lalmonirhat"
+msgstr ""
+
+#: i18n/states/BD.php:43
+msgid "Madaripur"
+msgstr ""
+
+#: i18n/states/BD.php:44
+msgid "Magura"
+msgstr ""
+
+#: i18n/states/BD.php:45
+msgid "Manikganj "
+msgstr ""
+
+#: i18n/states/BD.php:46
+msgid "Meherpur"
+msgstr ""
+
+#: i18n/states/BD.php:47
+msgid "Moulvibazar"
+msgstr ""
+
+#: i18n/states/BD.php:48
+msgid "Munshiganj"
+msgstr ""
+
+#: i18n/states/BD.php:49
+msgid "Mymensingh"
+msgstr ""
+
+#: i18n/states/BD.php:50
+msgid "Naogaon"
+msgstr ""
+
+#: i18n/states/BD.php:51
+msgid "Narail"
+msgstr ""
+
+#: i18n/states/BD.php:52
+msgid "Narayanganj"
+msgstr ""
+
+#: i18n/states/BD.php:53
+msgid "Narsingdi"
+msgstr ""
+
+#: i18n/states/BD.php:54
+msgid "Natore"
+msgstr ""
+
+#: i18n/states/BD.php:55
+msgid "Nawabganj"
+msgstr ""
+
+#: i18n/states/BD.php:56
+msgid "Netrakona"
+msgstr ""
+
+#: i18n/states/BD.php:57
+msgid "Nilphamari"
+msgstr ""
+
+#: i18n/states/BD.php:58
+msgid "Noakhali"
+msgstr ""
+
+#: i18n/states/BD.php:59
+msgid "Pabna"
+msgstr ""
+
+#: i18n/states/BD.php:60
+msgid "Panchagarh"
+msgstr ""
+
+#: i18n/states/BD.php:61
+msgid "Patuakhali"
+msgstr ""
+
+#: i18n/states/BD.php:62
+msgid "Pirojpur"
+msgstr ""
+
+#: i18n/states/BD.php:63
+msgid "Rajbari"
+msgstr ""
+
+#: i18n/states/BD.php:64
+msgid "Rajshahi"
+msgstr ""
+
+#: i18n/states/BD.php:65
+msgid "Rangamati"
+msgstr ""
+
+#: i18n/states/BD.php:66
+msgid "Rangpur"
+msgstr ""
+
+#: i18n/states/BD.php:67
+msgid "Satkhira"
+msgstr ""
+
+#: i18n/states/BD.php:68
+msgid "Shariatpur"
+msgstr ""
+
+#: i18n/states/BD.php:69
+msgid "Sherpur"
+msgstr ""
+
+#: i18n/states/BD.php:70
+msgid "Sirajganj"
+msgstr ""
+
+#: i18n/states/BD.php:71
+msgid "Sunamganj"
+msgstr ""
+
+#: i18n/states/BD.php:72
+msgid "Sylhet"
+msgstr ""
+
+#: i18n/states/BD.php:73
+msgid "Tangail"
+msgstr ""
+
+#: i18n/states/BD.php:74
+msgid "Thakurgaon"
+msgstr ""
 
 #: i18n/states/BG.php:13
 msgid "Blagoevgrad"
@@ -2649,7 +2898,7 @@ msgstr "Florida"
 
 #: i18n/states/US.php:23 includes/class-wc-countries.php:118
 msgid "Georgia"
-msgstr "Georgia"
+msgstr "Georgien"
 
 #: i18n/states/US.php:24
 msgid "Hawaii"
@@ -2907,7 +3156,7 @@ msgstr "refunderet"
 msgid "cancelled"
 msgstr "annulleret"
 
-#: includes/abstracts/abstract-wc-email.php:568
+#: includes/abstracts/abstract-wc-email.php:570
 #: includes/emails/class-wc-email-customer-completed-order.php:140
 #: includes/emails/class-wc-email-new-order.php:120
 #: includes/gateways/bacs/class-wc-gateway-bacs.php:66
@@ -2920,19 +3169,19 @@ msgstr "annulleret"
 msgid "Enable/Disable"
 msgstr "Aktiver/Deaktiver"
 
-#: includes/abstracts/abstract-wc-email.php:570
+#: includes/abstracts/abstract-wc-email.php:572
 #: includes/emails/class-wc-email-customer-completed-order.php:142
 #: includes/emails/class-wc-email-new-order.php:122
 msgid "Enable this email notification"
-msgstr "Aktiver denne email besked"
-
-#: includes/abstracts/abstract-wc-email.php:574
-#: includes/emails/class-wc-email-customer-invoice.php:146
-msgid "Email subject"
-msgstr "Email emne"
+msgstr "Aktiver denne e-mail notifikation"
 
 #: includes/abstracts/abstract-wc-email.php:576
-#: includes/abstracts/abstract-wc-email.php:583
+#: includes/emails/class-wc-email-customer-invoice.php:146
+msgid "Email subject"
+msgstr "E-mail emne"
+
+#: includes/abstracts/abstract-wc-email.php:578
+#: includes/abstracts/abstract-wc-email.php:585
 #: includes/emails/class-wc-email-customer-completed-order.php:148
 #: includes/emails/class-wc-email-customer-completed-order.php:155
 #: includes/emails/class-wc-email-customer-completed-order.php:162
@@ -2944,106 +3193,106 @@ msgstr "Email emne"
 msgid "Defaults to <code>%s</code>"
 msgstr "Standarder til <code>%s</code>"
 
-#: includes/abstracts/abstract-wc-email.php:581
+#: includes/abstracts/abstract-wc-email.php:583
 #: includes/emails/class-wc-email-customer-invoice.php:153
 msgid "Email heading"
-msgstr "Email-overskrift"
+msgstr "E-mail overskrift"
 
-#: includes/abstracts/abstract-wc-email.php:588
+#: includes/abstracts/abstract-wc-email.php:590
 #: includes/emails/class-wc-email-customer-completed-order.php:174
 #: includes/emails/class-wc-email-customer-invoice.php:174
 #: includes/emails/class-wc-email-new-order.php:147
 msgid "Email type"
-msgstr "E-mail template"
+msgstr "E-mail type"
 
-#: includes/abstracts/abstract-wc-email.php:590
+#: includes/abstracts/abstract-wc-email.php:592
 #: includes/emails/class-wc-email-customer-completed-order.php:176
 #: includes/emails/class-wc-email-customer-invoice.php:176
 #: includes/emails/class-wc-email-new-order.php:149
 msgid "Choose which format of email to send."
-msgstr "Vælg email format ved afsendelse."
+msgstr "Vælg hvilken type e-mail, du vil sende."
 
-#: includes/abstracts/abstract-wc-email.php:594
+#: includes/abstracts/abstract-wc-email.php:596
 #: includes/emails/class-wc-email-customer-completed-order.php:180
 #: includes/emails/class-wc-email-customer-invoice.php:180
 #: includes/emails/class-wc-email-new-order.php:153
 msgid "Plain text"
 msgstr "Ren tekst"
 
-#: includes/abstracts/abstract-wc-email.php:595
+#: includes/abstracts/abstract-wc-email.php:597
 #: includes/emails/class-wc-email-customer-completed-order.php:181
 #: includes/emails/class-wc-email-customer-invoice.php:181
 #: includes/emails/class-wc-email-new-order.php:154
 msgid "HTML"
 msgstr "HTML"
 
-#: includes/abstracts/abstract-wc-email.php:596
+#: includes/abstracts/abstract-wc-email.php:598
 #: includes/emails/class-wc-email-customer-completed-order.php:182
 #: includes/emails/class-wc-email-customer-invoice.php:182
 #: includes/emails/class-wc-email-new-order.php:155
 msgid "Multipart"
 msgstr "Begge dele"
 
-#: includes/abstracts/abstract-wc-email.php:632
-#: includes/abstracts/abstract-wc-email.php:653
+#: includes/abstracts/abstract-wc-email.php:634
+#: includes/abstracts/abstract-wc-email.php:655
 msgid "Could not write to template file."
-msgstr "Kunne ikke skrive til template fil."
+msgstr "Kunne ikke skrive til skabelonfil."
 
-#: includes/abstracts/abstract-wc-email.php:684
+#: includes/abstracts/abstract-wc-email.php:686
 msgid "Template file copied to theme."
 msgstr "Template fil kopieret til tema."
 
-#: includes/abstracts/abstract-wc-email.php:693
+#: includes/abstracts/abstract-wc-email.php:695
 msgid "Template file deleted from theme."
 msgstr "Template fil slettet fra tema."
 
-#: includes/abstracts/abstract-wc-email.php:701
+#: includes/abstracts/abstract-wc-email.php:703
 #: includes/abstracts/abstract-wc-integration.php:30
 #: includes/abstracts/abstract-wc-settings-api.php:39 woocommerce.php:181
 msgid "Settings"
 msgstr "Indstillinger"
 
-#: includes/abstracts/abstract-wc-email.php:713
+#: includes/abstracts/abstract-wc-email.php:715
 msgid "HTML template"
 msgstr "HTML template"
 
-#: includes/abstracts/abstract-wc-email.php:714
+#: includes/abstracts/abstract-wc-email.php:716
 msgid "Plain text template"
 msgstr "Rent tekst template"
 
-#: includes/abstracts/abstract-wc-email.php:735
+#: includes/abstracts/abstract-wc-email.php:737
 msgid "Delete template file"
 msgstr "Slet template fil"
 
-#: includes/abstracts/abstract-wc-email.php:738
+#: includes/abstracts/abstract-wc-email.php:740
 msgid ""
 "This template has been overridden by your theme and can be found in: "
 "<code>%s</code>."
 msgstr "Dette template  er blevet overskrevet af dit tema og kan findes i: <code>%s</code>."
 
-#: includes/abstracts/abstract-wc-email.php:753
+#: includes/abstracts/abstract-wc-email.php:755
 msgid "Copy file to theme"
 msgstr "Kopier fil til tema"
 
-#: includes/abstracts/abstract-wc-email.php:756
+#: includes/abstracts/abstract-wc-email.php:758
 msgid ""
 "To override and edit this email template copy <code>%s</code> to your theme "
 "folder: <code>%s</code>."
 msgstr "For at overskrive og redigere denne email template. Kopier den <code>%s</code> til din tema folder: <code>%s</code>."
 
-#: includes/abstracts/abstract-wc-email.php:767
+#: includes/abstracts/abstract-wc-email.php:769
 msgid "File was not found."
 msgstr "Fil blev ikke fundet."
 
-#: includes/abstracts/abstract-wc-email.php:792
+#: includes/abstracts/abstract-wc-email.php:794
 msgid "View template"
 msgstr "Vis template"
 
-#: includes/abstracts/abstract-wc-email.php:793
+#: includes/abstracts/abstract-wc-email.php:795
 msgid "Hide template"
 msgstr "Skjul template"
 
-#: includes/abstracts/abstract-wc-email.php:804
+#: includes/abstracts/abstract-wc-email.php:806
 msgid "Are you sure you want to delete this template file?"
 msgstr "Er du sikker på at du vil slette denne template fil?"
 
@@ -3055,73 +3304,81 @@ msgstr "Kortnummer"
 msgid "Expiry (MM/YY)"
 msgstr "Udløbsdato (MM/ÅÅ)"
 
+#: includes/abstracts/abstract-wc-payment-gateway.php:212
+msgid "MM / YY"
+msgstr ""
+
 #: includes/abstracts/abstract-wc-payment-gateway.php:215
 msgid "Card Code"
 msgstr "Kortkode"
 
-#: includes/abstracts/abstract-wc-product.php:454
+#: includes/abstracts/abstract-wc-payment-gateway.php:216
+msgid "CVC"
+msgstr ""
+
+#: includes/abstracts/abstract-wc-product.php:455
 #: includes/class-wc-product-simple.php:48
 #: includes/class-wc-product-variation.php:211
 msgid "Add to cart"
 msgstr "Tilføj til kurv"
 
-#: includes/abstracts/abstract-wc-product.php:464
+#: includes/abstracts/abstract-wc-product.php:465
 msgid "Read more"
 msgstr "Læs mere"
 
-#: includes/abstracts/abstract-wc-product.php:572
-#: includes/abstracts/abstract-wc-product.php:577
-#: includes/abstracts/abstract-wc-product.php:597
+#: includes/abstracts/abstract-wc-product.php:573
+#: includes/abstracts/abstract-wc-product.php:578
+#: includes/abstracts/abstract-wc-product.php:598
 msgid "In stock"
 msgstr "På lager"
 
-#: includes/abstracts/abstract-wc-product.php:577
+#: includes/abstracts/abstract-wc-product.php:578
 msgid "Only %s left in stock"
 msgstr "Kun %s tilbage på lager"
 
-#: includes/abstracts/abstract-wc-product.php:580
+#: includes/abstracts/abstract-wc-product.php:581
 msgid "%s in stock"
 msgstr "%s på lager"
 
-#: includes/abstracts/abstract-wc-product.php:587
+#: includes/abstracts/abstract-wc-product.php:588
 msgid "(backorders allowed)"
 msgstr "(restordrer tilladt)"
 
-#: includes/abstracts/abstract-wc-product.php:594
-#: includes/abstracts/abstract-wc-product.php:607 templates/cart/cart.php:74
+#: includes/abstracts/abstract-wc-product.php:595
+#: includes/abstracts/abstract-wc-product.php:608 templates/cart/cart.php:74
 msgid "Available on backorder"
 msgstr "Findes på restordre"
 
-#: includes/abstracts/abstract-wc-product.php:600
-#: includes/abstracts/abstract-wc-product.php:610
-#: includes/abstracts/abstract-wc-product.php:614
+#: includes/abstracts/abstract-wc-product.php:601
+#: includes/abstracts/abstract-wc-product.php:611
+#: includes/abstracts/abstract-wc-product.php:615
 msgid "Out of stock"
 msgstr "Ikke på lager"
 
-#: includes/abstracts/abstract-wc-product.php:907
-#: includes/abstracts/abstract-wc-product.php:913
-#: includes/class-wc-cart.php:1415 includes/class-wc-order.php:838
+#: includes/abstracts/abstract-wc-product.php:908
+#: includes/abstracts/abstract-wc-product.php:914
+#: includes/class-wc-cart.php:1419 includes/class-wc-order.php:859
 #: includes/class-wc-product-variation.php:312
 msgid "Free!"
 msgstr "Gratis!"
 
-#: includes/abstracts/abstract-wc-product.php:929
+#: includes/abstracts/abstract-wc-product.php:930
 msgctxt "min_price"
 msgid "From:"
 msgstr "Fra:"
 
-#: includes/abstracts/abstract-wc-product.php:1039
+#: includes/abstracts/abstract-wc-product.php:1040
 #: templates/single-product/rating.php:23
 msgid "Rated %s out of 5"
 msgstr "Vurderet %s ud af 5"
 
-#: includes/abstracts/abstract-wc-product.php:1041
+#: includes/abstracts/abstract-wc-product.php:1042
 #: templates/single-product/rating.php:25
 #: templates/single-product/review.php:27
 msgid "out of 5"
 msgstr "ud af 5"
 
-#: includes/abstracts/abstract-wc-product.php:1383
+#: includes/abstracts/abstract-wc-product.php:1386
 msgid "%s &ndash; %s"
 msgstr "%s &ndash; %s"
 
@@ -3188,7 +3445,7 @@ msgstr "Ugyldig kuponkode"
 #: includes/api/class-wc-api-customers.php:198
 #: includes/api/class-wc-api-customers.php:201
 msgid "Invalid customer Email"
-msgstr ""
+msgstr "Ugyldig kunde e-mail"
 
 #: includes/api/class-wc-api-customers.php:219
 msgid "You do not have permission to read the customers count"
@@ -3329,47 +3586,46 @@ msgstr "Samme som forælder"
 msgid "Standard"
 msgstr "Standard"
 
-#: includes/class-wc-ajax.php:810 includes/class-wc-customer.php:639
-#: includes/class-wc-customer.php:650
+#: includes/class-wc-ajax.php:810
 msgid "File %d"
 msgstr "Fil %d"
 
-#: includes/class-wc-ajax.php:1000 includes/class-wc-ajax.php:1001
-#: includes/class-wc-order.php:1544
+#: includes/class-wc-ajax.php:1008 includes/class-wc-ajax.php:1009
+#: includes/class-wc-order.php:1571
 msgid "Item #%s stock reduced from %s to %s."
 msgstr "Produkt #%s lager reduceret fra %s til %s."
 
-#: includes/class-wc-ajax.php:1009
+#: includes/class-wc-ajax.php:1017
 msgid ""
 "No products had their stock reduced - they may not have stock management "
 "enabled."
 msgstr "Ingen produkter havde deres lagerstatus reduceret - du har måske ikke aktiveret lagerstatus."
 
-#: includes/class-wc-ajax.php:1048 includes/class-wc-ajax.php:1049
+#: includes/class-wc-ajax.php:1056 includes/class-wc-ajax.php:1057
 msgid "Item #%s stock increased from %s to %s."
 msgstr "Produkt #%s lager øget fra %s til %s."
 
-#: includes/class-wc-ajax.php:1056
+#: includes/class-wc-ajax.php:1064
 msgid ""
 "No products had their stock increased - they may not have stock management "
 "enabled."
 msgstr "Ingen produkter havde reduceret deres lager - de har måske ikke aktiveret deres lagerstatus."
 
-#: includes/class-wc-ajax.php:1072
+#: includes/class-wc-ajax.php:1080
 #: includes/widgets/class-wc-widget-product-categories.php:39
 #: templates/single-product-reviews.php:62
 msgid "Name"
 msgstr "Navn"
 
-#: includes/class-wc-ajax.php:1072
+#: includes/class-wc-ajax.php:1080
 msgid "Value"
 msgstr "Møntindheder"
 
-#: includes/class-wc-ajax.php:1290
+#: includes/class-wc-ajax.php:1298
 msgid "Delete note"
 msgstr "Slet bemærkning"
 
-#: includes/class-wc-ajax.php:1435
+#: includes/class-wc-ajax.php:1443
 msgid "Guest"
 msgstr "Gæst"
 
@@ -3411,33 +3667,33 @@ msgid ""
 "apologise for any inconvenience caused."
 msgstr "Desværre, \"%s\" er ikke på lager. Venligst ændr antal ved kassen, og prøv så igen. Vi undskylder for den ulejlighed som dette måtte medføre."
 
-#: includes/class-wc-cart.php:794
+#: includes/class-wc-cart.php:798
 msgid "Sorry, &quot;%s&quot; cannot be purchased."
 msgstr "Desværre, &quot;%s&quot; kan ikke anskaffes."
 
-#: includes/class-wc-cart.php:801
+#: includes/class-wc-cart.php:805
 msgid ""
 "You cannot add &quot;%s&quot; to the cart because the product is out of "
 "stock."
 msgstr "Du kan ikke tilføje &quot;%s&quot; til kassen fordi produktet ikke længere er at finde på lageret."
 
-#: includes/class-wc-cart.php:806
+#: includes/class-wc-cart.php:810
 msgid ""
 "You cannot add that amount of &quot;%s&quot; to the cart because there is "
 "not enough stock (%s remaining)."
 msgstr "Du kan ikke tilføje denne mængde &quot;%s&quot; til kassen fordi der ikke er nok på lageret (%s tilbage)."
 
-#: includes/class-wc-cart.php:820 includes/class-wc-cart.php:839
-#: includes/class-wc-cart.php:852 includes/class-wc-frontend-scripts.php:157
+#: includes/class-wc-cart.php:824 includes/class-wc-cart.php:843
+#: includes/class-wc-cart.php:856 includes/class-wc-frontend-scripts.php:157
 #: includes/wc-cart-functions.php:98 templates/cart/mini-cart.php:64
 msgid "View Cart"
-msgstr "Åben indkøbsvogn"
+msgstr "Se kurv"
 
-#: includes/class-wc-cart.php:821
+#: includes/class-wc-cart.php:825
 msgid "You cannot add another &quot;%s&quot; to your cart."
 msgstr "Du kan ikke tilføje en anden &quot;%s&quot; til kurven."
 
-#: includes/class-wc-cart.php:840 includes/class-wc-cart.php:853
+#: includes/class-wc-cart.php:844 includes/class-wc-cart.php:857
 msgid ""
 "You cannot add that amount to the cart &mdash; we have %s in stock and you "
 "already have %s in your cart."
@@ -3487,52 +3743,52 @@ msgctxt "Order date parsed by strftime"
 msgid "%b %d, %Y @ %I:%M %p"
 msgstr "%b %d, %Y kl. %I:%M %p"
 
-#: includes/class-wc-checkout.php:284
+#: includes/class-wc-checkout.php:287
 msgid "Backordered"
 msgstr "tilbage bestilte"
 
-#: includes/class-wc-checkout.php:416
+#: includes/class-wc-checkout.php:423
 msgid ""
 "Sorry, your session has expired. <a href=\"%s\" class=\"wc-backward\">Return"
 " to homepage</a>"
 msgstr "Beklager, din session er udløbet. <a href=\"%s\" class=\"wc-backward\">Tilbage til forsiden</a>"
 
-#: includes/class-wc-checkout.php:491 includes/class-wc-form-handler.php:88
+#: includes/class-wc-checkout.php:498 includes/class-wc-form-handler.php:88
 msgid "is a required field."
-msgstr "er et påkrævet felt."
+msgstr "er et krævet felt."
 
-#: includes/class-wc-checkout.php:503 includes/class-wc-form-handler.php:99
-#: includes/shortcodes/class-wc-shortcode-cart.php:37
+#: includes/class-wc-checkout.php:510 includes/class-wc-form-handler.php:99
+#: includes/shortcodes/class-wc-shortcode-cart.php:43
 msgid "Please enter a valid postcode/ZIP."
 msgstr "Angiv venligst et gyldigt postnummer/ZIP."
 
-#: includes/class-wc-checkout.php:512 includes/class-wc-form-handler.php:108
+#: includes/class-wc-checkout.php:519 includes/class-wc-form-handler.php:108
 msgid "is not a valid phone number."
 msgstr "er ikke et gyldigt nummer."
 
-#: includes/class-wc-checkout.php:518 includes/class-wc-form-handler.php:115
+#: includes/class-wc-checkout.php:525 includes/class-wc-form-handler.php:115
 msgid "is not a valid email address."
-msgstr "er ikke en gyldig emailadresse."
+msgstr "er ikke en gyldig e-mail adresse."
 
-#: includes/class-wc-checkout.php:533
+#: includes/class-wc-checkout.php:540
 msgid "is not valid. Please enter one of the following:"
-msgstr "er ikke gyldigt. Indtast venligst et af følgende:"
+msgstr "er ikke gyldigt. Indtast venligst en af følgende:"
 
-#: includes/class-wc-checkout.php:578
+#: includes/class-wc-checkout.php:585
 msgid "You must accept our Terms &amp; Conditions."
 msgstr "Du skal acceptere vores Regler &amp; Betingelser."
 
-#: includes/class-wc-checkout.php:583
+#: includes/class-wc-checkout.php:590
 msgid ""
 "Unfortunately <strong>we do not ship to %s</strong>. Please enter an "
 "alternative shipping address."
 msgstr "Desværre <strong>sender vi ikke til %s</ strong>. Indtast en alternativ leveringsadresse."
 
-#: includes/class-wc-checkout.php:591
+#: includes/class-wc-checkout.php:598
 msgid "Invalid shipping method."
 msgstr "Ugyldig forsendelsesmetode."
 
-#: includes/class-wc-checkout.php:604
+#: includes/class-wc-checkout.php:611
 msgid "Invalid payment method."
 msgstr "Ugyldig betalingsmetode."
 
@@ -3554,11 +3810,11 @@ msgstr "&#197;land Islands"
 
 #: includes/class-wc-countries.php:39
 msgid "Albania"
-msgstr "Albania"
+msgstr "Albanien"
 
 #: includes/class-wc-countries.php:40
 msgid "Algeria"
-msgstr "Algeria"
+msgstr "Algeriet"
 
 #: includes/class-wc-countries.php:41
 msgid "Andorra"
@@ -3574,7 +3830,7 @@ msgstr "Anguilla"
 
 #: includes/class-wc-countries.php:44
 msgid "Antarctica"
-msgstr "Antarctica"
+msgstr "Antarktis"
 
 #: includes/class-wc-countries.php:45
 msgid "Antigua and Barbuda"
@@ -3586,7 +3842,7 @@ msgstr "Argentina"
 
 #: includes/class-wc-countries.php:47
 msgid "Armenia"
-msgstr "Armenia"
+msgstr "Armenien"
 
 #: includes/class-wc-countries.php:48
 msgid "Aruba"
@@ -3594,11 +3850,11 @@ msgstr "Aruba"
 
 #: includes/class-wc-countries.php:49
 msgid "Australia"
-msgstr "Australia"
+msgstr "Australien"
 
 #: includes/class-wc-countries.php:50
 msgid "Austria"
-msgstr "Austria"
+msgstr "Østrig"
 
 #: includes/class-wc-countries.php:51
 msgid "Azerbaijan"
@@ -3622,7 +3878,7 @@ msgstr "Barbados"
 
 #: includes/class-wc-countries.php:56
 msgid "Belarus"
-msgstr "Belarus"
+msgstr "Hviderusland"
 
 #: includes/class-wc-countries.php:57
 msgid "Belgium"
@@ -3654,7 +3910,7 @@ msgstr "Bolivia"
 
 #: includes/class-wc-countries.php:64
 msgid "Bonaire, Saint Eustatius and Saba"
-msgstr "Bonaire, Saint Eustatius &amp; Saba"
+msgstr "Bonaire, Saint Eustatius og Saba"
 
 #: includes/class-wc-countries.php:65
 msgid "Bosnia and Herzegovina"
@@ -3698,7 +3954,7 @@ msgstr "Burundi"
 
 #: includes/class-wc-countries.php:75
 msgid "Cambodia"
-msgstr "Cambodia"
+msgstr "Cambodja"
 
 #: includes/class-wc-countries.php:76
 msgid "Cameroon"
@@ -3758,7 +4014,7 @@ msgstr "Congo (Kinshasa)"
 
 #: includes/class-wc-countries.php:90
 msgid "Cook Islands"
-msgstr "Cook Islands"
+msgstr "Cookøerne"
 
 #: includes/class-wc-countries.php:91
 msgid "Costa Rica"
@@ -3798,7 +4054,7 @@ msgstr "Dominica"
 
 #: includes/class-wc-countries.php:100
 msgid "Dominican Republic"
-msgstr "Dominican Republic"
+msgstr "Den Dominikanske Republik"
 
 #: includes/class-wc-countries.php:101
 msgid "Ecuador"
@@ -3814,7 +4070,7 @@ msgstr "El Salvador"
 
 #: includes/class-wc-countries.php:104
 msgid "Equatorial Guinea"
-msgstr "Equatorial Guinea"
+msgstr "Ækvatorial Guinea"
 
 #: includes/class-wc-countries.php:105
 msgid "Eritrea"
@@ -3822,11 +4078,11 @@ msgstr "Eritrea"
 
 #: includes/class-wc-countries.php:106
 msgid "Estonia"
-msgstr "Estonia"
+msgstr "Estland"
 
 #: includes/class-wc-countries.php:107
 msgid "Ethiopia"
-msgstr "Ethiopia"
+msgstr "Etiopien"
 
 #: includes/class-wc-countries.php:108
 msgid "Falkland Islands"
@@ -3854,7 +4110,7 @@ msgstr "French Guiana"
 
 #: includes/class-wc-countries.php:114
 msgid "French Polynesia"
-msgstr "fransk polynesien"
+msgstr "Fransk Polynesien"
 
 #: includes/class-wc-countries.php:115
 msgid "French Southern Territories"
@@ -3974,7 +4230,7 @@ msgstr "Italien"
 
 #: includes/class-wc-countries.php:145
 msgid "Ivory Coast"
-msgstr "Ivory Coast"
+msgstr "Elfenbenskysten"
 
 #: includes/class-wc-countries.php:146
 msgid "Jamaica"
@@ -4022,7 +4278,7 @@ msgstr "Latvia"
 
 #: includes/class-wc-countries.php:157
 msgid "Lebanon"
-msgstr "Lebanon"
+msgstr "Libanon"
 
 #: includes/class-wc-countries.php:158
 msgid "Lesotho"
@@ -4034,7 +4290,7 @@ msgstr "Liberia"
 
 #: includes/class-wc-countries.php:160
 msgid "Libya"
-msgstr "Libya"
+msgstr "Libyen"
 
 #: includes/class-wc-countries.php:161
 msgid "Liechtenstein"
@@ -4042,11 +4298,11 @@ msgstr "Liechtenstein"
 
 #: includes/class-wc-countries.php:162
 msgid "Lithuania"
-msgstr "Lithuania"
+msgstr "Litauen"
 
 #: includes/class-wc-countries.php:163
 msgid "Luxembourg"
-msgstr "Luxembourg"
+msgstr "Luxemborg"
 
 #: includes/class-wc-countries.php:164
 msgid "Macao S.A.R., China"
@@ -4530,11 +4786,11 @@ msgstr "the"
 
 #: includes/class-wc-countries.php:510
 msgid "VAT"
-msgstr "MOMS"
+msgstr "Moms"
 
 #: includes/class-wc-countries.php:510
 msgid "Tax"
-msgstr "Skat"
+msgstr "Moms"
 
 #: includes/class-wc-countries.php:523
 msgid "(incl. VAT)"
@@ -4542,7 +4798,7 @@ msgstr "(inkl. moms)"
 
 #: includes/class-wc-countries.php:523
 msgid "(incl. tax)"
-msgstr "(inkl. skat)"
+msgstr "(inkl. moms)"
 
 #: includes/class-wc-countries.php:536
 msgid "(ex. VAT)"
@@ -4550,158 +4806,162 @@ msgstr "(ekskl. moms)"
 
 #: includes/class-wc-countries.php:536
 msgid "(ex. tax)"
-msgstr "(ekskl. skat)"
+msgstr "(ekskl. moms)"
 
-#: includes/class-wc-countries.php:718
+#: includes/class-wc-countries.php:719
 msgid "Country"
 msgstr "Land"
 
-#: includes/class-wc-countries.php:723
+#: includes/class-wc-countries.php:724
 msgid "First Name"
 msgstr "Fornavn"
 
-#: includes/class-wc-countries.php:728
+#: includes/class-wc-countries.php:729
 msgid "Last Name"
 msgstr "Efternavn"
 
-#: includes/class-wc-countries.php:734
+#: includes/class-wc-countries.php:735
 msgid "Company Name"
 msgstr "Firmanavn"
 
-#: includes/class-wc-countries.php:738
+#: includes/class-wc-countries.php:739
 msgid "Address"
 msgstr "Adresse"
 
-#: includes/class-wc-countries.php:739
+#: includes/class-wc-countries.php:740
 msgctxt "placeholder"
 msgid "Street address"
 msgstr "Gadenavn"
 
-#: includes/class-wc-countries.php:744
+#: includes/class-wc-countries.php:745
 msgctxt "placeholder"
 msgid "Apartment, suite, unit etc. (optional)"
 msgstr "Lejlighed, suite, enhed etc (valgfri)"
 
-#: includes/class-wc-countries.php:749 includes/class-wc-countries.php:750
+#: includes/class-wc-countries.php:750 includes/class-wc-countries.php:751
 msgid "Town / City"
 msgstr "By"
 
-#: includes/class-wc-countries.php:756 includes/class-wc-countries.php:757
+#: includes/class-wc-countries.php:757 includes/class-wc-countries.php:758
 msgid "State / County"
-msgstr "Stat/Land"
+msgstr "Stat/amt"
 
-#: includes/class-wc-countries.php:763 includes/class-wc-countries.php:764
+#: includes/class-wc-countries.php:764 includes/class-wc-countries.php:765
 #: templates/cart/shipping-calculator.php:80
 msgid "Postcode / Zip"
-msgstr "Postnummer/ZIP"
+msgstr "Postnummer"
 
-#: includes/class-wc-countries.php:825 includes/class-wc-countries.php:841
-#: includes/class-wc-countries.php:861 includes/class-wc-countries.php:922
-#: includes/class-wc-countries.php:941 includes/class-wc-countries.php:946
-#: includes/class-wc-countries.php:958 includes/class-wc-countries.php:1008
-#: includes/class-wc-countries.php:1032 includes/class-wc-countries.php:1073
+#: includes/class-wc-countries.php:827
+msgid "District"
+msgstr ""
+
+#: includes/class-wc-countries.php:834 includes/class-wc-countries.php:850
+#: includes/class-wc-countries.php:870 includes/class-wc-countries.php:931
+#: includes/class-wc-countries.php:950 includes/class-wc-countries.php:955
+#: includes/class-wc-countries.php:967 includes/class-wc-countries.php:1017
+#: includes/class-wc-countries.php:1041 includes/class-wc-countries.php:1082
 msgid "Province"
 msgstr "Provins"
 
-#: includes/class-wc-countries.php:847
+#: includes/class-wc-countries.php:856
 msgid "Canton"
 msgstr "Kanton"
 
-#: includes/class-wc-countries.php:856 includes/class-wc-countries.php:1014
+#: includes/class-wc-countries.php:865 includes/class-wc-countries.php:1023
 msgid "Municipality"
 msgstr "Kommune"
 
-#: includes/class-wc-countries.php:909
+#: includes/class-wc-countries.php:918
 msgid "Town / District"
-msgstr "By/Distrikt"
+msgstr "By"
 
-#: includes/class-wc-countries.php:912
+#: includes/class-wc-countries.php:921
 msgid "Region"
 msgstr "Region"
 
-#: includes/class-wc-countries.php:917 includes/class-wc-countries.php:1048
+#: includes/class-wc-countries.php:926 includes/class-wc-countries.php:1057
 msgid "County"
-msgstr "Land"
+msgstr "Amt"
 
-#: includes/class-wc-countries.php:1037
+#: includes/class-wc-countries.php:1046
 msgid "Zip"
-msgstr "Zip"
+msgstr "Postnummer"
 
-#: includes/class-wc-countries.php:1040
+#: includes/class-wc-countries.php:1049
 msgid "State"
 msgstr "Stat"
 
-#: includes/class-wc-countries.php:1045
+#: includes/class-wc-countries.php:1054
 msgid "Postcode"
 msgstr "Postnummer"
 
-#: includes/class-wc-countries.php:1153
+#: includes/class-wc-countries.php:1162
 msgid "Email Address"
-msgstr "Email adresse"
+msgstr "E-mail adresse"
 
-#: includes/class-wc-countries.php:1159
+#: includes/class-wc-countries.php:1168
 msgid "Phone"
 msgstr "Telefon"
 
-#: includes/class-wc-coupon.php:568
+#: includes/class-wc-coupon.php:575
 msgid "Coupon code applied successfully."
 msgstr "Succesfyldt tilføjelse af kuponkode"
 
-#: includes/class-wc-coupon.php:571
+#: includes/class-wc-coupon.php:578
 msgid "Coupon code removed successfully."
 msgstr "Kupon code blev fjernet."
 
-#: includes/class-wc-coupon.php:592
+#: includes/class-wc-coupon.php:599
 msgid "Coupon is not valid."
 msgstr "Kupon er ikke gyldig."
 
-#: includes/class-wc-coupon.php:595 includes/class-wc-coupon.php:645
+#: includes/class-wc-coupon.php:602 includes/class-wc-coupon.php:652
 msgid "Coupon does not exist!"
 msgstr "Kupon eksisterer ikke!"
 
-#: includes/class-wc-coupon.php:598
+#: includes/class-wc-coupon.php:605
 msgid ""
 "Sorry, it seems the coupon \"%s\" is invalid - it has now been removed from "
 "your order."
 msgstr "Desværre, det ser ud til at kuponen \"%s\" er ugyldig - den er nu blevet fjernet fra din ordre."
 
-#: includes/class-wc-coupon.php:601
+#: includes/class-wc-coupon.php:608
 msgid ""
 "Sorry, it seems the coupon \"%s\" is not yours - it has now been removed "
 "from your order."
 msgstr "Desværre, det ser ud til at kuponen \"%s\" ikke er din - den er nu blevet fjernet fra din ordre."
 
-#: includes/class-wc-coupon.php:604
+#: includes/class-wc-coupon.php:611
 msgid "Coupon code already applied!"
 msgstr "Kuponkode er allerede tilføjet!"
 
-#: includes/class-wc-coupon.php:607
+#: includes/class-wc-coupon.php:614
 msgid ""
 "Sorry, coupon \"%s\" has already been applied and cannot be used in "
 "conjunction with other coupons."
 msgstr "Desværre, kuponen \"%s\" er allerede blevet tilføjet og kan ikke bruges i konjunktion med andre kuponer."
 
-#: includes/class-wc-coupon.php:610
+#: includes/class-wc-coupon.php:617
 msgid "Coupon usage limit has been reached."
 msgstr "Brug af Kupon er blevet nået."
 
-#: includes/class-wc-coupon.php:613
+#: includes/class-wc-coupon.php:620
 msgid "This coupon has expired."
 msgstr "Denne kupon er udløbet."
 
-#: includes/class-wc-coupon.php:616
+#: includes/class-wc-coupon.php:623
 msgid "The minimum spend for this coupon is %s."
 msgstr "Minimum køb for denne kupon er %s."
 
-#: includes/class-wc-coupon.php:619
+#: includes/class-wc-coupon.php:626
 msgid "Sorry, this coupon is not applicable to your cart contents."
 msgstr "Desværre, denne kupon er ikke anvendelig til dit kurvindhold."
 
-#: includes/class-wc-coupon.php:622
+#: includes/class-wc-coupon.php:629
 msgid "Sorry, this coupon is not valid for sale items."
 msgstr "Desværre, salgsemnerne passer ikke sammen med denne kupon (kuponen passer ikke til disse salgsemner)."
 
-#: includes/class-wc-coupon.php:648
+#: includes/class-wc-coupon.php:655
 msgid "Please enter a coupon code."
 msgstr "Indtast venligst en kuponkode."
 
@@ -4710,63 +4970,62 @@ msgid "Invalid email address."
 msgstr "Ugyldig email adresse."
 
 #: includes/class-wc-download-handler.php:37
-#: includes/class-wc-download-handler.php:61
-#: includes/class-wc-download-handler.php:81
-#: includes/class-wc-download-handler.php:87
-#: includes/class-wc-download-handler.php:91
-#: includes/class-wc-download-handler.php:94
-#: includes/class-wc-download-handler.php:137
-#: includes/class-wc-download-handler.php:280
+#: includes/class-wc-download-handler.php:62
+#: includes/class-wc-download-handler.php:83
+#: includes/class-wc-download-handler.php:90
+#: includes/class-wc-download-handler.php:95
+#: includes/class-wc-download-handler.php:99
+#: includes/class-wc-download-handler.php:143
+#: includes/class-wc-download-handler.php:296
 msgid "Go to homepage"
 msgstr "Gå til forsiden"
 
-#: includes/class-wc-download-handler.php:61
+#: includes/class-wc-download-handler.php:62
 msgid "Invalid download."
 msgstr "Ugyldig download."
 
-#: includes/class-wc-download-handler.php:73
+#: includes/class-wc-download-handler.php:75
 msgid "You must be logged in to download files."
 msgstr "Du skal være logget ind for at downloade filer."
 
-#: includes/class-wc-download-handler.php:73
+#: includes/class-wc-download-handler.php:75
 #: templates/global/form-login.php:35 templates/myaccount/form-login.php:25
 #: templates/myaccount/form-login.php:44
 msgid "Login"
 msgstr "Log ind"
 
-#: includes/class-wc-download-handler.php:73
+#: includes/class-wc-download-handler.php:75
 msgid "Log in to Download Files"
 msgstr "Log ind for at downloade filer"
 
-#: includes/class-wc-download-handler.php:76
+#: includes/class-wc-download-handler.php:77
 msgid "This is not your download link."
 msgstr "Dette er ikke dit downloadlink."
 
-#: includes/class-wc-download-handler.php:81
+#: includes/class-wc-download-handler.php:83
 msgid "Product no longer exists."
 msgstr "Produkt eksisterer ikke længere."
 
-#: includes/class-wc-download-handler.php:87
-#: includes/class-wc-form-handler.php:519
-#: includes/shortcodes/class-wc-shortcode-checkout.php:86
-#: includes/shortcodes/class-wc-shortcode-checkout.php:167
-#: includes/shortcodes/class-wc-shortcode-my-account.php:106
+#: includes/class-wc-download-handler.php:90
+#: includes/class-wc-form-handler.php:525
+#: includes/shortcodes/class-wc-shortcode-checkout.php:172
+#: includes/shortcodes/class-wc-shortcode-my-account.php:111
 msgid "Invalid order."
 msgstr "Ugyldig ordre."
 
-#: includes/class-wc-download-handler.php:91
+#: includes/class-wc-download-handler.php:95
 msgid "Sorry, you have reached your download limit for this file"
 msgstr "Beklager, du har nået din downloadgrænse for denne fil"
 
-#: includes/class-wc-download-handler.php:94
+#: includes/class-wc-download-handler.php:99
 msgid "Sorry, this download has expired"
 msgstr "Beklager, denne download er udløbet."
 
-#: includes/class-wc-download-handler.php:137
+#: includes/class-wc-download-handler.php:143
 msgid "No file defined"
 msgstr "Ingen fil defineret"
 
-#: includes/class-wc-download-handler.php:280
+#: includes/class-wc-download-handler.php:296
 msgid "File not found"
 msgstr "Fil ikke fundet"
 
@@ -4790,7 +5049,7 @@ msgstr "Produkt #%s - %s"
 
 #: includes/class-wc-emails.php:334
 msgid "is low in stock."
-msgstr "har lav lagerstatus"
+msgstr "har lav lagerstatus."
 
 #: includes/class-wc-emails.php:357
 msgid "Product out of stock"
@@ -4798,7 +5057,7 @@ msgstr "Produkt ikke på lager"
 
 #: includes/class-wc-emails.php:366
 msgid "is out of stock."
-msgstr "findes ikke pa lager."
+msgstr "Ikke på lager."
 
 #: includes/class-wc-emails.php:401
 msgid "Product Backorder"
@@ -4830,7 +5089,7 @@ msgid "Please re-enter your password."
 msgstr "Gentast password."
 
 #: includes/class-wc-form-handler.php:192
-#: includes/class-wc-form-handler.php:809
+#: includes/class-wc-form-handler.php:815
 msgid "Passwords do not match."
 msgstr "Passwords stemmer ikke overens."
 
@@ -4843,7 +5102,7 @@ msgid "Payment method added."
 msgstr "Betalingsmetode tilføjet."
 
 #: includes/class-wc-form-handler.php:367
-#: includes/class-wc-form-handler.php:420
+#: includes/class-wc-form-handler.php:426
 msgid "Cart updated."
 msgstr "Indkøbskurv opdateret."
 
@@ -4851,91 +5110,83 @@ msgstr "Indkøbskurv opdateret."
 msgid "You can only have 1 %s in your cart."
 msgstr "Du kan kun have 1 %s i din kurv."
 
-#: includes/class-wc-form-handler.php:488
+#: includes/class-wc-form-handler.php:492
 msgid "The cart has been filled with the items from your previous order."
 msgstr "Kurven er blevet fyldt med produkter fra dine tidligere ordrer."
 
-#: includes/class-wc-form-handler.php:509
+#: includes/class-wc-form-handler.php:515
 msgid "Order cancelled by customer."
 msgstr "Ordre blev annulleret af kunden."
 
-#: includes/class-wc-form-handler.php:512
+#: includes/class-wc-form-handler.php:518
 msgid "Your order was cancelled."
 msgstr "Din ordre blev annulleret."
 
-#: includes/class-wc-form-handler.php:517
+#: includes/class-wc-form-handler.php:523
 msgid ""
 "Your order can no longer be cancelled. Please contact us if you need "
 "assistance."
 msgstr "Din ordre kan ikke annulleres. Kontakt os venligst, hvis du har brug for hjælp."
 
-#: includes/class-wc-form-handler.php:557
-#: includes/class-wc-form-handler.php:617
+#: includes/class-wc-form-handler.php:563
+#: includes/class-wc-form-handler.php:623
 msgid "Please choose product options&hellip;"
 msgstr "Vælg venligst produktindstillinger&hellip;"
 
-#: includes/class-wc-form-handler.php:651
+#: includes/class-wc-form-handler.php:657
 msgid ""
 "Please choose the quantity of items you wish to add to your cart&hellip;"
 msgstr "Vælg venligst antal og produkter som du ønsker at tilføje til din kurv&hellip;"
 
-#: includes/class-wc-form-handler.php:658
+#: includes/class-wc-form-handler.php:664
 msgid "Please choose a product to add to your cart&hellip;"
 msgstr "Vælg venligst et produkt som skal tilføjes til kurven&hellip;"
 
-#: includes/class-wc-form-handler.php:718
-#: includes/class-wc-form-handler.php:722
-#: includes/class-wc-form-handler.php:726
-#: includes/class-wc-form-handler.php:735
-#: includes/class-wc-form-handler.php:857
+#: includes/class-wc-form-handler.php:724
+#: includes/class-wc-form-handler.php:728
+#: includes/class-wc-form-handler.php:732
+#: includes/class-wc-form-handler.php:741
+#: includes/class-wc-form-handler.php:861
 msgid "Error"
 msgstr "Fejl 404"
 
-#: includes/class-wc-form-handler.php:722
+#: includes/class-wc-form-handler.php:728
 msgid "Username is required."
 msgstr "Brugernavn er påkrævet"
 
-#: includes/class-wc-form-handler.php:726
+#: includes/class-wc-form-handler.php:732
 msgid "Password is required."
 msgstr "Password er påkrævet."
 
-#: includes/class-wc-form-handler.php:735
+#: includes/class-wc-form-handler.php:741
 msgid "A user could not be found with this email address."
 msgstr "Der findes ingen bruger med den e-mail-adresse."
 
-#: includes/class-wc-form-handler.php:760
+#: includes/class-wc-form-handler.php:766
 msgid "You are now logged in as <strong>%s</strong>"
 msgstr "Du er nu logget ind som <strong>%s</strong>"
 
-#: includes/class-wc-form-handler.php:804
+#: includes/class-wc-form-handler.php:810
 msgid "Please enter your password."
 msgstr "Indtast venligst dit password."
 
-#: includes/class-wc-form-handler.php:827
-msgid "Your password has been reset."
-msgstr "Dit password er blevet nulstillet."
-
-#: includes/class-wc-form-handler.php:827
-msgid "Log in"
-msgstr "Log ind"
-
-#: includes/class-wc-form-handler.php:873
+#: includes/class-wc-form-handler.php:877
 #: includes/wc-customer-functions.php:110
 msgid "ERROR"
 msgstr "FEJL"
 
-#: includes/class-wc-form-handler.php:873
+#: includes/class-wc-form-handler.php:877
 msgid "Anti-spam field was filled in."
 msgstr "Anti-spam felt blev udfyldt."
 
 #: includes/class-wc-frontend-scripts.php:123
 msgid "Please select a rating"
-msgstr "Vælg venligst en bedømmelse"
+msgstr "Vælg venligst en vurdering"
 
 #: includes/class-wc-frontend-scripts.php:140
-#: includes/wc-template-functions.php:1578
+#: includes/wc-template-functions.php:1602
 msgid "required"
-msgstr "påkrævet"
+msgstr "krævet"
 
 #: includes/class-wc-frontend-scripts.php:164
 msgid ""
@@ -4950,41 +5201,47 @@ msgstr "Beklager, dette produkt er ikke tilgængeligt. Vælg venligst en anden k
 
 #: includes/class-wc-frontend-scripts.php:170
 msgid "Select an option&hellip;"
-msgstr "Vælg en indstilling&hellip;"
+msgstr "Vælg en mulighed&hellip;"
 
 #: includes/class-wc-install.php:217
-msgctxt "page_slug"
+msgctxt "Page slug"
 msgid "shop"
 msgstr "butik"
 
 #: includes/class-wc-install.php:218
+msgctxt "Page title"
 msgid "Shop"
 msgstr "Butik"
 
 #: includes/class-wc-install.php:222
-msgctxt "page_slug"
+msgctxt "Page slug"
 msgid "cart"
 msgstr "kurv"
 
 #: includes/class-wc-install.php:223
-#: includes/widgets/class-wc-widget-cart.php:29
-#: includes/widgets/class-wc-widget-cart.php:56
+msgctxt "Page title"
 msgid "Cart"
 msgstr "Kurv"
 
 #: includes/class-wc-install.php:227
-msgctxt "page_slug"
+msgctxt "Paeg slug"
 msgid "checkout"
 msgstr "kasse"
 
-#: includes/class-wc-install.php:228 templates/cart/mini-cart.php:65
+#: includes/class-wc-install.php:228
+msgctxt "Page title"
 msgid "Checkout"
 msgstr "Kasse"
 
 #: includes/class-wc-install.php:232
-msgctxt "page_slug"
+msgctxt "Page slug"
 msgid "my-account"
 msgstr "min konto"
+
+#: includes/class-wc-install.php:233
+msgctxt "Page title"
+msgid "My Account"
+msgstr "Min Konto"
 
 #: includes/class-wc-install.php:455
 msgid "Customer"
@@ -5003,47 +5260,47 @@ msgctxt "hash before order number"
 msgid "#"
 msgstr "#"
 
-#: includes/class-wc-order.php:833
+#: includes/class-wc-order.php:854
 msgid "&nbsp;<small>%svia %s</small>"
 msgstr "&nbsp;<small>%svia %s</small>"
 
-#: includes/class-wc-order.php:896
+#: includes/class-wc-order.php:917
 msgid "Cart Subtotal:"
-msgstr "Indkøbskurv uden forsendelse:"
+msgstr "Subtotal for kurv:"
 
-#: includes/class-wc-order.php:903
+#: includes/class-wc-order.php:924
 msgid "Cart Discount:"
-msgstr "Kurverabat: (Rabat/ indkøbsrabat)"
+msgstr "Kurv rabat:"
 
-#: includes/class-wc-order.php:910
+#: includes/class-wc-order.php:931
 msgid "Shipping:"
 msgstr "Fragt:"
 
-#: includes/class-wc-order.php:957
+#: includes/class-wc-order.php:978
 msgid "Order Discount:"
 msgstr "Ordrerabat:"
 
-#: includes/class-wc-order.php:964
+#: includes/class-wc-order.php:985
 msgid "Payment Method:"
 msgstr "Betalings metode:"
 
-#: includes/class-wc-order.php:970
+#: includes/class-wc-order.php:991
 msgid "Order Total:"
 msgstr "Ordre total:"
 
-#: includes/class-wc-order.php:988 includes/wc-cart-functions.php:236
+#: includes/class-wc-order.php:1009 includes/wc-cart-functions.php:251
 msgid "(Includes %s)"
 msgstr "(Inkluderer %s)"
 
-#: includes/class-wc-order.php:1231 includes/class-wc-order.php:1232
+#: includes/class-wc-order.php:1258 includes/class-wc-order.php:1259
 msgid "WooCommerce"
 msgstr "WooCommerce"
 
-#: includes/class-wc-order.php:1287
+#: includes/class-wc-order.php:1314
 msgid "Order status changed from %s to %s."
 msgstr "Ordrestatus ændret fra %s til %s."
 
-#: includes/class-wc-order.php:1556
+#: includes/class-wc-order.php:1583
 msgid "Order item stock reduced successfully."
 msgstr "Produkternes lagerstatus reduceret korrekt."
 
@@ -5054,7 +5311,7 @@ msgstr "Produktkategorier"
 
 #: includes/class-wc-post-types.php:58
 msgid "Product Category"
-msgstr "Produkt Kategori"
+msgstr "Produktkategori"
 
 #: includes/class-wc-post-types.php:59
 msgctxt "Admin menu name"
@@ -5156,7 +5413,7 @@ msgid "Shipping Classes"
 msgstr "Forsendelsesklasser"
 
 #: includes/class-wc-post-types.php:127
-#: includes/shipping/flat-rate/class-wc-shipping-flat-rate.php:521
+#: includes/shipping/flat-rate/class-wc-shipping-flat-rate.php:546
 msgid "Shipping Class"
 msgstr "Forsendelsesklasser"
 
@@ -5398,7 +5655,7 @@ msgstr "Vis kupon"
 
 #: includes/class-wc-post-types.php:333
 msgid "Search Coupons"
-msgstr "Kuponsøgning"
+msgstr "Søg kuponer"
 
 #: includes/class-wc-post-types.php:334
 msgid "No Coupons found"
@@ -5426,8 +5683,8 @@ msgid "View products"
 msgstr "Vis produkter"
 
 #: includes/class-wc-product-grouped.php:194
-#: includes/class-wc-product-variable.php:251
-#: includes/class-wc-product-variable.php:256
+#: includes/class-wc-product-variable.php:273
+#: includes/class-wc-product-variable.php:278
 msgctxt "Price range: from-to"
 msgid "%1$s&ndash;%2$s"
 msgstr "%1$s&ndash;%2$s"
@@ -5441,13 +5698,13 @@ msgstr "Læs mere"
 msgid "Select options"
 msgstr "Vælg indstillinger"
 
-#: includes/class-wc-product-variable.php:455
+#: includes/class-wc-product-variable.php:485
 msgid ""
 "This variable product has no active variations so cannot be published. "
 "Changing status to draft."
 msgstr "Dette variable produkt har ingen aktive varianter, så det kan ikke blive udgivet. Ændring af status til at udkast."
 
-#: includes/class-wc-product-variation.php:494
+#: includes/class-wc-product-variation.php:516
 msgid "%s &ndash; %s%s"
 msgstr "%s &ndash; %s%s"
 
@@ -5469,7 +5726,7 @@ msgstr "Ordre gennemført via emails bliver sendt til kunden når ordren bliver 
 
 #: includes/emails/class-wc-email-customer-completed-order.php:29
 msgid "Your order is complete"
-msgstr "Din ordre er udført"
+msgstr "Din ordre er gennemført"
 
 #: includes/emails/class-wc-email-customer-completed-order.php:30
 msgid "Your {site_title} order from {order_date} is complete"
@@ -5477,7 +5734,7 @@ msgstr "Din {blogname}-ordre fra {order_date} er afsluttet"
 
 #: includes/emails/class-wc-email-customer-completed-order.php:39
 msgid "Your order is complete - download your files"
-msgstr "Din ordre er blev gennemført. download dine filer."
+msgstr "Din ordre er gennemført - download dine filer."
 
 #: includes/emails/class-wc-email-customer-completed-order.php:40
 msgid ""
@@ -5492,19 +5749,19 @@ msgstr "Emne"
 #: includes/emails/class-wc-email-customer-completed-order.php:153
 #: includes/emails/class-wc-email-new-order.php:140
 msgid "Email Heading"
-msgstr "Email Overskrift"
+msgstr "E-mail overskrift"
 
 #: includes/emails/class-wc-email-customer-completed-order.php:160
 msgid "Subject (downloadable)"
-msgstr "Emne (Kan downloades)"
+msgstr "Emne (kan downloades)"
 
 #: includes/emails/class-wc-email-customer-completed-order.php:167
 msgid "Email Heading (downloadable)"
-msgstr "Email Overskrift (Kan downloades)"
+msgstr "E-mail overskrift (kan downloades)"
 
 #: includes/emails/class-wc-email-customer-invoice.php:29
 msgid "Customer invoice"
-msgstr "Kunde bemærkning"
+msgstr "Kundefaktura"
 
 #: includes/emails/class-wc-email-customer-invoice.php:30
 msgid ""
@@ -5530,11 +5787,11 @@ msgstr "Ordre {order_number} detaljer"
 
 #: includes/emails/class-wc-email-customer-invoice.php:160
 msgid "Email subject (paid)"
-msgstr "Email-emne (betalt)"
+msgstr "E-mail emne (betalt)"
 
 #: includes/emails/class-wc-email-customer-invoice.php:167
 msgid "Email heading (paid)"
-msgstr "Email-overskrift (betalt)"
+msgstr "E- mail overskrift (betalt)"
 
 #: includes/emails/class-wc-email-customer-new-account.php:33
 msgid "New account"
@@ -5572,7 +5829,7 @@ msgstr "En bemærkning blev tilføjet til din ordre"
 
 #: includes/emails/class-wc-email-customer-processing-order.php:26
 msgid "Processing order"
-msgstr "Ordren bliver behandlet (er i behandling)"
+msgstr "Behandler ordre"
 
 #: includes/emails/class-wc-email-customer-processing-order.php:27
 msgid ""
@@ -5582,7 +5839,7 @@ msgstr "Dette er en ordreanmeldelse sendt til kunden efter betaling og som indeh
 
 #: includes/emails/class-wc-email-customer-processing-order.php:29
 msgid "Thank you for your order"
-msgstr "Mange tak for din ordre"
+msgstr "Tak for din ordre"
 
 #: includes/emails/class-wc-email-customer-processing-order.php:30
 msgid "Your {site_title} order receipt from {order_date}"
@@ -5590,7 +5847,7 @@ msgstr "Kvittering for din {blogname}-ordre fra {order_date}"
 
 #: includes/emails/class-wc-email-customer-reset-password.php:38
 msgid "Reset password"
-msgstr "Nulstil password"
+msgstr "Nulstil Kodeord"
 
 #: includes/emails/class-wc-email-customer-reset-password.php:39
 msgid ""
@@ -5699,7 +5956,7 @@ msgstr "Direkte bankoverførsel"
 #: includes/gateways/cod/class-wc-gateway-cod.php:71
 #: includes/gateways/mijireh/class-wc-gateway-mijireh.php:149
 #: includes/gateways/paypal/class-wc-gateway-paypal.php:139
-#: includes/wc-template-functions.php:965
+#: includes/wc-template-functions.php:980
 msgid "Description"
 msgstr "Beskrivelse"
 
@@ -5737,7 +5994,7 @@ msgid "Account Name"
 msgstr "Kontonavn"
 
 #: includes/gateways/bacs/class-wc-gateway-bacs.php:112
-#: includes/gateways/bacs/class-wc-gateway-bacs.php:253
+#: includes/gateways/bacs/class-wc-gateway-bacs.php:258
 msgid "Account Number"
 msgstr "Kontonummer"
 
@@ -5746,12 +6003,12 @@ msgid "Bank Name"
 msgstr "Bankens navn "
 
 #: includes/gateways/bacs/class-wc-gateway-bacs.php:114
-#: includes/gateways/bacs/class-wc-gateway-bacs.php:257
+#: includes/gateways/bacs/class-wc-gateway-bacs.php:262
 msgid "Sort Code"
 msgstr "Registreringsnummer"
 
 #: includes/gateways/bacs/class-wc-gateway-bacs.php:115
-#: includes/gateways/bacs/class-wc-gateway-bacs.php:261
+#: includes/gateways/bacs/class-wc-gateway-bacs.php:266
 msgid "IBAN"
 msgstr "IBAN"
 
@@ -5767,15 +6024,15 @@ msgstr "+ Tilføj konto"
 msgid "Remove selected account(s)"
 msgstr "Fjern valgt konto(r)"
 
-#: includes/gateways/bacs/class-wc-gateway-bacs.php:240
+#: includes/gateways/bacs/class-wc-gateway-bacs.php:245
 msgid "Our Bank Details"
 msgstr "Bank detaljer"
 
-#: includes/gateways/bacs/class-wc-gateway-bacs.php:265
+#: includes/gateways/bacs/class-wc-gateway-bacs.php:270
 msgid "BIC"
-msgstr "BIC"
+msgstr "BIC (tidligere SWIFT)"
 
-#: includes/gateways/bacs/class-wc-gateway-bacs.php:295
+#: includes/gateways/bacs/class-wc-gateway-bacs.php:301
 msgid "Awaiting BACS payment"
 msgstr "Afventer BACS betaling"
 
@@ -5804,7 +6061,7 @@ msgid ""
 " / County, Store Postcode."
 msgstr "Send venligst din check til Butiksnavn, butiksadresse, butiksby, butiks stat/land, butikspostnummer."
 
-#: includes/gateways/cheque/class-wc-gateway-cheque.php:115
+#: includes/gateways/cheque/class-wc-gateway-cheque.php:116
 msgid "Awaiting cheque payment"
 msgstr "Afventer checkbetaling"
 
@@ -6110,109 +6367,109 @@ msgid ""
 "<code>woocommerce/logs/paypal-%s.txt</code>"
 msgstr "Log PayPal hændelser, såsom IPN forespørgsler i <code>woocommerce/logs/paypal-%s.txt</code>"
 
-#: includes/gateways/paypal/class-wc-gateway-paypal.php:349
+#: includes/gateways/paypal/class-wc-gateway-paypal.php:361
 msgid "Order %s"
 msgstr "Ordre %s"
 
-#: includes/gateways/paypal/class-wc-gateway-paypal.php:358
+#: includes/gateways/paypal/class-wc-gateway-paypal.php:370
 msgid "Shipping via"
 msgstr "Forsendelse via"
 
-#: includes/gateways/paypal/class-wc-gateway-paypal.php:415
+#: includes/gateways/paypal/class-wc-gateway-paypal.php:427
 msgid "Shipping via %s"
 msgstr "Forsendelse via %s"
 
-#: includes/gateways/paypal/class-wc-gateway-paypal.php:454
+#: includes/gateways/paypal/class-wc-gateway-paypal.php:466
 msgid ""
 "Thank you for your order. We are now redirecting you to PayPal to make "
 "payment."
 msgstr "Tak for din bestilling. Vi omdirigerer dig nu til PayPal for at gennemføre betalingen."
 
-#: includes/gateways/paypal/class-wc-gateway-paypal.php:479
+#: includes/gateways/paypal/class-wc-gateway-paypal.php:491
 msgid "Pay via PayPal"
 msgstr "Betal via PayPal"
 
-#: includes/gateways/paypal/class-wc-gateway-paypal.php:479
+#: includes/gateways/paypal/class-wc-gateway-paypal.php:491
 msgid "Cancel order &amp; restore cart"
 msgstr "Annuler ordre &amp; gendan kurv"
 
-#: includes/gateways/paypal/class-wc-gateway-paypal.php:534
+#: includes/gateways/paypal/class-wc-gateway-paypal.php:546
 msgid ""
 "Thank you - your order is now pending payment. You should be automatically "
 "redirected to PayPal to make payment."
 msgstr "Tak for din bestilling. Vi omdirirgerer dig nu til PayPal for at gennemføre betalingen."
 
-#: includes/gateways/paypal/class-wc-gateway-paypal.php:689
+#: includes/gateways/paypal/class-wc-gateway-paypal.php:701
 msgid "Validation error: PayPal currencies do not match (code %s)."
 msgstr "Valideringsfejl: PayPal beløb matcher ikke (total %s)."
 
-#: includes/gateways/paypal/class-wc-gateway-paypal.php:700
+#: includes/gateways/paypal/class-wc-gateway-paypal.php:712
 msgid "Validation error: PayPal amounts do not match (gross %s)."
 msgstr "Valideringsfejl: PayPal beløb matcher ikke (total %s)."
 
-#: includes/gateways/paypal/class-wc-gateway-paypal.php:711
+#: includes/gateways/paypal/class-wc-gateway-paypal.php:723
 msgid ""
 "Validation error: PayPal IPN response from a different email address (%s)."
 msgstr "Valideringsfejl: PayPal IPN-svar fra en anden e-mail-adresse (%s)."
 
-#: includes/gateways/paypal/class-wc-gateway-paypal.php:734
+#: includes/gateways/paypal/class-wc-gateway-paypal.php:746
 msgid "IPN payment completed"
 msgstr "IPN betaling gennemført"
 
-#: includes/gateways/paypal/class-wc-gateway-paypal.php:737
+#: includes/gateways/paypal/class-wc-gateway-paypal.php:749
 msgid "Payment pending: %s"
 msgstr "Afventer betaling: %s"
 
-#: includes/gateways/paypal/class-wc-gateway-paypal.php:750
-#: includes/gateways/paypal/class-wc-gateway-paypal.php:758
-#: includes/gateways/paypal/class-wc-gateway-paypal.php:775
+#: includes/gateways/paypal/class-wc-gateway-paypal.php:762
+#: includes/gateways/paypal/class-wc-gateway-paypal.php:770
+#: includes/gateways/paypal/class-wc-gateway-paypal.php:787
 msgid "Payment %s via IPN."
 msgstr "Betaling %s via IPN."
 
-#: includes/gateways/paypal/class-wc-gateway-paypal.php:763
+#: includes/gateways/paypal/class-wc-gateway-paypal.php:775
 msgid "Order refunded/reversed"
 msgstr "Ordre refunderet/taget tilbage"
 
-#: includes/gateways/paypal/class-wc-gateway-paypal.php:764
+#: includes/gateways/paypal/class-wc-gateway-paypal.php:776
 msgid "Order %s has been marked as refunded - PayPal reason code: %s"
 msgstr "Ordre %s er blevet markeret som refunderet - PayPal årsagskode: %s"
 
-#: includes/gateways/paypal/class-wc-gateway-paypal.php:767
+#: includes/gateways/paypal/class-wc-gateway-paypal.php:779
 msgid "Payment for order %s refunded/reversed"
 msgstr "Betaling for ordre %s refunderet/taget tilbage"
 
-#: includes/gateways/paypal/class-wc-gateway-paypal.php:780
+#: includes/gateways/paypal/class-wc-gateway-paypal.php:792
 msgid "Order reversed"
 msgstr "Ordre refunderet"
 
-#: includes/gateways/paypal/class-wc-gateway-paypal.php:781
+#: includes/gateways/paypal/class-wc-gateway-paypal.php:793
 msgid ""
 "Order %s has been marked on-hold due to a reversal - PayPal reason code: %s"
 msgstr "Ordre %s er blevet markeret som \"i bero\" grundet refundering - PayPal årsagskode: %s"
 
-#: includes/gateways/paypal/class-wc-gateway-paypal.php:784
+#: includes/gateways/paypal/class-wc-gateway-paypal.php:796
 msgid "Payment for order %s reversed"
 msgstr "Betaling for ordre %s refunderet"
 
-#: includes/gateways/paypal/class-wc-gateway-paypal.php:792
+#: includes/gateways/paypal/class-wc-gateway-paypal.php:804
 msgid "Reversal Cancelled"
 msgstr "Refundering annulleret"
 
-#: includes/gateways/paypal/class-wc-gateway-paypal.php:793
+#: includes/gateways/paypal/class-wc-gateway-paypal.php:805
 msgid ""
 "Order %s has had a reversal cancelled. Please check the status of payment "
 "and update the order status accordingly."
 msgstr "Ordre %s har fået annulleret en refundering. Tjek venligst status for betaling og updater ordrestatus korrekt."
 
-#: includes/gateways/paypal/class-wc-gateway-paypal.php:796
+#: includes/gateways/paypal/class-wc-gateway-paypal.php:808
 msgid "Reversal cancelled for order %s"
 msgstr "Refundering annulleret for ordre %s"
 
-#: includes/gateways/paypal/class-wc-gateway-paypal.php:868
+#: includes/gateways/paypal/class-wc-gateway-paypal.php:880
 msgid "Validation error: PayPal amounts do not match (amt %s)."
 msgstr "Valideringsfejl: PayPal beløb matcher ikke (total %s)."
 
-#: includes/gateways/paypal/class-wc-gateway-paypal.php:876
+#: includes/gateways/paypal/class-wc-gateway-paypal.php:888
 msgid "PDT payment completed"
 msgstr "PDT betaling gennemført"
 
@@ -6279,6 +6536,7 @@ msgstr "Momspligtig"
 
 #: includes/shipping/flat-rate/class-wc-shipping-flat-rate.php:114
 #: includes/shipping/international-delivery/class-wc-shipping-international-delivery.php:88
+msgctxt "Tax status"
 msgid "None"
 msgstr "Ingen"
 
@@ -6348,54 +6606,54 @@ msgid ""
 "blank to disable."
 msgstr "Angiv et minimumsgebyr. Gebyr mindre end dette vil blive forøget. Lad den forblive blank for at deaktivere."
 
-#: includes/shipping/flat-rate/class-wc-shipping-flat-rate.php:515
+#: includes/shipping/flat-rate/class-wc-shipping-flat-rate.php:540
 msgid "Costs"
 msgstr "Omkostninger"
 
-#: includes/shipping/flat-rate/class-wc-shipping-flat-rate.php:522
+#: includes/shipping/flat-rate/class-wc-shipping-flat-rate.php:547
 #: includes/shipping/international-delivery/class-wc-shipping-international-delivery.php:102
 msgid "Cost"
 msgstr "Omkostning"
 
-#: includes/shipping/flat-rate/class-wc-shipping-flat-rate.php:522
+#: includes/shipping/flat-rate/class-wc-shipping-flat-rate.php:547
 msgid "Cost, excluding tax."
-msgstr "Omkostning, ekskl. moms."
+msgstr "Omkostning ekskl. moms"
 
-#: includes/shipping/flat-rate/class-wc-shipping-flat-rate.php:523
+#: includes/shipping/flat-rate/class-wc-shipping-flat-rate.php:548
 #: includes/shipping/international-delivery/class-wc-shipping-international-delivery.php:110
 msgid "Handling Fee"
 msgstr "Ekspeditionsgebyr"
 
-#: includes/shipping/flat-rate/class-wc-shipping-flat-rate.php:523
+#: includes/shipping/flat-rate/class-wc-shipping-flat-rate.php:548
 msgid ""
 "Fee excluding tax. Enter an amount, e.g. 2.50, or a percentage, e.g. 5%."
 msgstr "Gebyr ekskl. moms. Angiv et beløb, f.eks 2,50, eller en procentdel, f.eks. 5%."
 
-#: includes/shipping/flat-rate/class-wc-shipping-flat-rate.php:528
+#: includes/shipping/flat-rate/class-wc-shipping-flat-rate.php:553
 msgid "+ Add Cost"
 msgstr " + Tilføj omkostninger"
 
-#: includes/shipping/flat-rate/class-wc-shipping-flat-rate.php:528
+#: includes/shipping/flat-rate/class-wc-shipping-flat-rate.php:553
 msgid "Delete selected costs"
 msgstr "Slet valgte omkostninger"
 
-#: includes/shipping/flat-rate/class-wc-shipping-flat-rate.php:534
+#: includes/shipping/flat-rate/class-wc-shipping-flat-rate.php:559
 msgid "Any class"
 msgstr "Enhver klasse"
 
-#: includes/shipping/flat-rate/class-wc-shipping-flat-rate.php:535
-#: includes/shipping/flat-rate/class-wc-shipping-flat-rate.php:536
+#: includes/shipping/flat-rate/class-wc-shipping-flat-rate.php:560
+#: includes/shipping/flat-rate/class-wc-shipping-flat-rate.php:561
 #: includes/shipping/free-shipping/class-wc-shipping-free-shipping.php:102
 #: templates/order/order-details.php:122 templates/order/order-details.php:137
 msgid "N/A"
 msgstr "N/A"
 
-#: includes/shipping/flat-rate/class-wc-shipping-flat-rate.php:554
-#: includes/shipping/flat-rate/class-wc-shipping-flat-rate.php:584
+#: includes/shipping/flat-rate/class-wc-shipping-flat-rate.php:579
+#: includes/shipping/flat-rate/class-wc-shipping-flat-rate.php:609
 msgid "Select a class&hellip;"
 msgstr "Vælg en klasse&hellip;"
 
-#: includes/shipping/flat-rate/class-wc-shipping-flat-rate.php:598
+#: includes/shipping/flat-rate/class-wc-shipping-flat-rate.php:623
 msgid "Delete the selected rates?"
 msgstr "Slet de udvalgte takster?"
 
@@ -6561,23 +6819,27 @@ msgid ""
 "order themselves."
 msgstr "Lokal afhentning er en simpel metode som tillader kunder selv at afhente deres ordre."
 
-#: includes/shortcodes/class-wc-shortcode-cart.php:52
+#: includes/shortcodes/class-wc-shortcode-cart.php:58
 msgid "Shipping costs updated."
 msgstr "Forsendelsesomkostninger opdateret."
 
-#: includes/shortcodes/class-wc-shortcode-checkout.php:108
-#: includes/shortcodes/class-wc-shortcode-checkout.php:159
+#: includes/shortcodes/class-wc-shortcode-checkout.php:91
+msgid "Invalid order. If you have an account please log in and try again."
+msgstr "Ugyldig ordre. Hvis du har en konto, så log ind og prøv igen."
+
+#: includes/shortcodes/class-wc-shortcode-checkout.php:113
+#: includes/shortcodes/class-wc-shortcode-checkout.php:164
 msgid ""
 "This order&rsquo;s status is &ldquo;%s&rdquo;&mdash;it cannot be paid for. "
 "Please contact us if you need assistance."
 msgstr "Denne ordre&rsquo;s status is &ldquo;%s&rdquo;&mdash;it kan ikke betales. Kontakt os venligst hvis du har brug for hjælp."
 
-#: includes/shortcodes/class-wc-shortcode-checkout.php:112
-#: includes/shortcodes/class-wc-shortcode-checkout.php:163
+#: includes/shortcodes/class-wc-shortcode-checkout.php:117
+#: includes/shortcodes/class-wc-shortcode-checkout.php:168
 msgid "Sorry, this order is invalid and cannot be paid for."
 msgstr "Beklager, denne ordre er ugyldig, og kan ikke betales for."
 
-#: includes/shortcodes/class-wc-shortcode-checkout.php:129
+#: includes/shortcodes/class-wc-shortcode-checkout.php:134
 #: templates/checkout/thankyou.php:40
 #: templates/emails/customer-completed-order.php:18
 #: templates/emails/customer-invoice.php:22
@@ -6586,66 +6848,74 @@ msgstr "Beklager, denne ordre er ugyldig, og kan ikke betales for."
 msgid "Order:"
 msgstr "Ordre:"
 
-#: includes/shortcodes/class-wc-shortcode-checkout.php:133
+#: includes/shortcodes/class-wc-shortcode-checkout.php:138
 #: templates/checkout/thankyou.php:44
 msgid "Date:"
 msgstr "Dato:"
 
-#: includes/shortcodes/class-wc-shortcode-checkout.php:137
+#: includes/shortcodes/class-wc-shortcode-checkout.php:142
 #: templates/checkout/thankyou.php:48
 msgid "Total:"
 msgstr "Total:"
 
-#: includes/shortcodes/class-wc-shortcode-checkout.php:142
+#: includes/shortcodes/class-wc-shortcode-checkout.php:147
 #: templates/checkout/thankyou.php:53
 msgid "Payment method:"
 msgstr "Betalingsmetode:"
 
-#: includes/shortcodes/class-wc-shortcode-checkout.php:230
+#: includes/shortcodes/class-wc-shortcode-checkout.php:235
 msgid ""
 "The order totals have been updated. Please confirm your order by pressing "
 "the Place Order button at the bottom of the page."
 msgstr "Ordretotalerne er blevet opdateret. Bekræft venligst ordre ved at klikke på knappen, Placer ordre, i bunden af siden."
 
-#: includes/shortcodes/class-wc-shortcode-my-account.php:213
+#: includes/shortcodes/class-wc-shortcode-my-account.php:202
+msgid "Your password has been reset."
+msgstr "Dit password er blevet nulstillet."
+
+#: includes/shortcodes/class-wc-shortcode-my-account.php:202
+msgid "Log in"
+msgstr "Log ind"
+
+#: includes/shortcodes/class-wc-shortcode-my-account.php:220
 msgid "Enter a username or e-mail address."
 msgstr "Indtast et brugernavn eller en email adresse"
 
-#: includes/shortcodes/class-wc-shortcode-my-account.php:220
+#: includes/shortcodes/class-wc-shortcode-my-account.php:227
 msgid "There is no user registered with that email address."
 msgstr "Der er ingen bruger tilmeldt med denne emailadresse."
 
-#: includes/shortcodes/class-wc-shortcode-my-account.php:235
+#: includes/shortcodes/class-wc-shortcode-my-account.php:242
 msgid "Invalid username or e-mail."
 msgstr "Ugyldigt brugernavn eller email."
 
-#: includes/shortcodes/class-wc-shortcode-my-account.php:249
+#: includes/shortcodes/class-wc-shortcode-my-account.php:256
 msgid "Password reset is not allowed for this user"
 msgstr "Password nulstilling er ikke tilladt for denne bruger"
 
-#: includes/shortcodes/class-wc-shortcode-my-account.php:277
+#: includes/shortcodes/class-wc-shortcode-my-account.php:284
 msgid "Check your e-mail for the confirmation link."
 msgstr "Tjek din mail for bekræftelseslinket."
 
-#: includes/shortcodes/class-wc-shortcode-my-account.php:297
-#: includes/shortcodes/class-wc-shortcode-my-account.php:302
+#: includes/shortcodes/class-wc-shortcode-my-account.php:304
 #: includes/shortcodes/class-wc-shortcode-my-account.php:309
+#: includes/shortcodes/class-wc-shortcode-my-account.php:316
 msgid "Invalid key"
 msgstr "Ugyldig nøgle"
 
-#: includes/shortcodes/class-wc-shortcode-my-account.php:346
+#: includes/shortcodes/class-wc-shortcode-my-account.php:353
 msgid "Add a new payment method."
 msgstr "Tilføj ny betalingsmetode"
 
-#: includes/shortcodes/class-wc-shortcode-order-tracking.php:49
+#: includes/shortcodes/class-wc-shortcode-order-tracking.php:54
 msgid "Please enter a valid order ID"
 msgstr "Indtast venligst et gyldigt ordre ID"
 
-#: includes/shortcodes/class-wc-shortcode-order-tracking.php:53
+#: includes/shortcodes/class-wc-shortcode-order-tracking.php:58
 msgid "Please enter a valid order email"
 msgstr "Indtast venligst en gyldig ordre email"
 
-#: includes/shortcodes/class-wc-shortcode-order-tracking.php:72
+#: includes/shortcodes/class-wc-shortcode-order-tracking.php:77
 msgid "Sorry, we could not find that order id in our database."
 msgstr "Desværre, kunne vi ikke finde dette ordre ID i vores database."
 
@@ -6669,175 +6939,179 @@ msgstr "&quot;%s&quot; blev succesfuldt tilføjet til din kurv."
 msgid "Continue Shopping"
 msgstr "Fortsæt med at handle"
 
-#: includes/wc-cart-functions.php:183
+#: includes/wc-cart-functions.php:193
 msgid "Coupon:"
 msgstr "Kupon:"
 
-#: includes/wc-cart-functions.php:208
+#: includes/wc-cart-functions.php:219
 msgid "Free shipping coupon"
 msgstr "Fri fragt-kupon"
 
-#: includes/wc-cart-functions.php:210
+#: includes/wc-cart-functions.php:225
 msgid "[Remove]"
 msgstr "[Fjern]"
 
-#: includes/wc-cart-functions.php:271
+#: includes/wc-cart-functions.php:288
 msgid "Free"
 msgstr "Gratis"
 
 #: includes/wc-core-functions.php:167
 msgid "United Arab Emirates Dirham"
-msgstr ""
+msgstr "De Forenede Arabiske Emirater Dirham"
 
 #: includes/wc-core-functions.php:168
 msgid "Australian Dollars"
 msgstr "Australske Dollars"
 
 #: includes/wc-core-functions.php:169
+msgid "Bangladeshi Taka"
+msgstr ""
+
+#: includes/wc-core-functions.php:170
 msgid "Brazilian Real"
 msgstr "Brasilianske Real"
 
-#: includes/wc-core-functions.php:170
+#: includes/wc-core-functions.php:171
 msgid "Bulgarian Lev"
 msgstr "Bulgarian Lev"
 
-#: includes/wc-core-functions.php:171
+#: includes/wc-core-functions.php:172
 msgid "Canadian Dollars"
 msgstr "Canadieske Dollars"
 
-#: includes/wc-core-functions.php:172
+#: includes/wc-core-functions.php:173
 msgid "Chilean Peso"
 msgstr "Chilean Peso"
 
-#: includes/wc-core-functions.php:173
+#: includes/wc-core-functions.php:174
 msgid "Chinese Yuan"
 msgstr "Kinesiske Yuan"
 
-#: includes/wc-core-functions.php:174
+#: includes/wc-core-functions.php:175
 msgid "Colombian Peso"
 msgstr "Colombian Peso"
 
-#: includes/wc-core-functions.php:175
+#: includes/wc-core-functions.php:176
 msgid "Czech Koruna"
 msgstr "Tjekkisk Koruna"
 
-#: includes/wc-core-functions.php:176
+#: includes/wc-core-functions.php:177
 msgid "Danish Krone"
 msgstr "Dansk Krone"
 
-#: includes/wc-core-functions.php:177
+#: includes/wc-core-functions.php:178
 msgid "Euros"
 msgstr "Euro"
 
-#: includes/wc-core-functions.php:178
+#: includes/wc-core-functions.php:179
 msgid "Hong Kong Dollar"
 msgstr "Hong Kong Dollar"
 
-#: includes/wc-core-functions.php:179
+#: includes/wc-core-functions.php:180
 msgid "Croatia kuna"
 msgstr "Croatia kuna"
 
-#: includes/wc-core-functions.php:180
+#: includes/wc-core-functions.php:181
 msgid "Hungarian Forint"
 msgstr "Ungarsk Forint"
 
-#: includes/wc-core-functions.php:181
+#: includes/wc-core-functions.php:182
 msgid "Icelandic krona"
 msgstr "Islandske kroner"
 
-#: includes/wc-core-functions.php:182
+#: includes/wc-core-functions.php:183
 msgid "Indonesia Rupiah"
 msgstr "Indonesiesk Rupiah"
 
-#: includes/wc-core-functions.php:183
+#: includes/wc-core-functions.php:184
 msgid "Indian Rupee"
 msgstr "Indian Rupee"
 
-#: includes/wc-core-functions.php:184
+#: includes/wc-core-functions.php:185
 msgid "Israeli Shekel"
 msgstr "Israeleske Shekel"
 
-#: includes/wc-core-functions.php:185
+#: includes/wc-core-functions.php:186
 msgid "Japanese Yen"
 msgstr "Japanske Yen"
 
-#: includes/wc-core-functions.php:186
+#: includes/wc-core-functions.php:187
 msgid "South Korean Won"
 msgstr "South Korean Won"
 
-#: includes/wc-core-functions.php:187
+#: includes/wc-core-functions.php:188
 msgid "Malaysian Ringgits"
 msgstr "Malaysieske Ringgits"
 
-#: includes/wc-core-functions.php:188
+#: includes/wc-core-functions.php:189
 msgid "Mexican Peso"
 msgstr "Mexicaneske Peso"
 
-#: includes/wc-core-functions.php:189
+#: includes/wc-core-functions.php:190
 msgid "Nigerian Naira"
 msgstr "Nigerian Naira"
 
-#: includes/wc-core-functions.php:190
+#: includes/wc-core-functions.php:191
 msgid "Norwegian Krone"
 msgstr "Norsk Krone"
 
-#: includes/wc-core-functions.php:191
+#: includes/wc-core-functions.php:192
 msgid "New Zealand Dollar"
 msgstr "New Zealand Dollar"
 
-#: includes/wc-core-functions.php:192
+#: includes/wc-core-functions.php:193
 msgid "Philippine Pesos"
 msgstr "Filippinske Pesos"
 
-#: includes/wc-core-functions.php:193
+#: includes/wc-core-functions.php:194
 msgid "Polish Zloty"
 msgstr "Polske Zloty"
 
-#: includes/wc-core-functions.php:194
+#: includes/wc-core-functions.php:195
 msgid "Pounds Sterling"
 msgstr "Engelske Pund"
 
-#: includes/wc-core-functions.php:195
+#: includes/wc-core-functions.php:196
 msgid "Romanian Leu"
 msgstr "Romænske Leu"
 
-#: includes/wc-core-functions.php:196
+#: includes/wc-core-functions.php:197
 msgid "Russian Ruble"
 msgstr "Russian Ruble"
 
-#: includes/wc-core-functions.php:197
+#: includes/wc-core-functions.php:198
 msgid "Singapore Dollar"
 msgstr "Singapore Dollar"
 
-#: includes/wc-core-functions.php:198
+#: includes/wc-core-functions.php:199
 msgid "South African rand"
 msgstr "Sydafrikaneske rand"
 
-#: includes/wc-core-functions.php:199
+#: includes/wc-core-functions.php:200
 msgid "Swedish Krona"
 msgstr "Svenske Kroner"
 
-#: includes/wc-core-functions.php:200
+#: includes/wc-core-functions.php:201
 msgid "Swiss Franc"
 msgstr "Schweizisk Franc"
 
-#: includes/wc-core-functions.php:201
+#: includes/wc-core-functions.php:202
 msgid "Taiwan New Dollars"
 msgstr "Taiwan New Dollars"
 
-#: includes/wc-core-functions.php:202
+#: includes/wc-core-functions.php:203
 msgid "Thai Baht"
 msgstr "Thai Baht"
 
-#: includes/wc-core-functions.php:203
+#: includes/wc-core-functions.php:204
 msgid "Turkish Lira"
 msgstr "Tyrkiske Lira"
 
-#: includes/wc-core-functions.php:204
+#: includes/wc-core-functions.php:205
 msgid "US Dollars"
 msgstr "US Dollars"
 
-#: includes/wc-core-functions.php:205
+#: includes/wc-core-functions.php:206
 msgid "Vietnamese Dong"
 msgstr "Vietnamese Dong"
 
@@ -6885,93 +7159,93 @@ msgstr "Kunne ikke registere dig &hellip; kontakt os hvis du fortsat har problem
 msgid "Unpaid order cancelled - time limit reached."
 msgstr "Ikke betalt ordre annulleret - tidsfrist nået."
 
-#: includes/wc-product-functions.php:236
+#: includes/wc-product-functions.php:233
 msgctxt "slug"
 msgid "uncategorized"
 msgstr "Ikke kategoriseret"
 
-#: includes/wc-template-functions.php:101
+#: includes/wc-template-functions.php:120
 msgid "New products"
 msgstr "Nye produkter"
 
-#: includes/wc-template-functions.php:109
+#: includes/wc-template-functions.php:128
 msgid "New products added to %s"
 msgstr "Nye produkter tilføjet til %s"
 
-#: includes/wc-template-functions.php:117
+#: includes/wc-template-functions.php:136
 msgid "New products tagged %s"
 msgstr "Nye produkter tagget %s"
 
-#: includes/wc-template-functions.php:350
+#: includes/wc-template-functions.php:381
 msgid ""
 "This is a demo store for testing purposes &mdash; no orders shall be "
 "fulfilled."
-msgstr "Dette er en demobutik for test formål &mdash; ingen ordre må bestilles ."
+msgstr "Dette er en demobutik til test-formål &mdash; ingen ordre må gennemføres."
 
-#: includes/wc-template-functions.php:369
+#: includes/wc-template-functions.php:400
 msgid "Search Results: &ldquo;%s&rdquo;"
 msgstr "Søgeresultater: &ldquo;%s&rdquo;"
 
-#: includes/wc-template-functions.php:372
+#: includes/wc-template-functions.php:403
 msgid "&nbsp;&ndash; Page %s"
 msgstr "&nbsp;&ndash; Side %s"
 
-#: includes/wc-template-functions.php:974
+#: includes/wc-template-functions.php:989
 #: templates/checkout/form-shipping.php:55
 #: templates/single-product/tabs/additional-information.php:14
 msgid "Additional Information"
 msgstr "Yderligere Information"
 
-#: includes/wc-template-functions.php:983
+#: includes/wc-template-functions.php:998
 msgid "Reviews (%d)"
 msgstr "Anmeldelser (%d)"
 
-#: includes/wc-template-functions.php:1074
+#: includes/wc-template-functions.php:1089
 msgid ""
 "Use $args argument as an array instead. Deprecated argument will be removed "
 "in WC 2.2."
 msgstr "Use $args argument as an array instead. Deprecated argument will be removed in WC 2.2."
 
-#: includes/wc-template-functions.php:1242
+#: includes/wc-template-functions.php:1257
 msgctxt "breadcrumb"
 msgid "Home"
 msgstr "Forside"
 
-#: includes/wc-template-functions.php:1534
+#: includes/wc-template-functions.php:1558
 msgid "Order Again"
 msgstr "Bestil igen"
 
-#: includes/wc-template-functions.php:1625
+#: includes/wc-template-functions.php:1649
 #: templates/cart/shipping-calculator.php:28
 msgid "Select a country&hellip;"
 msgstr "Vælg et land&hellip;"
 
-#: includes/wc-template-functions.php:1632
+#: includes/wc-template-functions.php:1656
 msgid "Update country"
 msgstr "Opdater land"
 
-#: includes/wc-template-functions.php:1675
+#: includes/wc-template-functions.php:1699
 #: templates/cart/shipping-calculator.php:52
 msgid "Select a state&hellip;"
 msgstr "Vælg en stat&hellip;"
 
-#: includes/wc-template-functions.php:1788
+#: includes/wc-template-functions.php:1812
 msgid "Search for:"
 msgstr "Søg efter:"
 
-#: includes/wc-template-functions.php:1789
+#: includes/wc-template-functions.php:1813
 msgid "Search for products"
 msgstr "Søg efter produkter"
 
-#: includes/wc-template-functions.php:1790
+#: includes/wc-template-functions.php:1814
 msgid "Search"
 msgstr "Søg"
 
-#: includes/wc-term-functions.php:121
+#: includes/wc-term-functions.php:123
 msgid "Select a category"
 msgstr "Vælg en katogori"
 
-#: includes/wc-term-functions.php:125
+#: includes/wc-term-functions.php:127
 msgid "Uncategorized"
 msgstr "Ikke katogoriseret"
 
@@ -6982,6 +7256,11 @@ msgstr "Vis brugerens kasse i sidebar."
 #: includes/widgets/class-wc-widget-cart.php:25
 msgid "WooCommerce Cart"
 msgstr "WooCommerce kasse"
+
+#: includes/widgets/class-wc-widget-cart.php:29
+#: includes/widgets/class-wc-widget-cart.php:56
+msgid "Cart"
+msgstr "Kurv"
 
 #: includes/widgets/class-wc-widget-cart.php:35
 msgid "Hide if cart is empty"
@@ -7029,7 +7308,7 @@ msgstr "Sorter efter"
 
 #: includes/widgets/class-wc-widget-layered-nav.php:75
 msgid "Attribute"
-msgstr "Egenskab"
+msgstr "Attribut"
 
 #: includes/widgets/class-wc-widget-layered-nav.php:81
 msgid "Display type"
@@ -7122,7 +7401,7 @@ msgstr "Vis hierarki"
 msgid "Only show children for the current category"
 msgstr "Vis kun underkateorier af den aktuelle kategori "
 
-#: includes/widgets/class-wc-widget-product-categories.php:177
+#: includes/widgets/class-wc-widget-product-categories.php:214
 msgid "No product categories exist."
 msgstr "Der eksisterer ingen produktkategorier."
 
@@ -7277,27 +7556,30 @@ msgid "Shipping and Handling"
 msgstr "Fragt og ekspedition"
 
 #: templates/cart/cart-shipping.php:55
-msgid ""
-"No shipping methods were found; please recalculate your shipping or continue"
-" to checkout and enter your full address to see if there is shipping "
-"available to your location."
-msgstr "Ingen forsendelsesmetode blev fundet. Foretag venligst en ny beregning på forsendelsen og angiv dit land/din stat og postnummer/zip igen, for at se om der er tilgængelige metoder til din lokation."
+msgid "Please use the shipping calculator to see available shipping methods."
+msgstr "Brug forsendelsesberegneren for at se tilgængelige forsendelsesmetoder."
 
 #: templates/cart/cart-shipping.php:59
+msgid ""
+"Please continue to the checkout and enter your full address to see if there "
+"are any available shipping methods."
+msgstr "Forsæt til kassen og indtast din fulde adresse for at se hvilke forsendelsesmuligheder du har."
+
+#: templates/cart/cart-shipping.php:63
 msgid "Please fill in your details to see available shipping methods."
 msgstr "Udfyld venligst dine oplysninger for at se mulige forsendelsesmetoder."
 
-#: templates/cart/cart-shipping.php:69 templates/cart/cart-shipping.php:77
+#: templates/cart/cart-shipping.php:73 templates/cart/cart-shipping.php:81
 msgid "Sorry, shipping is unavailable %s."
 msgstr "Beklager, det ser ud til, at der ikke er nogen tilgængelige forsendelsesmetoder til din lokation (%s)."
 
-#: templates/cart/cart-shipping.php:69 templates/cart/cart-shipping.php:77
+#: templates/cart/cart-shipping.php:73 templates/cart/cart-shipping.php:81
 msgid ""
 "If you require assistance or wish to make alternate arrangements please "
 "contact us."
 msgstr "Kontakt os venligst hvis du behøver assistance eller ønsker at lave en alternativ aftale."
 
-#: templates/cart/cart-shipping.php:93
+#: templates/cart/cart-shipping.php:97
 msgid "Shipping"
 msgstr "Forsendelse"
 
@@ -7307,7 +7589,7 @@ msgstr "Kurv-total"
 
 #: templates/cart/cart-totals.php:21 templates/checkout/review-order.php:25
 msgid "Cart Subtotal"
-msgstr "Kurv uden forsendelse"
+msgstr "Subtotal"
 
 #: templates/cart/cart-totals.php:75 templates/checkout/review-order.php:79
 msgid "Order Total"
@@ -7366,7 +7648,11 @@ msgstr "Ingen produkter i kurven."
 
 #: templates/cart/mini-cart.php:59
 msgid "Subtotal"
-msgstr "Forsendelse"
+msgstr "Subtotal"
+
+#: templates/cart/mini-cart.php:65
+msgid "Checkout"
+msgstr "Kasse"
 
 #: templates/cart/shipping-calculator.php:22
 msgid "Calculate Shipping"
@@ -7401,11 +7687,8 @@ msgid "Billing &amp; Shipping"
 msgstr "Fakturering &amp forsendelse"
 
 #: templates/checkout/form-billing.php:19
-#: templates/myaccount/form-edit-address.php:14
-#: templates/myaccount/my-address.php:19 templates/myaccount/my-address.php:25
-#: templates/order/order-details.php:118
-msgid "Billing Address"
-msgstr "Faktura adresse"
+msgid "Billing Details"
+msgstr "Faktureringsoplysninger"
 
 #: templates/checkout/form-billing.php:38
 msgid "Create an account?"
@@ -7486,7 +7769,7 @@ msgid ""
 "arrangements."
 msgstr "Beklager, det ser ud til, at der ikke er en tilgængelig betalingsmetode for din stat. Kontakt os venligst hvis du behøver assistance eller ønsker at lave en alternativ aftale."
 
-#: templates/checkout/review-order.php:161
+#: templates/checkout/review-order.php:163
 msgid ""
 "Since your browser does not support JavaScript, or it is disabled, please "
 "ensure you click the <em>Update Totals</em> button before placing your "
@@ -7494,21 +7777,19 @@ msgid ""
 "do so."
 msgstr "Siden din browser ikke understøtter JavaScript, eller det er deaktiveret, skal du sikre dig, at du trykker på <em>Opdater totaler</em> knappen før afgivelsen af din ordre. Du risikerer at blive opkrævet mere end det anførte beløb, hvis du ikke trykker på knappen."
 
-#: templates/checkout/review-order.php:161
+#: templates/checkout/review-order.php:163
 msgid "Update totals"
 msgstr "Opdateringstotal"
 
-#: templates/checkout/review-order.php:168
+#: templates/checkout/review-order.php:170
 msgid "Place order"
 msgstr "Afgiv ordre"
 
-#: templates/checkout/review-order.php:177
-msgid "I have read and accept the"
-msgstr "Jeg har læst og accepterer"
-
-#: templates/checkout/review-order.php:177
-msgid "terms &amp; conditions"
-msgstr "regler &amp; betingelser"
+#: templates/checkout/review-order.php:179
+msgid ""
+"I&rsquo;ve read and accept the <a href=\"%s\" target=\"_blank\">terms &amp; "
+"conditions</a>"
+msgstr "Jeg har læst og accepterer <a href=\"%s\" target=\"_blank\">handelsbetingelserne</a>"
 
 #: templates/checkout/thankyou.php:18
 msgid ""
@@ -7530,7 +7811,7 @@ msgstr "Betal"
 
 #: templates/checkout/thankyou.php:36 templates/checkout/thankyou.php:67
 msgid "Thank you. Your order has been received."
-msgstr "Tak. Din ordre er modtaget."
+msgstr "Tak. Din bestilling er modtaget."
 
 #: templates/emails/admin-new-order.php:13
 #: templates/emails/plain/admin-new-order.php:13
@@ -7560,7 +7841,7 @@ msgstr "Kundeoplysninger"
 #: templates/emails/plain/customer-processing-order.php:41
 #: templates/order/order-details.php:101
 msgid "Email:"
-msgstr "Email:"
+msgstr "E-mail:"
 
 #: templates/emails/admin-new-order.php:56
 #: templates/emails/customer-completed-order.php:57
@@ -7571,14 +7852,14 @@ msgstr "Email:"
 #: templates/emails/plain/customer-note.php:52
 #: templates/emails/plain/customer-processing-order.php:44
 msgid "Tel:"
-msgstr "Tlf:"
+msgstr "Tlf.:"
 
 #: templates/emails/customer-completed-order.php:14
 #: templates/emails/plain/customer-completed-order.php:13
 msgid ""
 "Hi there. Your recent order on %s has been completed. Your order details are"
 " shown below for your reference:"
-msgstr "Hej. Din ordre den %s er blevet gennemført. Du kan orientere dig om detaljerne for din ordre nedenfor for din reference:"
+msgstr "Din ordre hos %s er nu ekspederet. Du kan orientere dig om ordredetaljerne nedenfor."
 
 #: templates/emails/customer-invoice.php:16
 #: templates/emails/plain/customer-invoice.php:14
@@ -7616,14 +7897,14 @@ msgstr "Hej, en bemærkning er netop blevet tilføjet til din ordre:"
 #: templates/emails/customer-note.php:18
 #: templates/emails/plain/customer-note.php:21
 msgid "For your reference, your order details are shown below."
-msgstr "Til din orientering, så er dine ordre detaljer vist nedenfor."
+msgstr "Til din orientering er dine ordredetaljer vist nedenfor."
 
 #: templates/emails/customer-processing-order.php:14
 #: templates/emails/plain/customer-processing-order.php:13
 msgid ""
 "Your order has been received and is now being processed. Your order details "
 "are shown below for your reference:"
-msgstr "Din ordre er blevet modtaget og er nu ved at blive ekspederet. Du kan orientere dig om detaljerne for din ordre nedenfor for din reference:"
+msgstr "Vi har modtaget din ordre, og den er nu ved at blive ekspederet. Du kan orientere dig om dine ordredetaljer nedenfor."
 
 #: templates/emails/customer-reset-password.php:14
 #: templates/emails/plain/customer-reset-password.php:13
@@ -7662,7 +7943,7 @@ msgstr "Leveringsadresse"
 
 #: templates/emails/email-order-items.php:25
 msgid "Product Image"
-msgstr "Produkt Billede"
+msgstr "Produktbillede"
 
 #: templates/emails/email-order-items.php:46
 #: templates/emails/plain/email-order-items.php:46
@@ -7797,7 +8078,7 @@ msgstr "Visning af det enkelte resultat"
 
 #: templates/loop/result-count.php:30
 msgid "Showing all %d results"
-msgstr "Visse alle %d resultater"
+msgstr "Viser alle %d resultater"
 
 #: templates/loop/result-count.php:32
 msgctxt "%1$d = first, %2$d = last, %3$d = total"
@@ -7806,7 +8087,7 @@ msgstr "Vis %1$d–%2$d af %3$d resultater"
 
 #: templates/loop/sale-flash.php:16 templates/single-product/sale-flash.php:16
 msgid "Sale!"
-msgstr "Udsalg!"
+msgstr "Udsalg"
 
 #: templates/myaccount/form-add-payment-method.php:40
 msgid ""
@@ -7830,7 +8111,7 @@ msgstr "Efternavn"
 #: templates/myaccount/form-edit-account.php:28
 #: templates/myaccount/form-login.php:79
 msgid "Email address"
-msgstr "E-mailadresse"
+msgstr "E-mail adresse"
 
 #: templates/myaccount/form-edit-account.php:32
 msgid "Password (leave blank to leave unchanged)"
@@ -7843,6 +8124,12 @@ msgstr "Bekræft nyt password"
 #: templates/myaccount/form-edit-account.php:41
 msgid "Save changes"
 msgstr "Gem ændringer"
+
+#: templates/myaccount/form-edit-address.php:14
+#: templates/myaccount/my-address.php:19 templates/myaccount/my-address.php:25
+#: templates/order/order-details.php:118
+msgid "Billing Address"
+msgstr "Faktura adresse"
 
 #: templates/myaccount/form-edit-address.php:14
 #: templates/myaccount/my-address.php:20 templates/order/order-details.php:133
@@ -7929,8 +8216,8 @@ msgstr "Tilgængelige downloads"
 #: templates/myaccount/my-downloads.php:27
 msgid "%s download remaining"
 msgid_plural "%s downloads remaining"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s download tilbage"
+msgstr[1] "%s downloads tilbage"
 
 #: templates/myaccount/my-orders.php:26
 msgid "Recent Orders"
@@ -7948,11 +8235,11 @@ msgstr[1] "%s for %s varer"
 
 #: templates/myaccount/my-orders.php:78
 msgid "Cancel"
-msgstr "Annullere"
+msgstr "Annuller"
 
 #: templates/myaccount/my-orders.php:84
 msgid "View"
-msgstr "Se"
+msgstr "Vis"
 
 #: templates/myaccount/view-order.php:12
 msgid ""
@@ -8030,7 +8317,7 @@ msgstr "Vælg en valgmulighed"
 
 #: templates/single-product/add-to-cart/variable.php:73
 msgid "Clear selection"
-msgstr "Ryd udvælgelse"
+msgstr "Nulstil valg"
 
 #: templates/single-product/add-to-cart/variable.php:103
 msgid "This product is currently out of stock and unavailable."
@@ -8060,9 +8347,9 @@ msgstr[1] "Tags:"
 msgid "Weight"
 msgstr "Vægt"
 
-#: templates/single-product/product-attributes.php:37
+#: templates/single-product/product-attributes.php:35
 msgid "Dimensions"
-msgstr "Størrelse"
+msgstr "Dimensioner "
 
 #: templates/single-product/rating.php:28
 msgid "%s customer review"
@@ -8122,7 +8409,7 @@ msgstr "Skriv en kommentar til %s"
 
 #: templates/single-product-reviews.php:64
 msgid "Email"
-msgstr "Email"
+msgstr "E-mail"
 
 #: templates/single-product-reviews.php:67
 msgid "Submit"
@@ -8172,3 +8459,19 @@ msgstr "Manualer"
 #: woocommerce.php:183
 msgid "Premium Support"
 msgstr "Premium support"
+
+#. Plugin URI of the plugin/theme
+msgid "http://www.woothemes.com/woocommerce/"
+msgstr "http://www.woothemes.com/woocommerce/"
+
+#. Description of the plugin/theme
+msgid "An e-commerce toolkit that helps you sell anything. Beautifully."
+msgstr "Et e-handels toolkit, der hjælper dig med at sælge noget. Smukt."
+
+#. Author of the plugin/theme
+msgid "WooThemes"
+msgstr "WooThemes"
+
+#. Author URI of the plugin/theme
+msgid "http://woothemes.com"
+msgstr "http://woothemes.com"

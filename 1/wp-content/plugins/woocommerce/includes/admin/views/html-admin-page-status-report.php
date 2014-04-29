@@ -47,7 +47,13 @@
 		</tr>
 		<tr>
 			<td><?php _e( 'MySQL Version','woocommerce' ); ?>:</td>
-			<td><?php if ( function_exists( 'mysql_get_server_info' ) ) echo esc_html( mysql_get_server_info() ); ?></td>
+			<td>
+				<?php
+				/** @global wpdb $wpdb */
+				global $wpdb;
+				echo $wpdb->db_version();
+				?>
+			</td>
 		</tr>
 		<tr>
 			<td><?php _e( 'WP Memory Limit','woocommerce' ); ?>:</td>
@@ -286,19 +292,19 @@
 	<tbody>
 		<?php
 			$check_pages = array(
-				__( 'Shop Base', 'woocommerce' ) => array(
+				_x( 'Shop Base', 'Page setting', 'woocommerce' ) => array(
 						'option' => 'woocommerce_shop_page_id',
 						'shortcode' => ''
 					),
-				__( 'Cart', 'woocommerce' ) => array(
+				_x( 'Cart', 'Page setting', 'woocommerce' ) => array(
 						'option' => 'woocommerce_cart_page_id',
 						'shortcode' => '[' . apply_filters( 'woocommerce_cart_shortcode_tag', 'woocommerce_cart' ) . ']'
 					),
-				__( 'Checkout', 'woocommerce' ) => array(
+				_x( 'Checkout', 'Page setting', 'woocommerce' ) => array(
 						'option' => 'woocommerce_checkout_page_id',
 						'shortcode' => '[' . apply_filters( 'woocommerce_checkout_shortcode_tag', 'woocommerce_checkout' ) . ']'
 					),
-				__( 'My Account', 'woocommerce' ) => array(
+				_x( 'My Account', 'Page setting', 'woocommerce' ) => array(
 						'option' => 'woocommerce_myaccount_page_id',
 						'shortcode' => '[' . apply_filters( 'woocommerce_my_account_shortcode_tag', 'woocommerce_my_account' ) . ']'
 					)

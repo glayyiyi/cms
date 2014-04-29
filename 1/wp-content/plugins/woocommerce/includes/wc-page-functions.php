@@ -49,10 +49,17 @@ function wc_get_endpoint_url( $endpoint, $value = '', $permalink = '' ) {
 	// Map endpoint to options
 	$endpoint = isset( WC()->query->query_vars[ $endpoint ] ) ? WC()->query->query_vars[ $endpoint ] : $endpoint;
 
-	if ( get_option( 'permalink_structure' ) )
-		$url = trailingslashit( $permalink ) . $endpoint . '/' . $value;
-	else
+	if ( get_option( 'permalink_structure' ) ) {
+		if ( strstr( $permalink, '?' ) ) {
+			$query_string = '?' . parse_url( $permalink, PHP_URL_QUERY );
+			$permalink    = current( explode( '?', $permalink ) );
+		} else {
+			$query_string = '';
+		}
+		$url = trailingslashit( $permalink ) . $endpoint . '/' . $value . $query_string;
+	} else {
 		$url = add_query_arg( $endpoint, $value, $permalink );
+	}
 
 	return apply_filters( 'woocommerce_get_endpoint_url', $url );
 }
@@ -68,19 +75,6 @@ function wc_lostpassword_url() {
     return wc_get_endpoint_url( 'lost-password', '', get_permalink( wc_get_page_id( 'myaccount' ) ) );
 }
 add_filter( 'lostpassword_url',  'wc_lostpassword_url', 10, 0 );
-
-/**
- * Returns the url to the register endpoint url
- *
- * @access public
- * @param string $url
- * @return string
- */
-function wc_reg_url() {
-    return wc_get_endpoint_url( 'register', '', get_permalink( wc_get_page_id( 'myaccount' ) ) );
-//	return "myaccount/form-login/?page=register";
-}
-add_filter( 'reg_url',  'wc_reg_url', 10, 0 );
 
 
 /**

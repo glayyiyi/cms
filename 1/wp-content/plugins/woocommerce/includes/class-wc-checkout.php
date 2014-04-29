@@ -189,11 +189,11 @@ class WC_Checkout {
 			$order_id = absint( WC()->session->order_awaiting_payment );
 
 			/* Check order is unpaid by getting its status */
-			$terms = wp_get_object_terms( $order_id, 'shop_order_status', array( 'fields' => 'slugs' ) );
+			$terms        = wp_get_object_terms( $order_id, 'shop_order_status', array( 'fields' => 'slugs' ) );
 			$order_status = isset( $terms[0] ) ? $terms[0] : 'pending';
 
 			// Resume the unpaid order if its pending
-			if ( $order_status == 'pending' || $order_status == 'failed' ) {
+			if ( get_post( $order_id ) && ( $order_status == 'pending' || $order_status == 'failed' ) ) {
 
 				// Update the existing order as we are resuming it
 				$create_new_order = false;
@@ -275,13 +275,17 @@ class WC_Checkout {
 			 	wc_add_order_item_meta( $item_id, '_line_subtotal_tax', wc_format_decimal( $values['line_subtotal_tax'] ) );
 
 			 	// Store variation data in meta so admin can view it
-				if ( $values['variation'] && is_array( $values['variation'] ) )
-					foreach ( $values['variation'] as $key => $value )
-						wc_add_order_item_meta( $item_id, esc_attr( str_replace( 'attribute_', '', $key ) ), $value );
+				if ( $values['variation'] && is_array( $values['variation'] ) ) {
+					foreach ( $values['variation'] as $key => $value ) {
+						$key = str_replace( 'attribute_', '', $key );
+						wc_add_order_item_meta( $item_id, $key, $value );
+					}
+				}
 
 			 	// Add line item meta for backorder status
-			 	if ( $_product->backorders_require_notification() && $_product->is_on_backorder( $values['quantity'] ) )
+			 	if ( $_product->backorders_require_notification() && $_product->is_on_backorder( $values['quantity'] ) ) {
 			 		wc_add_order_item_meta( $item_id, apply_filters( 'woocommerce_backordered_item_meta_name', __( 'Backordered', 'woocommerce' ), $cart_item_key, $order_id ), $values['quantity'] - max( 0, $_product->get_total_stock() ) );
+			 	}
 
 			 	// Allow plugins to add order item meta
 			 	do_action( 'woocommerce_add_order_item_meta', $item_id, $values, $cart_item_key );
@@ -289,7 +293,7 @@ class WC_Checkout {
 		}
 
 		// Store fees
-		foreach ( WC()->cart->get_fees() as $fee ) {
+		foreach ( WC()->cart->get_fees() as $fee_key => $fee ) {
 			$item_id = wc_add_order_item( $order_id, array(
 		 		'order_item_name' 		=> $fee->name,
 		 		'order_item_type' 		=> 'fee'
@@ -302,6 +306,9 @@ class WC_Checkout {
 
 		 	wc_add_order_item_meta( $item_id, '_line_total', wc_format_decimal( $fee->amount ) );
 			wc_add_order_item_meta( $item_id, '_line_tax', wc_format_decimal( $fee->tax ) );
+			
+			// Allow plugins to add order item meta to fees
+			do_action( 'woocommerce_add_order_fee_meta', $order_id, $item_id, $fee, $fee_key );
 		}
 
 		// Store shipping for all packages
@@ -793,117 +800,117 @@ class WC_Checkout {
 		}
 	}
 
-    public function process_checkout_api() {
-        if ( ! defined( 'WOOCOMMERCE_CHECKOUT' ) )
-            define( 'WOOCOMMERCE_CHECKOUT', true );
+	public function process_checkout_api() {
+         if ( ! defined( 'WOOCOMMERCE_CHECKOUT' ) )
+             define( 'WOOCOMMERCE_CHECKOUT', true );
 
-        // Prevent timeout
-        @set_time_limit(0);
+         // Prevent timeout
+         @set_time_limit(0);
 
-        // Checkout fields (not defined in checkout_fields)
-        $this->posted['terms']                     = isset( $_REQUEST['terms'] ) ? 1 : 0;
-        $this->posted['payment_method']            = isset( $_REQUEST['payment_method'] ) ? stripslashes( $_REQUEST['payment_method'] ) : '';
+         // Checkout fields (not defined in checkout_fields)
+         $this->posted['terms']                     = isset( $_REQUEST['terms'] ) ? 1 : 0;
+         $this->posted['payment_method']            = isset( $_REQUEST['payment_method'] ) ? stripslashes( $_REQUEST['payment_method'] ) : '';
 
-        WC()->cart->cart_contents[] = array('data'=>get_product($_REQUEST['product_id']),
-            'quantity'=>$_REQUEST['quantity']);
-        // Update cart totals now we have customer address
-        WC()->cart->calculate_totals_api();
-
-        $method = isset($_REQUEST['payment_method'])?$_REQUEST['payment_method']:'mycred';
-
-        if ( WC()->cart->needs_payment() ) {
-
-            // Payment Method
-            $available_gateways = WC()->payment_gateways->get_available_payment_gateways();
-
-            if ( ! isset( $available_gateways[ $method ] ) ) {
-                $this->payment_method = '';
-                wc_add_notice( __( 'Invalid payment method.', 'woocommerce' ), 'error' );
-            } else {
-                $this->payment_method = $available_gateways[ $method ];
-                $this->payment_method->validate_fields();
-            }
-        }
-
-        if ( wc_notice_count( 'error' ) == 0 ) {
-            try {
-                $customer_id = $_REQUEST['uid'];
-                // Customer accounts
-                $this->customer_id = apply_filters( 'woocommerce_checkout_customer_id', $customer_id );
-
-                // Do a final stock check at this point
-                $this->check_cart_items();
-
-                // Abort if errors are present
-                if ( wc_notice_count( 'error' ) > 0 ){
-                    return array('status'=>'error');
-                    throw new Exception();
-                }
+         WC()->cart->cart_contents[] = array('data'=>get_product($_REQUEST['product_id']),
+             'quantity'=>$_REQUEST['quantity']);
+         // Update cart totals now we have customer address
+         WC()->cart->calculate_totals_api();
+         $method = isset($_REQUEST['payment_method'])?$_REQUEST['payment_method']:'mycred';
 
 
-                $order_id = $this->create_order();
+         if ( WC()->cart->needs_payment() ) {
 
-                // Process payment
-                if ( WC()->cart->needs_payment() ) {
+             // Payment Method
+             $available_gateways = WC()->payment_gateways->get_available_payment_gateways();
 
-                    // Process Payment
-                    $result = $available_gateways[ $this->posted['payment_method'] ]->process_payment_api( $order_id, $customer_id);
+             if ( ! isset( $available_gateways[ $method ] ) ) {
+                 $this->payment_method = '';
+                 wc_add_notice( __( 'Invalid payment method.', 'woocommerce' ), 'error' );
+             } else {
+                 $this->payment_method = $available_gateways[ $method ];
+                 $this->payment_method->validate_fields();
+             }
+         }
 
-                    // Redirect to success/confirmation/payment page
-                    if ( $result['result'] == 'success' ) {
+         if ( wc_notice_count( 'error' ) == 0 ) {
+             try {
+                 $customer_id = $_REQUEST['uid'];
+                 // Customer accounts
+                 $this->customer_id = apply_filters( 'woocommerce_checkout_customer_id', $customer_id );
 
-                        $result = apply_filters( 'woocommerce_payment_successful_result', $result, $order_id );
-                        return array('message'=>$result);
-                        if ( is_ajax() ) {
-                            echo '<!--WC_START-->' . json_encode( $result ) . '<!--WC_END-->';
-                            exit;
-                        } else {
-                            wp_redirect( $result['redirect'] );
-                            exit;
-                        }
+                 // Do a final stock check at this point
+                 $this->check_cart_items();
 
-                    }
+                 // Abort if errors are present
+                 if ( wc_notice_count( 'error' ) > 0 ){
+                     return array('status'=>'error');
+                     throw new Exception();
+                 }
 
-                } else {
 
-                    if ( empty( $order ) )
-                        $order = new WC_Order( $order_id );
+                 $order_id = $this->create_order();
 
-                    // No payment was required for order
-                    $order->payment_complete();
+                 // Process payment
+                 if ( WC()->cart->needs_payment() ) {
 
-                    // Empty the Cart
-                    WC()->cart->empty_cart();
+                     // Process Payment
+                     $result = $available_gateways[ $this->posted['payment_method'] ]->process_payment_api( $order_id, $customer_id);
 
-                    // Get redirect
-                    $return_url = $order->get_checkout_order_received_url();
-                    return array( 'message'=>$return_url);
-                    // Redirect to success/confirmation/payment page
-                    if ( is_ajax() ) {
-                        echo '<!--WC_START-->' . json_encode(
-                                array(
-                                    'result' 	=> 'success',
-                                    'redirect'  => apply_filters( 'woocommerce_checkout_no_payment_needed_redirect', $return_url, $order )
-                                )
-                            ) . '<!--WC_END-->';
-                        exit;
-                    } else {
-                        wp_safe_redirect(
-                            apply_filters( 'woocommerce_checkout_no_payment_needed_redirect', $return_url, $order )
-                        );
-                        exit;
-                    }
+                     // Redirect to success/confirmation/payment page
+                     if ( $result['result'] == 'success' ) {
 
-                }
+                         $result = apply_filters( 'woocommerce_payment_successful_result', $result, $order_id );
+                         return array('message'=>$result);
+                         if ( is_ajax() ) {
+                             echo '<!--WC_START-->' . json_encode( $result ) . '<!--WC_END-->';
+                             exit;
+                         } else {
+                             wp_redirect( $result['redirect'] );
+                             exit;
+                         }
 
-            } catch ( Exception $e ) {
+                     }
 
-                if ( ! empty( $e ) )
-                    wc_add_notice( $e->getMessage(), 'error' );
+                 } else {
 
-            }
+                     if ( empty( $order ) )
+                         $order = new WC_Order( $order_id );
 
-        } // endif
-        return array('status'=>'error');
-    }
+                     // No payment was required for order
+                     $order->payment_complete();
+
+                     // Empty the Cart
+                     WC()->cart->empty_cart();
+
+                     // Get redirect
+                     $return_url = $order->get_checkout_order_received_url();
+                     return array( 'message'=>$return_url);
+                     // Redirect to success/confirmation/payment page
+                     if ( is_ajax() ) {
+                         echo '<!--WC_START-->' . json_encode(
+                                 array(
+                                     'result'    => 'success',
+                                     'redirect'  => apply_filters( 'woocommerce_checkout_no_payment_needed_redirect', $return_url, $order )
+                                 )
+                             ) . '<!--WC_END-->';
+                         exit;
+                     } else {
+                         wp_safe_redirect(
+                             apply_filters( 'woocommerce_checkout_no_payment_needed_redirect', $return_url, $order )
+                         );
+                         exit;
+                     }
+
+                 }
+
+             } catch ( Exception $e ) {
+
+                 if ( ! empty( $e ) )
+                     wc_add_notice( $e->getMessage(), 'error' );
+
+             }
+
+         } // endif
+         return array('status'=>'error');
+     }
 }

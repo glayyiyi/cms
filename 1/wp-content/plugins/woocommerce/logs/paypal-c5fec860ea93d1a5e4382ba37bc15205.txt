@@ -1,1 +1,0 @@
-03-17-2014 @ 13:07:13 - Generating payment form for order #2481. Notify URL: http://www.appcn100.com/cms/?wc-api=WC_Gateway_Paypal

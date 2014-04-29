@@ -48,13 +48,8 @@ class WC_Shortcode_My_Account {
 			if ( isset( $wp->query_vars['lost-password'] ) ) {
 
 				self::lost_password();
-			}else
-			if ( isset( $wp->query_vars['register'] ) ) {
 
-				wc_get_template( 'myaccount/form-register.php' );
-
-			} else 
-			{
+			} else {
 
 				wc_get_template( 'myaccount/form-login.php' );
 

@@ -92,15 +92,6 @@ class WC_Settings_Accounts extends WC_Settings_Page {
 			),
 
 			array(
-				'title' => __( 'Register', 'woocommerce' ),
-				'desc' 		=> __( 'Endpoint for the My Account &rarr; Register page', 'woocommerce' ),
-				'id' 		=> 'woocommerce_myaccount_register_endpoint',
-				'type' 		=> 'text',
-				'default'	=> 'register',
-				'desc_tip'	=> true,
-			),
-
-			array(
 				'title' => __( 'Logout', 'woocommerce' ),
 				'desc' 		=> __( 'Endpoint for the triggering logout. You can add this to your menus via a custom link: yoursite.com/?customer-logout=true', 'woocommerce' ),
 				'id' 		=> 'woocommerce_logout_endpoint',

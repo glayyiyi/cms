@@ -240,7 +240,7 @@ class WC_Product_Variation extends WC_Product {
 	 * Returns false if the product cannot be bought.
 	 *
 	 * @access public
-	 * @return cool
+	 * @return bool
 	 */
 	public function is_purchasable() {
 
@@ -322,6 +322,23 @@ class WC_Product_Variation extends WC_Product {
 	}
 
     /**
+     * Gets the main product image ID.
+     * @return int
+     */
+    public function get_image_id() {
+    	if ( $this->variation_id && has_post_thumbnail( $this->variation_id ) ) {
+			$image_id = get_post_thumbnail_id( $this->variation_id );
+		} elseif ( has_post_thumbnail( $this->id ) ) {
+			$image_id = get_post_thumbnail_id( $this->id );
+		} elseif ( ( $parent_id = wp_get_post_parent_id( $this->id ) ) && has_post_thumbnail( $parent_id ) ) {
+			$image_id = get_post_thumbnail_id( $parent_id );
+		} else {
+			$image_id = 0;
+		}
+		return $image_id;
+    }
+
+    /**
      * Gets the main product image.
      *
      * @access public
@@ -329,10 +346,6 @@ class WC_Product_Variation extends WC_Product {
      * @return string
      */
     public function get_image( $size = 'shop_thumbnail', $attr = array() ) {
-    	global $woocommerce;
-
-    	$image = '';
-
     	if ( $this->variation_id && has_post_thumbnail( $this->variation_id ) ) {
 			$image = get_the_post_thumbnail( $this->variation_id, $size, $attr );
 		} elseif ( has_post_thumbnail( $this->id ) ) {
@@ -367,6 +380,9 @@ class WC_Product_Variation extends WC_Product {
 			// Update meta
 			update_post_meta( $this->variation_id, '_stock', '' );
 
+			// Refresh parent prices
+			WC_Product_Variable::sync( $this->id );
+
 		} elseif ( $this->variation_has_stock || $force_variation_stock ) {
 
 			// Update stock amount
@@ -386,13 +402,32 @@ class WC_Product_Variation extends WC_Product {
 				// Check parent
 				$parent_product = get_product( $this->id );
 
-				// Only continue if the parent has backorders off
-				if ( ! $parent_product->backorders_allowed() && $parent_product->get_total_stock() <= get_option( 'woocommerce_notify_no_stock_amount' ) )
-					$this->set_stock_status( 'outofstock' );
+				// Only continue if the parent has backorders off and all children are stock managed and out of stock
+				if ( ! $parent_product->backorders_allowed() && $parent_product->get_total_stock() <= get_option( 'woocommerce_notify_no_stock_amount' ) ) {
+
+					$all_managed = true;
+
+					if ( sizeof( $parent_product->get_children() ) > 0 ) {
+						foreach ( $parent_product->get_children() as $child_id ) {
+							$stock = get_post_meta( $child_id, '_stock', true );
+							if ( $stock == '' ) {
+								$all_managed = false;
+								break;
+							}
+						}
+					}
+
+					if ( $all_managed ) {
+						$this->set_stock_status( 'outofstock' );
+					}
+				}
 
 			} elseif ( $this->is_in_stock() ) {
 				$this->set_stock_status( 'instock' );
 			}
+
+			// Refresh parent prices
+			WC_Product_Variable::sync( $this->id );
 
 			// Trigger action
 			do_action( 'woocommerce_product_set_stock', $this );

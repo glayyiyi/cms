@@ -547,7 +547,7 @@ class WC_Countries {
 	 * @return array of states
 	 */
 	public function get_states( $cc ) {
-		return ( isset( $this->states[ $cc ] ) ) ? $this->states[ $cc ] : array();
+		return ( isset( $this->states[ $cc ] ) ) ? $this->states[ $cc ] : false;
 	}
 
 
@@ -817,6 +817,14 @@ class WC_Countries {
 					'postcode_before_city' => true,
 					'state'		=> array(
 						'required' => false
+					)
+				),
+				'BD' => array(
+					'postcode' => array(
+						'required' => false
+					),
+					'state'    => array(
+						'label' => __( 'District', 'woocommerce' ),
 					)
 				),
 				'BE' => array(

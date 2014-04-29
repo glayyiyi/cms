@@ -1,15 +1,17 @@
 # 
 # Translators:
+# mikejolley <mike.jolley@me.com>, 2014
 # Morten Andersen <morten@w-academy.dk>, 2014
 # Rudimidtgaard <rudimidtgaard@gmail.com>, 2014
 # teddyostergaard <teddyostergaard@gmail.com>, 2014
+# Thomas Clausen <tntc1978@gmail.com>, 2014
 # tue.holm <tuh@liederbrau.de>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: WooCommerce\n"
 "Report-Msgid-Bugs-To: https://github.com/woothemes/woocommerce/issues\n"
-"POT-Creation-Date: 2014-02-21 16:11:55+00:00\n"
-"PO-Revision-Date: 2014-02-22 08:50+0000\n"
+"POT-Creation-Date: 2014-03-24 12:16:54+00:00\n"
+"PO-Revision-Date: 2014-04-07 08:43+0000\n"
 "Last-Translator: mikejolley <mike.jolley@me.com>\n"
 "Language-Team: Danish (Denmark) (http://www.transifex.com/projects/p/woocommerce/language/da_DK/)\n"
 "MIME-Version: 1.0\n"
@@ -20,10 +22,10 @@ msgstr ""
 
 #: includes/admin/class-wc-admin-assets.php:65
 #: includes/admin/class-wc-admin-menus.php:47
-#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:45
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:49
 #: includes/admin/wc-admin-functions.php:19
 msgid "WooCommerce"
-msgstr "Om WooCommerce"
+msgstr "WooCommerce"
 
 #: includes/admin/class-wc-admin-assets.php:108
 msgid "Please enter in decimal (%s) format without thousand separators."
@@ -383,26 +385,26 @@ msgstr "%s top sælger denne måned (solgte %d)"
 #: includes/admin/class-wc-admin-dashboard.php:145
 msgid "<strong>%s order</strong> awaiting processing"
 msgid_plural "<strong>%s orders</strong> awaiting processing"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "<strong>%s ordre</strong> afventer behandling"
+msgstr[1] "<strong>%s ordrer</strong> afventer behandling"
 
 #: includes/admin/class-wc-admin-dashboard.php:150
 msgid "<strong>%s order</strong> on-hold"
 msgid_plural "<strong>%s orders</strong> on-hold"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "<strong>%s ordre</strong> afventer"
+msgstr[1] "<strong>%s ordrer</strong> afventer"
 
 #: includes/admin/class-wc-admin-dashboard.php:155
 msgid "<strong>%s product</strong> low in stock"
 msgid_plural "<strong>%s products</strong> low in stock"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "<strong>%s produkt</strong> med lav lagerstatus"
+msgstr[1] "<strong>%s produkter</strong> med lav lagerstatus"
 
 #: includes/admin/class-wc-admin-dashboard.php:160
 msgid "<strong>%s product</strong> out of stock"
 msgid_plural "<strong>%s products</strong> out of stock"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "<strong>%s produkt</strong> er udsolgt"
+msgstr[1] "<strong>%s produkter</strong> er udsolgt"
 
 #: includes/admin/class-wc-admin-dashboard.php:193
 msgid "out of 5"
@@ -879,41 +881,41 @@ msgstr "Tilladelser:"
 msgid "Revoke API Key"
 msgstr "Tilbagekald API-nøgle"
 
-#: includes/admin/class-wc-admin-reports.php:46
+#: includes/admin/class-wc-admin-reports.php:43
 #: includes/admin/reports/class-wc-report-customer-list.php:251
 msgid "Orders"
 msgstr "Alle ordrer"
 
-#: includes/admin/class-wc-admin-reports.php:49
+#: includes/admin/class-wc-admin-reports.php:46
 msgid "Sales by date"
 msgstr "Salg efter dato"
 
-#: includes/admin/class-wc-admin-reports.php:55
+#: includes/admin/class-wc-admin-reports.php:52
 msgid "Sales by product"
 msgstr "Salg efter produkt"
 
-#: includes/admin/class-wc-admin-reports.php:61
+#: includes/admin/class-wc-admin-reports.php:58
 msgid "Sales by category"
 msgstr "Salg pr. kategori"
 
-#: includes/admin/class-wc-admin-reports.php:67
+#: includes/admin/class-wc-admin-reports.php:64
 msgid "Coupons by date"
 msgstr "Kuponer efter dato"
 
-#: includes/admin/class-wc-admin-reports.php:75
+#: includes/admin/class-wc-admin-reports.php:72
 #: includes/admin/reports/class-wc-report-customer-list.php:30
 msgid "Customers"
 msgstr "Kunder"
 
-#: includes/admin/class-wc-admin-reports.php:78
+#: includes/admin/class-wc-admin-reports.php:75
 msgid "Customers vs. Guests"
 msgstr "Kunder vs. gæster"
 
-#: includes/admin/class-wc-admin-reports.php:84
+#: includes/admin/class-wc-admin-reports.php:81
 msgid "Customer List"
 msgstr "Kunde liste"
 
-#: includes/admin/class-wc-admin-reports.php:92
+#: includes/admin/class-wc-admin-reports.php:89
 #: includes/admin/post-types/class-wc-admin-cpt-product.php:252
 #: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:765
 #: includes/admin/reports/class-wc-report-stock.php:25
@@ -921,11 +923,11 @@ msgstr "Kunde liste"
 msgid "Stock"
 msgstr "Lager"
 
-#: includes/admin/class-wc-admin-reports.php:95
+#: includes/admin/class-wc-admin-reports.php:92
 msgid "Low in stock"
 msgstr "Lav beholdning"
 
-#: includes/admin/class-wc-admin-reports.php:101
+#: includes/admin/class-wc-admin-reports.php:98
 #: includes/admin/post-types/class-wc-admin-cpt-product.php:419
 #: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:303
 #: includes/admin/reports/class-wc-report-stock.php:98
@@ -934,20 +936,20 @@ msgstr "Lav beholdning"
 msgid "Out of stock"
 msgstr "Ikke på lager"
 
-#: includes/admin/class-wc-admin-reports.php:107
+#: includes/admin/class-wc-admin-reports.php:104
 msgid "Most Stocked"
 msgstr "Højeste beholdning"
 
-#: includes/admin/class-wc-admin-reports.php:118
+#: includes/admin/class-wc-admin-reports.php:115
 #: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:75
 msgid "Taxes"
 msgstr "Moms"
 
-#: includes/admin/class-wc-admin-reports.php:121
+#: includes/admin/class-wc-admin-reports.php:118
 msgid "Taxes by code"
 msgstr "Moms/skat efter kode"
 
-#: includes/admin/class-wc-admin-reports.php:127
+#: includes/admin/class-wc-admin-reports.php:124
 msgid "Taxes by date"
 msgstr "Moms efter dato$"
 
@@ -1133,7 +1135,7 @@ msgstr "Visningstype"
 #: includes/admin/class-wc-admin-taxonomies.php:178
 #: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:97
 #: includes/admin/settings/class-wc-settings-products.php:25
-#: includes/admin/views/html-admin-page-addons.php:15
+#: includes/admin/views/html-admin-page-addons.php:16
 msgid "Products"
 msgstr "Produkter"
 
@@ -1487,7 +1489,7 @@ msgid ""
 "to our translation team. Want to see your name? <a "
 "href=\"https://www.transifex.com/projects/p/woocommerce/\">Translate "
 "WooCommerce</a>."
-msgstr ""
+msgstr "WooCommerce er blevet oversat til adskillige andre sprog takket være vores oversættelseshold. Vil du også gerne se dit navn? <a href=\"https://www.transifex.com/projects/p/woocommerce/\">Oversæt WooCommerce</a>."
 
 #: includes/admin/class-wc-admin-welcome.php:423
 msgid "View %s"
@@ -1664,7 +1666,7 @@ msgstr "Tags"
 #: includes/admin/reports/class-wc-report-customers.php:206
 #: includes/admin/reports/class-wc-report-sales-by-category.php:219
 #: includes/admin/reports/class-wc-report-sales-by-date.php:165
-#: includes/admin/reports/class-wc-report-sales-by-product.php:329
+#: includes/admin/reports/class-wc-report-sales-by-product.php:319
 msgid "Date"
 msgstr "dato"
 
@@ -1724,7 +1726,7 @@ msgid "View &#8220;%s&#8221;"
 msgstr "Vis &#8220;%s&#8221;"
 
 #: includes/admin/post-types/class-wc-admin-cpt-product.php:319
-#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:316
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:320
 #: includes/admin/reports/class-wc-report-stock.php:119
 msgid "View"
 msgstr "Vis"
@@ -1765,8 +1767,8 @@ msgstr "(slå) til/fra fremhævet"
 
 #: includes/admin/post-types/class-wc-admin-cpt-product.php:408
 #: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:139
-#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:204
 #: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:208
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:212
 #: includes/admin/views/html-admin-page-status-report.php:38
 #: includes/admin/views/html-admin-page-status-report.php:66
 #: includes/admin/views/html-admin-page-status-report.php:91
@@ -1899,14 +1901,14 @@ msgid "Customer Message"
 msgstr "Besked fra kunde"
 
 #: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:97
-#: includes/admin/post-types/class-wc-admin-meta-boxes.php:101
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:110
 msgid "Order Notes"
 msgstr "Ordre bemærkninger"
 
 #: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:99
 #: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:43
 #: includes/admin/post-types/meta-boxes/views/html-order-fee.php:62
-#: includes/admin/post-types/meta-boxes/views/html-order-item.php:171
+#: includes/admin/post-types/meta-boxes/views/html-order-item.php:175
 #: includes/admin/reports/class-wc-report-taxes-by-code.php:127
 msgid "Total"
 msgstr "Total"
@@ -1933,87 +1935,87 @@ msgstr "Y/m/d"
 
 #: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:151
 #: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:189
-#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:220
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:224
 msgid "Via"
 msgstr "Via"
 
 #: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:155
 msgid "%d item"
 msgid_plural "%d items"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d produkt"
+msgstr[1] "%d produkter"
 
-#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:206
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:210
 msgid "plus %d other note"
 msgid_plural "plus %d other notes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "plus %d anden note"
+msgstr[1] "plus %d andre noter"
 
-#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:206
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:210
 msgid "%d note"
 msgid_plural "%d notes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d note"
+msgstr[1] "%d noter"
 
-#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:228
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:232
 msgid "Billing:"
 msgstr "Fakturering:"
 
-#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:232
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:236
 msgid "Tel:"
 msgstr "Tlf:"
 
-#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:254
-#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:277
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:258
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:281
 #: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:169
 msgid "Guest"
 msgstr "Gæst"
 
-#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:281
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:285
 msgid "%s by %s"
 msgstr "%s af %s"
 
-#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:301
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:305
 msgid "Processing"
 msgstr "Behandler"
 
-#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:309
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:313
 msgid "Complete"
 msgstr "Gennemført"
 
-#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:404
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:408
 msgid "Show all statuses"
 msgstr "Vis status"
 
-#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:424
-#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:449
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:428
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:453
 msgid "Show all customers"
 msgstr "Vis alle kunder"
 
-#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:690
-#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:691
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:687
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:688
 msgid "Mark processing"
 msgstr "Marker forarbejdning"
 
-#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:693
-#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:694
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:690
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:691
 msgid "Mark on-hold"
 msgstr "Marker \"i bero\""
 
-#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:696
-#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:697
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:693
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:694
 msgid "Mark completed"
 msgstr "Marker gennemført"
 
-#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:738
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:735
 msgid "Order status changed by bulk edit:"
 msgstr "Ordrestatus ændret sig ved omfang redigerer:"
 
-#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:760
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:757
 msgid "Order status changed."
 msgid_plural "%s order statuses changed."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Ordrestatus ændret."
+msgstr[1] "%s ordrestatuser ændret."
 
 #: includes/admin/post-types/class-wc-admin-cpt.php:42
 msgid "Insert into %s"
@@ -2023,56 +2025,56 @@ msgstr "Indsæt ind i %s"
 msgid "Uploaded to this %s"
 msgstr "Uploaded til denne %s"
 
-#: includes/admin/post-types/class-wc-admin-meta-boxes.php:93
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:102
 msgid "Product Short Description"
 msgstr "Kort produktbeskrivelse"
 
-#: includes/admin/post-types/class-wc-admin-meta-boxes.php:94
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:103
 #: includes/admin/settings/class-wc-settings-products.php:283
 #: includes/admin/views/html-bulk-edit-product.php:4
 #: includes/admin/views/html-quick-edit-product.php:4
 msgid "Product Data"
 msgstr "Produkt Data"
 
-#: includes/admin/post-types/class-wc-admin-meta-boxes.php:95
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:104
 msgid "Product Gallery"
 msgstr "Produktgalleri"
 
-#: includes/admin/post-types/class-wc-admin-meta-boxes.php:98
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:107
 msgid "Order Data"
 msgstr "Ordredata"
 
-#: includes/admin/post-types/class-wc-admin-meta-boxes.php:99
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:108
 msgid "Order Items"
 msgstr "Ordreprodukter"
 
-#: includes/admin/post-types/class-wc-admin-meta-boxes.php:100
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:109
 msgid "Order Totals"
 msgstr "Ordre total:"
 
-#: includes/admin/post-types/class-wc-admin-meta-boxes.php:102
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:111
 msgid "Downloadable Product Permissions"
 msgstr "Download-bare produkt tilladelser"
 
-#: includes/admin/post-types/class-wc-admin-meta-boxes.php:102
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:111
 msgid ""
 "Note: Permissions for order items will automatically be granted when the "
 "order status changes to processing/completed."
 msgstr "Bemærk: Tilladelse for ordreprodukter vil automatisk blive givet når ordrestatus ændres til behandler/afsluttet."
 
-#: includes/admin/post-types/class-wc-admin-meta-boxes.php:103
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:112
 msgid "Order Actions"
 msgstr "Ordrehandlinger"
 
-#: includes/admin/post-types/class-wc-admin-meta-boxes.php:106
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:115
 msgid "Coupon Data"
 msgstr "Kupondata"
 
-#: includes/admin/post-types/class-wc-admin-meta-boxes.php:111
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:120
 msgid "Rating"
 msgstr "Rating"
 
-#: includes/admin/post-types/class-wc-admin-meta-boxes.php:144
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:153
 msgid "Reviews"
 msgstr "Anmeldelser"
 
@@ -2137,7 +2139,7 @@ msgstr "Intet minimum"
 #: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:85
 msgid ""
 "This field allows you to set the minimum subtotal needed to use the coupon."
-msgstr "Dette felt lader dig definere en minimums forsendelse for at kunne bruge kuponen"
+msgstr "Dette felt lader dig definere en minimums subtotal for at kunne bruge kuponen"
 
 #: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:88
 msgid "Individual use only"
@@ -2164,7 +2166,7 @@ msgstr "Marker denne box hvis kuponen ikke skal gælde for produkter til salg. P
 #: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:95
 #: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:586
 #: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:603
-#: includes/admin/reports/class-wc-report-sales-by-product.php:183
+#: includes/admin/reports/class-wc-report-sales-by-product.php:173
 msgid "Search for a product&hellip;"
 msgstr "Søg efter et produkt&hellip;"
 
@@ -2277,7 +2279,7 @@ msgstr "Kuponkode eksisterer allerede - kunder vil bruge den seneste kupon med d
 
 #: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-actions.php:35
 msgid "Resend order emails"
-msgstr "Gensend odre emails"
+msgstr "Gensend ordre e-mails"
 
 #: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-actions.php:51
 msgid "Generate Download Permissions"
@@ -2294,7 +2296,7 @@ msgstr "Flyt til papirkurven"
 
 #: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-actions.php:71
 msgid "Save Order"
-msgstr "Gem odre"
+msgstr "Gem ordre"
 
 #: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-actions.php:71
 msgid "Save/update the order"
@@ -2481,41 +2483,41 @@ msgstr "Tilføj produkt(er)"
 msgid "Add fee"
 msgstr "Tilføj gebyr"
 
-#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:44
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:48
 msgid "added %s ago"
 msgstr "tilføjet %s siden"
 
-#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:45
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:49
 msgid "by %s"
 msgstr "af %s"
 
-#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:46
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:50
 msgid "Delete note"
 msgstr "Slet bemærkning"
 
-#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:52
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:56
 msgid "There are no notes for this order yet."
 msgstr "Der er ingen bemærkninger til denne ordre endnu."
 
-#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:58
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:62
 msgid "Add note"
 msgstr "Tilføj bemærkning"
 
-#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:58
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:62
 msgid ""
 "Add a note for your reference, or add a customer note (the user will be "
 "notified)."
 msgstr "Tilføj en bemærkning til din reference, eller tilføje en kundebemærkning (brugeren vil blive underrettet)."
 
-#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:64
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:68
 msgid "Customer note"
 msgstr "Kunde bemærkning"
 
-#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:65
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:69
 msgid "Private note"
 msgstr "Privat bemærkning"
 
-#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:67
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:71
 #: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:564
 msgid "Add"
 msgstr "Tilføj"
@@ -2526,7 +2528,7 @@ msgstr "Tilføj"
 #: includes/admin/settings/class-wc-settings-shipping.php:25
 #: includes/admin/settings/class-wc-settings-tax.php:266
 #: includes/admin/settings/class-wc-settings-tax.php:383
-#: includes/admin/views/html-admin-page-addons.php:13
+#: includes/admin/views/html-admin-page-addons.php:14
 msgid "Shipping"
 msgstr "Forsendelse"
 
@@ -2752,9 +2754,9 @@ msgid "Shipping only"
 msgstr "Kun forsendelse"
 
 #: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:252
-#: includes/admin/reports/class-wc-report-sales-by-category.php:176
 #: includes/admin/views/html-bulk-edit-product.php:66
 #: includes/admin/views/html-quick-edit-product.php:45
+msgctxt "Tax status"
 msgid "None"
 msgstr "Ingen"
 
@@ -2762,7 +2764,7 @@ msgstr "Ingen"
 #: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:734
 #: includes/admin/post-types/meta-boxes/views/html-order-fee.php:27
 #: includes/admin/post-types/meta-boxes/views/html-order-fee.php:39
-#: includes/admin/post-types/meta-boxes/views/html-order-item.php:122
+#: includes/admin/post-types/meta-boxes/views/html-order-item.php:126
 #: includes/admin/settings/class-wc-settings-tax.php:122
 #: includes/admin/settings/class-wc-settings-tax.php:243
 #: includes/admin/views/html-bulk-edit-product.php:83
@@ -3105,8 +3107,8 @@ msgstr "%s: %s"
 #: includes/admin/post-types/meta-boxes/views/html-order-download-permission.php:9
 msgid "Downloaded %s time"
 msgid_plural "Downloaded %s times"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Downloadet %s gang"
+msgstr[1] "Downloadet %s gange"
 
 #: includes/admin/post-types/meta-boxes/views/html-order-download-permission.php:16
 msgid "Downloads Remaining"
@@ -3125,7 +3127,7 @@ msgid "Fee Name"
 msgstr "Gebyr-Navn"
 
 #: includes/admin/post-types/meta-boxes/views/html-order-fee.php:31
-#: includes/admin/post-types/meta-boxes/views/html-order-item.php:136
+#: includes/admin/post-types/meta-boxes/views/html-order-item.php:140
 msgid "Tax class"
 msgstr "Momsklasse"
 
@@ -3141,19 +3143,19 @@ msgstr "Variant ID:"
 msgid "Product SKU:"
 msgstr "Produkt varenummer:"
 
-#: includes/admin/post-types/meta-boxes/views/html-order-item.php:74
+#: includes/admin/post-types/meta-boxes/views/html-order-item.php:75
 msgid "Add&nbsp;meta"
 msgstr "Tilføj&nbsp;meta"
 
-#: includes/admin/post-types/meta-boxes/views/html-order-item.php:169
+#: includes/admin/post-types/meta-boxes/views/html-order-item.php:173
 msgid "Subtotal"
-msgstr "Forsendelse"
+msgstr ""
 
-#: includes/admin/post-types/meta-boxes/views/html-order-item.php:169
+#: includes/admin/post-types/meta-boxes/views/html-order-item.php:173
 msgid "Before pre-tax discounts."
 msgstr "Før moms rabatter."
 
-#: includes/admin/post-types/meta-boxes/views/html-order-item.php:171
+#: includes/admin/post-types/meta-boxes/views/html-order-item.php:175
 msgid "After pre-tax discounts."
 msgstr "Efter moms rabatter"
 
@@ -3290,15 +3292,15 @@ msgid ""
 "Enable this option if a product is not shipped or there is no shipping cost"
 msgstr "Aktiver denne indstilling hvis et produkt ikke er sendt, eller der ikke er nogen forsendelsesomkostninger"
 
-#: includes/admin/reports/class-wc-admin-report.php:391
+#: includes/admin/reports/class-wc-admin-report.php:384
 msgid "Sold %s worth in the last %d days"
 msgstr "Solgt %s værd i de sidste %d dage"
 
-#: includes/admin/reports/class-wc-admin-report.php:393
+#: includes/admin/reports/class-wc-admin-report.php:386
 msgid "Sold 1 item in the last %d days"
 msgid_plural "Sold %d items in the last %d days"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Solgte 1 produkt de sidste %d dage"
+msgstr[1] "Solgte produkter %d produkter de sidste %d dage"
 
 #: includes/admin/reports/class-wc-report-coupon-usage.php:76
 msgid "%s discounts in total"
@@ -3312,7 +3314,7 @@ msgstr "%s kuponer brugt total"
 #: includes/admin/reports/class-wc-report-customers.php:145
 #: includes/admin/reports/class-wc-report-sales-by-category.php:73
 #: includes/admin/reports/class-wc-report-sales-by-date.php:129
-#: includes/admin/reports/class-wc-report-sales-by-product.php:113
+#: includes/admin/reports/class-wc-report-sales-by-product.php:99
 #: includes/admin/reports/class-wc-report-taxes-by-code.php:46
 #: includes/admin/reports/class-wc-report-taxes-by-date.php:46
 msgid "Year"
@@ -3322,7 +3324,7 @@ msgstr "År"
 #: includes/admin/reports/class-wc-report-customers.php:146
 #: includes/admin/reports/class-wc-report-sales-by-category.php:74
 #: includes/admin/reports/class-wc-report-sales-by-date.php:130
-#: includes/admin/reports/class-wc-report-sales-by-product.php:114
+#: includes/admin/reports/class-wc-report-sales-by-product.php:100
 #: includes/admin/reports/class-wc-report-taxes-by-code.php:47
 #: includes/admin/reports/class-wc-report-taxes-by-date.php:47
 msgid "Last Month"
@@ -3332,7 +3334,7 @@ msgstr "Seneste måned"
 #: includes/admin/reports/class-wc-report-customers.php:147
 #: includes/admin/reports/class-wc-report-sales-by-category.php:75
 #: includes/admin/reports/class-wc-report-sales-by-date.php:131
-#: includes/admin/reports/class-wc-report-sales-by-product.php:115
+#: includes/admin/reports/class-wc-report-sales-by-product.php:101
 #: includes/admin/reports/class-wc-report-taxes-by-code.php:48
 #: includes/admin/reports/class-wc-report-taxes-by-date.php:48
 msgid "This Month"
@@ -3342,7 +3344,7 @@ msgstr "Denne måned"
 #: includes/admin/reports/class-wc-report-customers.php:148
 #: includes/admin/reports/class-wc-report-sales-by-category.php:76
 #: includes/admin/reports/class-wc-report-sales-by-date.php:132
-#: includes/admin/reports/class-wc-report-sales-by-product.php:116
+#: includes/admin/reports/class-wc-report-sales-by-product.php:102
 msgid "Last 7 Days"
 msgstr "Seneste 7 dage"
 
@@ -3360,7 +3362,7 @@ msgstr "Alle kuponer"
 
 #: includes/admin/reports/class-wc-report-coupon-usage.php:174
 #: includes/admin/reports/class-wc-report-sales-by-category.php:178
-#: includes/admin/reports/class-wc-report-sales-by-product.php:184
+#: includes/admin/reports/class-wc-report-sales-by-product.php:174
 msgid "Show"
 msgstr "Vis"
 
@@ -3385,7 +3387,7 @@ msgstr "Mest rabat"
 #: includes/admin/reports/class-wc-report-customers.php:209
 #: includes/admin/reports/class-wc-report-sales-by-category.php:222
 #: includes/admin/reports/class-wc-report-sales-by-date.php:169
-#: includes/admin/reports/class-wc-report-sales-by-product.php:332
+#: includes/admin/reports/class-wc-report-sales-by-product.php:322
 #: includes/admin/reports/class-wc-report-taxes-by-code.php:34
 #: includes/admin/reports/class-wc-report-taxes-by-date.php:34
 #: includes/admin/settings/class-wc-settings-tax.php:289
@@ -3504,6 +3506,10 @@ msgstr "%s omsætning i %s"
 msgid "Select categories&hellip;"
 msgstr "Vælg kategorier&hellip;"
 
+#: includes/admin/reports/class-wc-report-sales-by-category.php:176
+msgid "None"
+msgstr "Ingen"
+
 #: includes/admin/reports/class-wc-report-sales-by-category.php:177
 msgid "All"
 msgstr "Alle"
@@ -3541,7 +3547,7 @@ msgid "%s worth of coupons used"
 msgstr "%s værd af kuponer, der er brugt"
 
 #: includes/admin/reports/class-wc-report-sales-by-date.php:301
-#: includes/admin/reports/class-wc-report-sales-by-product.php:446
+#: includes/admin/reports/class-wc-report-sales-by-product.php:435
 msgid "Number of items sold"
 msgstr "Antal af produkter solgt"
 
@@ -3560,44 +3566,44 @@ msgid "Shipping amount"
 msgstr "Fragt beløb"
 
 #: includes/admin/reports/class-wc-report-sales-by-date.php:347
-#: includes/admin/reports/class-wc-report-sales-by-product.php:454
+#: includes/admin/reports/class-wc-report-sales-by-product.php:443
 msgid "Sales amount"
 msgstr "Salgsbeløb"
 
-#: includes/admin/reports/class-wc-report-sales-by-product.php:93
+#: includes/admin/reports/class-wc-report-sales-by-product.php:79
 msgid "%s sales for the selected items"
 msgstr "%s salg for de valgte produkter"
 
-#: includes/admin/reports/class-wc-report-sales-by-product.php:98
+#: includes/admin/reports/class-wc-report-sales-by-product.php:84
 msgid "%s purchases for the selected items"
 msgstr "%s køb for de valgte produkter"
 
-#: includes/admin/reports/class-wc-report-sales-by-product.php:144
+#: includes/admin/reports/class-wc-report-sales-by-product.php:130
 msgid "Showing reports for:"
 msgstr "Viser reporter for"
 
-#: includes/admin/reports/class-wc-report-sales-by-product.php:170
+#: includes/admin/reports/class-wc-report-sales-by-product.php:160
 msgid "Reset"
 msgstr "Reset"
 
-#: includes/admin/reports/class-wc-report-sales-by-product.php:179
+#: includes/admin/reports/class-wc-report-sales-by-product.php:169
 msgid "Product Search"
 msgstr "Produkt søgning"
 
-#: includes/admin/reports/class-wc-report-sales-by-product.php:216
+#: includes/admin/reports/class-wc-report-sales-by-product.php:206
 msgid "Top Sellers"
 msgstr "Top sælgere"
 
-#: includes/admin/reports/class-wc-report-sales-by-product.php:251
-#: includes/admin/reports/class-wc-report-sales-by-product.php:291
+#: includes/admin/reports/class-wc-report-sales-by-product.php:241
+#: includes/admin/reports/class-wc-report-sales-by-product.php:281
 msgid "No products found in range"
 msgstr "Ingen produkter fundet indenfor omrødet"
 
-#: includes/admin/reports/class-wc-report-sales-by-product.php:256
+#: includes/admin/reports/class-wc-report-sales-by-product.php:246
 msgid "Top Earners"
 msgstr "Top sælgere"
 
-#: includes/admin/reports/class-wc-report-sales-by-product.php:347
+#: includes/admin/reports/class-wc-report-sales-by-product.php:337
 msgid "&larr; Choose a product to view stats"
 msgstr "&larr; Vælg et produkt for at se statestik"
 
@@ -3819,7 +3825,7 @@ msgid "Coupons can be applied from the cart and checkout pages."
 msgstr "Kuponer kan anvendes fra kassen og checkoutsiderne."
 
 #: includes/admin/settings/class-wc-settings-checkout.php:78
-#: includes/admin/views/html-admin-page-status-report.php:297
+msgctxt "Settings group label"
 msgid "Checkout"
 msgstr "Checkout"
 
@@ -4929,25 +4935,31 @@ msgstr "Gennemse alle udvidelser"
 msgid "Browse themes"
 msgstr "Gennemse temaer"
 
-#: includes/admin/views/html-admin-page-addons.php:11
+#: includes/admin/views/html-admin-page-addons.php:12
 msgid "Popular"
 msgstr "Populær"
 
-#: includes/admin/views/html-admin-page-addons.php:12
+#: includes/admin/views/html-admin-page-addons.php:13
 msgid "Gateways"
 msgstr "Gateways"
 
-#: includes/admin/views/html-admin-page-addons.php:14
+#: includes/admin/views/html-admin-page-addons.php:15
 msgid "Import/export"
 msgstr "import/eksport"
 
-#: includes/admin/views/html-admin-page-addons.php:16
+#: includes/admin/views/html-admin-page-addons.php:17
 msgid "Marketing"
 msgstr "Marketing"
 
-#: includes/admin/views/html-admin-page-addons.php:17
+#: includes/admin/views/html-admin-page-addons.php:18
 msgid "Free"
 msgstr "Gratis!"
+
+#: includes/admin/views/html-admin-page-addons.php:33
+msgid ""
+"Our catalog of WooCommerce Extensions can be found on WooThemes.com here: <a"
+" href=\"%s\">WooCommerce Extensions Catalog</a>"
+msgstr ""
 
 #: includes/admin/views/html-admin-page-status-report.php:2
 msgid "Please include this information when requesting support:"
@@ -5154,14 +5166,22 @@ msgid "WC Pages"
 msgstr "WC Sider"
 
 #: includes/admin/views/html-admin-page-status-report.php:289
+msgctxt "Page setting"
 msgid "Shop Base"
 msgstr "Butik basisside"
 
 #: includes/admin/views/html-admin-page-status-report.php:293
+msgctxt "Page setting"
 msgid "Cart"
 msgstr "Kurv"
 
+#: includes/admin/views/html-admin-page-status-report.php:297
+msgctxt "Page setting"
+msgid "Checkout"
+msgstr "Checkout"
+
 #: includes/admin/views/html-admin-page-status-report.php:301
+msgctxt "Page setting"
 msgid "My Account"
 msgstr "Min Konto"
 
@@ -5392,22 +5412,6 @@ msgstr "Salgspris"
 msgid "Custom:"
 msgstr "Brugerdefineret:"
 
-#: includes/admin/wc-admin-functions.php:193
+#: includes/admin/wc-admin-functions.php:192
 msgid "Could not compile woocommerce.less:"
 msgstr "Kunne ikke kompilere wookommerce.mindre:"
-
-#. Plugin URI of the plugin/theme
-msgid "http://www.woothemes.com/woocommerce/"
-msgstr "http://www.woothemes.com/woocommerce/"
-
-#. Description of the plugin/theme
-msgid "An e-commerce toolkit that helps you sell anything. Beautifully."
-msgstr "Et e-handels toolkit, der hjælper dig med at sælge noget. Smukt."
-
-#. Author of the plugin/theme
-msgid "WooThemes"
-msgstr "WooThemes"
-
-#. Author URI of the plugin/theme
-msgid "http://woothemes.com"
-msgstr "http://woothemes.com"

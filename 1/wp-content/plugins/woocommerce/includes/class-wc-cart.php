@@ -511,7 +511,11 @@ class WC_Cart {
 		            } else {
 						$value              = apply_filters( 'woocommerce_variation_option_name', $value );
 						$product_attributes = $cart_item['data']->get_attributes();
-						$label              = wc_attribute_label( $product_attributes[ str_replace( 'attribute_', '', urldecode( $name ) ) ]['name'] );
+						if ( isset( $product_attributes[ str_replace( 'attribute_', '', $name ) ] ) ) {
+							$label = wc_attribute_label( $product_attributes[ str_replace( 'attribute_', '', $name ) ]['name'] );
+						} else {
+							$label = $name;
+						}
 					}
 
 					$item_data[] = array(
@@ -1109,7 +1113,7 @@ class WC_Cart {
 						$taxes             = $this->tax->calc_tax( $line_price, $base_tax_rates, true, true );
 
 						// Now we have a new item price (excluding TAX)
-						$line_subtotal     = $line_price - array_sum( $taxes );
+						$line_subtotal     = round( $line_price - array_sum( $taxes ), WC_ROUNDING_PRECISION );
 
 						// Now add modifed taxes
 						$taxes             = $this->tax->calc_tax( $line_subtotal, $item_tax_rates );
@@ -1209,8 +1213,9 @@ class WC_Cart {
 				}
 
 				// VAT exemption done at this point - so all totals are correct before exemption
-				if ( WC()->customer->is_vat_exempt() )
+				if ( WC()->customer->is_vat_exempt() ) {
 					$this->remove_taxes();
+				}
 
 				// Cart Discounts (after tax)
 				$this->apply_cart_discounts_after_tax();
@@ -1227,8 +1232,9 @@ class WC_Cart {
 				$this->tax_total = $this->tax->get_tax_total( $this->taxes );
 
 				// VAT exemption done at this point - so all totals are correct before exemption
-				if ( WC()->customer->is_vat_exempt() )
+				if ( WC()->customer->is_vat_exempt() ) {
 					$this->remove_taxes();
+				}
 
 				// Cart Discounts (after tax)
 				$this->apply_cart_discounts_after_tax();
@@ -1245,10 +1251,11 @@ class WC_Cart {
 		 */
 		public function remove_taxes() {
 			$this->shipping_tax_total = $this->tax_total = 0;
-			$this->subtotal = $this->subtotal_ex_tax;
+			$this->subtotal           = $this->subtotal_ex_tax;
 
-			foreach ( $this->cart_contents as $cart_item_key => $item )
+			foreach ( $this->cart_contents as $cart_item_key => $item ) {
 				$this->cart_contents[ $cart_item_key ]['line_subtotal_tax'] = $this->cart_contents[ $cart_item_key ]['line_tax'] = 0;
+			}
 
 			// If true, zero rate is applied so '0' tax is displayed on the frontend rather than nothing.
 			if ( apply_filters( 'woocommerce_cart_remove_taxes_apply_zero_rate', true ) ) {
@@ -1346,6 +1353,22 @@ class WC_Cart {
 			}
 
 			return apply_filters( 'woocommerce_cart_needs_shipping', $needs_shipping );
+		}
+
+		/**
+		 * Should the shipping address form be shown
+		 * 
+		 * @return bool
+		 */
+		function needs_shipping_address() {
+
+			$needs_shipping_address = false;
+
+			if ( WC()->cart->needs_shipping() === true && ! WC()->cart->ship_to_billing_address_only() ) {
+				$needs_shipping_address = true;
+			}
+
+			return apply_filters( 'woocommerce_cart_needs_shipping_address', $needs_shipping_address );
 		}
 
 		/**
@@ -2039,6 +2062,7 @@ class WC_Cart {
 
 		/**
 		 * Get tax row amounts with or without compound taxes includes.
+		 *
 		 * @param  boolean $compound True if getting compound taxes
 		 * @param  boolean $display  True if getting total to display
 		 * @return float price
@@ -2053,10 +2077,10 @@ class WC_Cart {
 				if ( ! $compound && $this->tax->is_compound( $key ) ) continue;
 				$total += $tax;
 			}
-			if ( $display )
-				return wc_round_tax_total( $total );
-			else
-				return $total;
+			if ( $display ) {
+				$total = wc_round_tax_total( $total );
+			}
+			return apply_filters( 'woocommerce_cart_taxes_total', $total, $compound, $display, $this );
 		}
 
 		/**
@@ -2100,48 +2124,49 @@ class WC_Cart {
 			}
 			return apply_filters( 'woocommerce_cart_total_discount', $total_discount, $this );
 		}
+     /**
+      * Calculate totals for the items in the cart.
+      *
+      * @access public
+      */
+     public function calculate_totals_api() {
+         /**
+          * Calculate totals for items
+          */
+         //foreach ( $this->get_cart() as $cart_item_key => $values ) {
+				foreach ( $this->cart_contents as $cart_item_key => $values ) {
 
-    /**
-     * Calculate totals for the items in the cart.
-     *
-     * @access public
-     */
-    public function calculate_totals_api() {
-        /**
-         * Calculate totals for items
-         */
-        foreach ( $this->get_cart() as $cart_item_key => $values ) {
+//echo 'test3'.$values.'%%%%%%%%%';
+             $_product = $values['data'];
 
-            $_product = $values['data'];
-
-            // Prices
-            $base_price = $_product->get_price();
-            $line_price = $_product->get_price() * $values['quantity'];
+             // Prices
+             $base_price = $_product->get_price();
+             $line_price = $_product->get_price() * $values['quantity'];
 
 
-            $this->cart_contents_weight += $_product->get_weight() * $values['quantity'];
-            $this->cart_contents_count  += $values['quantity'];
+             $this->cart_contents_weight += $_product->get_weight() * $values['quantity'];
+             $this->cart_contents_count  += $values['quantity'];
 
-            // Discounted Price (price with any pre-tax discounts applied)
-            $discounted_price      = $base_price;
-            $discounted_tax_amount = 0;
-            $tax_amount            = 0;
-            $line_subtotal_tax     = 0;
-            $line_subtotal         = $line_price;
-            $line_tax              = 0;
-            $line_total            = $this->tax->round( $discounted_price * $values['quantity'] );
+             // Discounted Price (price with any pre-tax discounts applied)
+             $discounted_price      = $base_price;
+             $discounted_tax_amount = 0;
+             $tax_amount            = 0;
+             $line_subtotal_tax     = 0;
+             $line_subtotal         = $line_price;
+             $line_tax              = 0;
+             $line_total            = $this->tax->round( $discounted_price * $values['quantity'] );
 
-            $this->subtotal += $line_price;
-            $this->subtotal_ex_tax += $line_price;
+             $this->subtotal += $line_price;
+             $this->subtotal_ex_tax += $line_price;
 
-            // Cart contents total is based on discounted prices and is used for the final total calculation
-            $this->cart_contents_total += $line_total;
-            // Store costs + taxes for lines
-            $this->cart_contents[ $cart_item_key ]['line_total'] 		= $line_total;
-            $this->cart_contents[ $cart_item_key ]['line_subtotal'] 	= $line_subtotal;
-        }
+             // Cart contents total is based on discounted prices and is used for the final total calculation
+             $this->cart_contents_total += $line_total;
+             // Store costs + taxes for lines
+             $this->cart_contents[ $cart_item_key ]['line_total'] 		= $line_total;
+             $this->cart_contents[ $cart_item_key ]['line_subtotal'] 	= $line_subtotal;
+         }
 
-            // Grand Total - Discounted product prices, discounted tax, shipping cost + tax, and any discounts to be added after tax (e.g. store credit)
-        $this->total = max( 0, apply_filters( 'woocommerce_calculated_total', round( $this->cart_contents_total + $this->tax_total + $this->shipping_tax_total + $this->shipping_total - $this->discount_total + $this->fee_total, $this->dp ), $this ) );
-    }
+             // Grand Total - Discounted product prices, discounted tax, shipping cost + tax, and any discounts to be added after tax (e.g. store credit)
+         $this->total = max( 0, apply_filters( 'woocommerce_calculated_total', round( $this->cart_contents_total + $this->tax_total + $this->shipping_tax_total + $this->shipping_total - $this->discount_total + $this->fee_total, $this->dp ), $this ) );
+     }
 }
