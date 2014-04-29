@@ -2134,9 +2134,8 @@ class WC_Cart {
           * Calculate totals for items
           */
          //foreach ( $this->get_cart() as $cart_item_key => $values ) {
-				foreach ( $this->cart_contents as $cart_item_key => $values ) {
+	foreach ( $this->cart_contents as $cart_item_key => $values ) {
 
-//echo 'test3'.$values.'%%%%%%%%%';
              $_product = $values['data'];
 
              // Prices
@@ -2144,8 +2143,8 @@ class WC_Cart {
              $line_price = $_product->get_price() * $values['quantity'];
 
 
-             $this->cart_contents_weight += $_product->get_weight() * $values['quantity'];
-             $this->cart_contents_count  += $values['quantity'];
+             $this->cart_contents_weight = $_product->get_weight() * $values['quantity'];
+             $this->cart_contents_count  = $values['quantity'];
 
              // Discounted Price (price with any pre-tax discounts applied)
              $discounted_price      = $base_price;
@@ -2156,11 +2155,11 @@ class WC_Cart {
              $line_tax              = 0;
              $line_total            = $this->tax->round( $discounted_price * $values['quantity'] );
 
-             $this->subtotal += $line_price;
-             $this->subtotal_ex_tax += $line_price;
+             $this->subtotal = $line_price;
+             $this->subtotal_ex_tax = $line_price;
 
              // Cart contents total is based on discounted prices and is used for the final total calculation
-             $this->cart_contents_total += $line_total;
+             $this->cart_contents_total = $line_total;
              // Store costs + taxes for lines
              $this->cart_contents[ $cart_item_key ]['line_total'] 		= $line_total;
              $this->cart_contents[ $cart_item_key ]['line_subtotal'] 	= $line_subtotal;

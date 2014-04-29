@@ -397,6 +397,7 @@ class WC_Checkout {
 		// Order status
 		wp_set_object_terms( $order_id, 'pending', 'shop_order_status' );
 
+
 		return $order_id;
 	}
 
@@ -809,16 +810,17 @@ class WC_Checkout {
 
          // Checkout fields (not defined in checkout_fields)
          $this->posted['terms']                     = isset( $_REQUEST['terms'] ) ? 1 : 0;
-         $this->posted['payment_method']            = isset( $_REQUEST['payment_method'] ) ? stripslashes( $_REQUEST['payment_method'] ) : '';
+         $this->posted['payment_method']   = 'mycred';//         = isset( $_REQUEST['payment_method'] ) ? stripslashes( $_REQUEST['payment_method'] ) : '';
 
          WC()->cart->cart_contents[] = array('data'=>get_product($_REQUEST['product_id']),
              'quantity'=>$_REQUEST['quantity']);
          // Update cart totals now we have customer address
          WC()->cart->calculate_totals_api();
-         $method = isset($_REQUEST['payment_method'])?$_REQUEST['payment_method']:'mycred';
+         $method = 'mycred';
 
 
-         if ( WC()->cart->needs_payment() ) {
+         //if ( WC()->cart->needs_payment() ) 
+	{
 
              // Payment Method
              $available_gateways = WC()->payment_gateways->get_available_payment_gateways();
@@ -834,6 +836,7 @@ class WC_Checkout {
 
          if ( wc_notice_count( 'error' ) == 0 ) {
              try {
+		
                  $customer_id = $_REQUEST['uid'];
                  // Customer accounts
                  $this->customer_id = apply_filters( 'woocommerce_checkout_customer_id', $customer_id );
@@ -849,12 +852,15 @@ class WC_Checkout {
 
 
                  $order_id = $this->create_order();
-
+                  WC()->cart->empty_cart();
                  // Process payment
-                 if ( WC()->cart->needs_payment() ) {
+                 //if ( WC()->cart->needs_payment() ) 
+		{
 
+		
                      // Process Payment
                      $result = $available_gateways[ $this->posted['payment_method'] ]->process_payment_api( $order_id, $customer_id);
+
 
                      // Redirect to success/confirmation/payment page
                      if ( $result['result'] == 'success' ) {
@@ -871,7 +877,8 @@ class WC_Checkout {
 
                      }
 
-                 } else {
+                 } 
+		/*{
 
                      if ( empty( $order ) )
                          $order = new WC_Order( $order_id );
@@ -901,7 +908,7 @@ class WC_Checkout {
                          exit;
                      }
 
-                 }
+                 }*/
 
              } catch ( Exception $e ) {
 
